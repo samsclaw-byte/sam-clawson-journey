@@ -1,0 +1,5 @@
+# WHOOP secrets
+.config/whoop/
+**/whoop_tokens.json
+**/.env
+whoop/
