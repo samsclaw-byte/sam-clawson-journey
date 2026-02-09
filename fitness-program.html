@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Sam's Fitness Program</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #fff;
+        }
+        
+        .cover {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 80px 60px;
+            text-align: center;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .cover h1 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .cover .subtitle {
+            font-size: 24px;
+            font-weight: 400;
+            opacity: 0.9;
+            margin-bottom: 40px;
+        }
+        
+        .cover .stats {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            margin-top: 40px;
+        }
+        
+        .stat-box {
+            background: rgba(255,255,255,0.15);
+            padding: 30px;
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .stat-box .number {
+            font-size: 36px;
+            font-weight: 700;
+        }
+        
+        .stat-box .label {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        
+        .page {
+            padding: 60px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        h2 {
+            font-size: 32px;
+            color: #667eea;
+            margin: 40px 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+        
+        h3 {
+            font-size: 24px;
+            color: #764ba2;
+            margin: 30px 0 15px;
+        }
+        
+        .decision-tree {
+            background: #f8f9fa;
+            border-radius: 16px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .zone {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 12px;
+            background: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        
+        .zone-icon {
+            font-size: 40px;
+            margin-right: 20px;
+            width: 60px;
+            text-align: center;
+        }
+        
+        .zone.green { border-left: 5px solid #22c55e; }
+        .zone.yellow { border-left: 5px solid #eab308; }
+        .zone.red { border-left: 5px solid #ef4444; }
+        
+        .zone-content h4 {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+        
+        .zone-content p {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .warning-box {
+            background: #fef3c7;
+            border-left: 5px solid #f59e0b;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
+        .calf-protocol {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-radius: 16px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .phase {
+            background: #f3f4f6;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        
+        th {
+            background: #667eea;
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        tr:hover {
+            background: #f9fafb;
+        }
+        
+        .checklist {
+            background: #ecfdf5;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+        
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #d1fae5;
+        }
+        
+        .checklist-item:last-child {
+            border-bottom: none;
+        }
+        
+        .checkbox {
+            width: 24px;
+            height: 24px;
+            border: 2px solid #10b981;
+            border-radius: 6px;
+            margin-right: 15px;
+        }
+        
+        .footer {
+            background: #1f2937;
+            color: white;
+            padding: 40px;
+            text-align: center;
+            margin-top: 60px;
+        }
+        
+        .quote {
+            font-style: italic;
+            font-size: 20px;
+            color: #667eea;
+            text-align: center;
+            padding: 40px;
+            background: #f3f4f6;
+            border-radius: 16px;
+            margin: 40px 0;
+        }
+        
+        ul, ol {
+            margin: 15px 0 15px 30px;
+        }
+        
+        li {
+            margin: 10px 0;
+        }
+        
+        .highlight {
+            background: #fef3c7;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+        
+        @media print {
+            .page {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- COVER PAGE -->
+    <div class="cover">
+        <h1>🏋️ SAM'S FITNESS PROGRAM</h1>
+        <p class="subtitle">"The Flexible Daily" — Consistency Over Intensity</p>
+        
+        <div class="stats">
+            <div class="stat-box">
+                <div class="number">104kg</div>
+                <div class="label">STARTING WEIGHT</div>
+            </div>
+            <div class="stat-box">
+                <div class="number">85-95kg</div>
+                <div class="label">GOAL WEIGHT</div>
+            </div>
+            <div class="stat-box">
+                <div class="number">3-4x</div>
+                <div class="label">WORKOUTS/WEEK</div>
+            </div>
+        </div>
+        
+        <p style="margin-top: 60px; opacity: 0.8;">Focus: Injury Prevention + Sustainable Habits</p>
+        <p style="opacity: 0.6;">Created: February 9, 2026</p>
+    </div>
+
+    <!-- DAILY DECISION TREE -->
+    <div class="page">
+        <h2>📋 DAILY DECISION TREE</h2>
+        
+        <p style="font-size: 18px; margin-bottom: 30px;"><strong>Every Morning:</strong> Check your WHOOP Recovery Score</p>
+        
+        <div class="decision-tree">
+            <div class="zone green">
+                <div class="zone-icon">🟢</div>
+                <div class="zone-content">
+                    <h4>GREEN ZONE — Recovery 67%+</h4>
+                    <p><strong>Today's Focus:</strong> HARD WORKOUT | <strong>Max Duration:</strong> 30-45 min (up to 60 min Fri/weekend)</p>
+                </div>
+            </div>
+            
+            <div class="zone yellow">
+                <div class="zone-icon">🟡</div>
+                <div class="zone-content">
+                    <h4>YELLOW ZONE — Recovery 50-66%</h4>
+                    <p><strong>Today's Focus:</strong> ACTIVE RECOVERY | <strong>Duration:</strong> 20-30 min easy movement</p>
+                </div>
+            </div>
+            
+            <div class="zone red">
+                <div class="zone-icon">🔴</div>
+                <div class="zone-content">
+                    <h4>RED ZONE — Recovery &lt;50%</h4>
+                    <p><strong>Today's Focus:</strong> REST DAY | <strong>Duration:</strong> 15 min stretching or complete rest</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="warning-box">
+            <strong>⚠️ Golden Rule:</strong> When in doubt, choose the easier option. Consistency beats intensity every time.
+        </div>
+    </div>
+
+    <!-- CALF PROTOCOL -->
+    <div class="page">
+        <h2>🚨 THE NON-NEGOTIABLES</h2>
+        
+        <div class="calf-protocol">
+            <h3>Before EVERY Hard Workout: Calf Protocol (5-7 minutes)</h3>
+            <p style="margin-bottom: 20px;">Sam, your calves are your Achilles heel (literally). This isn't optional.</p>
+            
+            <h4>Phase 1: Warm-Up (2 min)</h4>
+            <ul>
+                <li>1 min: March in place → gentle jog on spot</li>
+                <li>1 min: Ankle circles (10 each direction, each foot)</li>
+            </ul>
+            
+            <h4>Phase 2: Activation (3 min)</h4>
+            <ul>
+                <li>20 x Calf raises (slow, full range) — hold top 2 seconds</li>
+                <li>20 x Single-leg balance touches (light, controlled)</li>
+                <li>30 sec: Downward dog → pedal feet (stretch calves dynamically)</li>
+                <li>30 sec: World's greatest stretch (each side)</li>
+            </ul>
+            
+            <h4>Phase 3: Test (30 sec)</h4>
+            <ul>
+                <li>10 gentle skips on spot</li>
+                <li><strong>STOP if:</strong> Sharp pain, tightness that doesn't ease, or "that feeling"</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- PROHIBITED EXERCISES -->
+    <div class="page">
+        <h2>🚫 PROHIBITED EXERCISES</h2>
+        <p style="margin-bottom: 20px;">Banned until Month 3+ AND 4 consecutive weeks without calf tightness:</p>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Exercise</th>
+                    <th>Why Banned</th>
+                    <th>Replacement</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Box jumps / Jump squats</strong></td>
+                    <td>Explosive calf loading</td>
+                    <td>Step-ups, goblet squats</td>
+                </tr>
+                <tr>
+                    <td><strong>Sprints / Hill runs</strong></td>
+                    <td>High-impact calf stress</td>
+                    <td>Incline walk, slow jog</td>
+                </tr>
+                <tr>
+                    <td><strong>Burpees with jump</strong></td>
+                    <td>Explosive + impact</td>
+                    <td>Walk-out burpees (no jump)</td>
+                </tr>
+                <tr>
+                    <td><strong>Jump rope / Skipping</strong></td>
+                    <td>Repetitive calf pounding</td>
+                    <td>Shadow boxing (no rope)</td>
+                </tr>
+                <tr>
+                    <td><strong>Heavy calf raises (&gt;20kg)</strong></td>
+                    <td>Excessive load</td>
+                    <td>Bodyweight only, high reps</td>
+                </tr>
+                <tr>
+                    <td><strong>Deep heavy squats</strong></td>
+                    <td>ACL + back stress</td>
+                    <td>Box squats, goblet squats</td>
+                </tr>
+                <tr>
+                    <td><strong>Plyometric lunges</strong></td>
+                    <td>ACL danger zone</td>
+                    <td>Reverse lunges (static)</td>
+                </tr>
+                <tr>
+                    <td><strong>High-rep running (10K+)</strong></td>
+                    <td>Your injury pattern</td>
+                    <td>Build to 5K max Month 1-2</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- FOUNDATION PHASE -->
+    <div class="page">
+        <h2>🗓️ PHASE 1: FOUNDATION (Weeks 1-4)</h2>
+        
+        <p style="font-size: 18px; margin: 20px 0;"><strong>Goal:</strong> Build the habit + injury-proof your body<br>
+        <strong>Frequency:</strong> 3-4 days/week Hard, 2-3 days Active Recovery<br>
+        <strong>Mindset:</strong> "Show up and survive" — intensity comes later</p>
+        
+        <div class="phase">
+            <h3>Week 1-2 Sample Schedule</h3>
+            <ul>
+                <li><strong>Monday:</strong> Hard (Kettlebell)</li>
+                <li><strong>Tuesday:</strong> Active Recovery (Walk/Swim)</li>
+                <li><strong>Wednesday:</strong> Hard (Full Body)</li>
+                <li><strong>Thursday:</strong> Rest</li>
+                <li><strong>Friday:</strong> Hard (Kettlebell + optional extras)</li>
+                <li><strong>Saturday:</strong> Active Recovery (Swim/Padel)</li>
+                <li><strong>Sunday:</strong> Rest</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- WORKOUT A -->
+    <div class="page">
+        <h2>💪 HARD WORKOUT A: Kettlebell Foundations</h2>
+        <p style="color: #666; margin-bottom: 20px;">Equipment: 12-16kg kettlebell | Duration: 30 min</p>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Exercise</th>
+                    <th>Sets x Reps</th>
+                    <th>Notes</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Calf Protocol</strong></td>
+                    <td>—</td>
+                    <td>5-7 min (mandatory)</td>
+                </tr>
+                <tr>
+                    <td><strong>Goblet Squats</strong></td>
+                    <td>3 x 10</td>
+                    <td>Control descent, no bouncing</td>
+                </tr>
+                <tr>
+                    <td><strong>Kettlebell Swings</strong></td>
+                    <td>3 x 15</td>
+                    <td>Hinge at hips, not squat</td>
+                </tr>
+                <tr>
+                    <td><strong>Kettlebell Rows</strong></td>
+                    <td>3 x 10 each</td>
+                    <td>Pull to hip, squeeze shoulder blade</td>
+                </tr>
+                <tr>
+                    <td><strong>Push-ups</strong></td>
+                    <td>3 x 8-12</td>
+                    <td>Full range, control tempo</td>
+                </tr>
+                <tr>
+                    <td><strong>Kettlebell Deadlift</strong></td>
+                    <td>3 x 10</td>
+                    <td>Feet hip-width, flat back</td>
+                </tr>
+                <tr>
+                    <td><strong>Plank</strong></td>
+                    <td>3 x 30 sec</td>
+                    <td>Hips level, breathe</td>
+                </tr>
+                <tr>
+                    <td><strong>Farmer's Carry</strong></td>
+                    <td>2 x 30 sec</td>
+                    <td>Heavy as form allows</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <p style="margin-top: 20px;"><strong>Rest:</strong> 60-90 sec between sets<br>
+        <strong>Cooldown:</strong> 2 min walk + calf stretch (30 sec each)</p>
+    </div>
+
+    <!-- ACTIVE RECOVERY -->
+    <div class="page">
+        <h2>🏊 ACTIVE RECOVERY OPTIONS</h2>
+        
+        <div class="zone yellow" style="margin: 30px 0;">
+            <div class="zone-icon">🟡</div>
+            <div class="zone-content">
+                <h4>Yellow Zone Activities (20-30 min, easy effort)</h4>
+            </div>
+        </div>
+        
+        <h3>1. Swimming (Preferred)</h3>
+        <ul>
+            <li>25m community pool</li>
+            <li>Easy laps, focus on form</li>
+            <li>Zero calf impact</li>
+            <li>Full body recovery</li>
+        </ul>
+        
+        <h3>2. Static Bike (Home)</h3>
+        <ul>
+            <li>Watch TV while pedaling</li>
+            <li>Low resistance, steady pace</li>
+            <li>20-30 min</li>
+        </ul>
+        
+        <h3>3. Walking (Park)</h3>
+        <ul>
+            <li>Back entrance to park</li>
+            <li>Leisurely pace (not power walking)</li>
+            <li>Avoid if calf feels tight</li>
+        </ul>
+        
+        <h3>4. Yoga / Stretching</h3>
+        <ul>
+            <li>15-20 min gentle flow</li>
+            <li>Focus on hips, back, calves</li>
+            <li>Downward dog series for calves</li>
+        </ul>
+    </div>
+
+    <!-- DAILY CHECKLIST -->
+    <div class="page">
+        <h2>✅ DAILY CHECKLIST</h2>
+        
+        <div class="checklist">
+            <div class="checklist-item">
+                <div class="checkbox"></div>
+                <span>Check WHOOP recovery score</span>
+            </div>
+            <div class="checklist-item">
+                <div class="checkbox"></div>
+                <span>Complete calf warm-up (if hard workout)</span>
+            </div>
+            <div class="checklist-item">
+                <div class="checkbox"></div>
+                <span>30-min workout as recommended</span>
+            </div>
+            <div class="checklist-item">
+                <div class="checkbox"></div>
+                <span>Log workout in Notion</span>
+            </div>
+            <div class="checklist-item">
+                <div class="checkbox"></div>
+                <span>Track meals with Clawson</span>
+            </div>
+            <div class="checklist-item">
+                <div class="checkbox"></div>
+                <span>Hit water goal (8 glasses)</span>
+            </div>
+            <div class="checklist-item">
+                <div class="checkbox"></div>
+                <span>Take multivitamin</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- TRAINER'S CORNER -->
+    <div class="page">
+        <h2>💪 TRAINER'S CORNER</h2>
+        
+        <div class="quote">
+            "Consistency > Intensity. Better to do 70% effort and come back tomorrow than 100% and get injured."
+        </div>
+        
+        <h3>Key Principles</h3>
+        
+        <div class="phase">
+            <h4>1. The 70% Rule</h4>
+            <p>Always leave energy in the tank. If you feel like you could do 3 more reps, stop. The goal is to train again tomorrow, not to destroy yourself today.</p>
+        </div>
+        
+        <div class="phase">
+            <h4>2. Calf Awareness</h4>
+            <p>Your calves are your limiting factor. Respect them. If they feel tight, switch to upper body or active recovery. No exceptions.</p>
+        </div>
+        
+        <div class="phase">
+            <h4>3. Sleep First</h4>
+            <p>With a newborn and 5.5-6 hours sleep, recovery is compromised. Prioritize sleep over workouts when needed. One missed workout won't hurt; chronic sleep deprivation will.</p>
+        </div>
+        
+        <div class="phase">
+            <h4>4. Friday Afternoons</h4>
+            <p>This is your window for longer sessions. Use it! 60-minute workouts, swimming, or just catching up on missed sessions from the week.</p>
+        </div>
+    </div>
+
+    <!-- PROGRESSION -->
+    <div class="page">
+        <h2>📈 PROGRESSION ROADMAP</h2>
+        
+        <div class="phase">
+            <h3>Month 1: Foundation</h3>
+            <ul>
+                <li>3 days/week hard, 2-3 days active recovery</li>
+                <li>Master form, build calf resilience</li>
+                <li>No running yet</li>
+            </ul>
+        </div>
+        
+        <div class="phase">
+            <h3>Month 2: Build</h3>
+            <ul>
+                <li>Add light jogging (if calves tolerate)</li>
+                <li>Increase kettlebell weight</li>
+                <li>Introduce interval training (bike)</li>
+            </ul>
+        </div>
+        
+        <div class="phase">
+            <h3>Month 3: Event Prep</h3>
+            <ul>
+                <li>Begin running progression (5K goal)</li>
+                <li>Add sport-specific work (Padel prep)</li>
+                <li>Assess prohibited exercise reintroduction</li>
+            </ul>
+        </div>
+        
+        <div class="phase">
+            <h3>Months 4-6: Maintain & Advance</h3>
+            <ul>
+                <li>Half marathon/triathlon training (if desired)</li>
+                <li>Ski prep (ACL/calf conditioning)</li>
+                <li>Long-term sustainable routine</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+        <h3>Remember</h3>
+        <p style="font-size: 24px; margin: 20px 0;">"The only bad workout is the one that didn't happen."</p>
+        <p style="opacity: 0.7; margin-top: 30px;">Your Personal Trainer | Created February 9, 2026</p>
+        <p style="opacity: 0.5; font-size: 14px;">Consistency Over Intensity — Always</p>
+    </div>
+</body>
+</html>
