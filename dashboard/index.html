@@ -5,36 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Sam's Command Center</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: #0a0a0f;
             color: #fff;
             line-height: 1.5;
             padding-bottom: 20px;
         }
-        
         .header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             padding: 20px;
             text-align: center;
         }
-        
-        .header h1 {
-            font-size: 20px;
-            font-weight: 600;
-        }
-        
-        .header .date {
-            font-size: 14px;
-            opacity: 0.9;
-            margin-top: 5px;
-        }
+        .header h1 { font-size: 20px; font-weight: 600; }
+        .header .date { font-size: 14px; opacity: 0.9; margin-top: 5px; }
         
         .card {
             background: #1a1a2e;
@@ -43,7 +28,6 @@
             padding: 15px;
             border: 1px solid #333;
         }
-        
         .card-header {
             display: flex;
             align-items: center;
@@ -52,34 +36,16 @@
             font-size: 16px;
             font-weight: 600;
         }
+        .card-header .icon { font-size: 20px; }
         
-        .card-header .icon {
-            font-size: 20px;
-        }
-        
-        /* WHOOP Card */
         .whoop-card {
             background: linear-gradient(135deg, #22c55e20, #1a1a2e);
             border-color: #22c55e;
         }
+        .whoop-score { font-size: 32px; font-weight: bold; color: #22c55e; }
+        .whoop-label { font-size: 12px; color: #aaa; margin-top: 5px; }
         
-        .whoop-score {
-            font-size: 32px;
-            font-weight: bold;
-            color: #22c55e;
-        }
-        
-        .whoop-label {
-            font-size: 12px;
-            color: #aaa;
-            margin-top: 5px;
-        }
-        
-        /* TAT Tasks */
-        .tat-list {
-            list-style: none;
-        }
-        
+        .tat-list { list-style: none; }
         .tat-item {
             display: flex;
             align-items: center;
@@ -87,64 +53,43 @@
             padding: 10px 0;
             border-bottom: 1px solid #333;
         }
-        
-        .tat-item:last-child {
-            border-bottom: none;
-        }
-        
-        .tat-checkbox {
-            width: 20px;
-            height: 20px;
-            border: 2px solid #667eea;
-            border-radius: 6px;
-        }
-        
-        .tat-name {
-            flex: 1;
-            font-size: 14px;
-        }
-        
+        .tat-item:last-child { border-bottom: none; }
+        .tat-checkbox { width: 20px; height: 20px; border: 2px solid #ef4444; border-radius: 6px; }
+        .tat-name { flex: 1; font-size: 14px; }
         .tat-urgency {
             font-size: 11px;
             padding: 3px 8px;
             border-radius: 4px;
-            background: #f59e0b20;
-            color: #f59e0b;
+            background: #ef444420;
+            color: #ef4444;
         }
         
-        /* Nutrition */
+        .meal-item {
+            background: #0a0a0f;
+            padding: 12px;
+            border-radius: 10px;
+            margin: 8px 0;
+        }
+        .meal-name { font-weight: 600; color: #667eea; font-size: 13px; }
+        .meal-items { font-size: 12px; color: #aaa; margin-top: 4px; }
+        .meal-cal { font-size: 12px; color: #888; margin-top: 4px; }
+        
         .macro-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 10px;
             margin-top: 10px;
         }
-        
         .macro-item {
             background: #0a0a0f;
             padding: 12px;
             border-radius: 10px;
             text-align: center;
         }
+        .macro-value { font-size: 24px; font-weight: bold; color: #667eea; }
+        .macro-label { font-size: 11px; color: #aaa; margin-top: 4px; }
+        .macro-goal { font-size: 10px; color: #666; }
         
-        .macro-value {
-            font-size: 24px;
-            font-weight: bold;
-            color: #667eea;
-        }
-        
-        .macro-label {
-            font-size: 11px;
-            color: #aaa;
-            margin-top: 4px;
-        }
-        
-        .macro-goal {
-            font-size: 10px;
-            color: #666;
-        }
-        
-        /* Progress Bar */
         .progress-bar {
             width: 100%;
             height: 8px;
@@ -153,15 +98,12 @@
             margin-top: 8px;
             overflow: hidden;
         }
-        
         .progress-fill {
             height: 100%;
             background: linear-gradient(90deg, #667eea, #764ba2);
             border-radius: 4px;
-            transition: width 0.3s;
         }
         
-        /* Water Tracker */
         .water-glasses {
             display: flex;
             gap: 8px;
@@ -169,83 +111,62 @@
             margin: 10px 0;
             font-size: 24px;
         }
-        
         .water-full { color: #06b6d4; }
         .water-empty { color: #333; }
-        
-        /* Habits */
-        .habit-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-        }
         
         .habit-item {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             padding: 10px;
             background: #0a0a0f;
             border-radius: 8px;
+            margin: 6px 0;
         }
-        
-        .habit-icon {
-            font-size: 18px;
+        .habit-icon { font-size: 18px; }
+        .habit-info { flex: 1; }
+        .habit-name { font-size: 12px; color: #aaa; }
+        .habit-status { font-size: 13px; font-weight: 500; }
+        .habit-streak {
+            background: #f59e0b20;
+            color: #f59e0b;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
         }
-        
-        .habit-info {
-            flex: 1;
-        }
-        
-        .habit-name {
-            font-size: 12px;
-            color: #aaa;
-        }
-        
-        .habit-status {
-            font-size: 13px;
-            font-weight: 500;
-        }
-        
         .habit-done { color: #22c55e; }
         .habit-pending { color: #f59e0b; }
         
-        .streak {
-            text-align: center;
-            margin-top: 15px;
-            padding: 10px;
-            background: #f59e0b20;
-            border-radius: 8px;
+        .chart-container {
+            background: #0a0a0f;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 10px 0;
+        }
+        .chart-title {
+            font-size: 12px;
+            color: #aaa;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .chart-value { color: #667eea; font-weight: 600; }
+        
+        .days-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 10px;
+            color: #666;
+            margin-top: 5px;
+            padding: 0 5px;
         }
         
-        .streak-number {
-            font-size: 24px;
-            font-weight: bold;
-            color: #f59e0b;
-        }
-        
-        /* Footer */
         .footer {
             text-align: center;
             padding: 20px;
             font-size: 11px;
             color: #666;
-        }
-        
-        /* Animations */
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
-        }
-        
-        .live-indicator {
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            background: #22c55e;
-            border-radius: 50%;
-            margin-right: 6px;
-            animation: pulse 2s infinite;
         }
     </style>
 </head>
@@ -254,8 +175,7 @@
         <h1>🦞 Sam's Command Center</h1>
         <div class="date">Tuesday, February 10</div>
     </div>
-    
-    <!-- WHOOP Recovery -->
+
     <div class="card whoop-card">
         <div class="card-header">
             <span class="icon">💓</span>
@@ -265,71 +185,100 @@
         <div class="whoop-label">🟢 Green Zone - Hard Workout Ready!</div>
         <div class="whoop-label" style="margin-top: 8px;">Sleep: 83% performance</div>
     </div>
-    
-    <!-- Urgent TAT Tasks -->
+
+    <div class="card">
+        <div class="card-header">
+            <span class="icon">📊</span>
+            <span>7-Day History</span>
+        </div>
+
+        <div class="chart-container">
+            <div class="chart-title">
+                <span>Recovery Score</span>
+                <span class="chart-value">Avg: 82%</span>
+            </div>
+            <svg width="100%" height="40" viewBox="0 0 200 40" style="overflow: visible;"><path d="M0.0,5.0 L33.33333333333333,9.0 L66.66666666666666,35.0 L100.0,23.0 L133.33333333333331,16.0 L166.66666666666669,12.0 L200.0,5.0" fill="none" stroke="#667eea" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="200" cy="5.0" r="3" fill="#22c55e"/></svg>
+            <div class="days-labels">
+                <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <div class="chart-title">
+                <span>Calories In</span>
+                <span class="chart-value">Avg: 2180</span>
+            </div>
+            <svg width="100%" height="40" viewBox="0 0 200 40" style="overflow: visible;"><path d="M0.0,25.0 L33.33333333333333,35.0 L66.66666666666666,11.666666666666668 L100.0,18.333333333333332 L133.33333333333331,28.333333333333336 L166.66666666666669,5.0 L200.0,14.333333333333332" fill="none" stroke="#667eea" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="200" cy="14.333333333333332" r="3" fill="#22c55e"/></svg>
+            <div class="days-labels">
+                <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+            </div>
+        </div>
+        
+        <div class="chart-container">
+            <div class="chart-title">
+                <span>Calories Out</span>
+                <span class="chart-value">Avg: 2678</span>
+            </div>
+            <svg width="100%" height="40" viewBox="0 0 200 40" style="overflow: visible;"><path d="M0.0,11.0 L33.33333333333333,23.0 L66.66666666666666,35.0 L100.0,17.0 L133.33333333333331,29.0 L166.66666666666669,5.0 L200.0,8.0" fill="none" stroke="#667eea" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="200" cy="8.0" r="3" fill="#22c55e"/></svg>
+            <div class="days-labels">
+                <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+            </div>
+        </div>
+    </div>
+
     <div class="card">
         <div class="card-header">
             <span class="icon">🔥</span>
-            <span>Urgent TAT (3)</span>
+            <span>Urgent TAT (Today)</span>
         </div>
         <ul class="tat-list">
             <li class="tat-item">
                 <div class="tat-checkbox"></div>
                 <span class="tat-name">Fix voice transcription</span>
-                <span class="tat-urgency">1 Day</span>
-            </li>
-            <li class="tat-item">
-                <div class="tat-checkbox"></div>
-                <span class="tat-name">WHOOP webhooks setup</span>
-                <span class="tat-urgency">7 Days</span>
+                <span class="tat-urgency">🔥 Today</span>
             </li>
             <li class="tat-item">
                 <div class="tat-checkbox"></div>
                 <span class="tat-name">Security updates</span>
-                <span class="tat-urgency">1 Day</span>
+                <span class="tat-urgency">🔥 Today</span>
             </li>
         </ul>
     </div>
-    
-    <!-- Nutrition Summary -->
+
     <div class="card">
         <div class="card-header">
             <span class="icon">🥗</span>
             <span>Today's Nutrition</span>
         </div>
-        <div class="macro-item" style="background: transparent; margin-bottom: 10px;">
-            <div class="macro-value" style="font-size: 28px;">1350</div>
-            <div class="macro-label">Calories</div>
-            <div class="macro-goal">Goal: 2500</div>
+        <div style="text-align: center; margin-bottom: 15px;">
+            <div style="font-size: 28px; font-weight: bold; color: #667eea;">2260</div>
+            <div style="font-size: 12px; color: #aaa;">of 2500 kcal</div>
             <div class="progress-bar">
-                <div class="progress-fill" style="width: 54.0%"></div>
+                <div class="progress-fill" style="width: 90.4%"></div>
             </div>
         </div>
-        <div class="macro-grid">
-            <div class="macro-item">
-                <div class="macro-value">62g</div>
-                <div class="macro-label">Protein</div>
-                <div class="macro-goal">Goal: 160g</div>
-            </div>
-            <div class="macro-item">
-                <div class="macro-value">145g</div>
-                <div class="macro-label">Carbs</div>
-                <div class="macro-goal">Goal: 250g</div>
-            </div>
-            <div class="macro-item">
-                <div class="macro-value">65g</div>
-                <div class="macro-label">Fat</div>
-                <div class="macro-goal">Goal: 80g</div>
-            </div>
-            <div class="macro-item">
-                <div class="macro-value">5/8</div>
-                <div class="macro-label">Glasses</div>
-                <div class="macro-goal">Water</div>
-            </div>
+        <div class="meal-item">
+            <div class="meal-name">Breakfast</div>
+            <div class="meal-items">3 eggs, protein bread, Lurpak, 2x coffee</div>
+            <div class="meal-cal">580 kcal</div>
+        </div>
+        <div class="meal-item">
+            <div class="meal-name">Snacks</div>
+            <div class="meal-items">Apple, nuts, protein shake</div>
+            <div class="meal-cal">567 kcal</div>
+        </div>
+        <div class="meal-item">
+            <div class="meal-name">Lunch</div>
+            <div class="meal-items">Tawouk, shish, hummus, patatas, pita</div>
+            <div class="meal-cal">860 kcal</div>
+        </div>
+        <div class="meal-item">
+            <div class="meal-name">Dinner</div>
+            <div class="meal-items">Chicken wraps, cheese, wedges</div>
+            <div class="meal-cal">253 kcal</div>
         </div>
     </div>
-    
-    <!-- Water Tracker -->
+
     <div class="card">
         <div class="card-header">
             <span class="icon">💧</span>
@@ -341,58 +290,70 @@
             <span class="water-full">💧</span>
             <span class="water-full">💧</span>
             <span class="water-full">💧</span>
-            <span class="water-empty">⚪</span>
-            <span class="water-empty">⚪</span>
-            <span class="water-empty">⚪</span>
+            <span class="water-full">💧</span>
+            <span class="water-full">💧</span>
+            <span class="water-full">💧</span>
         </div>
         <div style="text-align: center; color: #aaa; font-size: 13px;">
-            5/8 glasses (62%)
+            9/8 glasses (112%)
         </div>
     </div>
-    
-    <!-- Habits -->
+
     <div class="card">
         <div class="card-header">
             <span class="icon">✅</span>
             <span>Today's Habits</span>
         </div>
-        <div class="habit-grid">
-            <div class="habit-item">
-                <span class="habit-icon">🍎</span>
-                <div class="habit-info">
-                    <div class="habit-name">Fruit</div>
-                    <div class="habit-status habit-done">2/2 ✅</div>
-                </div>
+        <div class="habit-item">
+            <span class="habit-icon">🍎</span>
+            <div class="habit-info">
+                <div class="habit-name">Fruit</div>
+                <div class="habit-status habit-done">2/2 ✅</div>
             </div>
-            <div class="habit-item">
-                <span class="habit-icon">💊</span>
-                <div class="habit-info">
-                    <div class="habit-name">Vitamins</div>
-                    <div class="habit-status habit-done">Taken ✅</div>
-                </div>
-            </div>
-            <div class="habit-item">
-                <span class="habit-icon">🏋️</span>
-                <div class="habit-info">
-                    <div class="habit-name">Workout</div>
-                    <div class="habit-status habit-pending">Pending ☐</div>
-                </div>
-            </div>
-            <div class="habit-item">
-                <span class="habit-icon">💤</span>
-                <div class="habit-info">
-                    <div class="habit-name">Sleep</div>
-                    <div class="habit-status habit-done">7.5h ✅</div>
-                </div>
-            </div>
+            <span class="habit-streak">🔥 15</span>
         </div>
-        <div class="streak">
-            <div class="streak-number">🔥 12 Days</div>
-            <div style="font-size: 11px; color: #aaa;">Current Streak</div>
+        <div class="habit-item">
+            <span class="habit-icon">💊</span>
+            <div class="habit-info">
+                <div class="habit-name">Vitamins</div>
+                <div class="habit-status habit-done">Done ✅</div>
+            </div>
+            <span class="habit-streak">🔥 8</span>
+        </div>
+        <div class="habit-item">
+            <span class="habit-icon">⚡</span>
+            <div class="habit-info">
+                <div class="habit-name">Creatine</div>
+                <div class="habit-status habit-done">Done ✅</div>
+            </div>
+            <span class="habit-streak">🔥 12</span>
+        </div>
+        <div class="habit-item">
+            <span class="habit-icon">🏋️</span>
+            <div class="habit-info">
+                <div class="habit-name">Workout</div>
+                <div class="habit-status habit-done">Done ✅</div>
+            </div>
+            <span class="habit-streak">🔥 5</span>
+        </div>
+        <div class="habit-item">
+            <span class="habit-icon">💧</span>
+            <div class="habit-info">
+                <div class="habit-name">Water</div>
+                <div class="habit-status habit-done">9/8 glasses ✅</div>
+            </div>
+            <span class="habit-streak">🔥 3</span>
+        </div>
+        <div class="habit-item">
+            <span class="habit-icon">💤</span>
+            <div class="habit-info">
+                <div class="habit-name">Sleep</div>
+                <div class="habit-status habit-done">7.5h ✅</div>
+            </div>
+            <span class="habit-streak">🔥 7</span>
         </div>
     </div>
-    
-    <!-- Workout Status -->
+
     <div class="card">
         <div class="card-header">
             <span class="icon">🏋️</span>
@@ -400,15 +361,14 @@
         </div>
         <div style="margin-bottom: 10px;">
             <div style="font-size: 12px; color: #aaa;">Last Workout</div>
-            <div style="font-size: 14px;">Yesterday (Swim - Active)</div>
+            <div style="font-size: 14px;">Today (Kettlebell - Hard)</div>
         </div>
         <div>
             <div style="font-size: 12px; color: #aaa;">Next Workout</div>
-            <div style="font-size: 14px; color: #22c55e;">Today (Hard - Kettlebell)</div>
+            <div style="font-size: 14px; color: #22c55e;">Tomorrow (Active Recovery)</div>
         </div>
     </div>
-    
-    <!-- Security -->
+
     <div class="card">
         <div class="card-header">
             <span class="icon">🛡️</span>
@@ -424,10 +384,7 @@
     </div>
     
     <div class="footer">
-        <span class="live-indicator"></span>
-        Last updated: 17:43
-        <br>
-        Auto-refresh every 15 minutes
+        Dashboard v2.1 • Auto-refresh every 15 min
     </div>
 </body>
 </html>
