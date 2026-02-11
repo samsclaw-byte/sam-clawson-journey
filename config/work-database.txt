@@ -13,3 +13,7 @@ Fields:
 - Stakeholder (Steve, Rafi, Other)
 - Assigned To (people)
 - Status (Not Started, In Progress, Done)
+
+Telegram Work Channel:
+Group ID: -5201259117
+Bot: @Samsclaw_bot
