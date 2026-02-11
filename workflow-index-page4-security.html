@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Security Sentinel Workflow | OpenClaw Documentation</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #0a0a0f;
+            color: #fff;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #333;
+        }
+        
+        h1 {
+            font-size: 24px;
+            background: linear-gradient(90deg, #22c55e, #10b981);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .nav-links a {
+            color: #667eea;
+            text-decoration: none;
+            margin-left: 20px;
+            font-size: 14px;
+        }
+        
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+        
+        .workflow-info {
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid #22c55e;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .workflow-title {
+            font-size: 20px;
+            color: #22c55e;
+            margin-bottom: 10px;
+        }
+        
+        .workflow-meta {
+            display: flex;
+            gap: 20px;
+            font-size: 13px;
+            color: #aaa;
+        }
+        
+        .system-map {
+            position: relative;
+            width: 1400px;
+            height: 900px;
+            margin: 0 auto;
+            background: radial-gradient(circle at center, #1a1a2e 0%, #0a0a0f 100%);
+            border-radius: 20px;
+            border: 1px solid #333;
+        }
+        
+        .connections {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .connection-line {
+            stroke: #333;
+            stroke-width: 1;
+            fill: none;
+        }
+        
+        .connection-line.active {
+            stroke: #22c55e;
+            stroke-width: 3;
+            stroke-dasharray: 5,5;
+            animation: dash 15s linear infinite;
+        }
+        
+        @keyframes dash {
+            to { stroke-dashoffset: -100; }
+        }
+        
+        .sequence-number {
+            fill: #22c55e;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .sequence-circle {
+            fill: #22c55e;
+            stroke: #000;
+            stroke-width: 2;
+        }
+        
+        .node {
+            position: absolute;
+            width: 140px;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 12px;
+            z-index: 10;
+            opacity: 0.3;
+        }
+        
+        .node.highlight {
+            opacity: 1;
+            box-shadow: 0 0 30px rgba(34, 197, 94, 0.5);
+        }
+        
+        .node-icon {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+        
+        .node-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .node-status {
+            font-size: 10px;
+            opacity: 0.8;
+        }
+        
+        .node.core { 
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: 2px solid #8b5cf6;
+        }
+        
+        .node.automation { 
+            background: linear-gradient(135deg, #854d0e, #713f12);
+            border: 2px solid #f59e0b;
+        }
+        
+        .node.storage { 
+            background: linear-gradient(135deg, #065f46, #064e3b);
+            border: 2px solid #10b981;
+        }
+        
+        .node.external { 
+            background: linear-gradient(135deg, #1e3a5f, #0d2137);
+            border: 2px solid #3b82f6;
+        }
+        
+        .node.user { 
+            background: linear-gradient(135deg, #9a3412, #7c2d12);
+            border: 2px solid #f97316;
+        }
+        
+        /* Positions */
+        .node.cron { top: 460px; left: 1050px; }
+        .node.openclaw { top: 320px; left: 650px; }
+        .node.security { top: 550px; left: 450px; }
+        .node.local-files { top: 460px; left: 250px; }
+        .node.github { top: 320px; left: 100px; }
+        .node.telegram { top: 180px; left: 650px; }
+        .node.you { top: 50px; left: 650px; }
+        
+        /* Sequence Panel */
+        .sequence-panel {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(0,0,0,0.9);
+            border: 1px solid #22c55e;
+            border-radius: 12px;
+            padding: 20px;
+            width: 400px;
+            z-index: 20;
+        }
+        
+        .sequence-panel h3 {
+            color: #22c55e;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+        
+        .sequence-step {
+            display: flex;
+            align-items: flex-start;
+            margin: 10px 0;
+            font-size: 12px;
+        }
+        
+        .step-num {
+            background: #22c55e;
+            color: #000;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 11px;
+            margin-right: 10px;
+            flex-shrink: 0;
+        }
+        
+        .step-desc {
+            color: #ccc;
+            line-height: 1.4;
+        }
+        
+        .checks-box {
+            position: absolute;
+            top: 50px;
+            right: 20px;
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid #22c55e;
+            border-radius: 12px;
+            padding: 20px;
+            width: 280px;
+            z-index: 20;
+        }
+        
+        .checks-box h4 {
+            color: #22c55e;
+            margin-bottom: 10px;
+        }
+        
+        .check-item {
+            font-size: 12px;
+            color: #aaa;
+            margin: 8px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .check-item:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #22c55e;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🛡️ Page 4: Security Sentinel Workflow</h1>
+        <div class="nav-links">
+            <a href="workflow-index.html">← Index</a>
+            <a href="workflow-index-page3-whoop.html">WHOOP</a>
+            <a href="workflow-index-page5-nutrition.html">Next: Nutrition →</a>
+        </div>
+    </div>
+    
+    <div class="workflow-info">
+        <div class="workflow-title">Daily Automated Security Audit</div>
+        <div class="workflow-meta">
+            <span>⏰ Schedule: 6:00 AM Daily</span>
+            <span>🔍 Scope: File permissions, System updates, SSH, OpenClaw config</span>
+            <span>📤 Output: Markdown Report + Alerts</span>
+            <span>⚠️ Action: Auto-fix permissions, Notify on critical issues</span>
+        </div>
+    </div>
+    
+    <div class="system-map">
+        <svg class="connections" viewBox="0 0 1400 900">
+            <!-- Background faint connections -->
+            <line class="connection-line" x1="720" y1="250" x2="720" y2="320"/>
+            
+            <!-- SECURITY AUDIT WORKFLOW -->
+            <!-- 1. Cron triggers -->
+            <line class="connection-line active" x1="1050" y1="460" x2="810" y2="380"/>
+            <circle class="sequence-circle" cx="930" cy="420" r="12"/>
+            <text class="sequence-number" x="926" y="425">1</text>
+            
+            <!-- 2. Run security checks -->
+            <line class="connection-line active" x1="720" y1="420" x2="520" y2="550"/>
+            <circle class="sequence-circle" cx="620" cy="485" r="12"/>
+            <text class="sequence-number" x="616" y="490">2</text>
+            
+            <!-- 3. Check file permissions -->
+            <line class="connection-line active" x1="520" y1="550" x2="320" y2="500"/>
+            <circle class="sequence-circle" cx="420" cy="525" r="12"/>
+            <text class="sequence-number" x="416" y="530">3</text>
+            
+            <!-- 4. Scan system -->
+            <line class="connection-line active" x1="520" y1="550" x2="720" y2="320"/>
+            <circle class="sequence-circle" cx="620" cy="435" r="12"/>
+            <text class="sequence-number" x="616" y="440">4</text>
+            
+            <!-- 5. Generate report -->
+            <line class="connection-line active" x1="320" y1="500" x2="170" y2="360"/>
+            <circle class="sequence-circle" cx="245" cy="430" r="12"/>
+            <text class="sequence-number" x="241" y="435">5</text>
+            
+            <!-- 6. Save to GitHub -->
+            <line class="connection-line active" x1="170" y1="360" x2="170" y2="360"/>
+            
+            <!-- 7. Notify user -->
+            <line class="connection-line active" x1="720" y1="250" x2="720" y2="180"/>
+            <circle class="sequence-circle" cx="720" cy="215" r="12"/>
+            <text class="sequence-number" x="716" y="220">7</text>
+            
+            <!-- 8. Deliver report -->
+            <line class="connection-line active" x1="720" y1="180" x2="720" y2="120"/>
+            <circle class="sequence-circle" cx="720" cy="150" r="12"/>
+            <text class="sequence-number" x="716" y="155">8</text>
+        </svg>
+        
+        <!-- NODES -->
+        <div class="node automation cron highlight">
+            <div class="node-icon">⏰</div>
+            <div class="node-title">Cron Job</div>
+            <div class="node-status">6:00 AM Daily</div>
+        </div>
+        
+        <div class="node automation security highlight">
+            <div class="node-icon">🛡️</div>
+            <div class="node-title">Security Sentinel</div>
+            <div class="node-status">Audit Engine</div>
+        </div>
+        
+        <div class="node storage local-files highlight">
+            <div class="node-icon">🔐</div>
+            <div class="node-title">Sensitive Files</div>
+            <div class="node-status">.env, API Keys</div>
+        </div>
+        
+        <div class="node core openclaw highlight">
+            <div class="node-icon">🦞</div>
+            <div class="node-title">OpenClaw</div>
+            <div class="node-status">System Scan</div>
+        </div>
+        
+        <div class="node storage github highlight">
+            <div class="node-icon">📄</div>
+            <div class="node-title">GitHub</div>
+            <div class="node-status">Audit Report</div>
+        </div>
+        
+        <div class="node external telegram highlight">
+            <div class="node-icon">💬</div>
+            <div class="node-title">Telegram</div>
+            <div class="node-status">Alert Delivery</div>
+        </div>
+        
+        <div class="node user you highlight">
+            <div class="node-icon">👤</div>
+            <div class="node-title">You</div>
+            <div class="node-status">Review Alerts</div>
+        </div>
+        
+        <!-- SEQUENCE PANEL -->
+        <div class="sequence-panel">
+            <h3>📋 Security Audit Sequence</h3>
+            <div class="sequence-step">
+                <div class="step-num">1</div>
+                <div class="step-desc"><strong>Cron Trigger:</strong> 6:00 AM scheduled security audit</div>
+            </div>
+            <div class="sequence-step">
+                <div class="step-num">2</div>
+                <div class="step-desc"><strong>Launch Sentinel:</strong> Security audit script initialized</div>
+            </div>
+            <div class="sequence-step">
+                <div class="step-num">3</div>
+                <div class="step-desc"><strong>File Permissions:</strong> Check .env, API keys (should be 600)</div>
+            </div>
+            <div class="sequence-step">
+                <div class="step-num">4</div>
+                <div class="step-desc"><strong>System Scan:</strong> Pending updates, SSH config, firewall</div>
+            </div>
+            <div class="sequence-step">
+                <div class="step-num">5</div>
+                <div class="step-desc"><strong>Generate Report:</strong> Markdown audit report created</div>
+            </div>
+            <div class="sequence-step">
+                <div class="step-num">6</div>
+                <div class="step-desc"><strong>Save Report:</strong> Stored in research/ directory</div>
+            </div>
+            <div class="sequence-step">
+                <div class="step-num">7</div>
+                <div class="step-desc"><strong>Alert Check:</strong> If critical issues found, send alert</div>
+            </div>
+            <div class="sequence-step">
+                <div class="step-num">8</div>
+                <div class="step-desc"><strong>Deliver:</strong> You receive summary or critical alerts</div>
+            </div>
+        </div>
+        
+        <!-- CHECKS BOX -->
+        <div class="checks-box">
+            <h4>🔍 Security Checks</h4>
+            <div class="check-item">Operating System info</div>
+            <div class="check-item">Listening ports scan</div>
+            <div class="check-item">UFW Firewall status</div>
+            <div class="check-item">Disk encryption check</div>
+            <div class="check-item">Pending apt updates</div>
+            <div class="check-item">SSH security config</div>
+            <div class="check-item">OpenClaw gateway binding</div>
+            <div class="check-item">Token auth enabled</div>
+            <div class="check-item">Sensitive file permissions</div>
+            <div class="check-item">API key exposure scan</div>
+        </div>
+    </div>
+</body>
+</html>

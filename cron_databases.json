@@ -1,0 +1,12 @@
+{
+  "master_cron_schedule": {
+    "database_id": "2fdf2cb1-2276-81a5-84e9-d60295943cd6"
+  },
+  "overnight_build_tasks": {
+    "database_id": "2fdf2cb1-2276-81cc-99c6-df60e7a1600e"
+  },
+  "overnight_research_tasks": {
+    "database_id": "2fdf2cb1-2276-816f-bb5c-d9a812891de3"
+  },
+  "parent_page_id": "2fcf2cb1-2276-8021-a8a9-ce059efecbf6"
+}

@@ -1,0 +1,28 @@
+{
+  "date": "2026-02-06",
+  "timestamp": "2026-02-06T16:50:32.215627",
+  "summary": {
+    "status": "poor",
+    "sleep_performance": 54.0,
+    "sleep_efficiency": 93.182014,
+    "recovery_score": 57.0,
+    "hrv": 42.6634,
+    "resting_hr": 57.0,
+    "sleep_duration_hours": 4.4,
+    "message": "\ud83d\ude34 Poor sleep detected, gentle mode activated"
+  },
+  "behavior": {
+    "sleep_status": "poor",
+    "sleep_performance": 54.0,
+    "recovery_score": 57.0,
+    "behavior_mode": "gentle",
+    "communication_style": "caring",
+    "energy_level": "low",
+    "task_complexity": "minimal",
+    "recommendations": [
+      "Prioritize rest and recovery",
+      "Light tasks only",
+      "Consider postponing complex work"
+    ]
+  }
+}

@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>WHOOP Integration Workflow | OpenClaw Documentation</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #0a0a0f;
+            color: #fff;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #333;
+        }
+        
+        h1 {
+            font-size: 24px;
+            background: linear-gradient(90deg, #ef4444, #f97316);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .nav-links a {
+            color: #667eea;
+            text-decoration: none;
+            margin-left: 20px;
+            font-size: 14px;
+        }
+        
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+        
+        .workflow-info {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid #ef4444;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .workflow-title {
+            font-size: 20px;
+            color: #ef4444;
+            margin-bottom: 10px;
+        }
+        
+        .workflow-meta {
+            display: flex;
+            gap: 20px;
+            font-size: 13px;
+            color: #aaa;
+        }
+        
+        .system-map {
+            position: relative;
+            width: 1400px;
+            height: 900px;
+            margin: 0 auto;
+            background: radial-gradient(circle at center, #1a1a2e 0%, #0a0a0f 100%);
+            border-radius: 20px;
+            border: 1px solid #333;
+        }
+        
+        .connections {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .connection-line {
+            stroke: #333;
+            stroke-width: 1;
+            fill: none;
+        }
+        
+        .connection-line.active {
+            stroke: #ef4444;
+            stroke-width: 3;
+            stroke-dasharray: 5,5;
+            animation: dash 15s linear infinite;
+        }
+        
+        @keyframes dash {
+            to { stroke-dashoffset: -100; }
+        }
+        
+        .sequence-number {
+            fill: #ef4444;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .sequence-circle {
+            fill: #ef4444;
+            stroke: #000;
+            stroke-width: 2;
+        }
+        
+        .node {
+            position: absolute;
+            width: 140px;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 12px;
+            z-index: 10;
+            opacity: 0.3;
+        }
+        
+        .node.highlight {
+            opacity: 1;
+            box-shadow: 0 0 30px rgba(239, 68, 68, 0.5);
+        }
+        
+        .node-icon {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+        
+        .node-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .node-status {
+            font-size: 10px;
+            opacity: 0.8;
+        }
+        
+        .node.core { 
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: 2px solid #8b5cf6;
+        }
+        
+        .node.external { 
+            background: linear-gradient(135deg, #1e3a5f, #0d2137);
+            border: 2px solid #3b82f6;
+        }
+        
+        .node.user { 
+            background: linear-gradient(135deg, #9a3412, #7c2d12);
+            border: 2px solid #f97316;
+        }
+        
+        .node.automation { 
+            background: linear-gradient(135deg, #854d0e, #713f12);
+            border: 2px solid #f59e0b;
+        }
+        
+        /* Positions */
+        .node.you { top: 50px; left: 650px; }
+        .node.cron { top: 460px; left: 1050px; }
+        .node.openclaw { top: 320px; left: 650px; }
+        .node.whoop { top: 180px; left: 1050px; }
+        .node.local-files { top: 460px; left: 250px; }
+        
+        /* Sequence Panel */
+        .sequence-panel {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(0,0,0,0.9);
+            border: 1px solid #ef4444;
+            border-radius: 12px;
+            padding: 20px;
+            width: 400px;
+            z-index: 20;
+        }
+        
+        .sequence-panel h3 {
+            color: #ef4444;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+        
+        .sequence-step {
+            display: flex;
+            align-items: flex-start;
+            margin: 10px 0;
+            font-size: 12px;
+        }
+        
+        .step-num {
+            background: #ef4444;
+            color: #000;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 11px;
+            margin-right: 10px;
+            flex-shrink: 0;
+        }
+        
+        .step-desc {
+            color: #ccc;
+            line-height: 1.4;
+        }
+        
+        .auth-box {
+            position: absolute;
+            top: 50px;
+            right: 20px;
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid #ef4444;
+            border-radius: 12px;
+            padding: 20px;
+            width: 300px;
+            z-index: 20;
+        }
+        
+        .auth-box h4 {
+            color: #ef4444;
+            margin-bottom: 10px;
+        }
+        
+        .auth-box p {
+            font-size: 12px;
+            color: #aaa;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>💓 Page 3: WHOOP Integration Workflow</h1>
+        <div class="nav-links">
+            <a href="workflow-index.html">← Index</a>
+            <a href="workflow-index-page2-morning-brief.html">Morning Brief</a>
+            <a href="workflow-index-page4-security.html">Next: Security →</a>
+        </div>
+    </div>
+    
+    <div class="workflow-info">
+        <div class="workflow-title">WHOOP API Integration & Token Management</div>
+        <div class="workflow-meta">
+            <span>⏰ Health Check: 5:50 AM Daily</span>
+            <span>🔐 Auth: OAuth2 (1-hour tokens)</span>
+            <span>📊 Data: Recovery, Sleep, Cycles</span>
+            <span>⚠️ Note: No refresh token provided by WHOOP</span>
+        </div>
+    </div>
+    
+    <div class="system-map">
+        <svg class="connections" viewBox="0 0 1400 900">
+            <!-- Background faint connections -->
+            <line class="connection-line" x1="720" y1="250" x2="720" y2="320"/>
+            
+            <!-- TOKEN HEALTH CHECK WORKFLOW -->
+            <!-- 1. Cron wakes up -->
+            <line class="connection-line active" x1="1050" y1="460" x2="810" y2="380"/>
+            <circle class="sequence-circle" cx="930" cy="420" r="12"/>
+            <text class="sequence-number" x="926" y="425">1</text>
+            
+            <!-- 2. OpenClaw checks token file -->
+            <line class="connection-line active" x1="650" y1="400" x2="390" y2="460"/>
+            <circle class="sequence-circle" cx="520" cy="430" r="12"/>
+            <text class="sequence-number" x="516" y="435">2</text>
+            
+            <!-- 3. Query WHOOP API -->
+            <line class="connection-line active" x1="790" y1="320" x2="1050" y2="230"/>
+            <circle class="sequence-circle" cx="920" cy="275" r="12"/>
+            <text class="sequence-number" x="916" y="280">3</text>
+            
+            <!-- 4. WHOOP responds (or 401 error) -->
+            <line class="connection-line active" x1="1050" y1="230" x2="790" y2="320"/>
+            <circle class="sequence-circle" cx="920" cy="275" r="12"/>
+            
+            <!-- 5. If expired, notify user -->
+            <line class="connection-line active" x1="720" y1="250" x2="720" y2="120"/>
+            <circle class="sequence-circle" cx="720" cy="185" r="12"/>
+            <text class="sequence-number" x="716" y="190">5</text>
+            
+            <!-- 6. User re-auths via browser -->
+            <line class="connection-line active" x1="720" y1="120" x2="1050" y2="230"/>
+            <circle class="sequence-circle" cx="885" cy="175" r="12"/>
+            <text class="sequence-number" x="881" y="180">6</text>
+            
+            <!-- 7. New token saved -->
+            <line class="connection-line active" x1="1050" y1="230" x2="390" y2="460"/>
+            <circle class="sequence-circle" cx="720" cy="345" r="12"/>
+            <text class="sequence-number" x="716" y="350">7</text>
+        </svg>
+        
+        <!-- NODES -->
+        <div class="node automation cron highlight">
+            <div class="node-icon">⏰</div>
+            <div class="node-title">Cron Job</div>
+            <div class="node-status">5:50 AM Check</div>
+        </div>
+        
+        <div class="node core openclaw highlight">
+            <div class="node-icon">🦞</div>
+            <div class="node-title">OpenClaw</div>
+            <div class="node-status">Token Manager</div>
+        </div>
+        
+        <div class="node storage local-files highlight">
+            <div class="node-icon">🔑</div>
+            <div class="node-title">Token Storage</div>
+            <div class="node-status">whoop_tokens.json</div>
+        </div>
+        
+        <div class="node external whoop highlight">
+            <div class="node-icon">💓</div>
+            <div class="node-title">WHOOP API</div>
+            <div class="node-status">OAuth2 + Data</div>
+        </div>
+        
+        <div class="node user you highlight">
+            <div class="node-icon">👤</div>
+            <div class="node-title">You</div>
+            <div class="node-status">Re-auth if needed</div>
+        </div>
+        
+        <!-- SEQUENCE PANEL -->
+        <div class="sequence-panel">
+            <h3>📋 Token Lifecycle Sequence</h3>
+            <div class="sequence-step">
+                <div class="step-num">1</div>
+                <div class="step-desc"><strong>Cron Trigger:</strong> 5:50 AM health check begins</div>
+            </div>
+            <div class="sequence-step">
+                <div class="step-num">2</div>
+                <div class="step-desc"><strong>Load Token:</strong> Read current access token from storage</div>
+            </div>
+            <div class="sequence-step">
+                <div class="step-num">3</div>
+                <div class="step-desc"><strong>Test API:</strong> Query WHOOP recovery endpoint</div>
+            </div>
+            <div class="sequence-step">
+                <div class="step-num">4</div>
+                <div class="step-desc"><strong>Check Response:</strong> Success (200) or Expired (401)</div>
+            </div>
+            <div class="sequence-step">
+                <div class="step-num">5</div>
+                <div class="step-desc"><strong>If Expired:</strong> Notify you with refresh command</div>
+            </div>
+            <div class="sequence-step">
+                <div class="step-num">6</div>
+                <div class="step-desc"><strong>OAuth Flow:</strong> You authorize via browser</div>
+            </div>
+            <div class="sequence-step">
+                <div class="step-num">7</div>
+                <div class="step-desc"><strong>Save Token:</strong> New 1-hour access token stored</div>
+            </div>
+        </div>
+        
+        <!-- AUTH INFO BOX -->
+        <div class="auth-box">
+            <h4>🔐 OAuth2 Details</h4>
+            <p><strong>Token Type:</strong> Bearer</p>
+            <p><strong>Expires:</strong> 3600 seconds (1 hour)</p>
+            <p><strong>Refresh Token:</strong> ❌ Not provided by WHOOP</p>
+            <p><strong>Scopes:</strong> read:sleep, read:recovery, read:cycles</p>
+            <p style="margin-top: 10px;"><strong>Current Limitation:</strong> WHOOP's OAuth implementation doesn't support refresh tokens, requiring periodic re-authorization.</p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Nutrition Tracking Workflow | OpenClaw Documentation</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #0a0a0f;
+            color: #fff;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #333;
+        }
+        
+        h1 {
+            font-size: 24px;
+            background: linear-gradient(90deg, #8b5cf6, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .nav-links a {
+            color: #667eea;
+            text-decoration: none;
+            margin-left: 20px;
+            font-size: 14px;
+        }
+        
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+        
+        .workflow-info {
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid #8b5cf6;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .workflow-title {
+            font-size: 20px;
+            color: #8b5cf6;
+            margin-bottom: 10px;
+        }
+        
+        .workflow-meta {
+            display: flex;
+            gap: 20px;
+            font-size: 13px;
+            color: #aaa;
+        }
+        
+        .system-map {
+            position: relative;
+            width: 1400px;
+            height: 900px;
+            margin: 0 auto;
+            background: radial-gradient(circle at center, #1a1a2e 0%, #0a0a0f 100%);
+            border-radius: 20px;
+            border: 1px solid #333;
+        }
+        
+        .connections {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .connection-line {
+            stroke: #333;
+            stroke-width: 1;
+            fill: none;
+        }
+        
+        .connection-line.active {
+            stroke: #8b5cf6;
+            stroke-width: 3;
+            stroke-dasharray: 5,5;
+            animation: dash 15s linear infinite;
+        }
+        
+        @keyframes dash {
+            to { stroke-dashoffset: -100; }
+        }
+        
+        .sequence-number {
+            fill: #8b5cf6;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .sequence-circle {
+            fill: #8b5cf6;
+            stroke: #000;
+            stroke-width: 2;
+        }
+        
+        .node {
+            position: absolute;
+            width: 140px;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 12px;
+            z-index: 10;
+            opacity: 0.3;
+        }
+        
+        .node.highlight {
+            opacity: 1;
+            box-shadow: 0 0 30px rgba(139, 92, 246, 0.5);
+        }
+        
+        .node-icon {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+        
+        .node-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .node-status {
+            font-size: 10px;
+            opacity: 0.8;
+        }
+        
+        .node.user { 
+            background: linear-gradient(135deg, #9a3412, #7c2d12);
+            border: 2px solid #f97316;
+        }
+        
+        .node.external { 
+            background: linear-gradient(135deg, #1e3a5f, #0d2137);
+            border: 2px solid #3b82f6;
+        }
+        
+        .node.core { 
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: 2px solid #8b5cf6;
+        }
+        
+        .node.external.ai { 
+            background: linear-gradient(135deg, #1e1b4b, #312e81);
+            border: 2px solid #6366f1;
+        }
+        
+        .node.storage { 
+            background: linear-gradient(135deg, #065f46, #064e3b);
+            border: 2px solid #10b981;
+        }
+        
+        /* Positions */
+        .node.you { top: 50px; left: 650px; }
+        .node.telegram { top: 180px; left: 650px; }
+        .node.openclaw { top: 320px; left: 650px; }
+        .node.moonshot { top: 320px; left: 1200px; }
+        .node.notion { top: 180px; left: 250px; }
+        .node.nutrition { top: 680px; left: 850px; }
+        
+        /* Sequence Panel */
+        .sequence-panel {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(0,0,0,0.9);
+            border: 1px solid #8b5cf6;
+            border-radius: 12px;
+            padding: 20px;
+            width: 400px;
+            z-index: 20;
+        }
+        
+        .sequence-panel h3 {
+            color: #8b5cf6;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+        
+        .sequence-step {
+            display: flex;
+            align-items: flex-start;
+            margin: 10px 0;
+            font-size: 12px;
+        }
+        
+        .step-num {
+            background: #8b5cf6;
+            color: #fff;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 11px;
+            margin-right: 10px;
+            flex-shrink: 0;
+        }
+        
+        .step-desc {
+            color: #ccc;
+            line-height: 1.4;
+        }
+        
+        .macro-box {
+            position: absolute;
+            top: 50px;
+            right: 20px;
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid #8b5cf6;
+            border-radius: 12px;
+            padding: 20px;
+            width: 280px;
+            z-index: 20;
+        }
+        
+        .macro-box h4 {
+            color: #8b5cf6;
+            margin-bottom: 10px;
+        }
+        
+        .macro-item {
+            font-size: 12px;
+            color: #aaa;
+            margin: 8px 0;
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🥗 Page 5: Nutrition Tracking Workflow</h1>
+        <div class="nav-links">
+            <a href="workflow-index.html">← Index</a>
+            <a href="workflow-index-page4-security.html">Security</a>
+            <a href="workflow-index.html">View All →</a>
+        </div>
+    </div>
+    
+    <div class="workflow-info">
+        <div class="workflow-title">AI-Powered Meal Logging & Macro Tracking</div>
+        <div class="workflow-meta">
+            <span>🎤 Input: Voice or Text ("3 eggs, toast, coffee")</span>
+            <span>🧠 AI: Automatic macro estimation</span>
+            <span>📝 Output: Notion Nutrition Database</span>
+            <span>📊 Tracking: Daily calories, protein, carbs, fat totals</span>
+        </div>
+    </div>
+    
+    <div class="system-map">
+        <svg class="connections" viewBox="0 0 1400 900">
+            <!-- Background faint connections -->
+            <line class="connection-line" x1="720" y1="250" x2="720" y2="320"/>
+            <line class="connection-line" x1="650" y1="380" x2="240" y2="360"/>
+            
+            <!-- NUTRITION TRACKING WORKFLOW -->
+            <!-- 1. User sends meal description -->
+            <line class="connection-line active" x1="720" y1="120" x2="720" y2="180"/>
+            <circle class="sequence-circle" cx="720" cy="150" r="12"/>
+            <text class="sequence-number" x="716" y="155">1</text>
+            
+            <!-- 2. Telegram to OpenClaw -->
+            <line class="connection-line active" x1="720" y1="250" x2="720" y2="320"/>
+            <circle class="sequence-circle" cx="720" cy="285" r="12"/>
+            <text class="sequence-number" x="716" y="290">2</text>
+            
+            <!-- 3. OpenClaw parses meal -->
+            <line class="connection-line active" x1="720" y1="420" x2="920" y2="680"/>
+            <circle class="sequence-circle" cx="820" cy="550" r="12"/>
+            <text class="sequence-number" x="816" y="555">3</text>
+            
+            <!-- 4. AI estimates macros -->
+            <line class="connection-line active" x1="810" y1="380" x2="1200" y2="360"/>
+            <circle class="sequence-circle" cx="1005" cy="370" r="12"/>
+            <text class="sequence-number" x="1001" y="375">4</text>
+            
+            <!-- 5. AI returns nutrition data -->
+            <line class="connection-line active" x1="1200" y1="360" x2="810" y2="380"/>
+            <circle class="sequence-circle" cx="1005" cy="370" r="12"/>
+            
+            <!-- 6. Log to Notion -->
+            <line class="connection-line active" x1="650" y1="360" x2="390" y2="230"/>
+            <circle class="sequence-circle" cx="520" cy="295" r="12"/>
+            <text class="sequence-number" x="516" y="300">6</text>
+            
+            <!-- 7. Confirm to user -->
+            <line class="connection-line active" x1="720" y1="250" x2="720" y2="180"/>
+            <circle class="sequence-circle" cx="720" cy="215" r="12"/>
+            <text class="sequence-number" x="716" y="220">7</text>
+            
+            <!-- 8. Deliver confirmation -->
+            <line class="connection-line active" x1="720" y1="180" x2="720" y2="120"/>
+            <circle class="sequence-circle" cx="720" cy="150" r="12"/>
+        </svg>
+        
+        <!-- NODES -->
+        <div class="node user you highlight">
+            <div class="node-icon">👤</div>
+            <div class="node-title">You</div>
+            <div class="node-status">Log Meal</div>
+        </div>
+        
+        <div class="node external telegram highlight">
+            <div class="node-icon">💬</div>
+            <div class="node-title">Telegram</div>
+            <div class="node-status">Voice/Text</div>
+        </div>
+        
+        <div class="node core openclaw highlight">
+            <div class="node-icon">🦞</div>
+            <div class="node-title">OpenClaw</div>
+            <div class="node-status">Parse & Process</div>
+        </div>
+        
+        <div class="node external ai moonshot highlight">
+            <div class="node-icon">🧠</div>
+            <div class="node-title">Moonshot AI</div>
+            <div class="node-status">Macro Estimation</div>
+        </div>
+        
+        <div class="node storage notion highlight">
+            <div class="node-icon">📝</div>
+            <div class="node-title">Notion</div>
+            <div class="node-status">Nutrition DB</div>
+        </div>
+        
+        <div class="node automation nutrition highlight">
+            <div class="node-icon">🥗</div>
+            <div class="node-title">Nutrition Log</div>
+            <div class="node-status">Meal Recorded</div>
+        </div>
+        
+        <!-- SEQUENCE PANEL -->
+        <div class="sequence-panel">
+            <h3>📋 Nutrition Logging Sequence</h3>
+            <div class="sequence-step">
+                <div class="step-num">1</div>
+                <div class="step-desc"><strong>Log Meal:</strong> You describe meal via voice or text</div>
+            </div>
+            <div class="sequence-step">
+                <div class="step-num">2</div>
+                <div class="step-desc"><strong>Receive:</strong> OpenClaw receives message</div>
+            </div>
+            <div class="sequence-step">
+                <div class="step-num">3</div>
+                <div class="step-desc"><strong>Parse:</strong> Extract food items from description</div>
+            </div>
+            <div class="sequence-step">
+                <div class="step-num">4</div>
+                <div class="step-desc"><strong>AI Estimation:</strong> Send to Moonshot for macro calculation</div>
+            </div>
+            <div class="sequence-step">
+                <div class="step-num">5</div>
+                <div class="step-desc"><strong>Get Results:</strong> Calories, protein, carbs, fat estimates</div>
+            </div>
+            <div class="sequence-step">
+                <div class="step-num">6</div>
+                <div class="step-desc"><strong>Save:</strong> Log meal to Notion Nutrition database</div>
+            </div>
+            <div class="sequence-step">
+                <div class="step-num">7</div>
+                <div class="step-desc"><strong>Confirm:</strong> Format confirmation with totals</div>
+            </div>
+            <div class="sequence-step">
+                <div class="step-num">8</div>
+                <div class="step-desc"><strong>Deliver:</strong> You receive logged meal confirmation</div>
+            </div>
+        </div>
+        
+        <!-- MACRO BOX -->
+        <div class="macro-box">
+            <h4>🧮 Tracked Macros</h4>
+            <div class="macro-item"><span>Calories</span><span>~2500/day</span></div>
+            <div class="macro-item"><span>Protein</span><span>~160g/day</span></div>
+            <div class="macro-item"><span>Carbs</span><span>~250g/day</span></div>
+            <div class="macro-item"><span>Fat</span><span>~80g/day</span></div>
+            <div class="macro-item"><span>Fiber</span><span>~30g/day</span></div>
+            <div class="macro-item"><span>Sugar</span><span>Track</span></div>
+            <div class="macro-item"><span>Salt</span><span>Track</span></div>
+        </div>
+    </div>
+</body>
+</html>

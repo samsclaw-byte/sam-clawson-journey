@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Morning Brief Workflow | OpenClaw Documentation</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #0a0a0f;
+            color: #fff;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #333;
+        }
+        
+        h1 {
+            font-size: 24px;
+            background: linear-gradient(90deg, #f59e0b, #f97316);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .nav-links a {
+            color: #667eea;
+            text-decoration: none;
+            margin-left: 20px;
+            font-size: 14px;
+        }
+        
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+        
+        .workflow-info {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid #f59e0b;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .workflow-title {
+            font-size: 20px;
+            color: #f59e0b;
+            margin-bottom: 10px;
+        }
+        
+        .workflow-meta {
+            display: flex;
+            gap: 20px;
+            font-size: 13px;
+            color: #aaa;
+        }
+        
+        .system-map {
+            position: relative;
+            width: 1400px;
+            height: 900px;
+            margin: 0 auto;
+            background: radial-gradient(circle at center, #1a1a2e 0%, #0a0a0f 100%);
+            border-radius: 20px;
+            border: 1px solid #333;
+        }
+        
+        .connections {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .connection-line {
+            stroke: #333;
+            stroke-width: 1;
+            fill: none;
+        }
+        
+        .connection-line.active {
+            stroke: #f59e0b;
+            stroke-width: 3;
+            stroke-dasharray: 5,5;
+            animation: dash 15s linear infinite;
+        }
+        
+        @keyframes dash {
+            to { stroke-dashoffset: -100; }
+        }
+        
+        .sequence-number {
+            fill: #f59e0b;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .sequence-circle {
+            fill: #f59e0b;
+            stroke: #000;
+            stroke-width: 2;
+        }
+        
+        .node {
+            position: absolute;
+            width: 140px;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 12px;
+            z-index: 10;
+            opacity: 0.3;
+            transition: all 0.3s;
+        }
+        
+        .node.highlight {
+            opacity: 1;
+            box-shadow: 0 0 30px rgba(245, 158, 11, 0.5);
+        }
+        
+        .node-icon {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+        
+        .node-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .node-status {
+            font-size: 10px;
+            opacity: 0.8;
+        }
+        
+        .node.core { 
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: 2px solid #8b5cf6;
+        }
+        
+        .node.external { 
+            background: linear-gradient(135deg, #1e3a5f, #0d2137);
+            border: 2px solid #3b82f6;
+        }
+        
+        .node.storage { 
+            background: linear-gradient(135deg, #065f46, #064e3b);
+            border: 2px solid #10b981;
+        }
+        
+        .node.automation { 
+            background: linear-gradient(135deg, #854d0e, #713f12);
+            border: 2px solid #f59e0b;
+        }
+        
+        /* Positions */
+        .node.openclaw { top: 320px; left: 650px; }
+        .node.whoop { top: 180px; left: 1050px; }
+        .node.cron { top: 460px; left: 1050px; }
+        .node.local-files { top: 460px; left: 250px; }
+        .node.morning-brief { top: 680px; left: 350px; }
+        .node.telegram { top: 180px; left: 650px; }
+        
+        /* Sequence Panel */
+        .sequence-panel {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(0,0,0,0.9);
+            border: 1px solid #f59e0b;
+            border-radius: 12px;
+            padding: 20px;
+            width: 350px;
+            z-index: 20;
+        }
+        
+        .sequence-panel h3 {
+            color: #f59e0b;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+        
+        .sequence-step {
+            display: flex;
+            align-items: flex-start;
+            margin: 10px 0;
+            font-size: 12px;
+        }
+        
+        .step-num {
+            background: #f59e0b;
+            color: #000;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 11px;
+            margin-right: 10px;
+            flex-shrink: 0;
+        }
+        
+        .step-desc {
+            color: #ccc;
+            line-height: 1.4;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🌅 Page 2: Morning Brief Workflow</h1>
+        <div class="nav-links">
+            <a href="workflow-index.html">← Index</a>
+            <a href="workflow-index-page1-architecture.html">Architecture</a>
+            <a href="workflow-index-page3-whoop.html">Next: WHOOP →</a>
+        </div>
+    </div>
+    
+    <div class="workflow-info">
+        <div class="workflow-title">Morning Brief System</div>
+        <div class="workflow-meta">
+            <span>⏰ Trigger: 6:00 AM Daily (Asia/Dubai)</span>
+            <span>📊 Inputs: WHOOP Recovery, Fitness Program, TAT Tasks</span>
+            <span>📤 Output: Telegram Message</span>
+            <span>⏱️ Duration: ~30 seconds</span>
+        </div>
+    </div>
+    
+    <div class="system-map">
+        <svg class="connections" viewBox="0 0 1400 900">
+            <!-- Background faint connections -->
+            <line class="connection-line" x1="720" y1="250" x2="720" y2="320"/>
+            <line class="connection-line" x1="650" y1="380" x2="240" y2="360"/>
+            <line class="connection-line" x1="810" y1="380" x2="1200" y2="360"/>
+            
+            <!-- ACTIVE WORKFLOW CONNECTIONS -->
+            <!-- 1. Cron triggers OpenClaw -->
+            <line class="connection-line active" x1="1050" y1="460" x2="810" y2="380"/>
+            <circle class="sequence-circle" cx="930" cy="420" r="12"/>
+            <text class="sequence-number" x="926" y="425">1</text>
+            
+            <!-- 2. OpenClaw queries WHOOP -->
+            <line class="connection-line active" x1="790" y1="320" x2="1050" y2="230"/>
+            <circle class="sequence-circle" cx="920" cy="275" r="12"/>
+            <text class="sequence-number" x="916" y="280">2</text>
+            
+            <!-- 3. WHOOP returns recovery data -->
+            <line class="connection-line active" x1="1050" y1="230" x2="790" y2="320"/>
+            <circle class="sequence-circle" cx="920" cy="275" r="12"/>
+            
+            <!-- 4. OpenClaw reads fitness program -->
+            <line class="connection-line active" x1="650" y1="400" x2="390" y2="460"/>
+            <circle class="sequence-circle" cx="520" cy="430" r="12"/>
+            <text class="sequence-number" x="516" y="435">4</text>
+            
+            <!-- 5. Generate morning brief -->
+            <line class="connection-line active" x1="720" y1="420" x2="420" y2="680"/>
+            <circle class="sequence-circle" cx="570" cy="550" r="12"/>
+            <text class="sequence-number" x="566" y="555">5</text>
+            
+            <!-- 6. Send to Telegram -->
+            <line class="connection-line active" x1="720" y1="250" x2="720" y2="180"/>
+            <circle class="sequence-circle" cx="720" cy="215" r="12"/>
+            <text class="sequence-number" x="716" y="220">6</text>
+            
+            <!-- 7. Deliver to User -->
+            <line class="connection-line active" x1="720" y1="180" x2="720" y2="120"/>
+            <circle class="sequence-circle" cx="720" cy="150" r="12"/>
+            <text class="sequence-number" x="716" y="155">7</text>
+        </svg>
+        
+        <!-- NODES -->
+        <div class="node automation cron highlight">
+            <div class="node-icon">⏰</div>
+            <div class="node-title">Cron Job</div>
+            <div class="node-status">6:00 AM Trigger</div>
+        </div>
+        
+        <div class="node core openclaw highlight">
+            <div class="node-icon">🦞</div>
+            <div class="node-title">OpenClaw</div>
+            <div class="node-status">Process & Generate</div>
+        </div>
+        
+        <div class="node external whoop highlight">
+            <div class="node-icon">💓</div>
+            <div class="node-title">WHOOP API</div>
+            <div class="node-status">Recovery Score</div>
+        </div>
+        
+        <div class="node storage local-files highlight">
+            <div class="node-icon">💾</div>
+            <div class="node-title">Local Files</div>
+            <div class="node-status">Fitness Program</div>
+        </div>
+        
+        <div class="node automation morning-brief highlight">
+            <div class="node-icon">🌅</div>
+            <div class="node-title">Morning Brief</div>
+            <div class="node-status">Generated Report</div>
+        </div>
+        
+        <div class="node external telegram highlight">
+            <div class="node-icon">💬</div>
+            <div class="node-title">Telegram</div>
+            <div class="node-status">Delivery</div>
+        </div>
+        
+        <!-- SEQUENCE PANEL -->
+        <div class="sequence-panel">
+            <h3>📋 Workflow Sequence</h3>
+            <div class="sequence-step">
+                <div class="step-num">1</div>
+                <div class="step-desc"><strong>Cron Trigger:</strong> 6:00 AM scheduled job wakes OpenClaw</div>
+            </div>
+            <div class="sequence-step">
+                <div class="step-num">2</div>
+                <div class="step-desc"><strong>Query WHOOP:</strong> Request recovery score & sleep data via API</div>
+            </div>
+            <div class="sequence-step">
+                <div class="step-num">3</div>
+                <div class="step-desc"><strong>Recovery Data:</strong> WHOOP returns recovery % and sleep performance</div>
+            </div>
+            <div class="sequence-step">
+                <div class="step-num">4</div>
+                <div class="step-desc"><strong>Load Program:</strong> Read fitness program rules from local files</div>
+            </div>
+            <div class="sequence-step">
+                <div class="step-num">5</div>
+                <div class="step-desc"><strong>Generate Brief:</strong> Determine workout zone, create recommendations</div>
+            </div>
+            <div class="sequence-step">
+                <div class="step-num">6</div>
+                <div class="step-desc"><strong>Send Message:</strong> Format and send brief to Telegram API</div>
+            </div>
+            <div class="sequence-step">
+                <div class="step-num">7</div>
+                <div class="step-desc"><strong>Deliver:</strong> You receive morning briefing with recovery & workout plan</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

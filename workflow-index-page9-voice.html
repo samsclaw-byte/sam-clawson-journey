@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Voice Transcription Workflow | OpenClaw Documentation</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #0a0a0f;
+            color: #fff;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #333;
+        }
+        
+        h1 {
+            font-size: 24px;
+            background: linear-gradient(90deg, #ec4899, #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .nav-links a {
+            color: #667eea;
+            text-decoration: none;
+            margin-left: 20px;
+            font-size: 14px;
+        }
+        
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+        
+        .workflow-info {
+            background: rgba(236, 72, 153, 0.1);
+            border: 1px solid #ec4899;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .workflow-title {
+            font-size: 20px;
+            color: #ec4899;
+            margin-bottom: 10px;
+        }
+        
+        .workflow-meta {
+            display: flex;
+            gap: 20px;
+            font-size: 13px;
+            color: #aaa;
+        }
+        
+        .system-map {
+            position: relative;
+            width: 1400px;
+            height: 900px;
+            margin: 0 auto;
+            background: radial-gradient(circle at center, #1a1a2e 0%, #0a0a0f 100%);
+            border-radius: 20px;
+            border: 1px solid #333;
+        }
+        
+        .connections {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .connection-line {
+            stroke: #333;
+            stroke-width: 1;
+            fill: none;
+        }
+        
+        .connection-line.active {
+            stroke: #ec4899;
+            stroke-width: 3;
+            stroke-dasharray: 5,5;
+            animation: dash 15s linear infinite;
+        }
+        
+        @keyframes dash {
+            to { stroke-dashoffset: -100; }
+        }
+        
+        .sequence-number {
+            fill: #ec4899;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .sequence-circle {
+            fill: #ec4899;
+            stroke: #000;
+            stroke-width: 2;
+        }
+        
+        .node {
+            position: absolute;
+            width: 140px;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 12px;
+            z-index: 10;
+            opacity: 0.3;
+        }
+        
+        .node.highlight {
+            opacity: 1;
+            box-shadow: 0 0 30px rgba(236, 72, 153, 0.5);
+        }
+        
+        .node-icon {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+        
+        .node-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .node-status {
+            font-size: 10px;
+            opacity: 0.8;
+        }
+        
+        .node.user { 
+            background: linear-gradient(135deg, #9a3412, #7c2d12);
+            border: 2px solid #f97316;
+        }
+        
+        .node.external { 
+            background: linear-gradient(135deg, #1e3a5f, #0d2137);
+            border: 2px solid #3b82f6;
+        }
+        
+        .node.core { 
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: 2px solid #8b5cf6;
+        }
+        
+        .node.automation { 
+            background: linear-gradient(135deg, #854d0e, #713f12);
+            border: 2px solid #f59e0b;
+        }
+        
+        .node.storage { 
+            background: linear-gradient(135deg, #065f46, #064e3b);
+            border: 2px solid #10b981;
+        }
+        
+        /* Positions */
+        .node.you { top: 50px; left: 650px; }
+        .node.telegram { top: 180px; left: 650px; }
+        .node.openclaw { top: 320px; left: 650px; }
+        .node.voice { top: 550px; left: 650px; }
+        .node.storage-local { top: 460px; left: 250px; }
+        .node.whisper { top: 680px; left: 450px; }
+        
+        /* Sequence Panel */
+        .sequence-panel {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(0,0,0,0.9);
+            border: 1px solid #ec4899;
+            border-radius: 12px;
+            padding: 20px;
+            width: 400px;
+            z-index: 20;
+        }
+        
+        .sequence-panel h3 {
+            color: #ec4899;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+        
+        .sequence-step {
+            display: flex;
+            align-items: flex-start;
+            margin: 10px 0;
+            font-size: 12px;
+        }
+        
+        .step-num {
+            background: #ec4899;
+            color: #fff;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 11px;
+            margin-right: 10px;
+            flex-shrink: 0;
+        }
+        
+        .step-desc {
+            color: #ccc;
+            line-height: 1.4;
+        }
+        
+        .tech-box {
+            position: absolute;
+            top: 50px;
+            right: 20px;
+            background: rgba(236, 72, 153, 0.1);
+            border: 1px solid #ec4899;
+            border-radius: 12px;
+            padding: 20px;
+            width: 280px;
+            z-index: 20;
+        }
+        
+        .tech-box h4 {
+            color: #ec4899;
+            margin-bottom: 10px;
+        }
+        
+        .tech-item {
+            font-size: 12px;
+            color: #aaa;
+            margin: 8px 0;
+            padding: 8px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 6px;
+        }
+        
+        .status-ok { border-left: 3px solid #22c55e; }
+        .status-issue { border-left: 3px solid #ef4444; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🎙️ Page 9: Voice Transcription Workflow</h1>
+        <div class="nav-links">
+            <a href="workflow-index.html">← Index</a>
+            <a href="workflow-index-page8-tat.html">TAT</a>
+            <a href="workflow-index-page10-summary.html">Next: Summary →</a>
+        </div>
+    </div>
+    
+    <div class="workflow-info">
+        <div class="workflow-title">Audio Message to Text Processing</div>
+        <div class="workflow-meta">
+            <span>🎤 Input: OGG voice message from Telegram</span>
+            <span>⚙️ Processing: ffmpeg → Whisper AI</span>
+            <span>📝 Output: Transcribed text in context</span>
+            <span>⚠️ Status: ffmpeg currently missing</span>
+        </div>
+    </div>
+    
+    <div class="system-map">
+        <svg class="connections" viewBox="0 0 1400 900">
+            <!-- Background faint connections -->
+            <line class="connection-line" x1="720" y1="250" x2="720" y2="320"/>
+            
+            <!-- VOICE TRANSCRIPTION WORKFLOW -->
+            <!-- 1. User sends voice -->
+            <line class="connection-line active" x1="720" y1="120" x2="720" y2="180"/>
+            <circle class="sequence-circle" cx="720" cy="150" r="12"/>
+            <text class="sequence-number" x="716" y="155">1</text>
+            
+            <!-- 2. Telegram receives -->
+            <line class="connection-line active" x1="720" y1="250" x2="720" y2="320"/>
+            <circle class="sequence-circle" cx="720" cy="285" r="12"/>
+            <text class="sequence-number" x="716" y="290">2</text>
+            
+            <!-- 3. Save audio file -->
+            <line class="connection-line active" x1="650" y1="400" x2="390" y2="460"/>
+            <circle class="sequence-circle" cx="520" cy="430" r="12"/>
+            <text class="sequence-number" x="516" y="435">3</text>
+            
+            <!-- 4. Convert with ffmpeg -->
+            <line class="connection-line active" x1="720" y1="420" x2="520" y2="680"/>
+            <circle class="sequence-circle" cx="620" cy="550" r="12"/>
+            <text class="sequence-number" x="616" y="555">4</text>
+            
+            <!-- 5. Whisper transcribes -->
+            <line class="connection-line active" x1="520" y1="680" x2="520" y2="680"/>
+            <circle class="sequence-circle" cx="520" cy="680" r="12"/>
+            <text class="sequence-number" x="516" y="685">5</text>
+            
+            <!-- 6. Inject to context -->
+            <line class="connection-line active" x1="520" y1="680" x2="720" y2="420"/>
+            <circle class="sequence-circle" cx="620" cy="550" r="12"/>
+            <text class="sequence-number" x="616" y="555">6</text>
+            
+            <!-- 7. Process response -->
+            <line class="connection-line active" x1="720" y1="250" x2="720" y2="180"/>
+            <circle class="sequence-circle" cx="720" cy="215" r="12"/>
+            <text class="sequence-number" x="716" y="220">7</text>
+            
+            <!-- 8. Deliver reply -->
+            <line class="connection-line active" x1="720" y1="180" x2="720" y2="120"/>
+            <circle class="sequence-circle" cx="720" cy="150" r="12"/>
+        </svg>
+        
+        <!-- NODES -->
+        <div class="node user you highlight">
+            <div class="node-icon">👤</div>
+            <div class="node-title">You</div>
+            <div class="node-status">Record Voice</div>
+        </div>
+        
+        <div class="node external telegram highlight">
+            <div class="node-icon">💬</div>
+            <div class="node-title">Telegram</div>
+            <div class="node-status">Voice Message</div>
+        </div>
+        
+        <div class="node core openclaw highlight">
+            <div class="node-icon">🦞</div>
+            <div class="node-title">OpenClaw</div>
+            <div class="node-status">Process & Reply</div>
+        </div>
+        
+        <div class="node storage storage-local highlight">
+            <div class="node-icon">💾</div>
+            <div class="node-title">Storage</div>
+            <div class="node-status">.ogg file saved</div>
+        </div>
+        
+        <div class="node automation voice highlight">
+            <div class="node-icon">🎙️</div>
+            <div class="node-title">Voice Pipeline</div>
+            <div class="node-status">ffmpeg + Whisper</div>
+        </div>
+        
+        <div class="node automation whisper highlight">
+            <div class="node-icon">🧠</div>
+            <div class="node-title">Whisper AI</div>
+            <div class="node-status">Speech-to-Text</div>
+        </div>
+        
+        <!-- SEQUENCE PANEL -->
+        <div class="sequence-panel">
+            <h3>📋 Voice Transcription Sequence</h3>
+            <div class="sequence-step">
+                <div class="step-num">1</div>
+                <div class="step-desc"><strong>Record:</strong> You record voice message in Telegram</div>
+            </div>
+            <div class="sequence-step">
+                <div class="step-num">2</div>
+                <div class="step-desc"><strong>Receive:</strong> OpenClaw receives OGG audio file</div>
+            </div>
+            <div class="sequence-step">
+                <div class="step-num">3</div>
+                <div class="step-desc"><strong>Save:</strong> Store audio file locally</div>
+            </div>
+            <div class="sequence-step">
+                <div class="step-num">4</div>
+                <div class="step-desc"><strong>Convert:</strong> ffmpeg converts OGG → WAV format</div>
+            </div>
+            <div class="sequence-step">
+                <div class="step-num">5</div>
+                <div class="step-desc"><strong>Transcribe:</strong> Whisper AI processes audio to text</div>
+            </div>
+            <div class="sequence-step">
+                <div class="step-num">6</div>
+                <div class="step-desc"><strong>Inject:</strong> Transcription added to conversation context</div>
+            </div>
+            <div class="sequence-step">
+                <div class="step-num">7</div>
+                <div class="step-desc"><strong>Respond:</strong> OpenClaw generates reply to transcribed content</div>
+            </div>
+            <div class="sequence-step">
+                <div class="step-num">8</div>
+                <div class="step-desc"><strong>Deliver:</strong> You receive text response</div>
+            </div>
+        </div>
+        
+        <!-- TECH BOX -->
+        <div class="tech-box">
+            <h4>⚙️ Tech Stack</h4>
+            <div class="tech-item status-issue">
+                <strong>ffmpeg</strong><br>
+                Audio format conversion<br>
+                <span style="color: #ef4444;">❌ Missing - needs install</span>
+            </div>
+            <div class="tech-item status-ok">
+                <strong>Whisper AI</strong><br>
+                OpenAI speech-to-text<br>
+                <span style="color: #22c55e;">✅ Installed & ready</span>
+            </div>
+            <div class="tech-item status-ok">
+                <strong>Python</strong><br>
+                Processing pipeline<br>
+                <span style="color: #22c55e;">✅ Available</span>
+            </div>
+            <div style="margin-top: 15px; padding-top: 10px; border-top: 1px solid #333;">
+                <p style="font-size: 11px; color: #888;">Fix: <code>sudo apt install ffmpeg</code></p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

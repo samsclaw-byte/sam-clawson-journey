@@ -1,0 +1,28 @@
+#!/bin/bash
+# Nutrition API Information
+# Nutritionix and alternatives
+
+echo "=== NUTRITION API OPTIONS ==="
+echo ""
+echo "1. NUTRITIONIX (Recommended)"
+echo "   Free Tier: 200 requests/day"
+echo "   Paid: $99/month for 10,000 requests"
+echo "   Pros: Most comprehensive database, natural language input"
+echo "   Cons: Limited free tier"
+echo ""
+echo "2. EDAMAM NUTRITION ANALYSIS"
+echo "   Free Tier: 2,000 requests/month"
+echo "   Paid: $79/month for 50,000 requests"
+echo "   Pros: More generous free tier, detailed micronutrients"
+echo "   Cons: Slightly smaller database"
+echo ""
+echo "3. USDA FOODDATA CENTRAL"
+echo "   Free: Unlimited (government API)"
+echo "   Pros: Completely free, very accurate"
+echo "   Cons: Slower, requires more structured input"
+echo ""
+echo "=== RECOMMENDATION ==="
+echo "Start with Edamam (2,000 free requests/month)"
+echo "That's ~66 requests per day - plenty for food tracking"
+echo ""
+echo "Cost after free tier: $79/month (only if you exceed 2k requests)"

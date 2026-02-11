@@ -1,0 +1,41 @@
+# OpenClaw Cron Jobs - COMPLETE VERSION (no security research)
+PATH=/home/samsclaw/.npm-global/bin:/usr/local/bin:/usr/bin:/bin
+SHELL=/bin/bash
+HOME=/home/samsclaw
+
+# Morning Briefing - 6:00 AM daily
+0 6 * * * curl -s -X POST "http://127.0.0.1:18789/api/v1/sessions/spawn" -H "Content-Type: application/json" -d '{"agentId":"main","task":"Morning briefing: Check overnight tasks, habits, token usage. Send summary to Sam.","model":"moonshot/kimi-k2.5","thinking":"medium","timeoutSeconds":300}' >> /tmp/cron-morning.log 2>&1
+
+# Midday Check - 12:00 PM daily
+0 12 * * * curl -s -X POST "http://127.0.0.1:18789/api/v1/sessions/spawn" -H "Content-Type: application/json" -d '{"agentId":"main","task":"Midday check: Check Notion Habit Tracker and TAT tasks. Report status to Sam.","model":"moonshot/kimi-k1","thinking":"minimal","timeoutSeconds":60}' >> /tmp/cron-midday.log 2>&1
+
+# Afternoon Check - 3:00 PM daily
+0 15 * * * curl -s -X POST "http://127.0.0.1:18789/api/v1/sessions/spawn" -H "Content-Type: application/json" -d '{"agentId":"main","task":"Afternoon check: Check Notion Habit Tracker and TAT tasks for high priority items. Report status to Sam.","model":"moonshot/kimi-k1","thinking":"minimal","timeoutSeconds":60}' >> /tmp/cron-afternoon.log 2>&1
+
+# Evening Check - 8:00 PM daily
+0 20 * * * curl -s -X POST "http://127.0.0.1:18789/api/v1/sessions/spawn" -H "Content-Type: application/json" -d '{"agentId":"main","task":"Evening check: Review Notion Habit Tracker and TAT tasks. Send status to Sam.","model":"moonshot/kimi-k1","thinking":"minimal","timeoutSeconds":60}' >> /tmp/cron-evening.log 2>&1
+
+# Daily Summary - 12:00 AM (midnight)
+0 0 * * * cd /home/samsclaw/.openclaw/workspace/research && /home/samsclaw/.openclaw/workspace/scripts/generate-daily-summary.sh >> /tmp/cron-summary.log 2>&1
+
+# Blog Update - 5:30 AM
+30 5 * * * curl -s -X POST "http://127.0.0.1:18789/api/v1/sessions/spawn" -H "Content-Type: application/json" -d '{"agentId":"main","task":"Blog update: Check blog folder for updates, review current posts, add new daily entry if needed, report git status to Sam.","model":"moonshot/kimi-k1","thinking":"minimal","timeoutSeconds":300}' >> /tmp/cron-blog.log 2>&1
+
+# Voice Transcription - Every 5 minutes
+*/5 * * * * /home/samsclaw/.openclaw/workspace/scripts/cron-voice-processor.sh >> /tmp/cron-voice.log 2>&1
+
+# Overnight Build Tasks
+0 23 * * * curl -s -X POST "http://127.0.0.1:18789/api/v1/sessions/spawn" -H "Content-Type: application/json" -d '{"agentId":"main","task":"11pm Build Task: Check Notion Overnight Build Tasks, find first pending task, execute, update status.","model":"moonshot/kimi-k2.5","thinking":"medium","timeoutSeconds":600}' >> /tmp/cron-build.log 2>&1
+
+0 1 * * * curl -s -X POST "http://127.0.0.1:18789/api/v1/sessions/spawn" -H "Content-Type: application/json" -d '{"agentId":"main","task":"1am Build Task: Check Notion Overnight Build Tasks, find next pending task, execute.","model":"moonshot/kimi-k2.5","thinking":"medium","timeoutSeconds":600}' >> /tmp/cron-build.log 2>&1
+
+0 3 * * * curl -s -X POST "http://127.0.0.1:18789/api/v1/sessions/spawn" -H "Content-Type: application/json" -d '{"agentId":"main","task":"3am Build Task: Check Notion Overnight Build Tasks, find next pending task, execute.","model":"moonshot/kimi-k2.5","thinking":"medium","timeoutSeconds":600}' >> /tmp/cron-build.log 2>&1
+
+0 5 * * * curl -s -X POST "http://127.0.0.1:18789/api/v1/sessions/spawn" -H "Content-Type: application/json" -d '{"agentId":"main","task":"5am Build Task: Check Notion Overnight Build Tasks, find any remaining pending task, execute.","model":"moonshot/kimi-k2.5","thinking":"medium","timeoutSeconds":600}' >> /tmp/cron-build.log 2>&1
+
+# Overnight Research Tasks
+0 0 * * * curl -s -X POST "http://127.0.0.1:18789/api/v1/sessions/spawn" -H "Content-Type: application/json" -d '{"agentId":"main","task":"12am Research Task: Check Notion Overnight Research Tasks, find first pending task, research, save as separate file, update status.","model":"moonshot/kimi-k2.5","thinking":"medium","timeoutSeconds":900}' >> /tmp/cron-research.log 2>&1
+
+0 2 * * * curl -s -X POST "http://127.0.0.1:18789/api/v1/sessions/spawn" -H "Content-Type: application/json" -d '{"agentId":"main","task":"2am Research Task: Check Notion Overnight Research Tasks, find next pending task, research, save as separate file.","model":"moonshot/kimi-k2.5","thinking":"medium","timeoutSeconds":900}' >> /tmp/cron-research.log 2>&1
+
+0 4 * * * curl -s -X POST "http://127.0.0.1:18789/api/v1/sessions/spawn" -H "Content-Type: application/json" -d '{"agentId":"main","task":"4am Research Task: Check Notion Overnight Research Tasks, find next pending task, research, save as separate file.","model":"moonshot/kimi-k2.5","thinking":"medium","timeoutSeconds":900}' >> /tmp/cron-research.log 2>&1

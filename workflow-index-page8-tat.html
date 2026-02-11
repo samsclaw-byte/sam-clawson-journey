@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>TAT Task System Workflow | OpenClaw Documentation</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #0a0a0f;
+            color: #fff;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #333;
+        }
+        
+        h1 {
+            font-size: 24px;
+            background: linear-gradient(90deg, #f59e0b, #f97316);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .nav-links a {
+            color: #667eea;
+            text-decoration: none;
+            margin-left: 20px;
+            font-size: 14px;
+        }
+        
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+        
+        .workflow-info {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid #f59e0b;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .workflow-title {
+            font-size: 20px;
+            color: #f59e0b;
+            margin-bottom: 10px;
+        }
+        
+        .workflow-meta {
+            display: flex;
+            gap: 20px;
+            font-size: 13px;
+            color: #aaa;
+        }
+        
+        .system-map {
+            position: relative;
+            width: 1400px;
+            height: 900px;
+            margin: 0 auto;
+            background: radial-gradient(circle at center, #1a1a2e 0%, #0a0a0f 100%);
+            border-radius: 20px;
+            border: 1px solid #333;
+        }
+        
+        .connections {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .connection-line {
+            stroke: #333;
+            stroke-width: 1;
+            fill: none;
+        }
+        
+        .connection-line.active {
+            stroke: #f59e0b;
+            stroke-width: 3;
+            stroke-dasharray: 5,5;
+            animation: dash 15s linear infinite;
+        }
+        
+        @keyframes dash {
+            to { stroke-dashoffset: -100; }
+        }
+        
+        .sequence-number {
+            fill: #f59e0b;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .sequence-circle {
+            fill: #f59e0b;
+            stroke: #000;
+            stroke-width: 2;
+        }
+        
+        .node {
+            position: absolute;
+            width: 140px;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 12px;
+            z-index: 10;
+            opacity: 0.3;
+        }
+        
+        .node.highlight {
+            opacity: 1;
+            box-shadow: 0 0 30px rgba(245, 158, 11, 0.5);
+        }
+        
+        .node-icon {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+        
+        .node-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .node-status {
+            font-size: 10px;
+            opacity: 0.8;
+        }
+        
+        .node.user { 
+            background: linear-gradient(135deg, #9a3412, #7c2d12);
+            border: 2px solid #f97316;
+        }
+        
+        .node.external { 
+            background: linear-gradient(135deg, #1e3a5f, #0d2137);
+            border: 2px solid #3b82f6;
+        }
+        
+        .node.core { 
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: 2px solid #8b5cf6;
+        }
+        
+        .node.storage { 
+            background: linear-gradient(135deg, #065f46, #064e3b);
+            border: 2px solid #10b981;
+        }
+        
+        .node.automation { 
+            background: linear-gradient(135deg, #854d0e, #713f12);
+            border: 2px solid #f59e0b;
+        }
+        
+        /* Positions */
+        .node.you { top: 50px; left: 650px; }
+        .node.telegram { top: 180px; left: 650px; }
+        .node.openclaw { top: 320px; left: 650px; }
+        .node.notion { top: 180px; left: 250px; }
+        .node.tat { top: 680px; left: 350px; }
+        
+        /* Sequence Panel */
+        .sequence-panel {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(0,0,0,0.9);
+            border: 1px solid #f59e0b;
+            border-radius: 12px;
+            padding: 20px;
+            width: 400px;
+            z-index: 20;
+        }
+        
+        .sequence-panel h3 {
+            color: #f59e0b;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+        
+        .sequence-step {
+            display: flex;
+            align-items: flex-start;
+            margin: 10px 0;
+            font-size: 12px;
+        }
+        
+        .step-num {
+            background: #f59e0b;
+            color: #000;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 11px;
+            margin-right: 10px;
+            flex-shrink: 0;
+        }
+        
+        .step-desc {
+            color: #ccc;
+            line-height: 1.4;
+        }
+        
+        .categories-box {
+            position: absolute;
+            top: 50px;
+            right: 20px;
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid #f59e0b;
+            border-radius: 12px;
+            padding: 20px;
+            width: 280px;
+            z-index: 20;
+        }
+        
+        .categories-box h4 {
+            color: #f59e0b;
+            margin-bottom: 10px;
+        }
+        
+        .category-item {
+            font-size: 12px;
+            margin: 8px 0;
+            padding: 8px;
+            border-radius: 6px;
+            background: rgba(255,255,255,0.05);
+        }
+        
+        .priority-high { border-left: 3px solid #ef4444; }
+        .priority-medium { border-left: 3px solid #f59e0b; }
+        .priority-low { border-left: 3px solid #22c55e; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>⚡ Page 8: TAT Task System Workflow</h1>
+        <div class="nav-links">
+            <a href="workflow-index.html">← Index</a>
+            <a href="workflow-index-page7-water.html">Water</a>
+            <a href="workflow-index-page9-voice.html">Next: Voice →</a>
+        </div>
+    </div>
+    
+    <div class="workflow-info">
+        <div class="workflow-title">Time-Action-Task Management System</div>
+        <div class="workflow-meta">
+            <span>⏰ Urgency: 1/3/7/30 day categories</span>
+            <span>🎤 Input: "Add TAT: Fix bug, 1 day, high priority"</span>
+            <span>📝 Output: Notion TAT Database</span>
+            <span>⚡ Tracking: Status, priority, energy, category</span>
+        </div>
+    </div>
+    
+    <div class="system-map">
+        <svg class="connections" viewBox="0 0 1400 900">
+            <!-- Background faint connections -->
+            <line class="connection-line" x1="720" y1="250" x2="720" y2="320"/>
+            <line class="connection-line" x1="650" y1="380" x2="240" y2="360"/>
+            
+            <!-- TAT TASK CREATION WORKFLOW -->
+            <!-- 1. User creates task -->
+            <line class="connection-line active" x1="720" y1="120" x2="720" y2="180"/>
+            <circle class="sequence-circle" cx="720" cy="150" r="12"/>
+            <text class="sequence-number" x="716" y="155">1</text>
+            
+            <!-- 2. Send to OpenClaw -->
+            <line class="connection-line active" x1="720" y1="250" x2="720" y2="320"/>
+            <circle class="sequence-circle" cx="720" cy="285" r="12"/>
+            <text class="sequence-number" x="716" y="290">2</text>
+            
+            <!-- 3. Parse task details -->
+            <line class="connection-line active" x1="720" y1="420" x2="420" y2="680"/>
+            <circle class="sequence-circle" cx="570" cy="550" r="12"/>
+            <text class="sequence-number" x="566" y="555">3</text>
+            
+            <!-- 4. Extract urgency -->
+            <line class="connection-line active" x1="420" y1="680" x2="420" y2="680"/>
+            <circle class="sequence-circle" cx="420" cy="680" r="12"/>
+            <text class="sequence-number" x="416" y="685">4</text>
+            
+            <!-- 5. Create in Notion -->
+            <line class="connection-line active" x1="650" y1="360" x2="390" y2="230"/>
+            <circle class="sequence-circle" cx="520" cy="295" r="12"/>
+            <text class="sequence-number" x="516" y="300">5</text>
+            
+            <!-- 6. Confirm creation -->
+            <line class="connection-line active" x1="720" y1="250" x2="720" y2="180"/>
+            <circle class="sequence-circle" cx="720" cy="215" r="12"/>
+            <text class="sequence-number" x="716" y="220">6</text>
+            
+            <!-- 7. Deliver confirmation -->
+            <line class="connection-line active" x1="720" y1="180" x2="720" y2="120"/>
+            <circle class="sequence-circle" cx="720" cy="150" r="12"/>
+        </svg>
+        
+        <!-- NODES -->
+        <div class="node user you highlight">
+            <div class="node-icon">👤</div>
+            <div class="node-title">You</div>
+            <div class="node-status">Create Task</div>
+        </div>
+        
+        <div class="node external telegram highlight">
+            <div class="node-icon">💬</div>
+            <div class="node-title">Telegram</div>
+            <div class="node-status">Task Request</div>
+        </div>
+        
+        <div class="node core openclaw highlight">
+            <div class="node-icon">🦞</div>
+            <div class="node-title">OpenClaw</div>
+            <div class="node-status">Parse & Create</div>
+        </div>
+        
+        <div class="node automation tat highlight">
+            <div class="node-icon">⚡</div>
+            <div class="node-title">TAT System</div>
+            <div class="node-status">Categorize</div>
+        </div>
+        
+        <div class="node storage notion highlight">
+            <div class="node-icon">📝</div>
+            <div class="node-title">Notion</div>
+            <div class="node-status">TAT Database</div>
+        </div>
+        
+        <!-- SEQUENCE PANEL -->
+        <div class="sequence-panel">
+            <h3>📋 TAT Task Creation Sequence</h3>
+            <div class="sequence-step">
+                <div class="step-num">1</div>
+                <div class="step-desc"><strong>Request:</strong> You say "Add TAT task" with details</div>
+            </div>
+            <div class="sequence-step">
+                <div class="step-num">2</div>
+                <div class="step-desc"><strong>Receive:</strong> OpenClaw receives task request</div>
+            </div>
+            <div class="sequence-step">
+                <div class="step-num">3</div>
+                <div class="step-desc"><strong>Parse:</strong> Extract task name, description, notes</div>
+            </div>
+            <div class="sequence-step">
+                <div class="step-num">4</div>
+                <div class="step-desc"><strong>Categorize:</strong> Determine urgency (1/3/7/30 days), priority, energy</div>
+            </div>
+            <div class="sequence-step">
+                <div class="step-num">5</div>
+                <div class="step-desc"><strong>Create:</strong> Add task to Notion TAT database via API</div>
+            </div>
+            <div class="sequence-step">
+                <div class="step-num">6</div>
+                <div class="step-desc"><strong>Confirm:</strong> Format task confirmation</div>
+            </div>
+            <div class="sequence-step">
+                <div class="step-num">7</div>
+                <div class="step-desc"><strong>Deliver:</strong> You receive task created confirmation</div>
+            </div>
+        </div>
+        
+        <!-- CATEGORIES BOX -->
+        <div class="categories-box">
+            <h4>⏰ TAT Categories</h4>
+            <div class="category-item priority-high">
+                <strong>🔥 1 Day</strong><br>
+                Urgent - Must do today
+            </div>
+            <div class="category-item priority-high">
+                <strong>⚡ 3 Days</strong><br>
+                High priority - This week
+            </div>
+            <div class="category-item priority-medium">
+                <strong>📅 7 Days</strong><br>
+                Medium - Within week
+            </div>
+            <div class="category-item priority-low">
+                <strong>📆 30 Days</strong><br>
+                Low - This month
+            </div>
+            <div style="margin-top: 15px; padding-top: 10px; border-top: 1px solid #333;">
+                <p style="font-size: 11px; color: #888;">Also tracks: Status, Priority, Energy Required, Category</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

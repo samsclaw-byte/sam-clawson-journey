@@ -1,0 +1,160 @@
+# OpenClaw External Cron Jobs
+# Add these to your crontab with: crontab -e
+# This bypasses the OpenClaw scheduler bug (issue #10353)
+
+# Environment variables needed
+SHELL=/bin/bash
+PATH=/home/samsclaw/.npm-global/bin:/usr/local/bin:/usr/bin:/bin
+HOME=/home/samsclaw
+
+# Morning Briefing - 6:00 AM
+0 6 * * * export OPENCLAW_GATEWAY_URL="ws://127.0.0.1:18789" && curl -s -X POST "http://127.0.0.1:18789/api/v1/sessions/spawn" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "agentId": "main",
+    "task": "🌅 Good morning Sam! Your 6am briefing:\n\n📊 **Token Usage (Last 24h):**\nRun: /home/samsclaw/.openclaw/workspace/scripts/token_estimate.sh\n\n📊 **Overnight Status:**\n- Check Notion Build Tasks - see what was completed\n- Check Notion Research Tasks - see findings\n- Review TAT task system status\n\n🎯 **Today'"'"'s Focus:**\n- Top 3 priorities from your TAT system\n- Any urgent tasks from overnight\n\n💪 **Health Check:**\n- Fruit: [ ] 2+ servings\n- Multivitamin: [ ] Taken\n- Exercise: [ ] 30+ min\n- Water: [ ] 8+ glasses\n\n🏆 **Yesterday'"'"'s Wins:**\n- Completed tasks celebration\n\nReady to dominate the day? 🦞✨",
+    "model": "moonshot/kimi-k2.5",
+    "thinking": "medium",
+    "timeoutSeconds": 300,
+    "channel": "telegram",
+    "target": "Sams Claw"
+  }' >> /tmp/openclaw-morning.log 2>&1
+
+# Midday Check - 12:00 PM
+0 12 * * * export OPENCLAW_GATEWAY_URL="ws://127.0.0.1:18789" && curl -s -X POST "http://127.0.0.1:18789/api/v1/sessions/spawn" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "agentId": "main",
+    "task": "🌞 Midday check: Check Notion Habit Tracker and TAT tasks. Report status to Sam via Telegram.",
+    "model": "moonshot/kimi-k1",
+    "thinking": "minimal",
+    "timeoutSeconds": 60,
+    "channel": "telegram",
+    "target": "Sams Claw"
+  }' >> /tmp/openclaw-midday.log 2>&1
+
+# Afternoon Check - 3:00 PM
+0 15 * * * export OPENCLAW_GATEWAY_URL="ws://127.0.0.1:18789" && curl -s -X POST "http://127.0.0.1:18789/api/v1/sessions/spawn" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "agentId": "main",
+    "task": "🌤️ 3pm check: Check Notion Habit Tracker and TAT tasks for high priority items. Report status to Sam via Telegram.",
+    "model": "moonshot/kimi-k1",
+    "thinking": "minimal",
+    "timeoutSeconds": 60,
+    "channel": "telegram",
+    "target": "Sams Claw"
+  }' >> /tmp/openclaw-afternoon.log 2>&1
+
+# Evening Check - 8:00 PM
+0 20 * * * export OPENCLAW_GATEWAY_URL="ws://127.0.0.1:18789" && curl -s -X POST "http://127.0.0.1:18789/api/v1/sessions/spawn" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "agentId": "main",
+    "task": "🌅 Evening check: Review Notion Habit Tracker and TAT tasks. Send status summary to Sam via Telegram. Remind about incomplete habits if needed.",
+    "model": "moonshot/kimi-k1",
+    "thinking": "minimal",
+    "timeoutSeconds": 60,
+    "channel": "telegram",
+    "target": "Sams Claw"
+  }' >> /tmp/openclaw-evening.log 2>&1
+
+# Voice Transcription Check - Every 5 minutes
+*/5 * * * * /home/samsclaw/.openclaw/workspace/scripts/cron-voice-processor.sh >> /tmp/openclaw-voice.log 2>&1
+
+# Midnight Daily Summary - 12:00 AM
+0 0 * * * export OPENCLAW_GATEWAY_URL="ws://127.0.0.1:18789" && cd /home/samsclaw/.openclaw/workspace/research && /home/samsclaw/.openclaw/workspace/scripts/generate-daily-summary.sh >> /tmp/openclaw-summary.log 2>&1
+
+# Overnight Build Tasks - 11pm, 1am, 3am, 5am
+0 23 * * * export OPENCLAW_GATEWAY_URL="ws://127.0.0.1:18789" && curl -s -X POST "http://127.0.0.1:18789/api/v1/sessions/spawn" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "agentId": "main",
+    "task": "🔨 11pm - Executing Build Task #1. Check Notion Overnight Build Tasks database, find first pending task, execute, update status.",
+    "model": "moonshot/kimi-k2.5",
+    "thinking": "medium",
+    "timeoutSeconds": 600
+  }' >> /tmp/openclaw-build.log 2>&1
+
+0 1 * * * export OPENCLAW_GATEWAY_URL="ws://127.0.0.1:18789" && curl -s -X POST "http://127.0.0.1:18789/api/v1/sessions/spawn" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "agentId": "main",
+    "task": "🔨 1am - Executing Build Task #2. Check Notion Overnight Build Tasks database, find next pending task, execute.",
+    "model": "moonshot/kimi-k2.5",
+    "thinking": "medium",
+    "timeoutSeconds": 600
+  }' >> /tmp/openclaw-build.log 2>&1
+
+0 3 * * * export OPENCLAW_GATEWAY_URL="ws://127.0.0.1:18789" && curl -s -X POST "http://127.0.0.1:18789/api/v1/sessions/spawn" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "agentId": "main",
+    "task": "🔨 3am - Executing Build Task #3. Check Notion Overnight Build Tasks database, find next pending task, execute.",
+    "model": "moonshot/kimi-k2.5",
+    "thinking": "medium",
+    "timeoutSeconds": 600
+  }' >> /tmp/openclaw-build.log 2>&1
+
+0 5 * * * export OPENCLAW_GATEWAY_URL="ws://127.0.0.1:18789" && curl -s -X POST "http://127.0.0.1:18789/api/v1/sessions/spawn" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "agentId": "main",
+    "task": "🔨 5am - Executing Final Build Task. Check Notion Overnight Build Tasks database, find any remaining pending task, execute.",
+    "model": "moonshot/kimi-k2.5",
+    "thinking": "medium",
+    "timeoutSeconds": 600
+  }' >> /tmp/openclaw-build.log 2>&1
+
+# Overnight Research Tasks - 12am, 2am, 4am
+0 0 * * * export OPENCLAW_GATEWAY_URL="ws://127.0.0.1:18789" && curl -s -X POST "http://127.0.0.1:18789/api/v1/sessions/spawn" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "agentId": "main",
+    "task": "🔍 12am - Executing Research Task #1. Check Notion Overnight Research Tasks database, find first pending task, research, save as separate file, update status.",
+    "model": "moonshot/kimi-k2.5",
+    "thinking": "medium",
+    "timeoutSeconds": 900
+  }' >> /tmp/openclaw-research.log 2>&1
+
+0 2 * * * export OPENCLAW_GATEWAY_URL="ws://127.0.0.1:18789" && curl -s -X POST "http://127.0.0.1:18789/api/v1/sessions/spawn" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "agentId": "main",
+    "task": "🔍 2am - Executing Research Task #2. Check Notion Overnight Research Tasks database, find next pending task, research, save as separate file.",
+    "model": "moonshot/kimi-k2.5",
+    "thinking": "medium",
+    "timeoutSeconds": 900
+  }' >> /tmp/openclaw-research.log 2>&1
+
+0 4 * * * export OPENCLAW_GATEWAY_URL="ws://127.0.0.1:18789" && curl -s -X POST "http://127.0.0.1:18789/api/v1/sessions/spawn" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "agentId": "main",
+    "task": "🔍 4am - Executing Research Task #3. Check Notion Overnight Research Tasks database, find next pending task, research, save as separate file.",
+    "model": "moonshot/kimi-k2.5",
+    "thinking": "medium",
+    "timeoutSeconds": 900
+  }' >> /tmp/openclaw-research.log 2>&1
+
+# Blog Update - 5:30 AM
+30 5 * * * export OPENCLAW_GATEWAY_URL="ws://127.0.0.1:18789" && curl -s -X POST "http://127.0.0.1:18789/api/v1/sessions/spawn" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "agentId": "main",
+    "task": "📝 5:30am Blog Update Task. Check blog folder for updates, review current posts, add new daily entry if needed, report git status to Sam via Telegram.",
+    "model": "moonshot/kimi-k1",
+    "thinking": "minimal",
+    "timeoutSeconds": 300
+  }' >> /tmp/openclaw-blog.log 2>&1
+
+# Nightly Security Research - 2:00 AM
+0 2 * * * export OPENCLAW_GATEWAY_URL="ws://127.0.0.1:18789" && curl -s -X POST "http://127.0.0.1:18789/api/v1/sessions/spawn" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "agentId": "main",
+    "task": "🔒 2am Security & Dev Research Task. Check OpenClaw security news, GitHub releases, Discord announcements, compile findings into security brief, save to research folder.",
+    "model": "moonshot/kimi-k1",
+    "thinking": "minimal",
+    "timeoutSeconds": 600
+  }' >> /tmp/openclaw-security.log 2>&1
