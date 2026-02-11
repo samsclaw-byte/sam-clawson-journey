@@ -1,0 +1,13 @@
+Sam's Habit Tracker ✅
+ID: 304f2cb1-2276-81bb-b69f-c28f02d35fa5
+URL: https://www.notion.so/304f2cb1227681bbb69fc28f02d35fa5
+
+Properties:
+  - Date
+  - Creatine (checkbox)
+  - Multivitamin (checkbox)
+  - Exercise (checkbox)
+  - Exercise Type (text)
+  - Fruit (2 portions) (checkbox)
+  - Water (8 glasses) (checkbox)
+  - Notes (text)
