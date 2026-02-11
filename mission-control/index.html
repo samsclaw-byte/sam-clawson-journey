@@ -5,658 +5,99 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sam's Mission Control</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 100%);
-            color: #fff;
-            min-height: 100vh;
-            line-height: 1.6;
-        }
-        
-        .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 20px;
-            text-align: center;
-            border-bottom: 1px solid #333;
-        }
-        
-        .header h1 {
-            font-size: 24px;
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-        
-        .header .subtitle {
-            font-size: 14px;
-            opacity: 0.9;
-        }
-        
-        .nav-tabs {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            padding: 15px;
-            background: #0a0a0f;
-            border-bottom: 1px solid #333;
-        }
-        
-        .nav-tab {
-            padding: 10px 20px;
-            background: #1a1a2e;
-            border: 1px solid #333;
-            border-radius: 8px;
-            color: #aaa;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-size: 14px;
-            font-weight: 500;
-        }
-        
-        .nav-tab:hover {
-            background: #2a2a3e;
-            color: #fff;
-        }
-        
-        .nav-tab.active {
-            background: #667eea;
-            color: #fff;
-            border-color: #667eea;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        
-        .urgent-banner {
-            background: linear-gradient(135deg, #ef444420, #1a1a2e);
-            border: 1px solid #ef4444;
-            border-radius: 12px;
-            padding: 15px 20px;
-            margin-bottom: 20px;
-        }
-        
-        .urgent-banner h2 {
-            color: #ef4444;
-            font-size: 14px;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-        }
-        
-        .urgent-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 8px 0;
-            border-bottom: 1px solid #333;
-        }
-        
-        .urgent-item:last-child {
-            border-bottom: none;
-        }
-        
-        .urgent-dot {
-            width: 8px;
-            height: 8px;
-            background: #ef4444;
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-        
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-        }
-        
-        .card {
-            background: #1a1a2e;
-            border: 1px solid #333;
-            border-radius: 12px;
-            padding: 20px;
-            transition: transform 0.2s, box-shadow 0.2s;
-            cursor: pointer;
-        }
-        
-        .card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.1);
-            border-color: #667eea;
-        }
-        
-        .card-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 15px;
-        }
-        
-        .card-title {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 16px;
-            font-weight: 600;
-        }
-        
-        .card-icon {
-            font-size: 24px;
-        }
-        
-        .card-badge {
-            background: #ef4444;
-            color: #fff;
-            padding: 2px 8px;
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-        
-        .card-badge.green { background: #22c55e; }
-        .card-badge.yellow { background: #f59e0b; }
-        .card-badge.blue { background: #3b82f6; }
-        
-        .card-content {
-            color: #aaa;
-            font-size: 14px;
-        }
-        
-        .task-list {
-            list-style: none;
-        }
-        
-        .task-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 8px 0;
-            border-bottom: 1px solid #2a2a3e;
-        }
-        
-        .task-item:last-child {
-            border-bottom: none;
-        }
-        
-        .task-checkbox {
-            width: 18px;
-            height: 18px;
-            border: 2px solid #667eea;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        
-        .task-text {
-            flex: 1;
-        }
-        
-        .task-tag {
-            font-size: 10px;
-            padding: 2px 6px;
-            border-radius: 4px;
-            background: #333;
-        }
-        
-        .task-tag.urgent { background: #ef444420; color: #ef4444; }
-        .task-tag.steve { background: #3b82f620; color: #3b82f6; }
-        .task-tag.rafi { background: #8b5cf620; color: #8b5cf6; }
-        
-        .progress-bar {
-            width: 100%;
-            height: 6px;
-            background: #333;
-            border-radius: 3px;
-            margin-top: 10px;
-            overflow: hidden;
-        }
-        
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #667eea, #764ba2);
-            border-radius: 3px;
-            transition: width 0.3s;
-        }
-        
-        .health-metric {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid #2a2a3e;
-        }
-        
-        .health-metric:last-child {
-            border-bottom: none;
-        }
-        
-        .metric-value {
-            font-size: 24px;
-            font-weight: bold;
-            color: #667eea;
-        }
-        
-        .status-indicator {
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            margin-right: 5px;
-        }
-        
-        .status-good { background: #22c55e; }
-        .status-warn { background: #f59e0b; }
-        .status-bad { background: #ef4444; }
-        
-        .view {
-            display: none;
-        }
-        
-        .view.active {
-            display: block;
-        }
-        
-        .footer {
-            text-align: center;
-            padding: 20px;
-            color: #666;
-            font-size: 12px;
-        }
-        
-        @media (max-width: 768px) {
-            .grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .header h1 {
-                font-size: 20px;
-            }
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: linear-gradient(135deg, #0a0a0f, #1a1a2e); color: #fff; min-height: 100vh; }
+        .header { background: linear-gradient(135deg, #667eea, #764ba2); padding: 20px; text-align: center; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .nav { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+        .nav a { padding: 10px 20px; background: #1a1a2e; border: 1px solid #333; border-radius: 8px; color: #aaa; text-decoration: none; }
+        .nav a.active { background: #667eea; color: #fff; }
+        .section { background: #1a1a2e; border: 1px solid #333; border-radius: 12px; padding: 20px; margin-bottom: 20px; }
+        .section h2 { font-size: 16px; color: #667eea; margin-bottom: 15px; text-transform: uppercase; }
+        .habit-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; }
+        .habit-item { background: #0a0a0f; padding: 15px; border-radius: 8px; text-align: center; }
+        .card { background: #0a0a0f; padding: 20px; border-radius: 10px; text-align: center; }
+        .card-number { font-size: 36px; font-weight: bold; color: #667eea; }
+        .card-label { font-size: 12px; color: #aaa; margin-top: 5px; }
+        .task-item { background: #0a0a0f; padding: 15px; border-radius: 8px; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
+        .tag { font-size: 11px; padding: 2px 8px; border-radius: 4px; }
+        .tag-urgent { background: #ef444420; color: #ef4444; }
+        .tag-work { background: #3b82f620; color: #3b82f6; }
     </style>
 </head>
 <body>
     <div class="header">
         <h1>🎯 Sam's Mission Control</h1>
-        <div class="subtitle">Unified Work & Personal Dashboard</div>
-    </div>
-    
-    <div class="nav-tabs">
-        <button class="nav-tab active" onclick="showView('overview')">📊 Overview</button>
-        <button class="nav-tab" onclick="showView('work')">💼 Work</button>
-        <button class="nav-tab" onclick="showView('personal')">🏠 Personal</button>
+        <div style="font-size: 14px; opacity: 0.9;">Wednesday, February 11</div>
     </div>
     
     <div class="container">
-        <!-- OVERVIEW VIEW -->
-        <div id="overview" class="view active">
-            <div class="urgent-banner">
-                <h2>🔥 Urgent Now</h2>
-                <div class="urgent-item">
-                    <div class="urgent-dot"></div>
-                    <span>Response needed: Steve's email about Q1 planning</span>
-                </div>
-                <div class="urgent-item">
-                    <div class="urgent-dot"></div>
-                    <span>Project deadline: Dashboard API integration</span>
-                </div>
-                <div class="urgent-item">
-                    <div class="urgent-dot"></div>
-                    <span>WHOOP: Recovery 62% - Active recovery recommended</span>
-                </div>
-            </div>
-            
-            <div class="grid">
-                <!-- Work Card -->
-                <div class="card" onclick="showView('work')">
-                    <div class="card-header">
-                        <div class="card-title">
-                            <span class="card-icon">💼</span>
-                            <span>Work</span>
-                        </div>
-                        <span class="card-badge">3</span>
-                    </div>
-                    <div class="card-content">
-                        <ul class="task-list">
-                            <li class="task-item">
-                                <div class="task-checkbox"></div>
-                                <span class="task-text">Steve: Q1 planning response</span>
-                                <span class="task-tag steve">Steve</span>
-                            </li>
-                            <li class="task-item">
-                                <div class="task-checkbox"></div>
-                                <span class="task-text">Rafi: Monthly review prep</span>
-                                <span class="task-tag rafi">Rafi</span>
-                            </li>
-                            <li class="task-item">
-                                <div class="task-checkbox"></div>
-                                <span class="task-text">Project X: API integration</span>
-                                <span class="task-tag urgent">Due Today</span>
-                            </li>
-                        </ul>
-                        <div style="margin-top: 15px; font-size: 12px; color: #667eea;">
-                            Click to see all work tasks →
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Personal Card -->
-                <div class="card" onclick="showView('personal')">
-                    <div class="card-header">
-                        <div class="card-title">
-                            <span class="card-icon">🏠</span>
-                            <span>Personal</span>
-                        </div>
-                        <span class="card-badge yellow">5</span>
-                    </div>
-                    <div class="card-content">
-                        <ul class="task-list">
-                            <li class="task-item">
-                                <div class="task-checkbox"></div>
-                                <span class="task-text">GitHub: Push mission control</span>
-                                <span class="task-tag">Laptop</span>
-                            </li>
-                            <li class="task-item">
-                                <div class="task-checkbox"></div>
-                                <span class="task-text">AI Dev: Update TAT system</span>
-                                <span class="task-tag">AI</span>
-                            </li>
-                            <li class="task-item">
-                                <div class="task-checkbox"></div>
-                                <span class="task-text">Workout: Active recovery</span>
-                                <span class="task-tag">Health</span>
-                            </li>
-                        </ul>
-                        <div style="margin-top: 15px; font-size: 12px; color: #667eea;">
-                            Click to see all personal tasks →
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Project Progress -->
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-title">
-                            <span class="card-icon">📈</span>
-                            <span>Project Progress</span>
-                        </div>
-                    </div>
-                    <div class="card-content">
-                        <div style="margin-bottom: 15px;">
-                            <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
-                                <span>Dashboard API</span>
-                                <span style="color: #667eea;">75%</span>
-                            </div>
-                            <div class="progress-bar">
-                                <div class="progress-fill" style="width: 75%"></div>
-                            </div>
-                        </div>
-                        <div style="margin-bottom: 15px;">
-                            <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
-                                <span>WHOOP Integration</span>
-                                <span style="color: #22c55e;">90%</span>
-                            </div>
-                            <div class="progress-bar">
-                                <div class="progress-fill" style="width: 90%"></div>
-                            </div>
-                        </div>
-                        <div>
-                            <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
-                                <span>Mission Control</span>
-                                <span style="color: #f59e0b;">30%</span>
-                            </div>
-                            <div class="progress-bar">
-                                <div class="progress-fill" style="width: 30%"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Health Summary -->
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-title">
-                            <span class="card-icon">💓</span>
-                            <span>Health Today</span>
-                        </div>
-                        <span class="card-badge yellow">62%</span>
-                    </div>
-                    <div class="card-content">
-                        <div class="health-metric">
-                            <span>Recovery</span>
-                            <span class="metric-value">62%</span>
-                        </div>
-                        <div class="health-metric">
-                            <span>Sleep</span>
-                            <span class="metric-value">7.5h</span>
-                        </div>
-                        <div class="health-metric">
-                            <span>Water</span>
-                            <span class="metric-value">3/8</span>
-                        </div>
-                        <div style="margin-top: 10px; padding: 10px; background: #f59e0b20; border-radius: 8px; font-size: 12px;">
-                            <span class="status-indicator status-warn"></span>
-                            Active recovery recommended
-                        </div>
-                    </div>
-                </div>
+        <div class="nav">
+            <a href="index.html" class="active">📊 Overview</a>
+            <a href="work.html">💼 Work</a>
+            <a href="daily.html">📅 Daily</a>
+            <a href="projects.html">🚀 Projects</a>
+        </div>
+        
+        <div class="section">
+            <h2>✅ Today's Habits</h2>
+            <div class="habit-grid">
+                <div class="habit-item"><div style="font-size: 28px;">✅</div><div>💊 Creatine</div></div>
+                <div class="habit-item"><div style="font-size: 28px;">✅</div><div>💊 Multi</div></div>
+                <div class="habit-item"><div style="font-size: 28px;">⚪</div><div>💪 Exercise</div></div>
+                <div class="habit-item"><div style="font-size: 28px;">✅</div><div>🍎 Fruit</div></div>
+                <div class="habit-item"><div style="font-size: 28px;">⚪</div><div>💧 Water 5/8</div></div>
             </div>
         </div>
         
-        <!-- WORK VIEW -->
-        <div id="work" class="view">
-            <div class="grid">
-                <!-- Steve Section -->
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-title">
-                            <span class="card-icon">👔</span>
-                            <span>Steve (Manager)</span>
-                        </div>
-                        <span class="card-badge">2</span>
-                    </div>
-                    <div class="card-content">
-                        <ul class="task-list">
-                            <li class="task-item">
-                                <div class="task-checkbox"></div>
-                                <span class="task-text">Q1 planning response</span>
-                                <span class="task-tag urgent">URGENT</span>
-                            </li>
-                            <li class="task-item">
-                                <div class="task-checkbox"></div>
-                                <span class="task-text">Budget review meeting</span>
-                                <span class="task-tag">Tomorrow</span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <!-- Rafi Section -->
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-title">
-                            <span class="card-icon">👔</span>
-                            <span>Rafi (Manager)</span>
-                        </div>
-                        <span class="card-badge blue">1</span>
-                    </div>
-                    <div class="card-content">
-                        <ul class="task-list">
-                            <li class="task-item">
-                                <div class="task-checkbox"></div>
-                                <span class="task-text">Monthly review prep</span>
-                                <span class="task-tag">This week</span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <!-- Projects -->
-                <div class="card" style="grid-column: 1 / -1;">
-                    <div class="card-header">
-                        <div class="card-title">
-                            <span class="card-icon">🚀</span>
-                            <span>Active Projects</span>
-                        </div>
-                    </div>
-                    <div class="card-content">
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
-                            <div style="background: #0a0a0f; padding: 15px; border-radius: 8px;">
-                                <div style="font-weight: 600; margin-bottom: 10px;">Dashboard API</div>
-                                <div style="font-size: 12px; color: #aaa; margin-bottom: 10px;">Due: Today</div>
-                                <div class="progress-bar">
-                                    <div class="progress-fill" style="width: 75%"></div>
-                                </div>
-                                <div style="font-size: 12px; margin-top: 5px;">75% complete</div>
-                            </div>
-                            <div style="background: #0a0a0f; padding: 15px; border-radius: 8px;">
-                                <div style="font-weight: 600; margin-bottom: 10px;">WHOOP Integration</div>
-                                <div style="font-size: 12px; color: #aaa; margin-bottom: 10px;">Due: This week</div>
-                                <div class="progress-bar">
-                                    <div class="progress-fill" style="width: 90%"></div>
-                                </div>
-                                <div style="font-size: 12px; margin-top: 5px;">90% complete</div>
-                            </div>
-                            <div style="background: #0a0a0f; padding: 15px; border-radius: 8px;">
-                                <div style="font-weight: 600; margin-bottom: 10px;">Mission Control</div>
-                                <div style="font-size: 12px; color: #aaa; margin-bottom: 10px;">Due: Next week</div>
-                                <div class="progress-bar">
-                                    <div class="progress-fill" style="width: 30%"></div>
-                                </div>
-                                <div style="font-size: 12px; margin-top: 5px;">30% complete</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <div class="section">
+            <h2>🔥 Urgent Tasks</h2>
+            <div class="task-item">
+                <span class="tag tag-work">Work</span>
+                <span>MGC fees for digital card</span>
+            </div>
+            <div class="task-item">
+                <span class="tag tag-work">Work</span>
+                <span>Aylin share card campaign invoicing</span>
+            </div>
+            <div class="task-item">
+                <span class="tag tag-urgent">TAT</span>
+                <span>Complete GitHub Pages setup</span>
             </div>
         </div>
         
-        <!-- PERSONAL VIEW -->
-        <div id="personal" class="view">
-            <div class="grid">
-                <!-- Laptop Tasks -->
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-title">
-                            <span class="card-icon">💻</span>
-                            <span>Laptop Tasks</span>
-                        </div>
-                        <span class="card-badge">3</span>
-                    </div>
-                    <div class="card-content">
-                        <ul class="task-list">
-                            <li class="task-item">
-                                <div class="task-checkbox"></div>
-                                <span class="task-text">Push mission control to GitHub</span>
-                                <span class="task-tag urgent">Today</span>
-                            </li>
-                            <li class="task-item">
-                                <div class="task-checkbox"></div>
-                                <span class="task-text">Update TAT system scripts</span>
-                                <span class="task-tag">This week</span>
-                            </li>
-                            <li class="task-item">
-                                <div class="task-checkbox"></div>
-                                <span class="task-text">Fix dashboard Notion sync</span>
-                                <span class="task-tag">This week</span>
-                            </li>
-                        </ul>
-                    </div>
+        <div class="section">
+            <h2>💼 Work Summary</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px;">
+                <div class="card"><div class="card-number">7</div><div class="card-label">Total Tasks</div></div>
+                <div class="card"><div class="card-number">4</div><div class="card-label">In Progress</div></div>
+                <div class="card"><div class="card-number">2</div><div class="card-label">Done</div></div>
+                <div class="card"><div class="card-number">0</div><div class="card-label">Steve</div></div>
+                <div class="card"><div class="card-number">1</div><div class="card-label">Rafi</div></div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>🚀 Project Progress</h2>
+            <div style="background: #0a0a0f; padding: 15px; border-radius: 8px; margin-bottom: 10px;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                    <span>Card App Business</span>
+                    <span style="color: #667eea;">Planning</span>
                 </div>
-                
-                <!-- AI Development -->
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-title">
-                            <span class="card-icon">🤖</span>
-                            <span>AI Development</span>
-                        </div>
-                        <span class="card-badge yellow">2</span>
-                    </div>
-                    <div class="card-content">
-                        <ul class="task-list">
-                            <li class="task-item">
-                                <div class="task-checkbox"></div>
-                                <span class="task-text">Improve voice transcription</span>
-                                <span class="task-tag">Research</span>
-                            </li>
-                            <li class="task-item">
-                                <div class="task-checkbox"></div>
-                                <span class="task-text">Test new agent workflows</span>
-                                <span class="task-tag">Testing</span>
-                            </li>
-                        </ul>
-                    </div>
+                <div style="width: 100%; height: 8px; background: #333; border-radius: 4px;">
+                    <div style="width: 30%; height: 100%; background: #667eea; border-radius: 4px;"></div>
                 </div>
-                
-                <!-- Health & Fitness -->
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-title">
-                            <span class="card-icon">💪</span>
-                            <span>Health & Fitness</span>
-                        </div>
-                        <span class="card-badge green">On Track</span>
-                    </div>
-                    <div class="card-content">
-                        <div class="health-metric">
-                            <span>Today's Workout</span>
-                            <span style="color: #f59e0b;">Active Recovery</span>
-                        </div>
-                        <div class="health-metric">
-                            <span>Water Intake</span>
-                            <span style="color: #667eea;">3/8 glasses</span>
-                        </div>
-                        <div class="health-metric">
-                            <span>Habits Streak</span>
-                            <span style="color: #22c55e;">🔥 15 days</span>
-                        </div>
-                        <div style="margin-top: 10px; padding: 10px; background: #22c55e20; border-radius: 8px; font-size: 12px;">
-                            <span class="status-indicator status-good"></span>
-                            Multivitamin ✅ | Breakfast ✅
-                        </div>
-                    </div>
+            </div>
+            <div style="background: #0a0a0f; padding: 15px; border-radius: 8px;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                    <span>Mission Control</span>
+                    <span style="color: #22c55e;">Active</span>
+                </div>
+                <div style="width: 100%; height: 8px; background: #333; border-radius: 4px;">
+                    <div style="width: 60%; height: 100%; background: #22c55e; border-radius: 4px;"></div>
                 </div>
             </div>
         </div>
     </div>
-    
-    <div class="footer">
-        Mission Control v1.0 • Auto-updates every 15 minutes • Last updated: Just now
-    </div>
-    
-    <script>
-        function showView(viewId) {
-            // Hide all views
-            document.querySelectorAll('.view').forEach(view => {
-                view.classList.remove('active');
-            });
-            
-            // Remove active class from all tabs
-            document.querySelectorAll('.nav-tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            
-            // Show selected view
-            document.getElementById(viewId).classList.add('active');
-            
-            // Add active class to clicked tab
-            event.target.classList.add('active');
-        }
-        
-        // Auto-refresh every 15 minutes
-        setInterval(() => {
-            location.reload();
-        }, 15 * 60 * 1000);
-    </script>
 </body>
 </html>

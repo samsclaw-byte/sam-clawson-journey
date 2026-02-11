@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects - Mission Control</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: linear-gradient(135deg, #0a0a0f, #1a1a2e); color: #fff; min-height: 100vh; }
+        .header { background: linear-gradient(135deg, #667eea, #764ba2); padding: 20px; text-align: center; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .nav { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+        .nav a { padding: 10px 20px; background: #1a1a2e; border: 1px solid #333; border-radius: 8px; color: #aaa; text-decoration: none; }
+        .nav a.active { background: #667eea; color: #fff; }
+        .section { background: #1a1a2e; border: 1px solid #333; border-radius: 12px; padding: 20px; margin-bottom: 20px; }
+        .section h2 { font-size: 16px; color: #667eea; margin-bottom: 15px; }
+        .project-card { background: #0a0a0f; padding: 20px; border-radius: 10px; margin-bottom: 15px; }
+        .project-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .project-title { font-size: 18px; font-weight: 600; }
+        .project-status { font-size: 11px; padding: 3px 10px; border-radius: 12px; }
+        .status-planning { background: #3b82f620; color: #3b82f6; }
+        .status-active { background: #22c55e20; color: #22c55e; }
+        .progress-bar { width: 100%; height: 8px; background: #333; border-radius: 4px; }
+        .progress-fill { height: 100%; background: #667eea; border-radius: 4px; }
+        .milestone { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid #2a2a3e; }
+        .milestone:last-child { border-bottom: none; }
+        .milestone-check { width: 20px; height: 20px; border: 2px solid #22c55e; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #22c55e; font-size: 12px; }
+        .milestone-pending { width: 20px; height: 20px; border: 2px solid #666; border-radius: 50%; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🚀 Projects</h1>
+    </div>
+    
+    <div class="container">
+        <div class="nav">
+            <a href="index.html">📊 Overview</a>
+            <a href="work.html">💼 Work</a>
+            <a href="daily.html">📅 Daily</a>
+            <a href="projects.html" class="active">🚀 Projects</a>
+        </div>
+        
+        <div class="section">
+            <h2>Business Projects</h2>
+            
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="project-title">💳 Card App (Moonpig for Dubai)</div>
+                    <span class="project-status status-planning">Planning</span>
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                        <span style="color: #aaa; font-size: 12px;">Progress</span>
+                        <span style="color: #667eea; font-size: 12px;">30%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 30%"></div>
+                    </div>
+                </div>
+                <div style="font-size: 13px; color: #aaa;">
+                    Target: 200k British expats in Dubai | AI-generated cards | Delivery network
+                </div>
+            </div>
+            
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="project-title">💼 Work Workflow Control Centre</div>
+                    <span class="project-status status-planning">Planning</span>
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                        <span style="color: #aaa; font-size: 12px;">Progress</span>
+                        <span style="color: #667eea; font-size: 12px;">15%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 15%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>Personal Projects</h2>
+            
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="project-title">🎯 Mission Control Dashboard</div>
+                    <span class="project-status status-active">Active</span>
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                        <span style="color: #aaa; font-size: 12px;">Progress</span>
+                        <span style="color: #22c55e; font-size: 12px;">60%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 60%; background: #22c55e;"></div>
+                    </div>
+                </div>
+                <div style="margin-top: 15px;">
+                    <div class="milestone"><div class="milestone-check">✓</div><span>Basic structure</span></div>
+                    <div class="milestone"><div class="milestone-check">✓</div><span>Work integration</span></div>
+                    <div class="milestone"><div class="milestone-check">✓</div><span>Habit tracking</span></div>
+                    <div class="milestone"><div class="milestone-pending"></div><span>Real-time data sync</span></div>
+                    <div class="milestone"><div class="milestone-pending"></div><span>GitHub Pages deploy</span></div>
+                </div>
+            </div>
+            
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="project-title">💪 Fitness Program</div>
+                    <span class="project-status status-active">Active</span>
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                        <span style="color: #aaa; font-size: 12px;">Progress</span>
+                        <span style="color: #22c55e; font-size: 12px;">75%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 75%; background: #22c55e;"></div>
+                    </div>
+                </div>
+                <div style="font-size: 13px; color: #aaa;">
+                    Week 1 of Foundation Phase | 2 workouts completed | WHOOP integrated
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

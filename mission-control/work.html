@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Work - Mission Control</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: linear-gradient(135deg, #0a0a0f, #1a1a2e); color: #fff; min-height: 100vh; }
+        .header { background: linear-gradient(135deg, #667eea, #764ba2); padding: 20px; text-align: center; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .nav { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+        .nav a { padding: 10px 20px; background: #1a1a2e; border: 1px solid #333; border-radius: 8px; color: #aaa; text-decoration: none; }
+        .nav a.active { background: #667eea; color: #fff; }
+        .section { background: #1a1a2e; border: 1px solid #333; border-radius: 12px; padding: 20px; margin-bottom: 20px; }
+        .section h2 { font-size: 16px; color: #667eea; margin-bottom: 15px; }
+        .task { background: #0a0a0f; padding: 15px; border-radius: 8px; margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+        .status { font-size: 11px; padding: 3px 8px; border-radius: 4px; }
+        .status-done { background: #22c55e20; color: #22c55e; }
+        .status-progress { background: #f59e0b20; color: #f59e0b; }
+        .status-todo { background: #666; color: #aaa; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>💼 Work Tasks</h1>
+    </div>
+    
+    <div class="container">
+        <div class="nav">
+            <a href="index.html">📊 Overview</a>
+            <a href="work.html" class="active">💼 Work</a>
+            <a href="daily.html">📅 Daily</a>
+            <a href="projects.html">🚀 Projects</a>
+        </div>
+        
+        <div class="section">
+            <h2>👔 Steve</h2>
+            <p style="color: #666; padding: 20px;">No active tasks from Steve</p>
+        </div>
+        
+        <div class="section">
+            <h2>👔 Rafi</h2>
+            <div class="task">
+                <span class="status status-done">Done</span>
+                <span>Raffy fully loaded marketing spend</span>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>👤 Other / General</h2>
+            <div class="task">
+                <span class="status status-progress">In Progress</span>
+                <span>MGC fees for digital card</span>
+            </div>
+            <div class="task">
+                <span class="status status-progress">In Progress</span>
+                <span>Aylin share card campaign invoicing</span>
+            </div>
+            <div class="task">
+                <span class="status status-todo">Not Started</span>
+                <span>Complete my success tasks</span>
+            </div>
+            <div class="task">
+                <span class="status status-todo">Not Started</span>
+                <span>Colin no objection certificate</span>
+            </div>
+            <div class="task">
+                <span class="status status-progress">In Progress</span>
+                <span>Ahmed Osman - Umair contract renewal</span>
+            </div>
+            <div class="task">
+                <span class="status status-progress">In Progress</span>
+                <span>Omar studies</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
