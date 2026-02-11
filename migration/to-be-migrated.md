@@ -2,6 +2,14 @@
 
 ## 📦 Category: TO BE MIGRATED
 
+### 0. ✅ WHOOP Cycle Data (NEW)
+- **Source:** WHOOP API via OAuth
+- **Records:** 10 days of strain/recovery data
+- **File:** `migration/data/whoop_cycles.json`
+- **Workout Days Detected:** 6 days (strain > 12)
+- **Fields:** Date, Strain, Kilojoules, Avg HR, Max HR, Workout Day flag
+- **Status:** Exported and ready for Airtable
+
 ### 1. ✅ Food & Nutrition Log
 - **Notion ID:** dc76e804-5b9e-406b-afda-d7a20dd58976
 - **Records:** 14 meals (Feb 8-11)
@@ -49,6 +57,7 @@
 
 | Database | Records | Priority | Notes |
 |----------|---------|----------|-------|
+| WHOOP Cycle Data | 10 | High | Health dashboard |
 | Food Log | 14 | High | Core tracking |
 | Weight Tracker | 3 | High | Core tracking |
 | Work Tasks | 7 | High | Active workflow |
@@ -56,7 +65,18 @@
 | Exercise Tracker v2 | 4 | High | Detailed workouts |
 | Exercise Tracker v1 | 0 | Skip | Broken - replaced |
 
-**Total:** 5 databases, 32 records to migrate
+**Total:** 6 databases, 42 records to migrate
+
+## 🎯 Health Dashboard Data Sources
+
+All data ready for Mission Control Health Dashboard:
+1. **WHOOP** - Strain, HR, calories burned
+2. **Exercise** - Workout details, progression
+3. **Habits** - Daily compliance streaks
+4. **Weight** - Progress to goal
+5. **Food** - Nutrition, macros, net calories
+
+See: `health-dashboard-plan.md` for dashboard widget ideas
 
 ---
 
