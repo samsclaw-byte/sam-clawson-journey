@@ -3,3 +3,6 @@
 **/whoop_tokens.json
 **/.env
 whoop/
+
+# Airtable credentials
+.config/airtable/
