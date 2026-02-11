@@ -1,0 +1,17 @@
+{
+  "source": "WHOOP API via OAuth",
+  "exported_at": "2026-02-11T20:44:00Z",
+  "user_id": 22906864,
+  "records": [
+    {"date": "2026-02-10", "strain": 8.8, "kilojoule": 9022, "avg_hr": 72, "max_hr": 143, "workout_day": false},
+    {"date": "2026-02-09", "strain": 12.9, "kilojoule": 11871, "avg_hr": 73, "max_hr": 153, "workout_day": true},
+    {"date": "2026-02-08", "strain": 14.5, "kilojoule": 12678, "avg_hr": 74, "max_hr": 174, "workout_day": true},
+    {"date": "2026-02-07", "strain": 11.8, "kilojoule": 11002, "avg_hr": 76, "max_hr": 148, "workout_day": false},
+    {"date": "2026-02-06", "strain": 13.7, "kilojoule": 12333, "avg_hr": 77, "max_hr": 173, "workout_day": true},
+    {"date": "2026-02-05", "strain": 17.1, "kilojoule": 12995, "avg_hr": 81, "max_hr": 180, "workout_day": true},
+    {"date": "2026-02-04", "strain": 12.2, "kilojoule": 11962, "avg_hr": 75, "max_hr": 155, "workout_day": true},
+    {"date": "2026-02-03", "strain": 17.8, "kilojoule": 15020, "avg_hr": 77, "max_hr": 188, "workout_day": true},
+    {"date": "2026-02-02", "strain": 6.4, "kilojoule": 8571, "avg_hr": 69, "max_hr": 158, "workout_day": false},
+    {"date": "2026-02-01", "strain": 10.0, "kilojoule": 10085, "avg_hr": 75, "max_hr": 139, "workout_day": false}
+  ]
+}
