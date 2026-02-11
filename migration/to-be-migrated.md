@@ -30,11 +30,18 @@
 - **Status:** Working (API 2022-06-28)
 - **Validation:** ✅ Data complete
 
-### 5. ❌ Exercise Tracker (Detailed)
+### 5. ✅ Exercise Tracker (v2 - Working)
+- **Notion ID:** 304f2cb1-2276-816d-a059-d818dc3cc79f
+- **Records:** 4 workouts (Feb 8-11)
+- **Fields:** Date, Workout Name, Type (Hard/Active Recovery/Rest), Exercises, Sets/Reps, Weight, Duration, RPE (1-10), Recovery %, Notes
+- **Status:** Working (API 2022-06-28)
+- **Validation:** ✅ Data complete
+
+### 6. ❌ Exercise Tracker (v1 - Broken)
 - **Notion ID:** 2fdf2cb1-2276-8118-a994-2cb030df3a590
 - **Records:** 0 entries (broken API)
 - **Status:** BROKEN (API 2025-09-03)
-- **Action:** SKIP - recreate in Airtable
+- **Action:** SKIP - replaced by v2
 
 ---
 
@@ -46,9 +53,10 @@
 | Weight Tracker | 3 | High | Core tracking |
 | Work Tasks | 7 | High | Active workflow |
 | Habit Tracker | 4 | High | Daily habits |
-| Exercise (Detailed) | 0 | Low | Skip - broken |
+| Exercise Tracker v2 | 4 | High | Detailed workouts |
+| Exercise Tracker v1 | 0 | Skip | Broken - replaced |
 
-**Total:** 4 databases, 28 records to migrate
+**Total:** 5 databases, 32 records to migrate
 
 ---
 
