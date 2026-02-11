@@ -14,12 +14,126 @@ DASHBOARD_PATH = Path.home() / '.openclaw/workspace/dashboard/index.html'
 DATA_DIR = Path.home() / '.openclaw'
 
 def get_tat_tasks():
-    """Fetch urgent TAT tasks - only Today category"""
-    # In real implementation, filter by TAT Category = "🔥 Today"
-    return [
-        {"name": "Fix voice transcription", "urgency": "🔥 Today", "due": "Today"},
-        {"name": "Security updates", "urgency": "🔥 Today", "due": "Today"},
-    ]
+    """Fetch urgent TAT tasks - Category 1 (Today) + overdue from Notion"""
+    try:
+        import requests
+        
+        # Get Notion API key
+        notion_key_path = Path.home() / '.config/notion/api_key'
+        if not notion_key_path.exists():
+            return [{"name": "Notion API not configured", "urgency": "Today", "due": "Setup needed"}]
+        
+        with open(notion_key_path, 'r') as f:
+            notion_key = f.read().strip()
+        
+        # TAT Database ID
+        db_id = "2fcf2cb1-2276-81d6-aebe-f388bdb09b8e"
+        
+        headers = {
+            "Authorization": f"Bearer {notion_key}",
+            "Notion-Version": "2025-09-03",
+            "Content-Type": "application/json"
+        }
+        
+        today = datetime.now().strftime('%Y-%m-%d')
+        
+        # Query for Category 1 + overdue tasks
+        query = {
+            "filter": {
+                "or": [
+                    {
+                        "property": "Category",
+                        "select": {
+                            "equals": "1"
+                        }
+                    },
+                    {
+                        "and": [
+                            {
+                                "property": "Due Date",
+                                "date": {
+                                    "is_not_empty": True
+                                }
+                            },
+                            {
+                                "property": "Due Date",
+                                "date": {
+                                    "before": today
+                                }
+                            }
+                        ]
+                    }
+                ]
+            },
+            "sorts": [
+                {
+                    "property": "Due Date",
+                    "direction": "ascending"
+                }
+            ],
+            "page_size": 10
+        }
+        
+        response = requests.post(
+            f"https://api.notion.com/v1/databases/{db_id}/query",
+            headers=headers,
+            json=query
+        )
+        
+        if response.status_code != 200:
+            return [{"name": "TAT query failed", "urgency": "Error", "due": "Check API"}]
+        
+        data = response.json()
+        tasks = []
+        
+        for page in data.get('results', []):
+            props = page.get('properties', {})
+            
+            # Get task name
+            name = ""
+            if 'Task Name' in props:
+                title_items = props['Task Name'].get('title', [])
+                if title_items:
+                    name = title_items[0].get('text', {}).get('content', '')
+            
+            # Get category (handle both old and new formats)
+            category = props.get('Category', {}).get('select', {}).get('name', '')
+            
+            # Get due date
+            due_date = props.get('Due Date', {}).get('date', {}).get('start', '')
+            
+            # Determine urgency display
+            is_overdue = due_date and due_date < today
+            
+            # Handle both formats
+            if category in ['1', '🔥 Today']:
+                urgency = "🔥 Today"
+            elif is_overdue:
+                urgency = "⚠️ Overdue"
+            elif category == '3':
+                urgency = "⚡ 3 Days"
+            elif category == '7':
+                urgency = "📅 7 Days"
+            else:
+                urgency = category
+            
+            due_display = "Overdue" if is_overdue else (due_date or "Today")
+            
+            if name:
+                tasks.append({
+                    "name": name,
+                    "urgency": urgency,
+                    "due": due_display
+                })
+        
+        # Fallback if no urgent tasks found
+        if not tasks:
+            return [{"name": "No urgent tasks - you're all caught up!", "urgency": "✅", "due": "-"}]
+        
+        return tasks
+        
+    except Exception as e:
+        return [{"name": f"Error loading TAT: {str(e)[:30]}", "urgency": "Error", "due": "-"}]
 
 def get_nutrition_with_meals():
     """Get nutrition with detailed meal breakdown"""
