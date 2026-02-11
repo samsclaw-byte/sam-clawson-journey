@@ -1,0 +1,15 @@
+Sam's Work Tasks & Projects 💼
+Database ID: 4aed6cb0-6a77-4ad7-9537-274f36cd977c
+URL: https://www.notion.so/4aed6cb06a774ad79537274f36cd977c
+
+Fields:
+- Task Name (title)
+- TAT Category (1, 3, 7, 30)
+- Date Created (date)
+- Due Date (formula: Date Created + Category days)
+- Source (Teams, Email, In Person, Slack)
+- Type (Task, Project)
+- Project Name (rich text)
+- Stakeholder (Steve, Rafi, Other)
+- Assigned To (people)
+- Status (Not Started, In Progress, Done)
