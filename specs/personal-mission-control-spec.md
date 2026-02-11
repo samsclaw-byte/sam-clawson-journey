@@ -212,5 +212,101 @@ WHOOP Webhook   ──┘
 
 ---
 
+## Enhancement Ideas (Captured from Voice Notes 2026-02-11)
+
+### 1. Comprehensive Documentation Hub
+**Vision:** Mission Control becomes the central hub for ALL system documentation
+
+**Include:**
+- **System Architecture Diagrams** — Visual flow of all integrations
+- **Workflow Documentation** — Step-by-step processes for common tasks  
+- **Changelogs** — Dated record of all system changes
+- **Decision Log** — Why certain choices were made
+- **Runbooks** — "What to do when X happens"
+
+**Structure:**
+```
+Mission Control
+├── 📊 Dashboard (current)
+├── 📚 Documentation
+│   ├── System Architecture
+│   ├── Workflows
+│   ├── Changelogs
+│   └── Runbooks
+└── 🔧 Admin Panel
+```
+
+### 2. Hosted Online (Cloudflare Domain)
+**Vision:** Professional hosting on custom domain
+
+**Options:**
+- **Option A: Cloudflare Pages** (Free) — Auto-deploy from GitHub, custom domain
+- **Option B: Cloudflare Tunnel** — Permanent named tunnel, runs on laptop
+- **Option C: VPS** ($5-10/month) — Always-on server, full control
+
+**Recommendation:** Start with Cloudflare Pages + custom domain
+
+### 3. Process Flows for Work Requests
+**Vision:** Standardized intake for ALL work requests
+
+**Channels:**
+
+**Email:** AI scans → Auto-creates TAT → Adds to "Unprocessed" queue
+**Teams/Slack:** Bot captures → Creates TAT → Links to original message
+**In-Person:** Voice/text → AI parses → Auto-categorizes by person
+
+**Views:** Unprocessed Queue | By Source | By Person | Response Time Tracker
+
+### 4. Cyclical Tasks (Recurring)
+**Vision:** Never miss monthly, quarterly, or annual tasks
+
+**Categories:**
+- **Daily:** Morning brief, water, habits
+- **Weekly:** Planning, TAT review, health check
+- **Monthly:** Reports to Steve/Rafi, budget, finance
+- **Quarterly:** OKRs, skills, home maintenance
+- **Annual:** Taxes, insurance, career goals
+
+**Features:** Auto-create next instance on completion, gradual escalation reminders
+
+### 5. Google Calendar Integration
+**Vision:** Unified calendar with work/personal separation
+
+**Calendars:**
+- 📅 Work (Steve, Rafi, projects, deep work)
+- 🏠 Personal (health, family time, projects)
+- 💑 Shared with Sophie (family events, date nights, Theo)
+
+**Features:** Today's schedule, week view, conflict detection, focus time protection, transition buffers
+
+---
+
+## Implementation Priority
+
+### Phase 1 (This Week)
+- [x] Basic Mission Control dashboard
+- [ ] Notion TAT integration
+- [ ] GitHub Pages deployment
+
+### Phase 2 (Next 2 Weeks)  
+- [ ] Documentation hub
+- [ ] Cyclical tasks system
+- [ ] Google Calendar integration
+
+### Phase 3 (Next Month)
+- [ ] Work request process flows
+- [ ] Email integration
+- [ ] Teams/Slack integration
+- [ ] Custom domain hosting
+
+### Phase 4 (Ongoing)
+- [ ] Advanced analytics
+- [ ] AI-driven insights
+- [ ] Mobile app (PWA)
+- [ ] Sophie collaboration features
+
+---
+
 *Evolved from "Work Workflow Control Centre" business plan*  
-*Voice note transcription: 2026-02-11*
+*Voice note transcription: 2026-02-11*  
+*Enhancement ideas: 2026-02-11*
