@@ -235,13 +235,28 @@ class AirtableSync:
                 
                 # Check if already exists (match by food content)
                 exists = False
+                existing_record_id = None
                 for record_id, fields in today_records:
                     existing_food = fields.get('Food Items', '').lower()[:30]
                     if food_short in existing_food or existing_food in food_short:
                         exists = True
+                        existing_record_id = record_id
                         break
                 
                 if exists:
+                    # Check if Edamam Data field needs to be set
+                    if existing_record_id:
+                        existing_fields = [f for rid, f in today_records if rid == existing_record_id][0]
+                        if 'Edamam Data' not in existing_fields:
+                            # Set Edamam Data = False since we don't have API data yet
+                            update_resp = requests.patch(
+                                f"{url}/{existing_record_id}",
+                                headers=self.headers,
+                                json={"fields": {"Edamam Data": False}},
+                                timeout=10
+                            )
+                            if update_resp.status_code == 200:
+                                print(f"  📝 Set Edamam Data = False for existing meal")
                     continue
                 
                 # Create record
@@ -254,8 +269,8 @@ class AirtableSync:
                         "Protein (g)": meal.get('protein', 0),
                         "Carbs (g)": meal.get('carbs', 0),
                         "Fat (g)": meal.get('fat', 0),
-                        "Edamam Data": False,  # Flag: nutrition not from Edamam yet
-                        "Notes": f"Synced at {datetime.now().strftime('%H:%M')}"
+                        "Edamam Data": False,  # FLAG: False = estimated, True = from Edamam API
+                        "Notes": f"Synced at {datetime.now().strftime('%H:%M')} - Edamam API pending"
                     }
                 }
                 
@@ -299,21 +314,12 @@ class AirtableSync:
         try:
             # Find meals missing Edamam data (or with Edamam Data = False/empty)
             # Formula: Edamam Data is unchecked OR Protein is empty
-            # Find meals missing Edamam data
-            filter_formula = "AND(Date='2026-02-12',OR({Edamam Data}=BLANK(),{Edamam Data}=FALSE()))"
+            # Find meals missing Edamam data (check today's meals manually)
             response = requests.get(
-                f"{url}?filterByFormula={filter_formula}&maxRecords=10",
+                f"{url}?filterByFormula=Date='2026-02-12'&maxRecords=10",
                 headers=self.headers,
                 timeout=15
             )
-            
-            if response.status_code != 200:
-                # Try simpler filter if formula fails
-                response = requests.get(
-                    f"{url}?filterByFormula=Date='2026-02-12'&maxRecords=10",
-                    headers=self.headers,
-                    timeout=15
-                )
             
             if response.status_code != 200:
                 print(f"  ❌ Cannot fetch meals: {response.status_code}")
