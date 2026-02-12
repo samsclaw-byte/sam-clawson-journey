@@ -47,7 +47,7 @@ def get_edamam_nutrition(food_text):
     """Query Edamam API for nutrition data"""
     try:
         app_id = "f4bc1402"
-        api_key = "b069c1fd628a38b69677d3744c347f"
+        api_key = "b069c1d1fd628a38b69677d3744c347f"
         
         url = "https://api.edamam.com/api/nutrition-data"
         params = {
