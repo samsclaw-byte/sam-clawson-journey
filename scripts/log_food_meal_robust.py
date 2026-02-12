@@ -285,6 +285,15 @@ if __name__ == "__main__":
     meal = sys.argv[2] if len(sys.argv) > 2 else "Snack"
     
     record, status = log_food_meal(food, meal)
+    # Also check for habits in food description
+    print("\n📝 Checking for habits in food description...")
+    sys.path.insert(0, '/home/samsclaw/.openclaw/workspace/scripts')
+    try:
+        from habit_tracker_from_food import update_habits_from_food
+        update_habits_from_food(food)
+    except Exception as e:
+        print(f"  Note: Could not update habits ({e})")
+    
     print(f"\nStatus: {status}")
     
     if status == "⏳ Pending API":
