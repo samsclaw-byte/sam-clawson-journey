@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TAT System v3 - Robust Design Guide</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0a0a0f; color: #fff; line-height: 1.6; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; }
+        h1 { color: #667eea; margin-bottom: 10px; }
+        h2 { color: #764ba2; margin: 30px 0 15px; border-bottom: 2px solid #333; padding-bottom: 10px; }
+        h3 { color: #a855f7; margin: 20px 0 10px; }
+        .section { background: #1a1a2e; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #333; }
+        .field-card { background: #0a0a0f; padding: 15px; margin: 10px 0; border-radius: 8px; border-left: 4px solid #22c55e; }
+        .field-card.required { border-left-color: #ef4444; }
+        .field-card.formula { border-left-color: #eab308; }
+        .field-card.optional { border-left-color: #3b82f6; }
+        .field-name { font-weight: bold; color: #fff; font-size: 16px; }
+        .field-type { color: #888; font-size: 12px; margin-left: 10px; }
+        .field-desc { color: #aaa; margin-top: 5px; font-size: 14px; }
+        .badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; margin-left: 10px; }
+        .badge-required { background: #ef4444; color: white; }
+        .badge-formula { background: #eab308; color: black; }
+        .badge-optional { background: #3b82f6; color: white; }
+        .badge-lookup { background: #a855f7; color: white; }
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+        th { background: #667eea; padding: 10px; text-align: left; }
+        td { padding: 10px; border-bottom: 1px solid #333; }
+        code { background: #333; padding: 2px 6px; border-radius: 4px; font-family: monospace; }
+        .note { background: #eab30820; border-left: 4px solid #eab308; padding: 15px; margin: 15px 0; border-radius: 0 8px 8px 0; }
+        .warning { background: #ef444420; border-left: 4px solid #ef4444; padding: 15px; margin: 15px 0; border-radius: 0 8px 8px 0; }
+        .success { background: #22c55e20; border-left: 4px solid #22c55e; padding: 15px; margin: 15px 0; border-radius: 0 8px 8px 0; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .example { background: #252542; padding: 15px; border-radius: 8px; margin: 15px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📋 TAT System v3 - Robust Design Guide</h1>
+        <p style="color: #888; margin-bottom: 30px;">Recommended fields, formulas, and automations for bulletproof task management</p>
+
+        <div class="section">
+            <h2>✅ Recommended Field Structure</h2>
+            
+            <div class="field-card required">
+                <span class="field-name">Task Name</span>
+                <span class="field-type">Single line text</span>
+                <span class="badge badge-required">REQUIRED</span>
+                <div class="field-desc">Clear, actionable description. Example: "Review Q4 marketing report"</div>
+            </div>
+
+            <div class="field-card required">
+                <span class="field-name">Category</span>
+                <span class="field-type">Single select</span>
+                <span class="badge badge-required">REQUIRED</span>
+                <div class="field-desc">Options: 1, 3, 7, 30 (days). Determines due date calculation.</div>
+            </div>
+
+            <div class="field-card formula">
+                <span class="field-name">TAT Days (Lookup)</span>
+                <span class="field-type">Number (Formula)</span>
+                <span class="badge badge-formula">FORMULA</span>
+                <div class="field-desc"><code>VALUE({Category})</code> - Converts category to number</div>
+            </div>
+
+            <div class="field-card required">
+                <span class="field-name">Date Created</span>
+                <span class="field-type">Created time</span>
+                <span class="badge badge-required">REQUIRED</span>
+                <div class="field-desc">Auto-set by Airtable when record created</div>
+            </div>
+
+            <div class="field-card formula">
+                <span class="field-name">Due Date</span>
+                <span class="field-type">Date (Formula)</span>
+                <span class="badge badge-formula">FORMULA</span>
+                <div class="field-desc"><code>DATEADD({Date Created}, {TAT Days}, 'days')</code></div>
+            </div>
+
+            <div class="field-card required">
+                <span class="field-name">Status</span>
+                <span class="field-type">Single select</span>
+                <span class="badge badge-required">REQUIRED</span>
+                <div class="field-desc">Options: Not Started, In Progress, Blocked, Complete, Cancelled</div>
+            </div>
+
+            <div class="field-card formula">
+                <span class="field-name">Days Remaining</span>
+                <span class="field-type">Number (Formula)</span>
+                <span class="badge badge-formula">FORMULA</span>
+                <div class="field-desc"><code>IF({Due Date}, DATETIME_DIFF({Due Date}, TODAY(), 'days'), '')</code></div>
+            </div>
+
+            <div class="field-card formula">
+                <span class="field-name">Urgency Level</span>
+                <span class="field-type">Single select (Formula)</span>
+                <span class="badge badge-formula">FORMULA</span>
+                <div class="field-desc">
+                    <code>IF({Days Remaining} < 0, '🔴 Overdue', IF({Days Remaining} <= 1, '🟠 Urgent', IF({Days Remaining} <= 3, '🟡 Soon', '🟢 Normal')))</code>
+                </div>
+            </div>
+
+            <div class="field-card optional">
+                <span class="field-name">Priority</span>
+                <span class="field-type">Single select</span>
+                <span class="badge badge-optional">OPTIONAL</span>
+                <div class="field-desc">Options: Critical, High, Medium, Low. For extra sorting/filtering.</div>
+            </div>
+
+            <div class="field-card optional">
+                <span class="field-name">Notes</span>
+                <span class="field-type">Long text</span>
+                <span class="badge badge-optional">OPTIONAL</span>
+                <div class="field-desc">Additional context, blockers, progress updates</div>
+            </div>
+
+            <div class="field-card optional">
+                <span class="field-name">Tags</span>
+                <span class="field-type">Multiple select</span>
+                <span class="badge badge-optional">OPTIONAL</span>
+                <div class="field-desc">Work, Personal, Health, Finance, etc. for filtering</div>
+            </div>
+
+            <div class="field-card optional">
+                <span class="field-name">Completed Date</span>
+                <span class="field-type">Date</span>
+                <span class="badge badge-optional">OPTIONAL</span>
+                <div class="field-desc">When status changed to Complete. Auto-set via automation.</div>
+            </div>
+
+            <div class="field-card formula">
+                <span class="field-name">Days to Complete</span>
+                <span class="field-type">Number (Formula)</span>
+                <span class="badge badge-formula">FORMULA</span>
+                <div class="field-desc"><code>IF(AND({Date Created}, {Completed Date}), DATETIME_DIFF({Completed Date}, {Date Created}, 'days'), '')</code></div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🤖 Recommended Automations</h2>
+            
+            <h3>Automation 1: Overdue Reminder</h3>
+            <div class="example">
+                <strong>Trigger:</strong> When "Days Remaining" ≤ 0 AND Status ≠ Complete<br>
+                <strong>Action:</strong> Send Telegram message<br>
+                <strong>Message:</strong> "🔴 TAT Task Overdue: [Task Name] (was due [Due Date])"
+            </div>
+
+            <h3>Automation 2: Due Soon Alert</h3>
+            <div class="example">
+                <strong>Trigger:</strong> When "Days Remaining" = 1<br>
+                <strong>Action:</strong> Send Telegram message<br>
+                <strong>Message:</strong> "🟠 TAT Task Due Tomorrow: [Task Name]"
+            </div>
+
+            <h3>Automation 3: Auto-Set Completed Date</h3>
+            <div class="example">
+                <strong>Trigger:</strong> When Status changes to "Complete"<br>
+                <strong>Action:</strong> Set "Completed Date" to current date/time<br>
+                <strong>Condition:</strong> Only if "Completed Date" is empty
+            </div>
+
+            <h3>Automation 4: New Task Confirmation</h3>
+            <div class="example">
+                <strong>Trigger:</strong> When record created<br>
+                <strong>Action:</strong> Send Telegram message<br>
+                <strong>Message:</strong> "✅ TAT Task Created: [Task Name] - Due in [TAT Days] days"
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>📊 Recommended Views</h2>
+            
+            <table>
+                <tr>
+                    <th>View Name</th>
+                    <th>Filter</th>
+                    <th>Sort</th>
+                    <th>Group By</th>
+                </tr>
+                <tr>
+                    <td>🔴 Overdue</td>
+                    <td>Days Remaining < 0, Status ≠ Complete</td>
+                    <td>Due Date (oldest first)</td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <td>🟠 Due Today</td>
+                    <td>Days Remaining = 0</td>
+                    <td>Priority, Due Date</td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <td>🟡 Due This Week</td>
+                    <td>Days Remaining ≤ 7, Days Remaining ≥ 0</td>
+                    <td>Due Date</td>
+                    <td>Category</td>
+                </tr>
+                <tr>
+                    <td>📋 All Active</td>
+                    <td>Status ≠ Complete, Status ≠ Cancelled</td>
+                    <td>Due Date</td>
+                    <td>Status</td>
+                </tr>
+                <tr>
+                    <td>✅ Completed</td>
+                    <td>Status = Complete</td>
+                    <td>Completed Date (newest)</td>
+                    <td>Category</td>
+                </tr>
+                <tr>
+                    <td>🚫 Blocked</td>
+                    <td>Status = Blocked</td>
+                    <td>Due Date</td>
+                    <td>-</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2>🔒 Data Validation Rules</h2>
+            
+            <h3>Mandatory Field Validation</h3>
+            <p>In Airtable, set these fields as "Required":</p>
+            <ul style="margin-left: 20px; color: #aaa;">
+                <li>Task Name - Cannot be empty</li>
+                <li>Category - Must be 1, 3, 7, or 30</li>
+                <li>Status - Must be selected</li>
+            </ul>
+
+            <h3>Category Options (Strict)</h3>
+            <table>
+                <tr>
+                    <th>Category</th>
+                    <th>Days</th>
+                    <th>Use Case</th>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>1 day</td>
+                    <td>Quick tasks, same-day turnaround</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>3 days</td>
+                    <td>Standard tasks, short projects</td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>7 days</td>
+                    <td>Weekly tasks, medium projects</td>
+                </tr>
+                <tr>
+                    <td>30</td>
+                    <td>30 days</td>
+                    <td>Monthly tasks, long projects</td>
+                </tr>
+            </table>
+
+            <div class="note">
+                <strong>Pro Tip:</strong> Use single-select with these EXACT values (1, 3, 7, 30) so the VALUE() formula works correctly for due date calculations.
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>⚡ API Integration Best Practices</h2>
+            
+            <h3>Creating Tasks via API</h3>
+            <div class="example">
+                <code>
+                POST /v0/baseId/tableId<br>
+                {<br>
+                &nbsp;&nbsp;"fields": {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;"Task Name": "Review report",<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;"Category": "3",<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;"Status": "Not Started"<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;// Date Created auto-set by Airtable<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;// Due Date auto-calculated by formula<br>
+                &nbsp;&nbsp;}<br>
+                }
+                </code>
+            </div>
+
+            <h3>Required Fields for API</h3>
+            <ul style="margin-left: 20px; color: #aaa;">
+                <li>Task Name (string, required)</li>
+                <li>Category ("1", "3", "7", or "30", required)</li>
+                <li>Status ("Not Started", "In Progress", "Blocked", "Complete", required)</li>
+            </ul>
+
+            <h3>Formula Fields (Read-Only)</h3>
+            <p>These are automatically calculated - don't try to set them via API:</p>
+            <ul style="margin-left: 20px; color: #aaa;">
+                <li>TAT Days (from Category)</li>
+                <li>Due Date (from Date Created + TAT Days)</li>
+                <li>Days Remaining</li>
+                <li>Urgency Level</li>
+                <li>Days to Complete</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>📈 Analytics & Insights</h2>
+            
+            <h3>Track These Metrics</h3>
+            <div class="grid-2">
+                <div>
+                    <h4>Completion Rate</h4>
+                    <p style="color: #aaa; font-size: 14px;">Complete tasks / Total tasks created</p>
+                </div>
+                <div>
+                    <h4>Avg Days to Complete</h4>
+                    <p style="color: #aaa; font-size: 14px;">Average of "Days to Complete" field</p>
+                </div>
+                <div>
+                    <h4>Overdue Rate</h4>
+                    <p style="color: #aaa; font-size: 14px;">Overdue tasks / Active tasks</p>
+                </div>
+                <div>
+                    <h4>Category Distribution</h4>
+                    <p style="color: #aaa; font-size: 14px;">Tasks by 1/3/7/30 day categories</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🎯 Summary: Key Improvements</h2>
+            
+            <div class="success">
+                <strong>✅ Formula Due Dates:</strong> Due Date = Date Created + TAT Days (auto-calculated, never wrong)
+            </div>
+            
+            <div class="success">
+                <strong>✅ Mandatory Fields:</strong> Task Name, Category, Status - ensures data quality
+            </div>
+            
+            <div class="success">
+                <strong>✅ Urgency Indicators:</strong> Color-coded urgency based on days remaining
+            </div>
+            
+            <div class="success">
+                <strong>✅ Automation:</strong> Auto-notifications for overdue and due-soon tasks
+            </div>
+            
+            <div class="success">
+                <strong>✅ Multiple Views:</strong> Focused views for different contexts (Overdue, Due Today, etc.)
+            </div>
+
+            <div class="success">
+                <strong>✅ Completion Tracking:</strong> Days to Complete metric for performance analysis
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 40px; padding: 20px; background: #1a1a2e; border-radius: 10px;">
+            <p style="color: #888;">TAT System v3 - Bulletproof Task Management</p>
+            <p style="color: #667eea;">Formula-driven | Auto-calculated | Zero manual date entry</p>
+        </div>
+    </div>
+</body>
+</html>
