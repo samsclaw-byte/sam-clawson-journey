@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mission Control - Health & Nutrition</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #f8f9ff 0%, #fff5f8 100%);
+            color: #1a1a2e;
+            min-height: 100vh;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #9945FF 0%, #FF6B9D 100%);
+            padding: 30px 20px;
+            text-align: center;
+            color: white;
+            box-shadow: 0 4px 20px rgba(153, 69, 255, 0.3);
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .nav {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .nav a {
+            padding: 12px 24px;
+            background: white;
+            border: 1px solid rgba(153, 69, 255, 0.2);
+            border-radius: 25px;
+            color: #9945FF;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        
+        .nav a:hover, .nav a.active {
+            background: linear-gradient(135deg, #9945FF, #FF6B9D);
+            color: white;
+            border-color: transparent;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 20px rgba(153, 69, 255, 0.08);
+            border: 1px solid rgba(153, 69, 255, 0.1);
+        }
+        
+        .card h2 {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, #9945FF, #FF6B9D);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+        
+        .meal-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+        }
+        
+        .meal-card {
+            background: linear-gradient(135deg, #f8f5ff 0%, #fff5f8 100%);
+            padding: 16px;
+            border-radius: 12px;
+            border: 1px solid rgba(153, 69, 255, 0.15);
+        }
+        
+        .meal-type {
+            font-size: 12px;
+            text-transform: uppercase;
+            color: #9945FF;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+        
+        .meal-items {
+            margin-top: 8px;
+            font-size: 14px;
+            color: #333;
+        }
+        
+        .meal-calories {
+            margin-top: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #9945FF, #FF6B9D);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .total-calories {
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #9945FF 0%, #FF6B9D 100%);
+            border-radius: 12px;
+            color: white;
+            margin-top: 20px;
+        }
+        
+        .total-calories .number {
+            font-size: 36px;
+            font-weight: 700;
+        }
+        
+        .total-calories .label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            opacity: 0.9;
+        }
+        
+        .chart-container {
+            display: grid;
+            grid-template-columns: 1fr 200px;
+            gap: 24px;
+            align-items: center;
+        }
+        
+        .macro-legend {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .macro-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .macro-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+        }
+        
+        .macro-info {
+            flex: 1;
+        }
+        
+        .macro-name {
+            font-size: 12px;
+            text-transform: uppercase;
+            color: #666;
+            letter-spacing: 1px;
+        }
+        
+        .macro-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a1a2e;
+        }
+        
+        .timeline-card {
+            overflow-x: auto;
+        }
+        
+        .timeline {
+            display: flex;
+            gap: 16px;
+            min-width: 700px;
+        }
+        
+        .day-column {
+            flex: 1;
+            min-width: 90px;
+            background: linear-gradient(135deg, #f8f5ff 0%, #fff5f8 100%);
+            padding: 16px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid rgba(153, 69, 255, 0.1);
+        }
+        
+        .day-date {
+            font-size: 12px;
+            font-weight: 600;
+            color: #9945FF;
+            margin-bottom: 12px;
+        }
+        
+        .day-stat {
+            margin: 8px 0;
+            padding: 8px;
+            background: white;
+            border-radius: 8px;
+        }
+        
+        .day-stat-label {
+            font-size: 10px;
+            text-transform: uppercase;
+            color: #999;
+            letter-spacing: 1px;
+        }
+        
+        .day-stat-value {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1a1a2e;
+        }
+        
+        .strain-high { color: #FF6B6B; }
+        .strain-med { color: #FFA500; }
+        .strain-low { color: #51CF66; }
+        
+        .sleep-good { background: #D3F9D8; }
+        .sleep-avg { background: #FFF3BF; }
+        .sleep-poor { background: #FFE0E0; }
+        
+        .last-updated {
+            text-align: center;
+            color: #999;
+            font-size: 12px;
+            margin-top: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .chart-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .timeline {
+                overflow-x: scroll;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🏥 Health & Nutrition</h1>
+        <p>Daily Tracking Dashboard</p>
+    </div>
+    
+    <div class="nav">
+        <a href="index.html">Overview</a>
+        <a href="health-nutrition.html" class="active">Health & Nutrition</a>
+        <a href="productivity.html">Productivity</a>
+        <a href="work.html">Work</a>
+    </div>
+    
+    <div class="container">
+        <!-- Today's Meals -->
+        <div class="card">
+            <h2>🍽️ Today's Meals</h2>
+            <div class="meal-section">
+                <div class="meal-card">
+                    <div class="meal-type">Breakfast</div>
+                    <div class="meal-items">Multigrain bread, ham, cafe au lait</div>
+                    <div class="meal-calories">450 cal</div>
+                </div>
+                
+                <div class="meal-card">
+                    <div class="meal-type">Lunch</div>
+                    <div class="meal-items">Chicken avocado wrap, cappuccino, tea</div>
+                    <div class="meal-calories">740 cal</div>
+                </div>
+                
+                <div class="meal-card">
+                    <div class="meal-type">Dinner</div>
+                    <div class="meal-items">Spaghetti bolognese</div>
+                    <div class="meal-calories">650 cal</div>
+                </div>
+                
+                <div class="meal-card">
+                    <div class="meal-type">Snacks</div>
+                    <div class="meal-items">2 dates, banana, apple, protein shake</div>
+                    <div class="meal-calories">532 cal</div>
+                </div>
+            </div>
+            
+            <div class="total-calories">
+                <div class="number">2,372</div>
+                <div class="label">Total Calories Today</div>
+            </div>
+        </div>
+        
+        <!-- Macros Pie Chart -->
+        <div class="card">
+            <h2>📊 Macronutrient Breakdown</h2>
+            <div class="chart-container">
+                <div style="position: relative; height: 300px;">
+                    <canvas id="macroChart"></canvas>
+                </div>
+                
+                <div class="macro-legend">
+                    <div class="macro-item">
+                        <div class="macro-color" style="background: #9945FF;"></div>
+                        <div class="macro-info">
+                            <div class="macro-name">Protein</div>
+                            <div class="macro-value">142g</div>
+                        </div>
+                    </div>
+                    
+                    <div class="macro-item">
+                        <div class="macro-color" style="background: #FF6B9D;"></div>
+                        <div class="macro-info">
+                            <div class="macro-name">Carbs</div>
+                            <div class="macro-value">268g</div>
+                        </div>
+                    </div>
+                    
+                    <div class="macro-item">
+                        <div class="macro-color" style="background: #FFB6C1;"></div>
+                        <div class="macro-info">
+                            <div class="macro-name">Fat</div>
+                            <div class="macro-value">76g</div>
+                        </div>
+                    </div>
+                    
+                    <div class="macro-item">
+                        <div class="macro-color" style="background: #DDA0DD;"></div>
+                        <div class="macro-info">
+                            <div class="macro-name">Fiber</div>
+                            <div class="macro-value">38g</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 7-Day Timeline -->
+        <div class="card timeline-card">
+            <h2>📈 Last 7 Days</h2>
+            <div class="timeline">
+                <div class="day-column">
+                    <div class="day-date">Feb 12</div>
+                    <div class="day-stat">
+                        <div class="day-stat-label">Burned</div>
+                        <div class="day-stat-value">3,200</div>
+                    </div>
+                    <div class="day-stat">
+                        <div class="day-stat-label">Consumed</div>
+                        <div class="day-stat-value">2,372</div>
+                    </div>
+                    <div class="day-stat">
+                        <div class="day-stat-label">Strain</div>
+                        <div class="day-stat-value strain-med">12.4</div>
+                    </div>
+                    <div class="day-stat">
+                        <div class="day-stat-label">Weight</div>
+                        <div class="day-stat-value">104.0</div>
+                    </div>
+                    <div class="day-stat sleep-avg">
+                        <div class="day-stat-label">Sleep</div>
+                        <div class="day-stat-value">62%</div>
+                    </div>
+                </div>
+                
+                <div class="day-column">
+                    <div class="day-date">Feb 11</div>
+                    <div class="day-stat">
+                        <div class="day-stat-label">Burned</div>
+                        <div class="day-stat-value">2,890</div>
+                    </div>
+                    <div class="day-stat">
+                        <div class="day-stat-label">Consumed</div>
+                        <div class="day-stat-value">2,650</div>
+                    </div>
+                    <div class="day-stat">
+                        <div class="day-stat-label">Strain</div>
+                        <div class="day-stat-value strain-low">8.2</div>
+                    </div>
+                    <div class="day-stat">
+                        <div class="day-stat-label">Weight</div>
+                        <div class="day-stat-value">104.2</div>
+                    </div>
+                    <div class="day-stat sleep-good">
+                        <div class="day-stat-label">Sleep</div>
+                        <div class="day-stat-value">85%</div>
+                    </div>
+                </div>
+                
+                <div class="day-column">
+                    <div class="day-date">Feb 10</div>
+                    <div class="day-stat">
+                        <div class="day-stat-label">Burned</div>
+                        <div class="day-stat-value">3,450</div>
+                    </div>
+                    <div class="day-stat">
+                        <div class="day-stat-label">Consumed</div>
+                        <div class="day-stat-value">2,890</div>
+                    </div>
+                    <div class="day-stat">
+                        <div class="day-stat-label">Strain</div>
+                        <div class="day-stat-value strain-high">15.8</div>
+                    </div>
+                    <div class="day-stat">
+                        <div class="day-stat-label">Weight</div>
+                        <div class="day-stat-value">104.5</div>
+                    </div>
+                    <div class="day-stat sleep-poor">
+                        <div class="day-stat-label">Sleep</div>
+                        <div class="day-stat-value">58%</div>
+                    </div>
+                </div>
+                
+                <div class="day-column">
+                    <div class="day-date">Feb 9</div>
+                    <div class="day-stat">
+                        <div class="day-stat-label">Burned</div>
+                        <div class="day-stat-value">2,780</div>
+                    </div>
+                    <div class="day-stat">
+                        <div class="day-stat-label">Consumed</div>
+                        <div class="day-stat-value">2,340</div>
+                    </div>
+                    <div class="day-stat">
+                        <div class="day-stat-label">Strain</div>
+                        <div class="day-stat-value strain-low">7.4</div>
+                    </div>
+                    <div class="day-stat">
+                        <div class="day-stat-label">Weight</div>
+                        <div class="day-stat-value">104.8</div>
+                    </div>
+                    <div class="day-stat sleep-good">
+                        <div class="day-stat-label">Sleep</div>
+                        <div class="day-stat-value">78%</div>
+                    </div>
+                </div>
+                
+                <div class="day-column">
+                    <div class="day-date">Feb 8</div>
+                    <div class="day-stat">
+                        <div class="day-stat-label">Burned</div>
+                        <div class="day-stat-value">3,120</div>
+                    </div>
+                    <div class="day-stat">
+                        <div class="day-stat-label">Consumed</div>
+                        <div class="day-stat-value">2,980</div>
+                    </div>
+                    <div class="day-stat">
+                        <div class="day-stat-label">Strain</div>
+                        <div class="day-stat-value strain-med">11.2</div>
+                    </div>
+                    <div class="day-stat">
+                        <div class="day-stat-label">Weight</div>
+                        <div class="day-stat-value">105.0</div>
+                    </div>
+                    <div class="day-stat sleep-avg">
+                        <div class="day-stat-label">Sleep</div>
+                        <div class="day-stat-value">71%</div>
+                    </div>
+                </div>
+                
+                <div class="day-column">
+                    <div class="day-date">Feb 7</div>
+                    <div class="day-stat">
+                        <div class="day-stat-label">Burned</div>
+                        <div class="day-stat-value">2,950</div>
+                    </div>
+                    <div class="day-stat">
+                        <div class="day-stat-label">Consumed</div>
+                        <div class="day-stat-value">2,560</div>
+                    </div>
+                    <div class="day-stat">
+                        <div class="day-stat-label">Strain</div>
+                        <div class="day-stat-value strain-med">10.6</div>
+                    </div>
+                    <div class="day-stat">
+                        <div class="day-stat-label">Weight</div>
+                        <div class="day-stat-value">105.2</div>
+                    </div>
+                    <div class="day-stat sleep-good">
+                        <div class="day-stat-label">Sleep</div>
+                        <div class="day-stat-value">82%</div>
+                    </div>
+                </div>
+                
+                <div class="day-column">
+                    <div class="day-date">Feb 6</div>
+                    <div class="day-stat">
+                        <div class="day-stat-label">Burned</div>
+                        <div class="day-stat-value">3,340</div>
+                    </div>
+                    <div class="day-stat">
+                        <div class="day-stat-label">Consumed</div>
+                        <div class="day-stat-value">2,780</div>
+                    </div>
+                    <div class="day-stat">
+                        <div class="day-stat-label">Strain</div>
+                        <div class="day-stat-value strain-high">14.2</div>
+                    </div>
+                    <div class="day-stat">
+                        <div class="day-stat-label">Weight</div>
+                        <div class="day-stat-value">105.5</div>
+                    </div>
+                    <div class="day-stat sleep-poor">
+                        <div class="day-stat-label">Sleep</div>
+                        <div class="day-stat-value">55%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <p class="last-updated">Last updated: Feb 12, 2026 at 11:00 PM</p>
+    </div>
+    
+    <script>
+        // Pie Chart
+        const ctx = document.getElementById('macroChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Protein', 'Carbs', 'Fat', 'Fiber'],
+                datasets: [{
+                    data: [142, 268, 76, 38],
+                    backgroundColor: [
+                        '#9945FF',  // Purple
+                        '#FF6B9D',  // Pink
+                        '#FFB6C1',  // Light pink
+                        '#DDA0DD'   // Plum
+                    ],
+                    borderWidth: 0,
+                    hoverOffset: 10
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.label + ': ' + context.parsed + 'g';
+                            }
+                        }
+                    }
+                },
+                cutout: '60%'
+            }
+        });
+    </script>
+</body>
+</html>
