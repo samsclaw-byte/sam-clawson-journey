@@ -1,6 +1,6 @@
 {
   "date": "2026-02-12",
-  "today": 3,
+  "today": 8,
   "goal": 8,
   "entries": [
     {
@@ -12,6 +12,31 @@
       "time": "11:32",
       "amount": 2,
       "note": "Additional water"
+    },
+    {
+      "time": "17:08",
+      "amount": 1,
+      "note": "Afternoon water"
+    },
+    {
+      "time": "17:10",
+      "amount": 1,
+      "note": "Ginger and lemon tea (with lunch)"
+    },
+    {
+      "time": "19:24",
+      "amount": 1,
+      "note": "Evening water"
+    },
+    {
+      "time": "21:47",
+      "amount": 1,
+      "note": "With dinner"
+    },
+    {
+      "time": "21:50",
+      "amount": 1,
+      "note": "With protein and creatine"
     }
   ]
 }

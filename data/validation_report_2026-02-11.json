@@ -1,0 +1,44 @@
+{
+  "timestamp": "2026-02-12T16:35:23.136018",
+  "date_checked": "2026-02-11",
+  "tables": {
+    "Food Log": {
+      "status": "PASS",
+      "records_checked": 0,
+      "total_calories": 0,
+      "severe": [],
+      "minor": [],
+      "warnings": [],
+      "auto_fixed": 0,
+      "missing_fields": 0
+    },
+    "Daily Habits": {
+      "status": "PASS",
+      "records_checked": 0,
+      "severe": [],
+      "minor": [],
+      "warnings": [
+        "\u26a0\ufe0f No habit record found for 2026-02-12"
+      ],
+      "missing_fields": 0
+    },
+    "TAT Tasks": {
+      "status": "ERROR",
+      "severe": [
+        "SEVERE: Cannot fetch TAT Tasks: HTTP 422"
+      ],
+      "minor": [],
+      "warnings": [],
+      "missing_fields": 0
+    }
+  },
+  "summary": {
+    "total_records": 0,
+    "severe_errors": 1,
+    "minor_errors": 0,
+    "warnings": 1,
+    "auto_fixed": 0,
+    "missing_fields_count": 0,
+    "overall_status": "FAIL"
+  }
+}

@@ -1,0 +1,5 @@
+date,name,water,exercise,exercise_minutes,multivitamin,fruit,creatine,zone_1,zone_2,zone_3,zone_4,zone_5,water_streak,exercise_streak,multi_streak,fruit_streak
+2026-02-06,"Feb 6, 2026",8,True,5,True,True,True,0,0,0,0,0,4,3,4,4
+2026-02-05,"Feb 5, 2026",8,True,60,True,True,False,0,0,0,0,0,3,2,3,3
+2026-02-04,,6,True,27.9,True,True,False,0.3,0.4,5.2,3.7,18,2,1,2,2
+2026-02-03,,4,True,50.5,True,True,True,0,0,0,0,0,1,4,1,1
