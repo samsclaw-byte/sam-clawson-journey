@@ -303,9 +303,9 @@
         
         <!-- Macros Pie Chart -->
         <div class="card">
-            <h2>📊 Macronutrient Breakdown</h2>
+            <h2>📊 Macronutrient Breakdown (Today)</h2>
             <div class="chart-container">
-                <div style="position: relative; height: 300px;">
+                <div style="position: relative; height: 300px; width: 100%;">
                     <canvas id="macroChart"></canvas>
                 </div>
                 
@@ -443,6 +443,10 @@
                         <div class="day-stat-label">Consumed</div>
                         <div class="day-stat-value">2,340</div>
                     </div>
+                    <div class="day-stat" style="background: #FFF3BF;">
+                        <div class="day-stat-label">Net Calories</div>
+                        <div class="day-stat-value" style="color: #E67700;">+440 ⚠️</div>
+                    </div>
                     <div class="day-stat">
                         <div class="day-stat-label">Strain</div>
                         <div class="day-stat-value strain-low">7.4</div>
@@ -466,6 +470,10 @@
                     <div class="day-stat">
                         <div class="day-stat-label">Consumed</div>
                         <div class="day-stat-value">2,980</div>
+                    </div>
+                    <div class="day-stat" style="background: #D3F9D8;">
+                        <div class="day-stat-label">Net Calories</div>
+                        <div class="day-stat-value" style="color: #2B8A3E;">-140 🔥</div>
                     </div>
                     <div class="day-stat">
                         <div class="day-stat-label">Strain</div>
@@ -491,6 +499,10 @@
                         <div class="day-stat-label">Consumed</div>
                         <div class="day-stat-value">2,560</div>
                     </div>
+                    <div class="day-stat" style="background: #D3F9D8;">
+                        <div class="day-stat-label">Net Calories</div>
+                        <div class="day-stat-value" style="color: #2B8A3E;">-390 🔥</div>
+                    </div>
                     <div class="day-stat">
                         <div class="day-stat-label">Strain</div>
                         <div class="day-stat-value strain-med">10.6</div>
@@ -515,6 +527,10 @@
                         <div class="day-stat-label">Consumed</div>
                         <div class="day-stat-value">2,780</div>
                     </div>
+                    <div class="day-stat" style="background: #D3F9D8;">
+                        <div class="day-stat-label">Net Calories</div>
+                        <div class="day-stat-value" style="color: #2B8A3E;">-560 🔥</div>
+                    </div>
                     <div class="day-stat">
                         <div class="day-stat-label">Strain</div>
                         <div class="day-stat-value strain-high">14.2</div>
@@ -531,65 +547,115 @@
             </div>
         </div>
         
-        <!-- Exercise Card -->
+        <!-- Exercise Card - Last 7 Days -->
         <div class="card">
-            <h2>🏃 Today's Exercise</h2>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;">
-                <div class="meal-card">
-                    <div class="meal-type">Heart Rate Zones</div>
-                    <div style="margin-top: 12px;">
-                        <div style="display: flex; justify-content: space-between; margin: 8px 0;">
-                            <span>Zone 1 (0-60%)</span>
-                            <span style="font-weight: 600;">25 min</span>
+            <h2>🏃 Last 7 Days Exercise</h2>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+                <!-- Left: Workout Type Breakdown -->
+                <div>
+                    <div class="meal-type" style="margin-bottom: 16px;">Workout Types (Total Minutes)</div>
+                    <div style="margin-bottom: 12px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                            <span>Running</span>
+                            <span style="font-weight: 600;">185 min</span>
                         </div>
-                        <div style="display: flex; justify-content: space-between; margin: 8px 0;">
-                            <span>Zone 2 (60-70%)</span>
-                            <span style="font-weight: 600;">35 min</span>
+                        <div style="background: #f0f0f5; border-radius: 8px; height: 24px; overflow: hidden;">
+                            <div style="background: linear-gradient(90deg, #9945FF, #FF6B9D); height: 100%; width: 85%; border-radius: 8px;"></div>
                         </div>
-                        <div style="display: flex; justify-content: space-between; margin: 8px 0;">
-                            <span>Zone 3 (70-80%)</span>
-                            <span style="font-weight: 600; color: #9945FF;">42 min</span>
+                    </div>
+                    <div style="margin-bottom: 12px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                            <span>HIIT / Strength</span>
+                            <span style="font-weight: 600;">145 min</span>
                         </div>
-                        <div style="display: flex; justify-content: space-between; margin: 8px 0;">
-                            <span>Zone 4 (80-90%)</span>
-                            <span style="font-weight: 600;">18 min</span>
+                        <div style="background: #f0f0f5; border-radius: 8px; height: 24px; overflow: hidden;">
+                            <div style="background: linear-gradient(90deg, #FF6B9D, #FFB6C1); height: 100%; width: 67%; border-radius: 8px;"></div>
                         </div>
-                        <div style="display: flex; justify-content: space-between; margin: 8px 0;">
-                            <span>Zone 5 (90%+)</span>
-                            <span style="font-weight: 600;">5 min</span>
+                    </div>
+                    <div style="margin-bottom: 12px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                            <span>Walking</span>
+                            <span style="font-weight: 600;">210 min</span>
+                        </div>
+                        <div style="background: #f0f0f5; border-radius: 8px; height: 24px; overflow: hidden;">
+                            <div style="background: linear-gradient(90deg, #51CF66, #94D82D); height: 100%; width: 97%; border-radius: 8px;"></div>
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 12px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                            <span>Cycling</span>
+                            <span style="font-weight: 600;">60 min</span>
+                        </div>
+                        <div style="background: #f0f0f5; border-radius: 8px; height: 24px; overflow: hidden;">
+                            <div style="background: linear-gradient(90deg, #339AF0, #74C0FC); height: 100%; width: 28%; border-radius: 8px;"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                            <span>Yoga / Stretching</span>
+                            <span style="font-weight: 600;">45 min</span>
+                        </div>
+                        <div style="background: #f0f0f5; border-radius: 8px; height: 24px; overflow: hidden;">
+                            <div style="background: linear-gradient(90deg, #DDA0DD, #E8C5E8); height: 100%; width: 21%; border-radius: 8px;"></div>
                         </div>
                     </div>
                 </div>
                 
-                <div class="meal-card">
-                    <div class="meal-type">Workout Details</div>
-                    <div style="margin-top: 12px;">
-                        <div style="background: white; padding: 12px; border-radius: 8px; margin-bottom: 8px;">
-                            <div style="font-weight: 600; color: #9945FF;">Morning Run</div>
-                            <div style="font-size: 12px; color: #666; margin-top: 4px;">45 min • Strain 8.5</div>
+                <!-- Right: Summary Stats -->
+                <div>
+                    <div class="meal-type" style="margin-bottom: 16px;">7-Day Totals</div>
+                    <div style="background: linear-gradient(135deg, #f8f5ff 0%, #fff5f8 100%); padding: 20px; border-radius: 12px; border: 1px solid rgba(153, 69, 255, 0.15);">
+                        <div style="text-align: center; margin-bottom: 20px;">
+                            <div style="font-size: 42px; font-weight: 700; background: linear-gradient(135deg, #9945FF, #FF6B9D); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">645 min</div>
+                            <div style="font-size: 12px; text-transform: uppercase; color: #666; letter-spacing: 1px;">Total Exercise Time</div>
+                            <div style="font-size: 14px; color: #9945FF; margin-top: 4px;">10.8 hours</div>
                         </div>
-                        <div style="background: white; padding: 12px; border-radius: 8px; margin-bottom: 8px;">
-                            <div style="font-weight: 600; color: #FF6B9D;">HIIT Workout</div>
-                            <div style="font-size: 12px; color: #666; margin-top: 4px;">30 min • Strain 12.4</div>
-                        </div>
-                        <div style="background: white; padding: 12px; border-radius: 8px;">
-                            <div style="font-weight: 600; color: #51CF66;">Evening Walk</div>
-                            <div style="font-size: 12px; color: #666; margin-top: 4px;">50 min • Strain 3.2</div>
+                        
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                            <div style="text-align: center; background: white; padding: 12px; border-radius: 8px;">
+                                <div style="font-size: 24px; font-weight: 700; color: #FF6B6B;">78.6</div>
+                                <div style="font-size: 10px; text-transform: uppercase; color: #666; letter-spacing: 1px;">Avg Strain</div>
+                            </div>
+                            <div style="text-align: center; background: white; padding: 12px; border-radius: 8px;">
+                                <div style="font-size: 24px; font-weight: 700; color: #2B8A3E;">18</div>
+                                <div style="font-size: 10px; text-transform: uppercase; color: #666; letter-spacing: 1px;">Workouts</div>
+                            </div>
+                            <div style="text-align: center; background: white; padding: 12px; border-radius: 8px;">
+                                <div style="font-size: 24px; font-weight: 700; color: #339AF0;">4,850</div>
+                                <div style="font-size: 10px; text-transform: uppercase; color: #666; letter-spacing: 1px;">Avg Daily Burn</div>
+                            </div>
+                            <div style="text-align: center; background: white; padding: 12px; border-radius: 8px;">
+                                <div style="font-size: 24px; font-weight: 700; color: #9945FF;">92 min</div>
+                                <div style="font-size: 10px; text-transform: uppercase; color: #666; letter-spacing: 1px;">Avg Daily Exercise</div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                
-                <div class="meal-card">
-                    <div class="meal-type">Summary</div>
-                    <div style="margin-top: 12px; text-align: center;">
-                        <div style="font-size: 36px; font-weight: 700; background: linear-gradient(135deg, #9945FF, #FF6B9D); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">125 min</div>
-                        <div style="font-size: 12px; text-transform: uppercase; color: #666; letter-spacing: 1px; margin-bottom: 16px;">Total Exercise Time</div>
-                        
-                        <div style="font-size: 28px; font-weight: 700; color: #FF6B6B;">12.4</div>
-                        <div style="font-size: 12px; text-transform: uppercase; color: #666; letter-spacing: 1px; margin-bottom: 16px;">Total Strain</div>
-                        
-                        <div style="font-size: 24px; font-weight: 700; color: #2B8A3E;">-828</div>
-                        <div style="font-size: 12px; text-transform: uppercase; color: #666; letter-spacing: 1px;">Net Calories</div>
+            </div>
+            
+            <!-- Heart Rate Zones - 7 Day Average -->
+            <div style="margin-top: 24px;">
+                <div class="meal-type" style="margin-bottom: 12px;">Avg Heart Rate Zones (7 days)</div>
+                <div style="display: flex; gap: 8px; align-items: flex-end; height: 100px; padding: 10px; background: #f8f5ff; border-radius: 8px;">
+                    <div style="flex: 1; text-align: center;">
+                        <div style="background: linear-gradient(180deg, #E8E8E8, #D0D0D0); height: 30%; border-radius: 4px 4px 0 0; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 4px; color: #666; font-size: 12px; font-weight: 600;">28</div>
+                        <div style="font-size: 10px; color: #666; margin-top: 4px;">Z1</div>
+                    </div>
+                    <div style="flex: 1; text-align: center;">
+                        <div style="background: linear-gradient(180deg, #DDA0DD, #C585C5); height: 45%; border-radius: 4px 4px 0 0; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 4px; color: white; font-size: 12px; font-weight: 600;">42</div>
+                        <div style="font-size: 10px; color: #666; margin-top: 4px;">Z2</div>
+                    </div>
+                    <div style="flex: 1; text-align: center;">
+                        <div style="background: linear-gradient(180deg, #FF6B9D, #E85D8A); height: 70%; border-radius: 4px 4px 0 0; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 4px; color: white; font-size: 12px; font-weight: 600;">65</div>
+                        <div style="font-size: 10px; color: #666; margin-top: 4px;">Z3</div>
+                    </div>
+                    <div style="flex: 1; text-align: center;">
+                        <div style="background: linear-gradient(180deg, #9945FF, #7B35CC); height: 55%; border-radius: 4px 4px 0 0; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 4px; color: white; font-size: 12px; font-weight: 600;">51</div>
+                        <div style="font-size: 10px; color: #666; margin-top: 4px;">Z4</div>
+                    </div>
+                    <div style="flex: 1; text-align: center;">
+                        <div style="background: linear-gradient(180deg, #FF4444, #CC3333); height: 25%; border-radius: 4px 4px 0 0; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 4px; color: white; font-size: 12px; font-weight: 600;">23</div>
+                        <div style="font-size: 10px; color: #666; margin-top: 4px;">Z5</div>
                     </div>
                 </div>
             </div>
