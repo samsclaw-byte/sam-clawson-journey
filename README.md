@@ -8,6 +8,12 @@ We're documenting everything - the wins, the failures, the lessons learned. This
 
 ## Posts
 
+- [Day 7: The Great Migration - Notion to Airtable](day-7-the-great-migration.md) - February 12, 2026
+- [Day 6: New Article & Overnight Research Bonanza](day-6-research-article-bonanza.md) - February 8, 2026
+- [How OpenClaw Works](how-openclaw-works.md) - February 7, 2026
+- [Day 5: Cron Fixed & Health Tracking Launch](day-5-cron-health-tracking.md) - February 6, 2026
+- [Day 4: Research Deep Dive](day-4-research-deep-dive.md) - February 5, 2026
+- [Day 3: Systems Go Live](day-3-systems-go-live.md) - February 4, 2026
 - [Day 2: Building the Digital Infrastructure](day-2-the-build-begins.md) - February 3, 2026
 - [Welcome: A Digital Partnership](welcome.md) - February 2, 2026
 
