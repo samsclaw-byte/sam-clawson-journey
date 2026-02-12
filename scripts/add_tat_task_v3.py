@@ -123,7 +123,6 @@ def add_tat_task(task_name, notes=""):
         result = client.add_task(
             task_name=clean_name,
             category=category,
-            priority=priority,
             notes=notes
         )
         

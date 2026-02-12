@@ -46,14 +46,16 @@ class TATClient:
             "Task Name": task_name.strip(),
             "Category": category,
             "Status": status,
-            "Priority": priority,
         }
+        
+        # Only add optional fields if they exist in your table
+        # Remove these lines if Priority/Tags fields don't exist yet
+        # fields["Priority"] = priority
+        # if tags:
+        #     fields["Tags"] = tags
         
         if notes:
             fields["Notes"] = notes
-        
-        if tags:
-            fields["Tags"] = tags
         
         # Note: Due Date is NOT included - it's auto-calculated by formula
         # Due Date = DATEADD({Date Created}, VALUE({Category}), 'days')
