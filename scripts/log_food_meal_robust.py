@@ -44,30 +44,49 @@ def log_food_meal(food_description, meal_type="Snack"):
     return record, status
 
 def get_edamam_nutrition(food_text):
-    """Query Edamam API for nutrition data"""
-    try:
-        app_id = "f4bc1402"
-        api_key = "6a17caf19f979aebe0f88d0462937a54"
-        
-        url = "https://api.edamam.com/api/nutrition-data"
-        params = {
-            'app_id': app_id,
-            'app_key': api_key,
-            'ingr': food_text,
-            'nutrition-type': 'logging'
-        }
-        
-        response = requests.get(url, params=params, timeout=10)
-        
-        if response.status_code == 200:
-            data = response.json()
-            if 'ingredients' in data and data['ingredients']:
-                return extract_nutrients(data)
-        
-        return None
-        
-    except Exception as e:
-        print(f"  Edamam API error: {e}")
+    """Query Edamam API for nutrition data - tries multiple keys"""
+    app_id = "f4bc1402"
+    
+    # Try both API keys (primary and fallback)
+    api_keys = [
+        "6a17caf19f979aebe0f88d0462937a54",  # Primary key
+        "b069c1d1fd628a38b69677d3744c347f"   # Fallback key
+    ]
+    
+    url = "https://api.edamam.com/api/nutrition-data"
+    
+    for i, api_key in enumerate(api_keys):
+        key_name = "primary" if i == 0 else "fallback"
+        try:
+            params = {
+                'app_id': app_id,
+                'app_key': api_key,
+                'ingr': food_text,
+                'nutrition-type': 'logging'
+            }
+            
+            response = requests.get(url, params=params, timeout=10)
+            
+            if response.status_code == 200:
+                data = response.json()
+                if 'ingredients' in data and data['ingredients']:
+                    if i > 0:
+                        print(f"  ✓ Using fallback API key")
+                    return extract_nutrients(data)
+            elif response.status_code == 403:
+                print(f"  ⚠️  {key_name} key rejected, trying fallback...")
+                continue
+            else:
+                # Other error, try next key
+                continue
+                
+        except Exception as e:
+            if i == 0:
+                print(f"  ⚠️  Primary key failed, trying fallback...")
+            continue
+    
+    print(f"  ❌ All API keys failed")
+    return None
         return None
 
 def extract_nutrients(data):
