@@ -1,12 +1,8 @@
 {
-  "date": "2026-02-11",
-  "today": 6,
+  "date": "2026-02-12",
+  "today": 1,
   "goal": 8,
   "entries": [
-    {"time": "09:19", "amount": 1},
-    {"time": "13:09", "amount": 2},
-    {"time": "16:04", "amount": 1},
-    {"time": "17:50", "amount": 1},
-    {"time": "21:58", "amount": 1, "note": "Post-workout with protein & creatine"}
+    {"time": "07:28", "amount": 1, "note": "With breakfast"}
   ]
 }
