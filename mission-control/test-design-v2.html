@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mission Control v2 - Test Design</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #f8f9ff 0%, #fff5f8 100%);
+            color: #1a1a2e;
+            min-height: 100vh;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #9945FF 0%, #FF6B9D 100%);
+            padding: 30px 20px;
+            text-align: center;
+            color: white;
+            box-shadow: 0 4px 20px rgba(153, 69, 255, 0.3);
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 20px rgba(153, 69, 255, 0.08);
+            border: 1px solid rgba(153, 69, 255, 0.1);
+        }
+        
+        .card h2 {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, #9945FF, #FF6B9D);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+        
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+        
+        .stat-box {
+            background: linear-gradient(135deg, #f8f5ff 0%, #fff5f8 100%);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid rgba(153, 69, 255, 0.15);
+        }
+        
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #9945FF, #FF6B9D);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+            margin-top: 4px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .progress-bar {
+            background: #f0f0f5;
+            border-radius: 10px;
+            height: 12px;
+            overflow: hidden;
+            margin: 12px 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #9945FF, #FF6B9D);
+            border-radius: 10px;
+            transition: width 0.3s ease;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .badge-success {
+            background: linear-gradient(135deg, #9945FF 0%, #FF6B9D 100%);
+            color: white;
+        }
+        
+        .badge-pending {
+            background: #f0f0f5;
+            color: #666;
+        }
+        
+        .nav {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+        
+        .nav a {
+            padding: 12px 24px;
+            background: white;
+            border: 1px solid rgba(153, 69, 255, 0.2);
+            border-radius: 25px;
+            color: #9945FF;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        
+        .nav a:hover, .nav a.active {
+            background: linear-gradient(135deg, #9945FF, #FF6B9D);
+            color: white;
+            border-color: transparent;
+        }
+        
+        .food-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f5;
+        }
+        
+        .food-item:last-child {
+            border-bottom: none;
+        }
+        
+        .food-name {
+            font-weight: 500;
+        }
+        
+        .food-cal {
+            color: #9945FF;
+            font-weight: 600;
+        }
+        
+        .water-cups {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin-top: 12px;
+        }
+        
+        .cup {
+            width: 40px;
+            height: 50px;
+            border: 2px solid #e0e0e5;
+            border-radius: 0 0 8px 8px;
+            position: relative;
+        }
+        
+        .cup.filled {
+            background: linear-gradient(180deg, #9945FF 0%, #FF6B9D 100%);
+            border-color: transparent;
+        }
+        
+        .last-updated {
+            text-align: center;
+            color: #999;
+            font-size: 12px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🎯 Mission Control v2</h1>
+        <p>Sam's Daily Dashboard</p>
+    </div>
+    
+    <div class="container">
+        <div class="nav">
+            <a href="#" class="active">Overview</a>
+            <a href="#">Food Log</a>
+            <a href="#">Habits</a>
+            <a href="#">TAT Tasks</a>
+            <a href="#">Workouts</a>
+        </div>
+        
+        <div class="card">
+            <h2>📊 Today's Stats</h2>
+            <div class="stat-grid">
+                <div class="stat-box">
+                    <div class="stat-value">4,741</div>
+                    <div class="stat-label">Calories</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">135g</div>
+                    <div class="stat-label">Protein</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">7</div>
+                    <div class="stat-label">Meals</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">62%</div>
+                    <div class="stat-label">WHOOP Recovery</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2>💧 Water Intake</h2>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 100%"></div>
+            </div>
+            <p style="text-align: center; margin-top: 8px;">8/8 glasses - Goal reached! 🎉</p>
+            <div class="water-cups">
+                <div class="cup filled"></div>
+                <div class="cup filled"></div>
+                <div class="cup filled"></div>
+                <div class="cup filled"></div>
+                <div class="cup filled"></div>
+                <div class="cup filled"></div>
+                <div class="cup filled"></div>
+                <div class="cup filled"></div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2>🍽️ Recent Meals</h2>
+            <div class="food-item">
+                <span class="food-name">🌙 Dinner: Spaghetti Bolognese</span>
+                <span class="food-cal">650 cal</span>
+            </div>
+            <div class="food-item">
+                <span class="food-name">☀️ Lunch: Chicken Avocado Wrap</span>
+                <span class="food-cal">450 cal</span>
+            </div>
+            <div class="food-item">
+                <span class="food-name">🌅 Breakfast: Multigrain Bread + Ham</span>
+                <span class="food-cal">450 cal</span>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2>✅ Daily Habits</h2>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                <span class="badge badge-success">Multivitamin ✓</span>
+                <span class="badge badge-success">Fruit ✓</span>
+                <span class="badge badge-success">Water ✓</span>
+                <span class="badge badge-success">Creatine ✓</span>
+                <span class="badge badge-pending">Exercise ⏳</span>
+            </div>
+        </div>
+        
+        <p class="last-updated">Last updated: Feb 12, 2026 at 11:00 PM</p>
+    </div>
+</body>
+</html>
