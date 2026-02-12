@@ -1,23 +1,12 @@
 {
-  "date": "2026-02-09",
-  "glasses": 8,
+  "date": "2026-02-11",
+  "today": 6,
   "goal": 8,
-  "log": [
-    {
-      "time": "2026-02-09T06:39:37.669394",
-      "glasses": 1
-    },
-    {
-      "time": "2026-02-09T11:55:47.067898",
-      "glasses": 2
-    },
-    {
-      "time": "2026-02-09T20:49:20.657393",
-      "glasses": 2
-    },
-    {
-      "time": "2026-02-09T22:08:10.122181",
-      "glasses": 3
-    }
+  "entries": [
+    {"time": "09:19", "amount": 1},
+    {"time": "13:09", "amount": 2},
+    {"time": "16:04", "amount": 1},
+    {"time": "17:50", "amount": 1},
+    {"time": "21:58", "amount": 1, "note": "Post-workout with protein & creatine"}
   ]
 }

@@ -1,0 +1,42 @@
+{
+  "date": "2026-02-12",
+  "generated_at": "2026-02-12T00:39:51.413078",
+  "health": {
+    "food_log": {
+      "count": 4,
+      "total_calories": 1800,
+      "entries": [
+        "Unknown",
+        "Unknown",
+        "Unknown"
+      ]
+    }
+  },
+  "productivity": {
+    "tat_tasks": {
+      "count": 9,
+      "by_category": {
+        "\ud83d\udcbb Laptop Tasks": [
+          "Set up permanent systemd services for WHOOP webhook and tunnel",
+          "Update TAT database schema - numeric categories + due date formula",
+          "Update blog - missing days and push to GitHub",
+          "Set up Telegram Work channel and connect to Mission Control",
+          "Add SSH key to GitHub for auto-push",
+          "Update dashboard with improved layout and 7-day history"
+        ],
+        "\ud83e\udd16 AI Development": [
+          "Set up permanent remote console access",
+          "Complete Mission Control dashboard - connect to live data"
+        ],
+        "\ud83d\udcc5 3 Days": [
+          "Set up permanent Cloudflare named tunnel for WHOOP webhooks"
+        ]
+      }
+    },
+    "completed_today": 3
+  },
+  "summary": {
+    "total_entries": 13,
+    "tables_with_data": 2
+  }
+}

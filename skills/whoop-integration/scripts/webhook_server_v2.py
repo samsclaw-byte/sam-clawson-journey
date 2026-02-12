@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-WHOOP Webhook Server - Production Ready with Data Storage
-Receives WHOOP webhooks and saves all data for historical analysis
+WHOOP Webhook Server - Production Ready with Airtable Integration
+Receives WHOOP webhooks and saves data to Airtable for historical analysis
 """
 
 import os
@@ -13,6 +13,16 @@ import time
 from datetime import datetime
 from pathlib import Path
 from flask import Flask, request, jsonify
+
+# Add scripts directory to path for airtable_client
+sys.path.insert(0, str(Path(__file__).parent.parent.parent.parent / 'scripts'))
+
+try:
+    from airtable_client import get_health_client
+    AIRTABLE_AVAILABLE = True
+except ImportError:
+    AIRTABLE_AVAILABLE = False
+    print("⚠️ Airtable client not available, falling back to file storage only")
 
 # Configuration
 WEBHOOK_SECRET = os.getenv('WHOOP_WEBHOOK_SECRET', '')
@@ -106,7 +116,8 @@ def extract_recovery_metrics(data):
             'hrv': score.get('hrv_rmssd_milli'),
             'resting_hr': score.get('resting_heart_rate'),
             'spo2': score.get('spo2_percentage'),
-            'timestamp': data.get('updated_at')
+            'timestamp': data.get('updated_at'),
+            'date': data.get('date')
         }
     except:
         return {}
@@ -120,10 +131,61 @@ def extract_sleep_metrics(data):
             'sleep_efficiency': score.get('sleep_efficiency_percentage'),
             'duration_hours': score.get('stage_summary', {}).get('total_in_bed_time_milli', 0) / (1000 * 60 * 60),
             'respiratory_rate': score.get('respiratory_rate'),
-            'timestamp': data.get('updated_at')
+            'timestamp': data.get('updated_at'),
+            'date': data.get('date')
         }
     except:
         return {}
+
+def save_to_airtable_recovery(metrics):
+    """Save recovery data to Airtable"""
+    if not AIRTABLE_AVAILABLE:
+        return False
+    
+    try:
+        client = get_health_client()
+        
+        # Parse date from WHOOP data
+        whoop_date = metrics.get('date', datetime.now().strftime('%Y-%m-%d'))
+        
+        result = client.save_whoop_recovery(
+            recovery_score=metrics.get('recovery_score', 0),
+            hrv=metrics.get('hrv'),
+            resting_hr=metrics.get('resting_hr'),
+            date=whoop_date
+        )
+        
+        log_event(f"✅ Saved recovery to Airtable: {metrics.get('recovery_score')}%")
+        return True
+        
+    except Exception as e:
+        log_event(f"⚠️ Failed to save recovery to Airtable: {e}")
+        return False
+
+def save_to_airtable_sleep(metrics):
+    """Save sleep data to Airtable"""
+    if not AIRTABLE_AVAILABLE:
+        return False
+    
+    try:
+        client = get_health_client()
+        
+        # Parse date from WHOOP data
+        whoop_date = metrics.get('date', datetime.now().strftime('%Y-%m-%d'))
+        
+        result = client.save_whoop_sleep(
+            sleep_performance=metrics.get('sleep_performance', 0),
+            duration_hours=metrics.get('duration_hours', 0),
+            efficiency=metrics.get('sleep_efficiency'),
+            date=whoop_date
+        )
+        
+        log_event(f"✅ Saved sleep to Airtable: {metrics.get('sleep_performance')}%")
+        return True
+        
+    except Exception as e:
+        log_event(f"⚠️ Failed to save sleep to Airtable: {e}")
+        return False
 
 @app.route('/webhook/whoop', methods=['POST'])
 def whoop_webhook():
@@ -155,34 +217,52 @@ def whoop_webhook():
     event_type = data.get('event_type', 'unknown')
     log_event(f"📊 Event type: {event_type}")
     
-    # Save ALL data to file
+    # Save ALL data to file (always do this as backup)
     save_data_to_file(event_type, data)
     
-    # Extract and save key metrics for quick access
+    # Extract and save key metrics
+    airtable_saved = False
+    
     if event_type == 'recovery.updated':
         metrics = extract_recovery_metrics(data)
         if metrics:
+            # Save to file
             metrics_file = DATA_DIR / 'latest_recovery.json'
             with open(metrics_file, 'w') as f:
                 json.dump(metrics, f, indent=2)
             log_event(f"💓 Recovery score: {metrics.get('recovery_score')}%")
+            
+            # Save to Airtable
+            if save_to_airtable_recovery(metrics):
+                airtable_saved = True
     
     elif event_type == 'sleep.updated':
         metrics = extract_sleep_metrics(data)
         if metrics:
+            # Save to file
             metrics_file = DATA_DIR / 'latest_sleep.json'
             with open(metrics_file, 'w') as f:
                 json.dump(metrics, f, indent=2)
             log_event(f"😴 Sleep performance: {metrics.get('sleep_performance')}%")
+            
+            # Save to Airtable
+            if save_to_airtable_sleep(metrics):
+                airtable_saved = True
     
     elif event_type == 'workout.created':
         log_event("🏋️ New workout recorded")
+        # Could save workout to Airtable too if desired
     
     elif event_type == 'cycles.updated':
         log_event("📅 Cycle data updated")
     
     log_event("✅ Webhook processed successfully")
-    return jsonify({'status': 'success', 'saved': True}), 200
+    
+    return jsonify({
+        'status': 'success', 
+        'saved': True,
+        'airtable_saved': airtable_saved
+    }), 200
 
 @app.route('/webhook/whoop/health', methods=['GET'])
 def health_check():
@@ -191,8 +271,9 @@ def health_check():
         'status': 'healthy',
         'timestamp': datetime.now().isoformat(),
         'webhook_secret_set': bool(WEBHOOK_SECRET),
+        'airtable_available': AIRTABLE_AVAILABLE,
         'data_directory': str(DATA_DIR),
-        'version': '2.0'
+        'version': '2.1'
     }), 200
 
 @app.route('/webhook/whoop/data', methods=['GET'])
@@ -236,18 +317,23 @@ def get_latest_sleep():
 
 def initialize():
     """Initialize webhook server"""
-    log_event("🚀 WHOOP Webhook Server v2.0 initialized")
+    log_event("🚀 WHOOP Webhook Server v2.1 initialized")
     log_event(f"📁 Data directory: {DATA_DIR}")
     log_event(f"📝 Log file: {LOG_FILE}")
+    log_event(f"📊 Airtable integration: {'✅ Available' if AIRTABLE_AVAILABLE else '⚠️ Not available'}")
     
     if not WEBHOOK_SECRET:
         log_event("⚠️ WARNING: WHOOP_WEBHOOK_SECRET not set!")
+    
+    if not AIRTABLE_AVAILABLE:
+        log_event("⚠️ Airtable client not available - data will only be saved to files")
 
 if __name__ == '__main__':
     initialize()
     
-    print("\n🚀 Starting WHOOP Webhook Server with Data Storage...")
+    print("\n🚀 Starting WHOOP Webhook Server with Airtable Integration...")
     print(f"📁 Saving data to: {DATA_DIR}")
+    print(f"📊 Airtable: {'✅ Enabled' if AIRTABLE_AVAILABLE else '⚠️ Disabled'}")
     print("Listening on http://localhost:8080")
     print("\nEndpoints:")
     print("  POST /webhook/whoop       - Receive WHOOP webhooks")

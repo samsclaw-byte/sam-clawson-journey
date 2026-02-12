@@ -1,0 +1,13 @@
+TEMPORARY URL (active now):
+https://newcastle-olympics-act-municipality.trycloudflare.com/webhook/whoop
+
+PERMANENT SETUP TODO:
+1. Create Cloudflare account: https://dash.cloudflare.com/sign-up
+2. Add domain or get workers.dev subdomain
+3. Run: cloudflared tunnel login
+4. Create named tunnel: cloudflared tunnel create whoop-webhook-permanent
+5. Create DNS route: cloudflared tunnel route dns whoop-webhook-permanent whoop.yourdomain.com
+6. Update WHOOP dashboard with new permanent URL
+7. Stop temporary tunnel
+
+Current temporary tunnel is running in background (nova-crustacean session)
