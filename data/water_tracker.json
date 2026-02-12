@@ -1,8 +1,17 @@
 {
   "date": "2026-02-12",
-  "today": 1,
+  "today": 3,
   "goal": 8,
   "entries": [
-    {"time": "07:28", "amount": 1, "note": "With breakfast"}
+    {
+      "time": "07:28",
+      "amount": 1,
+      "note": "With breakfast"
+    },
+    {
+      "time": "11:32",
+      "amount": 2,
+      "note": "Additional water"
+    }
   ]
 }
