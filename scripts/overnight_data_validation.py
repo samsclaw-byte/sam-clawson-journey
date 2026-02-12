@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """
-Overnight Data Validation for Airtable Tables
+Overnight Data Validation for Airtable Tables - v2 with Severity Levels
 Runs at 2:00 AM daily via cron
 Validates data integrity across all tracking tables
+Categorizes issues: SEVERE vs MINOR
 """
 
 import os
@@ -27,29 +28,65 @@ class DataValidator:
             "date_checked": (datetime.now() - timedelta(days=1)).strftime('%Y-%m-%d'),
             "tables": {},
             "summary": {
-                "total_issues": 0,
-                "critical_issues": 0,
+                "total_records": 0,
+                "severe_errors": 0,
+                "minor_errors": 0,
                 "warnings": 0,
-                "auto_fixed": 0
+                "auto_fixed": 0,
+                "missing_fields_count": 0,
+                "overall_status": "PASS"
             }
         }
+    
+    def classify_issue(self, issue_type, description):
+        """
+        Classify issue as SEVERE or MINOR
+        SEVERE: Data corruption, missing required fields, duplicates
+        MINOR: Missing optional data, recommendations, formatting
+        """
+        severe_keywords = [
+            'missing required', 'cannot fetch', 'exception', 'duplicate', 
+            'invalid', 'orphaned', 'multiple records', 'data type',
+            'corrupt', 'empty', 'null'
+        ]
+        
+        issue_lower = description.lower()
+        if any(keyword in issue_lower for keyword in severe_keywords):
+            return 'SEVERE'
+        return 'MINOR'
     
     # ============================================================================
     # FOOD LOG VALIDATIONS
     # ============================================================================
     def validate_food_log(self, date):
-        """Validate Food Log table integrity"""
+        """Validate Food Log table integrity with field completeness checks"""
         print("\n" + "="*60)
         print("🍽️  VALIDATING FOOD LOG")
         print("="*60)
         
         url = f"https://api.airtable.com/v0/{HEALTH_BASE}/tblsoErCMSBtzBZKB"
-        issues = []
+        severe_issues = []
+        minor_issues = []
         warnings = []
         auto_fixed = 0
+        missing_fields_total = 0
+        
+        # Define field completeness expectations
+        required_fields = {
+            'Date': 'Date of meal',
+            'Meal Type': 'Type of meal (Breakfast/Lunch/Dinner/Snack)',
+            'Food Items': 'Description of food consumed',
+            'Calories': 'Calorie count'
+        }
+        
+        optional_fields = {
+            'Protein (g)': 'Protein content',
+            'Carbs (g)': 'Carbohydrate content',
+            'Fat (g)': 'Fat content',
+            'Edamam Data': 'Whether data came from Edamam API'
+        }
         
         try:
-            # Get all records for the date
             response = requests.get(
                 f"{url}?filterByFormula=Date='{date}'&maxRecords=50",
                 headers=self.headers,
@@ -57,57 +94,86 @@ class DataValidator:
             )
             
             if response.status_code != 200:
-                issues.append(f"Cannot fetch Food Log: HTTP {response.status_code}")
-                return {"status": "ERROR", "issues": issues, "warnings": warnings}
+                severe_issues.append(f"SEVERE: Cannot fetch Food Log: HTTP {response.status_code}")
+                return {
+                    "status": "ERROR", 
+                    "severe": severe_issues, 
+                    "minor": minor_issues,
+                    "warnings": warnings,
+                    "missing_fields": 0
+                }
             
             records = response.json().get('records', [])
             
-            # Validation 1: Check for required fields
-            required_fields = ['Date', 'Meal Type', 'Food Items', 'Calories']
             for r in records:
                 f = r.get('fields', {})
-                for field in required_fields:
+                record_id = r['id'][:10]
+                missing_in_record = 0
+                
+                # Check 1: Required fields - SEVERE if missing
+                for field, description in required_fields.items():
                     if field not in f or f[field] is None or f[field] == '':
-                        issues.append(f"Record {r['id'][:10]}: Missing required field '{field}'")
-            
-            # Validation 2: Check Meal Type is valid
-            valid_meal_types = ['Breakfast', 'Lunch', 'Dinner', 'Snack']
-            for r in records:
-                f = r.get('fields', {})
+                        severe_issues.append(f"SEVERE: Record {record_id}: Missing required field '{field}' ({description})")
+                        missing_in_record += 1
+                
+                # Check 2: Optional fields - MINOR if missing
+                for field, description in optional_fields.items():
+                    if field not in f or f[field] is None or f[field] == '':
+                        minor_issues.append(f"MINOR: Record {record_id}: Missing optional field '{field}' ({description})")
+                        missing_in_record += 1
+                
+                missing_fields_total += missing_in_record
+                
+                # Check 3: Data type validations - SEVERE
                 meal_type = f.get('Meal Type', '')
-                if meal_type and meal_type not in valid_meal_types:
-                    issues.append(f"Record {r['id'][:10]}: Invalid Meal Type '{meal_type}'")
+                if meal_type and meal_type not in ['Breakfast', 'Lunch', 'Dinner', 'Snack']:
+                    severe_issues.append(f"SEVERE: Record {record_id}: Invalid Meal Type '{meal_type}'")
+                
+                calories = f.get('Calories')
+                if calories is not None:
+                    if not isinstance(calories, (int, float)):
+                        severe_issues.append(f"SEVERE: Record {record_id}: Calories must be numeric, got {type(calories)}")
+                    elif calories < 0:
+                        severe_issues.append(f"SEVERE: Record {record_id}: Calories cannot be negative ({calories})")
+                    elif calories == 0:
+                        warnings.append(f"⚠️ Record {record_id}: Calories is 0 - verify this is correct")
+                
+                # Check 4: Date format - SEVERE
+                record_date = f.get('Date', '')
+                if record_date:
+                    try:
+                        datetime.strptime(record_date, '%Y-%m-%d')
+                    except:
+                        severe_issues.append(f"SEVERE: Record {record_id}: Invalid Date format '{record_date}' (expected YYYY-MM-DD)")
             
-            # Validation 3: Check Calories is positive number
-            for r in records:
-                f = r.get('fields', {})
-                calories = f.get('Calories', 0)
-                if calories is not None and (not isinstance(calories, (int, float)) or calories < 0):
-                    issues.append(f"Record {r['id'][:10]}: Invalid Calories value '{calories}'")
-            
-            # Validation 4: Check for exact duplicates
+            # Check 5: Duplicates - SEVERE
             seen_meals = defaultdict(list)
             for r in records:
                 f = r.get('fields', {})
-                key = f"{f.get('Meal Type', '')}:{f.get('Food Items', '')[:30]}"
-                seen_meals[key].append(r['id'])
+                key = f"{f.get('Date', '')}:{f.get('Meal Type', '')}:{f.get('Food Items', '')[:30]}"
+                seen_meals[key].append(r['id'][:10])
             
             for key, ids in seen_meals.items():
                 if len(ids) > 1:
-                    issues.append(f"Duplicate meals found ({len(ids)} copies): {key}")
+                    severe_issues.append(f"SEVERE: Duplicate meals found ({len(ids)} copies with IDs: {', '.join(ids)}): {key[:50]}")
             
-            # Validation 5: Edamam Data consistency
-            # If Edamam Data = True, should have all 24 nutrients
-            # If Edamam Data = False/empty, should at least have Calories
+            # Check 6: Data quality warnings - MINOR
+            total_calories = sum(r['fields'].get('Calories', 0) for r in records if 'Calories' in r['fields'])
+            if total_calories > 5000:
+                warnings.append(f"⚠️ Total calories ({total_calories}) unusually high - verify entries")
+            elif total_calories < 500 and len(records) > 0:
+                warnings.append(f"⚠️ Total calories ({total_calories}) unusually low - verify entries")
+            
+            # Check 7: Edamam Data consistency - MINOR
             for r in records:
                 f = r.get('fields', {})
                 has_edamam = f.get('Edamam Data', False)
                 has_protein = f.get('Protein (g)')
                 
                 if has_edamam and not has_protein:
-                    warnings.append(f"Record {r['id'][:10]}: Edamam Data=True but missing protein - data may be incomplete")
+                    minor_issues.append(f"MINOR: Record {r['id'][:10]}: Edamam Data=True but missing protein - incomplete nutrition")
                 elif not has_edamam and has_protein:
-                    # Auto-fix: Set Edamam Data = True since we have protein data
+                    # Auto-fix
                     try:
                         fix_resp = requests.patch(
                             f"{url}/{r['id']}",
@@ -120,52 +186,62 @@ class DataValidator:
                     except:
                         pass
             
-            # Validation 6: Check for orphaned records (no date)
-            for r in records:
-                f = r.get('fields', {})
-                if 'Date' not in f or not f['Date']:
-                    issues.append(f"Record {r['id'][:10]}: Missing Date (orphaned record)")
-            
-            # Validation 7: Nutrition totals seem reasonable
-            total_calories = sum(r['fields'].get('Calories', 0) for r in records if 'Calories' in r['fields'])
-            if total_calories > 5000:
-                warnings.append(f"Total calories ({total_calories}) seems unusually high - verify entries")
-            elif total_calories < 500 and len(records) > 0:
-                warnings.append(f"Total calories ({total_calories}) seems unusually low - verify entries")
-            
             result = {
-                "status": "PASS" if not issues else "FAIL",
+                "status": "PASS" if not severe_issues else "FAIL",
                 "records_checked": len(records),
                 "total_calories": total_calories,
-                "issues": issues,
+                "severe": severe_issues,
+                "minor": minor_issues,
                 "warnings": warnings,
-                "auto_fixed": auto_fixed
+                "auto_fixed": auto_fixed,
+                "missing_fields": missing_fields_total
             }
             
             print(f"  Records checked: {len(records)}")
-            print(f"  Total calories: {total_calories}")
-            print(f"  Issues: {len(issues)}")
+            print(f"  Severe issues: {len(severe_issues)}")
+            print(f"  Minor issues: {len(minor_issues)}")
             print(f"  Warnings: {len(warnings)}")
+            print(f"  Missing fields: {missing_fields_total}")
             print(f"  Auto-fixed: {auto_fixed}")
             
             return result
             
         except Exception as e:
-            issues.append(f"Exception during validation: {str(e)}")
-            return {"status": "ERROR", "issues": issues, "warnings": warnings}
+            severe_issues.append(f"SEVERE: Exception during validation: {str(e)}")
+            return {
+                "status": "ERROR", 
+                "severe": severe_issues, 
+                "minor": minor_issues,
+                "warnings": warnings,
+                "missing_fields": 0
+            }
     
     # ============================================================================
     # DAILY HABITS VALIDATIONS
     # ============================================================================
     def validate_daily_habits(self, date):
-        """Validate Daily Habits table integrity"""
+        """Validate Daily Habits table with field completeness checks"""
         print("\n" + "="*60)
         print("📊 VALIDATING DAILY HABITS")
         print("="*60)
         
         url = f"https://api.airtable.com/v0/{PRODUCTIVITY_BASE}/tblZSHA0bOZGNaRUm"
-        issues = []
+        severe_issues = []
+        minor_issues = []
         warnings = []
+        missing_fields_total = 0
+        
+        required_fields = {
+            'Date': 'Date of habit tracking'
+        }
+        
+        optional_fields = {
+            'Multivitamin': 'Multivitamin taken (checkbox)',
+            'Fruit': 'Fruit consumed (checkbox)',
+            'Exercise': 'Exercise completed (checkbox)',
+            'Creatine': 'Creatine taken (checkbox)',
+            'Water': 'Water intake (number of glasses)'
+        }
         
         try:
             response = requests.get(
@@ -175,62 +251,94 @@ class DataValidator:
             )
             
             if response.status_code != 200:
-                issues.append(f"Cannot fetch Daily Habits: HTTP {response.status_code}")
-                return {"status": "ERROR", "issues": issues, "warnings": warnings}
+                severe_issues.append(f"SEVERE: Cannot fetch Daily Habits: HTTP {response.status_code}")
+                return {
+                    "status": "ERROR", 
+                    "severe": severe_issues, 
+                    "minor": minor_issues,
+                    "warnings": warnings,
+                    "missing_fields": 0
+                }
             
             records = response.json().get('records', [])
             
-            # Validation 1: Check for duplicate dates
+            # Check 1: Duplicate records - SEVERE
             if len(records) > 1:
-                issues.append(f"Multiple habit records found for {date} ({len(records)} records) - should be unique per day")
+                ids = [r['id'][:10] for r in records]
+                severe_issues.append(f"SEVERE: Multiple habit records for {date} ({len(records)} records: {', '.join(ids)}) - should be unique per day")
             
-            # Validation 2: Check data types
             for r in records:
                 f = r.get('fields', {})
+                record_id = r['id'][:10]
+                missing_in_record = 0
                 
-                # Water should be integer 0-20
+                # Check required fields
+                for field, description in required_fields.items():
+                    if field not in f or not f[field]:
+                        severe_issues.append(f"SEVERE: Record {record_id}: Missing required field '{field}' ({description})")
+                        missing_in_record += 1
+                
+                # Check optional fields (minor)
+                for field, description in optional_fields.items():
+                    if field not in f:
+                        minor_issues.append(f"MINOR: Record {record_id}: Missing field '{field}' ({description})")
+                        missing_in_record += 1
+                
+                # Check data types
                 water = f.get('Water')
                 if water is not None:
                     if not isinstance(water, (int, float)):
-                        issues.append(f"Record {r['id'][:10]}: Water field should be numeric")
+                        severe_issues.append(f"SEVERE: Record {record_id}: Water must be numeric, got {type(water)}")
                     elif water < 0 or water > 20:
-                        warnings.append(f"Record {r['id'][:10]}: Water value ({water}) seems unusual")
+                        warnings.append(f"⚠️ Record {record_id}: Water value ({water}) seems unusual")
                 
-                # Boolean fields should be boolean
+                # Check boolean fields
                 boolean_fields = ['Multivitamin', 'Fruit', 'Exercise', 'Creatine']
                 for field in boolean_fields:
                     value = f.get(field)
                     if value is not None and not isinstance(value, bool):
-                        issues.append(f"Record {r['id'][:10]}: {field} should be boolean (checkbox)")
+                        severe_issues.append(f"SEVERE: Record {record_id}: {field} should be boolean (checkbox), got {type(value)}")
+                
+                missing_fields_total += missing_in_record
             
-            # Validation 3: Check for missing record
+            # Check 2: Missing record - WARNING
             if not records:
-                warnings.append(f"No habit record found for {date}")
+                warnings.append(f"⚠️ No habit record found for {date}")
             
-            # Validation 4: Cross-reference with Food Log
+            # Check 3: Cross-reference with Food Log - MINOR
             food_issues = self._cross_validate_habits_food(date)
-            issues.extend(food_issues)
+            minor_issues.extend(food_issues)
             
             result = {
-                "status": "PASS" if not issues else "FAIL",
+                "status": "PASS" if not severe_issues else "FAIL",
                 "records_checked": len(records),
-                "issues": issues,
-                "warnings": warnings
+                "severe": severe_issues,
+                "minor": minor_issues,
+                "warnings": warnings,
+                "missing_fields": missing_fields_total
             }
             
             print(f"  Records checked: {len(records)}")
-            print(f"  Issues: {len(issues)}")
+            print(f"  Severe issues: {len(severe_issues)}")
+            print(f"  Minor issues: {len(minor_issues)}")
             print(f"  Warnings: {len(warnings)}")
+            print(f"  Missing fields: {missing_fields_total}")
             
             return result
             
         except Exception as e:
-            issues.append(f"Exception during validation: {str(e)}")
-            return {"status": "ERROR", "issues": issues, "warnings": warnings}
+            severe_issues.append(f"SEVERE: Exception during validation: {str(e)}")
+            return {
+                "status": "ERROR", 
+                "severe": severe_issues, 
+                "minor": minor_issues,
+                "warnings": warnings,
+                "missing_fields": 0
+            }
     
     def _cross_validate_habits_food(self, date):
-        """Cross-validate habits with food log"""
-        issues = []
+        """Cross-validate habits with food log - returns minor issues"""
+        minor_issues = []
         
         try:
             # Get habits
@@ -242,11 +350,11 @@ class DataValidator:
             )
             
             if habits_resp.status_code != 200:
-                return issues
+                return minor_issues
             
             habits_records = habits_resp.json().get('records', [])
             if not habits_records:
-                return issues
+                return minor_issues
             
             habits = habits_records[0]['fields']
             
@@ -259,41 +367,54 @@ class DataValidator:
             )
             
             if food_resp.status_code != 200:
-                return issues
+                return minor_issues
             
             food_records = food_resp.json().get('records', [])
             food_text = ' '.join([r['fields'].get('Food Items', '') for r in food_records]).lower()
             
             # Check: If multivitamin in food log, should be checked in habits
             if 'multivitamin' in food_text and not habits.get('Multivitamin'):
-                issues.append("Multivitamin found in Food Log but not checked in Daily Habits")
+                minor_issues.append("MINOR: Multivitamin found in Food Log but not checked in Daily Habits")
             
             # Check: If fruit in food log, should be checked in habits
             fruit_keywords = ['apple', 'banana', 'date', 'fruit', 'berry']
             has_fruit_in_food = any(f in food_text for f in fruit_keywords)
             if has_fruit_in_food and not habits.get('Fruit'):
-                issues.append("Fruit found in Food Log but not checked in Daily Habits")
+                minor_issues.append("MINOR: Fruit found in Food Log but not checked in Daily Habits")
             
         except Exception as e:
             pass
         
-        return issues
+        return minor_issues
     
     # ============================================================================
     # TAT TASKS VALIDATIONS
     # ============================================================================
     def validate_tat_tasks(self, date):
-        """Validate TAT Tasks table integrity"""
+        """Validate TAT Tasks table with field completeness checks"""
         print("\n" + "="*60)
         print("📋 VALIDATING TAT TASKS")
         print("="*60)
         
         url = f"https://api.airtable.com/v0/{PRODUCTIVITY_BASE}/tblkbuvkZUSpm1IgJ"
-        issues = []
+        severe_issues = []
+        minor_issues = []
         warnings = []
+        missing_fields_total = 0
+        
+        required_fields = {
+            'Task Name': 'Description of the task',
+            'Category': 'TAT category (1/3/7/30 days)',
+            'Status': 'Current status of the task'
+        }
+        
+        optional_fields = {
+            'Priority': 'Task priority level',
+            'Notes': 'Additional notes',
+            'Tags': 'Task tags'
+        }
         
         try:
-            # Get tasks created on this date
             response = requests.get(
                 f"{url}?filterByFormula=Date='{date}'&maxRecords=50",
                 headers=self.headers,
@@ -301,105 +422,128 @@ class DataValidator:
             )
             
             if response.status_code != 200:
-                issues.append(f"Cannot fetch TAT Tasks: HTTP {response.status_code}")
-                return {"status": "ERROR", "issues": issues, "warnings": warnings}
+                severe_issues.append(f"SEVERE: Cannot fetch TAT Tasks: HTTP {response.status_code}")
+                return {
+                    "status": "ERROR", 
+                    "severe": severe_issues, 
+                    "minor": minor_issues,
+                    "warnings": warnings,
+                    "missing_fields": 0
+                }
             
             records = response.json().get('records', [])
             
-            # Validation 1: Check for required fields
-            required_fields = ['Task Name', 'Category', 'Status']
             for r in records:
                 f = r.get('fields', {})
-                for field in required_fields:
-                    if field not in f or f[field] is None or f[field] == '':
-                        issues.append(f"Record {r['id'][:10]}: Missing required field '{field}'")
-            
-            # Validation 2: Validate Category values
-            valid_categories = ['1', '3', '7', '30']
-            for r in records:
-                f = r.get('fields', {})
+                record_id = r['id'][:10]
+                missing_in_record = 0
+                
+                # Check required fields
+                for field, description in required_fields.items():
+                    if field not in f or not f[field]:
+                        severe_issues.append(f"SEVERE: Record {record_id}: Missing required field '{field}' ({description})")
+                        missing_in_record += 1
+                
+                # Check optional fields
+                for field, description in optional_fields.items():
+                    if field not in f:
+                        minor_issues.append(f"MINOR: Record {record_id}: Missing field '{field}' ({description})")
+                        missing_in_record += 1
+                
+                # Check Category valid values
                 category = f.get('Category', '')
-                if category and category not in valid_categories:
-                    issues.append(f"Record {r['id'][:10]}: Invalid Category '{category}'")
-            
-            # Validation 3: Validate Status values
-            valid_statuses = ['Not Started', 'In Progress', 'Blocked', 'Complete', 'Cancelled']
-            for r in records:
-                f = r.get('fields', {})
+                if category and category not in ['1', '3', '7', '30']:
+                    severe_issues.append(f"SEVERE: Record {record_id}: Invalid Category '{category}' (must be 1, 3, 7, or 30)")
+                
+                # Check Status valid values
                 status = f.get('Status', '')
+                valid_statuses = ['Not Started', 'In Progress', 'Blocked', 'Complete', 'Cancelled']
                 if status and status not in valid_statuses:
-                    issues.append(f"Record {r['id'][:10]}: Invalid Status '{status}'")
-            
-            # Validation 4: Check Due Date formula correctness
-            for r in records:
-                f = r.get('fields', {})
+                    severe_issues.append(f"SEVERE: Record {record_id}: Invalid Status '{status}' (must be one of: {', '.join(valid_statuses)})")
+                
+                # Check Due Date formula
                 date_created = f.get('Date Created')
-                category = f.get('Category')
+                cat = f.get('Category')
                 due_date = f.get('Due Date')
                 
-                if date_created and category and due_date:
-                    # Calculate expected due date
+                if date_created and cat and due_date:
                     try:
                         created = datetime.fromisoformat(date_created.replace('Z', '+00:00'))
-                        expected_due = created + timedelta(days=int(category))
+                        expected_due = created + timedelta(days=int(cat))
                         actual_due = datetime.fromisoformat(due_date.replace('Z', '+00:00'))
                         
                         if abs((expected_due - actual_due).days) > 1:
-                            issues.append(f"Record {r['id'][:10]}: Due Date doesn't match formula (Category={category})")
+                            severe_issues.append(f"SEVERE: Record {record_id}: Due Date formula error - expected {expected_due.date()}, got {actual_due.date()}")
                     except:
                         pass
-            
-            # Validation 5: Check for overdue tasks without status update
-            for r in records:
-                f = r.get('fields', {})
-                days_remaining = f.get('Days Remaining')
-                status = f.get('Status', '')
                 
+                # Check overdue tasks
+                days_remaining = f.get('Days Remaining')
                 if days_remaining is not None and days_remaining < 0 and status not in ['Complete', 'Cancelled']:
-                    warnings.append(f"Record {r['id'][:10]}: Task is overdue ({days_remaining} days) but status is '{status}'")
+                    warnings.append(f"⚠️ Record {record_id}: Task overdue ({days_remaining} days) with status '{status}'")
+                
+                missing_fields_total += missing_in_record
             
             result = {
-                "status": "PASS" if not issues else "FAIL",
+                "status": "PASS" if not severe_issues else "FAIL",
                 "records_checked": len(records),
-                "issues": issues,
-                "warnings": warnings
+                "severe": severe_issues,
+                "minor": minor_issues,
+                "warnings": warnings,
+                "missing_fields": missing_fields_total
             }
             
             print(f"  Records checked: {len(records)}")
-            print(f"  Issues: {len(issues)}")
+            print(f"  Severe issues: {len(severe_issues)}")
+            print(f"  Minor issues: {len(minor_issues)}")
             print(f"  Warnings: {len(warnings)}")
+            print(f"  Missing fields: {missing_fields_total}")
             
             return result
             
         except Exception as e:
-            issues.append(f"Exception during validation: {str(e)}")
-            return {"status": "ERROR", "issues": issues, "warnings": warnings}
+            severe_issues.append(f"SEVERE: Exception during validation: {str(e)}")
+            return {
+                "status": "ERROR", 
+                "severe": severe_issues, 
+                "minor": minor_issues,
+                "warnings": warnings,
+                "missing_fields": 0
+            }
     
     # ============================================================================
     # GENERATE VALIDATION REPORT
     # ============================================================================
     def generate_report(self):
-        """Generate final validation report"""
+        """Generate final validation report with severity counts"""
         print("\n" + "="*60)
         print("📊 GENERATING VALIDATION REPORT")
         print("="*60)
         
         # Calculate summary
-        total_issues = 0
-        total_warnings = 0
-        total_auto_fixed = 0
+        total_records = 0
+        severe_count = 0
+        minor_count = 0
+        warning_count = 0
+        auto_fixed_count = 0
+        missing_fields_total = 0
         
         for table_name, result in self.validation_report['tables'].items():
-            total_issues += len(result.get('issues', []))
-            total_warnings += len(result.get('warnings', []))
-            total_auto_fixed += result.get('auto_fixed', 0)
+            total_records += result.get('records_checked', 0)
+            severe_count += len(result.get('severe', []))
+            minor_count += len(result.get('minor', []))
+            warning_count += len(result.get('warnings', []))
+            auto_fixed_count += result.get('auto_fixed', 0)
+            missing_fields_total += result.get('missing_fields', 0)
         
         self.validation_report['summary'] = {
-            "total_issues": total_issues,
-            "critical_issues": total_issues,  # All issues are considered critical for now
-            "warnings": total_warnings,
-            "auto_fixed": total_auto_fixed,
-            "overall_status": "PASS" if total_issues == 0 else "FAIL"
+            "total_records": total_records,
+            "severe_errors": severe_count,
+            "minor_errors": minor_count,
+            "warnings": warning_count,
+            "auto_fixed": auto_fixed_count,
+            "missing_fields_count": missing_fields_total,
+            "overall_status": "PASS" if severe_count == 0 else "FAIL"
         }
         
         # Save report to file
@@ -407,10 +551,13 @@ class DataValidator:
         with open(report_file, 'w') as f:
             json.dump(self.validation_report, f, indent=2)
         
-        print(f"  Total issues: {total_issues}")
-        print(f"  Warnings: {total_warnings}")
-        print(f"  Auto-fixed: {total_auto_fixed}")
-        print(f"  Overall status: {self.validation_report['summary']['overall_status']}")
+        print(f"  Total records: {total_records}")
+        print(f"  🔴 SEVERE errors: {severe_count}")
+        print(f"  🟡 MINOR errors: {minor_count}")
+        print(f"  ⚠️  Warnings: {warning_count}")
+        print(f"  📝 Missing fields: {missing_fields_total}")
+        print(f"  🔧 Auto-fixed: {auto_fixed_count}")
+        print(f"  Overall: {self.validation_report['summary']['overall_status']}")
         print(f"  Report saved: {report_file}")
         
         return self.validation_report
@@ -419,52 +566,64 @@ class DataValidator:
     # SEND MORNING REPORT
     # ============================================================================
     def send_morning_report(self, report):
-        """Send validation report summary to user"""
+        """Send validation report summary with severity breakdown"""
         summary = report['summary']
         date = report['date_checked']
         
-        # Build message
+        # Determine icon and status
         if summary['overall_status'] == 'PASS':
             icon = "✅"
-            status_text = "All validations passed!"
+            status_text = "All validations PASSED"
+        elif summary['severe_errors'] > 0:
+            icon = "🔴"
+            status_text = f"{summary['severe_errors']} SEVERE error(s) found"
         else:
-            icon = "⚠️"
-            status_text = f"{summary['total_issues']} issue(s) found"
+            icon = "🟡"
+            status_text = f"{summary['minor_errors']} minor issue(s) found"
         
         message = f"""{icon} **Overnight Data Validation - {date}**
 
 **Overall Status:** {status_text}
 
-**Summary:**
-• Records checked: Food Log, Daily Habits, TAT Tasks
-• Issues found: {summary['total_issues']}
-• Warnings: {summary['warnings']}
-• Auto-fixed: {summary['auto_fixed']}
+📊 **Summary:**
+• Records checked: {summary['total_records']}
+• 🔴 Severe errors: {summary['severe_errors']}
+• 🟡 Minor errors: {summary['minor_errors']}
+• ⚠️ Warnings: {summary['warnings']}
+• 📝 Missing fields: {summary['missing_fields_count']}
+• 🔧 Auto-fixed: {summary['auto_fixed']}
 
 """
         
         # Add details for tables with issues
         for table_name, result in report['tables'].items():
-            if result['issues'] or result['warnings']:
+            if result.get('severe') or result.get('minor'):
                 message += f"\n**{table_name}:**\n"
-                for issue in result['issues'][:5]:  # Show max 5 issues per table
-                    message += f"• ❌ {issue}\n"
-                for warning in result['warnings'][:3]:  # Show max 3 warnings
-                    message += f"• ⚠️ {warning}\n"
+                
+                # Show severe issues first
+                for issue in result.get('severe', [])[:3]:
+                    # Extract just the description part
+                    issue_clean = issue.replace('SEVERE: ', '')
+                    message += f"🔴 {issue_clean}\n"
+                
+                # Show minor issues
+                for issue in result.get('minor', [])[:2]:
+                    issue_clean = issue.replace('MINOR: ', '')
+                    message += f"🟡 {issue_clean}\n"
+                
+                if len(result.get('severe', [])) > 3 or len(result.get('minor', [])) > 2:
+                    message += f"... and {len(result.get('severe', [])) + len(result.get('minor', [])) - 5} more issues\n"
         
         if summary['overall_status'] == 'PASS':
             message += "\n🎉 All data integrity checks passed! Your tables are in good shape."
+        elif summary['severe_errors'] > 0:
+            message += "\n🔴 **Action Required:** Severe errors need manual correction."
+            message += "\n💡 Minor issues can be addressed when convenient."
         else:
-            message += "\n💡 Review the issues above. Critical items may need manual correction."
+            message += "\n🟡 Minor issues found - no urgent action needed."
         
-        # Send via Telegram (using message tool)
-        try:
-            # This would call the message tool in actual implementation
-            print(f"\nMorning report generated:\n{message}")
-            return message
-        except Exception as e:
-            print(f"Failed to send report: {e}")
-            return None
+        print(f"\nMorning report:\n{message}")
+        return message
     
     # ============================================================================
     # MAIN VALIDATION RUN
@@ -497,7 +656,7 @@ class DataValidator:
 if __name__ == "__main__":
     import argparse
     
-    parser = argparse.ArgumentParser(description='Overnight Data Validation')
+    parser = argparse.ArgumentParser(description='Overnight Data Validation with Severity Levels')
     parser.add_argument('--date', help='Date to validate (YYYY-MM-DD)', default=None)
     parser.add_argument('--report-only', action='store_true', help='Only generate report from last run')
     
@@ -506,7 +665,6 @@ if __name__ == "__main__":
     validator = DataValidator()
     
     if args.report_only:
-        # Just read and display last report
         date = args.date or (datetime.now() - timedelta(days=1)).strftime('%Y-%m-%d')
         report_file = f'/home/samsclaw/.openclaw/workspace/data/validation_report_{date}.json'
         if os.path.exists(report_file):
@@ -516,5 +674,4 @@ if __name__ == "__main__":
         else:
             print(f"No report found for {date}")
     else:
-        # Run full validation
         validator.run_validations(args.date)
