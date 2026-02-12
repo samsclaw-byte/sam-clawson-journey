@@ -661,44 +661,49 @@
             </div>
         </div>
         
-        <p class="last-updated">Last updated: Feb 12, 2026 at 11:00 PM</p>
+        <p class="last-updated">Last updated: Feb 12, 2026 at 11:00 PM | Data source: Airtable (auto-sync every 15 min)</p>
     </div>
     
     <script>
-        // Pie Chart
-        const ctx = document.getElementById('macroChart').getContext('2d');
-        new Chart(ctx, {
-            type: 'doughnut',
-            data: {
-                labels: ['Protein', 'Carbs', 'Fat', 'Fiber'],
-                datasets: [{
-                    data: [95, 178, 52, 24],
-                    backgroundColor: [
-                        '#9945FF',  // Purple
-                        '#FF6B9D',  // Pink
-                        '#FFB6C1',  // Light pink
-                        '#DDA0DD'   // Plum
-                    ],
-                    borderWidth: 0,
-                    hoverOffset: 10
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: false
+        // Pie Chart - Wait for DOM to be ready
+        document.addEventListener('DOMContentLoaded', function() {
+            const canvas = document.getElementById('macroChart');
+            if (canvas) {
+                const ctx = canvas.getContext('2d');
+                new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Protein', 'Carbs', 'Fat', 'Fiber'],
+                        datasets: [{
+                            data: [95, 178, 52, 24],
+                            backgroundColor: [
+                                '#9945FF',  // Purple
+                                '#FF6B9D',  // Pink
+                                '#FFB6C1',  // Light pink
+                                '#DDA0DD'   // Plum
+                            ],
+                            borderWidth: 0,
+                            hoverOffset: 10
+                        }]
                     },
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                return context.label + ': ' + context.parsed + 'g';
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        return context.label + ': ' + context.parsed + 'g';
+                                    }
+                                }
                             }
-                        }
+                        },
+                        cutout: '60%'
                     }
-                },
-                cutout: '60%'
+                });
             }
         });
     </script>
