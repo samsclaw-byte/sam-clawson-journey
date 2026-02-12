@@ -22,6 +22,18 @@ def update_habits_from_food(food_description):
         updates['Multivitamin'] = True
         print("  💊 Multivitamin detected - will update habits")
     
+    # Check for fruit
+    fruit_keywords = [
+        'apple', 'banana', 'orange', 'pear', 'grape', 'berry', 'berries',
+        'strawberry', 'blueberry', 'raspberry', 'blackberry', 'mango',
+        'pineapple', 'watermelon', 'melon', 'peach', 'plum', 'cherry',
+        'kiwi', 'lemon', 'lime', 'date', 'fig', 'pomegranate'
+    ]
+    
+    if any(fruit in food_lower for fruit in fruit_keywords):
+        updates['Fruit'] = True
+        print("  🍎 Fruit detected - will update habits")
+    
     # Check for water
     water_patterns = [
         r'(\d+)\s*glass(?:es)?\s+of\s+water',
