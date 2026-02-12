@@ -87,7 +87,6 @@ def get_edamam_nutrition(food_text):
     
     print(f"  ❌ All API keys failed")
     return None
-        return None
 
 def extract_nutrients(data):
     """Extract all 24 nutrients from Edamam response"""
