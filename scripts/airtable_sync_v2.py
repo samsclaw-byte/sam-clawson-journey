@@ -299,8 +299,10 @@ class AirtableSync:
         try:
             # Find meals missing Edamam data (or with Edamam Data = False/empty)
             # Formula: Edamam Data is unchecked OR Protein is empty
+            # Find meals missing Edamam data
+            filter_formula = "AND(Date='2026-02-12',OR({Edamam Data}=BLANK(),{Edamam Data}=FALSE()))"
             response = requests.get(
-                f"{url}?filterByFormula=AND(Date='2026-02-12',OR({Edamam Data}=BLANK(),{Edamam Data}=FALSE()))&maxRecords=10",
+                f"{url}?filterByFormula={filter_formula}&maxRecords=10",
                 headers=self.headers,
                 timeout=15
             )
