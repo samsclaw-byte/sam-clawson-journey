@@ -235,28 +235,15 @@ class AirtableSync:
                 
                 # Check if already exists (match by food content)
                 exists = False
-                existing_record_id = None
                 for record_id, fields in today_records:
                     existing_food = fields.get('Food Items', '').lower()[:30]
                     if food_short in existing_food or existing_food in food_short:
                         exists = True
-                        existing_record_id = record_id
                         break
                 
                 if exists:
-                    # Check if Edamam Data field needs to be set
-                    if existing_record_id:
-                        existing_fields = [f for rid, f in today_records if rid == existing_record_id][0]
-                        if 'Edamam Data' not in existing_fields:
-                            # Set Edamam Data = False since we don't have API data yet
-                            update_resp = requests.patch(
-                                f"{url}/{existing_record_id}",
-                                headers=self.headers,
-                                json={"fields": {"Edamam Data": False}},
-                                timeout=10
-                            )
-                            if update_resp.status_code == 200:
-                                print(f"  📝 Set Edamam Data = False for existing meal")
+                    # Meal already exists - don't touch Edamam Data flag
+                    # It will only be set to True when Edamam API succeeds
                     continue
                 
                 # Create record
