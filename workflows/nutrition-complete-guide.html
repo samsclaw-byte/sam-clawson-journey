@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nutrition Tracking Workflow - Complete Guide</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0a0a0f; color: #fff; line-height: 1.6; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; }
+        h1 { color: #667eea; margin-bottom: 10px; }
+        h2 { color: #764ba2; margin: 30px 0 15px; border-bottom: 2px solid #333; padding-bottom: 10px; }
+        h3 { color: #a855f7; margin: 20px 0 10px; }
+        .section { background: #1a1a2e; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #333; }
+        .nutrient-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin: 15px 0; }
+        .nutrient-item { background: #0a0a0f; padding: 10px; border-radius: 6px; display: flex; justify-content: space-between; }
+        .macro { border-left: 4px solid #667eea; }
+        .micro { border-left: 4px solid #22c55e; }
+        .vitamin { border-left: 4px solid #eab308; }
+        .mineral { border-left: 4px solid #3b82f6; }
+        .example { background: #252542; padding: 15px; border-radius: 8px; margin: 15px 0; border-left: 4px solid #22c55e; }
+        .workflow-step { background: #0a0a0f; padding: 15px; margin: 10px 0; border-radius: 8px; border-left: 4px solid #667eea; }
+        .step-number { display: inline-block; background: #667eea; color: white; width: 24px; height: 24px; border-radius: 50%; text-align: center; line-height: 24px; margin-right: 10px; font-weight: bold; }
+        code { background: #333; padding: 2px 6px; border-radius: 4px; font-family: monospace; }
+        .note { background: #eab30820; border: 1px solid #eab308; padding: 10px; border-radius: 6px; margin: 10px 0; }
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+        th { background: #667eea; padding: 10px; text-align: left; }
+        td { padding: 8px; border-bottom: 1px solid #333; }
+        .highlight { color: #22c55e; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🍽️ Nutrition Tracking Workflow</h1>
+        <p style="color: #888; margin-bottom: 30px;">Complete guide for logging all 24 nutrients via Edamam API → Airtable</p>
+
+        <div class="section">
+            <h2>📊 Complete Nutrient Profile (24 Fields)</h2>
+            
+            <h3>Macronutrients (5)</h3>
+            <div class="nutrient-grid">
+                <div class="nutrient-item macro"><span>Calories</span><span>kcal</span></div>
+                <div class="nutrient-item macro"><span>Protein</span><span>g</span></div>
+                <div class="nutrient-item macro"><span>Carbs</span><span>g</span></div>
+                <div class="nutrient-item macro"><span>Fat</span><span>g</span></div>
+                <div class="nutrient-item macro"><span>Fiber</span><span>g</span></div>
+            </div>
+
+            <h3>Basic Micronutrients (7)</h3>
+            <div class="nutrient-grid">
+                <div class="nutrient-item micro"><span>Sugar</span><span>g</span></div>
+                <div class="nutrient-item micro"><span>Sodium</span><span>mg</span></div>
+                <div class="nutrient-item micro"><span>Cholesterol</span><span>mg</span></div>
+                <div class="nutrient-item micro"><span>Vitamin C</span><span>mg</span></div>
+                <div class="nutrient-item micro"><span>Calcium</span><span>mg</span></div>
+                <div class="nutrient-item micro"><span>Iron</span><span>mg</span></div>
+                <div class="nutrient-item micro"><span>Potassium</span><span>mg</span></div>
+            </div>
+
+            <h3>Vitamins (4)</h3>
+            <div class="nutrient-grid">
+                <div class="nutrient-item vitamin"><span>Vitamin A</span><span>mcg</span></div>
+                <div class="nutrient-item vitamin"><span>Vitamin D</span><span>mcg</span></div>
+                <div class="nutrient-item vitamin"><span>Vitamin B6</span><span>mg</span></div>
+                <div class="nutrient-item vitamin"><span>Vitamin B12</span><span>mcg</span></div>
+            </div>
+
+            <h3>Minerals & Other (8)</h3>
+            <div class="nutrient-grid">
+                <div class="nutrient-item mineral"><span>Folate</span><span>mcg</span></div>
+                <div class="nutrient-item mineral"><span>Magnesium</span><span>mg</span></div>
+                <div class="nutrient-item mineral"><span>Phosphorus</span><span>mg</span></div>
+                <div class="nutrient-item mineral"><span>Zinc</span><span>mg</span></div>
+                <div class="nutrient-item mineral"><span>Selenium</span><span>mcg</span></div>
+                <div class="nutrient-item mineral"><span>Copper</span><span>mg</span></div>
+                <div class="nutrient-item mineral"><span>Manganese</span><span>mg</span></div>
+                <div class="nutrient-item mineral"><span>Thiamin (B1)</span><span>mg</span></div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🔄 Edamam → Airtable Workflow</h2>
+            
+            <div class="workflow-step">
+                <span class="step-number">1</span>
+                <strong>Voice/Type Food Description</strong><br>
+                <code>"Two pieces multigrain bread with lurpak butter, slice of ham, cafe au lait"</code>
+            </div>
+
+            <div class="workflow-step">
+                <span class="step-number">2</span>
+                <strong>Send to Edamam API</strong><br>
+                Returns complete nutrition breakdown for all 24 nutrients
+            </div>
+
+            <div class="workflow-step">
+                <span class="step-number">3</span>
+                <strong>Parse Response</strong><br>
+                Extract all nutrient values from Edamam JSON response
+            </div>
+
+            <div class="workflow-step">
+                <span class="step-number">4</span>
+                <strong>Log to Airtable Food Log</strong><br>
+                All 24 fields populated automatically
+            </div>
+
+            <div class="workflow-step">
+                <span class="step-number">5</span>
+                <strong>Confirmation</strong><br>
+                Receive summary: "✅ Breakfast logged: 450 cal, 18g protein, 24 nutrients tracked"
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>📋 Edamam API Response Format</h2>
+            <p>Edamam returns these nutrient codes:</p>
+            <table>
+                <tr><th>Edamam Code</th><th>Nutrient</th><th>Unit</th></tr>
+                <tr><td>ENERC_KCAL</td><td>Calories</td><td>kcal</td></tr>
+                <tr><td>PROCNT</td><td>Protein</td><td>g</td></tr>
+                <tr><td>CHOCDF</td><td>Carbs</td><td>g</td></tr>
+                <tr><td>FAT</td><td>Fat</td><td>g</td></tr>
+                <tr><td>FIBTG</td><td>Fiber</td><td>g</td></tr>
+                <tr><td>SUGAR</td><td>Sugar</td><td>g</td></tr>
+                <tr><td>NA</td><td>Sodium</td><td>mg</td></tr>
+                <tr><td>CHOLE</td><td>Cholesterol</td><td>mg</td></tr>
+                <tr><td>VITC</td><td>Vitamin C</td><td>mg</td></tr>
+                <tr><td>CA</td><td>Calcium</td><td>mg</td></tr>
+                <tr><td>FE</td><td>Iron</td><td>mg</td></tr>
+                <tr><td>K</td><td>Potassium</td><td>mg</td></tr>
+                <tr><td>VITA_RAE</td><td>Vitamin A</td><td>mcg</td></tr>
+                <tr><td>VITD</td><td>Vitamin D</td><td>mcg</td></tr>
+                <tr><td>VITB6A</td><td>Vitamin B6</td><td>mg</td></tr>
+                <tr><td>VITB12</td><td>Vitamin B12</td><td>mcg</td></tr>
+                <tr><td>FOLAC</td><td>Folate</td><td>mcg</td></tr>
+                <tr><td>MG</td><td>Magnesium</td><td>mg</td></tr>
+                <tr><td>P</td><td>Phosphorus</td><td>mg</td></tr>
+                <tr><td>ZN</td><td>Zinc</td><td>mg</td></tr>
+                <tr><td>SE</td><td>Selenium</td><td>mcg</td></tr>
+                <tr><td>CU</td><td>Copper</td><td>mg</td></tr>
+                <tr><td>MN</td><td>Manganese</td><td>mg</td></tr>
+                <tr><td>THIA</td><td>Thiamin (B1)</td><td>mg</td></tr>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2>🍳 Example: Today's Breakfast</h2>
+            <div class="example">
+                <strong>Meal:</strong> Breakfast<br>
+                <strong>Food:</strong> Two pieces multigrain bread with lurpak butter, slice of ham, cafe au lait, water, multivitamin<br><br>
+                
+                <strong>Complete Nutrition:</strong>
+                <table>
+                    <tr><th>Nutrient</th><th>Amount</th></tr>
+                    <tr><td>Calories</td><td>450 kcal</td></tr>
+                    <tr><td>Protein</td><td>18g</td></tr>
+                    <tr><td>Carbs</td><td>55g</td></tr>
+                    <tr><td>Fat</td><td>16g</td></tr>
+                    <tr><td>Fiber</td><td>8g</td></tr>
+                    <tr><td>Sugar</td><td>6g</td></tr>
+                    <tr><td>Sodium</td><td>580mg</td></tr>
+                    <tr><td>Cholesterol</td><td>45mg</td></tr>
+                    <tr><td>Vitamin C</td><td>2mg</td></tr>
+                    <tr><td>Calcium</td><td>180mg</td></tr>
+                    <tr><td>Iron</td><td>3.5mg</td></tr>
+                    <tr><td>Potassium</td><td>420mg</td></tr>
+                    <tr><td>Vitamin A</td><td>85mcg</td></tr>
+                    <tr><td>Vitamin D</td><td>1.2mcg</td></tr>
+                    <tr><td>Vitamin B6</td><td>0.3mg</td></tr>
+                    <tr><td>Vitamin B12</td><td>0.8mcg</td></tr>
+                    <tr><td>Folate</td><td>45mcg</td></tr>
+                    <tr><td>Magnesium</td><td>55mg</td></tr>
+                    <tr><td>Phosphorus</td><td>220mg</td></tr>
+                    <tr><td>Zinc</td><td>2.1mg</td></tr>
+                    <tr><td>Selenium</td><td>15mcg</td></tr>
+                    <tr><td>Copper</td><td>0.2mg</td></tr>
+                    <tr><td>Manganese</td><td>0.8mg</td></tr>
+                    <tr><td>Thiamin (B1)</td><td>0.25mg</td></tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>📱 How to Log (3 Ways)</h2>
+            
+            <h3>Option 1: Voice Note (Fastest)</h3>
+            <p>Send voice message: <em>"Breakfast: 2 eggs, toast, coffee"</em><br>
+            System transcribes → Edamam API → Airtable (24 nutrients)</p>
+
+            <h3>Option 2: Quick Text</h3>
+            <p>Type: <code>!food Breakfast: oats, banana, protein shake</code><br>
+            Instant logging with full nutrition</p>
+
+            <h3>Option 3: Photo + Description</h3>
+            <p>Send photo with caption describing meal<br>
+            AI extracts food items → Edamam → Airtable</p>
+        </div>
+
+        <div class="section">
+            <h2>🎯 Daily Targets (Reference)</h2>
+            <div class="nutrient-grid">
+                <div class="nutrient-item"><span>Calories</span><span>~2500 kcal</span></div>
+                <div class="nutrient-item"><span>Protein</span><span>~140g</span></div>
+                <div class="nutrient-item"><span>Water</span><span>8 glasses</span></div>
+                <div class="nutrient-item"><span>Fiber</span><span>~30g</span></div>
+                <div class="nutrient-item"><span>Sodium</span><span>&lt;2300mg</span></div>
+                <div class="nutrient-item"><span>Vitamin C</span><span>~90mg</span></div>
+                <div class="nutrient-item"><span>Calcium</span><span>~1000mg</span></div>
+                <div class="nutrient-item"><span>Iron</span><span>~8mg</span></div>
+            </div>
+        </div>
+
+        <div class="note">
+            <strong>Note:</strong> Edamam provides all 24 nutrients in a single API call. The script automatically maps Edamam codes to Airtable fields. If Edamam doesn't have a specific food, it uses the closest match or estimates based on ingredients.
+        </div>
+
+        <div style="text-align: center; margin-top: 40px; padding: 20px; background: #1a1a2e; border-radius: 10px;">
+            <p style="color: #888;">Last Updated: February 12, 2026</p>
+            <p style="color: #667eea;">All nutrients tracked automatically via Edamam API → Airtable</p>
+        </div>
+    </div>
+</body>
+</html>
