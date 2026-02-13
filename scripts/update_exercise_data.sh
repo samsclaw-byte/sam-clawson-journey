@@ -12,10 +12,14 @@ python3 "$WORKSPACE/scripts/fetch_productivity_data.py" 2>/dev/null || echo "Fai
 # Update timeline data (7-day view)
 python3 "$WORKSPACE/scripts/fetch_timeline_data.py" 2>/dev/null || echo "Failed to fetch timeline data"
 
+# Update daily nutrition data (meals + macros for last 7 days)
+python3 "$WORKSPACE/scripts/fetch_daily_nutrition.py" 2>/dev/null || echo "Failed to fetch daily nutrition data"
+
 # Copy to mission-control folder for web access
 cp "$WORKSPACE/data/exercise_data.json" "$WORKSPACE/mission-control/data/" 2>/dev/null
 cp "$WORKSPACE/data/productivity_data.json" "$WORKSPACE/mission-control/data/" 2>/dev/null
 cp "$WORKSPACE/data/timeline_data.json" "$WORKSPACE/mission-control/data/" 2>/dev/null
+cp "$WORKSPACE/data/daily_nutrition_*.json" "$WORKSPACE/mission-control/data/" 2>/dev/null
 
 # Git commit if there are changes
 cd "$WORKSPACE"
