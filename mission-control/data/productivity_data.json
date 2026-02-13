@@ -1,0 +1,405 @@
+{
+  "generated_at": "2026-02-13T07:45:32.470702",
+  "tat_tasks": [
+    {
+      "id": "recsyjQbZe1bzS6b9",
+      "name": "Add SSH key to GitHub for auto-push",
+      "category": "\ud83d\udcbb Laptop Tasks",
+      "status": "Not Started",
+      "due_status": "overdue",
+      "days_remaining": -1,
+      "urgency": "\ud83d\udd34 Overdue",
+      "due_date": "2026-02-12T00:00:00.000Z"
+    },
+    {
+      "id": "recyN2oAP2mdammNy",
+      "name": "Complete Mission Control dashboard - connect to live data",
+      "category": "\ud83e\udd16 AI Development",
+      "status": "Not Started",
+      "due_status": "overdue",
+      "days_remaining": -1,
+      "urgency": "\ud83d\udd34 Overdue",
+      "due_date": "2026-02-12T00:00:00.000Z"
+    },
+    {
+      "id": "recBSDHfWKo4NWTBK",
+      "name": "Test task from overnight script update",
+      "category": "1",
+      "status": "Not Started",
+      "due_status": "today",
+      "days_remaining": 0,
+      "urgency": "\ud83d\udfe0 Urgent",
+      "due_date": "2026-02-13T00:00:00.000Z"
+    },
+    {
+      "id": "recS1MZcFhF4vufpI",
+      "name": "Set up permanent remote console access",
+      "category": "\ud83e\udd16 AI Development",
+      "status": "Not Started",
+      "due_status": "soon",
+      "days_remaining": 1,
+      "urgency": "\ud83d\udfe0 Urgent",
+      "due_date": "2026-02-14T00:00:00.000Z"
+    },
+    {
+      "id": "recsLYJdrxlyzXjiV",
+      "name": "Set up permanent Cloudflare named tunnel for WHOOP webhooks",
+      "category": "\ud83d\udcc5 3 Days",
+      "status": "Not Started",
+      "due_status": "soon",
+      "days_remaining": 1,
+      "urgency": "\ud83d\udfe0 Urgent",
+      "due_date": "2026-02-14T00:00:00.000Z"
+    },
+    {
+      "id": "recU8ISYhf8o2HEDZ",
+      "name": "\ud83c\udf7d\ufe0f Update nutrition: Snack - Banana, red apple, one glass of water",
+      "category": "3",
+      "status": "Not Started",
+      "due_status": "soon",
+      "days_remaining": 2,
+      "urgency": "\ud83d\udfe1 Soon",
+      "due_date": "2026-02-15T00:00:00.000Z"
+    },
+    {
+      "id": "rec4ZTt3lLIEJFVkI",
+      "name": "Perform check of tasks before adding new one",
+      "category": "\ud83e\udd16 AI Development",
+      "status": "Not Started",
+      "due_status": "later",
+      "days_remaining": 4,
+      "urgency": "\ud83d\udfe2 Normal",
+      "due_date": "2026-02-17T00:00:00.000Z"
+    },
+    {
+      "id": "rec6H6odaqLmxv61n",
+      "name": "Fix voice transcription system - install ffmpeg",
+      "category": "\ud83e\udd16 AI Development",
+      "status": "Not Started",
+      "due_status": "later",
+      "days_remaining": 4,
+      "urgency": "\ud83d\udfe2 Normal",
+      "due_date": "2026-02-17T00:00:00.000Z"
+    },
+    {
+      "id": "rec82QLASN6uQUiHu",
+      "name": "Complete Google Calendar update",
+      "category": "\ud83d\udcbc Work",
+      "status": "Not Started",
+      "due_status": "later",
+      "days_remaining": 4,
+      "urgency": "\ud83d\udfe2 Normal",
+      "due_date": "2026-02-17T00:00:00.000Z"
+    },
+    {
+      "id": "recByySFb9g94vm1p",
+      "name": "Create Sam Work Telegram group for work/personal separation",
+      "category": "\ud83e\udd16 AI Development",
+      "status": "Not Started",
+      "due_status": "later",
+      "days_remaining": 4,
+      "urgency": "\ud83d\udfe2 Normal",
+      "due_date": "2026-02-17T00:00:00.000Z"
+    },
+    {
+      "id": "recFrJWyohd2sNiD2",
+      "name": "Complete GitHub Pages setup for mobile dashboard",
+      "category": "\ud83d\udcbb Laptop Tasks",
+      "status": "Not Started",
+      "due_status": "later",
+      "days_remaining": 4,
+      "urgency": "\ud83d\udfe2 Normal",
+      "due_date": "2026-02-17T00:00:00.000Z"
+    },
+    {
+      "id": "recIewDx6ZfxoZ0FN",
+      "name": "Set up WHOOP webhooks with Cloudflare Tunnel",
+      "category": "\ud83e\udd16 AI Development",
+      "status": "Not Started",
+      "due_status": "later",
+      "days_remaining": 4,
+      "urgency": "\ud83d\udfe2 Normal",
+      "due_date": "2026-02-17T00:00:00.000Z"
+    },
+    {
+      "id": "recIt9GaS0xw2Vs14",
+      "name": "Complete WHOOP workflow",
+      "category": "\ud83e\udd16 AI Development",
+      "status": "Not Started",
+      "due_status": "later",
+      "days_remaining": 4,
+      "urgency": "\ud83d\udfe2 Normal",
+      "due_date": "2026-02-17T00:00:00.000Z"
+    },
+    {
+      "id": "recMLCh8Y3mwui7CD",
+      "name": "9pm cron final review of day",
+      "category": "\ud83e\udd16 AI Development",
+      "status": "Not Started",
+      "due_status": "later",
+      "days_remaining": 4,
+      "urgency": "\ud83d\udfe2 Normal",
+      "due_date": "2026-02-17T00:00:00.000Z"
+    },
+    {
+      "id": "recNyBcA25pu82TOA",
+      "name": "Complete TAT database cleanup in Notion UI",
+      "category": "\ud83d\udcbb Laptop Tasks",
+      "status": "Not Started",
+      "due_status": "later",
+      "days_remaining": 4,
+      "urgency": "\ud83d\udfe2 Normal",
+      "due_date": "2026-02-17T00:00:00.000Z"
+    },
+    {
+      "id": "recSXBPa0erXNCHmn",
+      "name": "Integrate with web search (Brave)",
+      "category": "\ud83e\udd16 AI Development",
+      "status": "Not Started",
+      "due_status": "later",
+      "days_remaining": 4,
+      "urgency": "\ud83d\udfe2 Normal",
+      "due_date": "2026-02-17T00:00:00.000Z"
+    },
+    {
+      "id": "recTtASONiftQqmDW",
+      "name": "Run security updates (35 packages pending)",
+      "category": "\ud83e\udd16 AI Development",
+      "status": "Not Started",
+      "due_status": "later",
+      "days_remaining": 4,
+      "urgency": "\ud83d\udfe2 Normal",
+      "due_date": "2026-02-17T00:00:00.000Z"
+    },
+    {
+      "id": "recZOSWGvUtJn4Y8S",
+      "name": "Link to Gmail and forward nursery dates and times",
+      "category": "\ud83d\udc68\u200d\ud83d\udc69\u200d\ud83d\udc67\u200d\ud83d\udc66 Family",
+      "status": "Not Started",
+      "due_status": "later",
+      "days_remaining": 4,
+      "urgency": "\ud83d\udfe2 Normal",
+      "due_date": "2026-02-17T00:00:00.000Z"
+    },
+    {
+      "id": "recan1aTVTEf611h9",
+      "name": "Review workflows",
+      "category": "\ud83e\udd16 AI Development",
+      "status": "Not Started",
+      "due_status": "later",
+      "days_remaining": 4,
+      "urgency": "\ud83d\udfe2 Normal",
+      "due_date": "2026-02-17T00:00:00.000Z"
+    },
+    {
+      "id": "reciYWtF73kNe3qFP",
+      "name": "Give Clawson a voice to respond to voice messages",
+      "category": "\ud83e\udd16 AI Development",
+      "status": "Not Started",
+      "due_status": "later",
+      "days_remaining": 4,
+      "urgency": "\ud83d\udfe2 Normal",
+      "due_date": "2026-02-17T00:00:00.000Z"
+    },
+    {
+      "id": "recl87W1nkafNEROB",
+      "name": "Review cron jobs",
+      "category": "\ud83e\udd16 AI Development",
+      "status": "Not Started",
+      "due_status": "later",
+      "days_remaining": 4,
+      "urgency": "\ud83d\udfe2 Normal",
+      "due_date": "2026-02-17T00:00:00.000Z"
+    },
+    {
+      "id": "recqUrcPWIqvsXPlx",
+      "name": "Push fitness program to GitHub",
+      "category": "\ud83e\udd16 AI Development",
+      "status": "Not Started",
+      "due_status": "later",
+      "days_remaining": 4,
+      "urgency": "\ud83d\udfe2 Normal",
+      "due_date": "2026-02-17T00:00:00.000Z"
+    },
+    {
+      "id": "recsoQZEDAOd2AepZ",
+      "name": "Review SOUL.md file",
+      "category": "\ud83e\udd16 AI Development",
+      "status": "Not Started",
+      "due_status": "later",
+      "days_remaining": 4,
+      "urgency": "\ud83d\udfe2 Normal",
+      "due_date": "2026-02-17T00:00:00.000Z"
+    },
+    {
+      "id": "recvFbq1U13Q3T63T",
+      "name": "Set up Google Calendar integration",
+      "category": "\ud83e\udd16 AI Development",
+      "status": "Not Started",
+      "due_status": "later",
+      "days_remaining": 4,
+      "urgency": "\ud83d\udfe2 Normal",
+      "due_date": "2026-02-17T00:00:00.000Z"
+    },
+    {
+      "id": "recxIjbjIk2R4IL2E",
+      "name": "Renew CIMA membership",
+      "category": "Productivity",
+      "status": "Not Started",
+      "due_status": "later",
+      "days_remaining": 4,
+      "urgency": "\ud83d\udfe2 Normal",
+      "due_date": "2026-02-17T00:00:00.000Z"
+    },
+    {
+      "id": "rec5TVKrb8KezW8sm",
+      "name": "Set up permanent systemd services for WHOOP webhook and tunnel",
+      "category": "\ud83d\udcbb Laptop Tasks",
+      "status": "Not Started",
+      "due_status": "later",
+      "days_remaining": 5,
+      "urgency": "\ud83d\udfe2 Normal",
+      "due_date": "2026-02-18T00:00:00.000Z"
+    },
+    {
+      "id": "recHo1Nl9eJjztBhP",
+      "name": "Update TAT database schema - numeric categories + due date formula",
+      "category": "\ud83d\udcbb Laptop Tasks",
+      "status": "Not Started",
+      "due_status": "later",
+      "days_remaining": 5,
+      "urgency": "\ud83d\udfe2 Normal",
+      "due_date": "2026-02-18T00:00:00.000Z"
+    },
+    {
+      "id": "recUmXbaSwflScEzf",
+      "name": "Update blog - missing days and push to GitHub",
+      "category": "\ud83d\udcbb Laptop Tasks",
+      "status": "Not Started",
+      "due_status": "later",
+      "days_remaining": 5,
+      "urgency": "\ud83d\udfe2 Normal",
+      "due_date": "2026-02-18T00:00:00.000Z"
+    },
+    {
+      "id": "recpVeTFxtqFE1xxG",
+      "name": "Update dashboard with improved layout and 7-day history",
+      "category": "\ud83d\udcbb Laptop Tasks",
+      "status": "Not Started",
+      "due_status": "later",
+      "days_remaining": 5,
+      "urgency": "\ud83d\udfe2 Normal",
+      "due_date": "2026-02-18T00:00:00.000Z"
+    },
+    {
+      "id": "recG3O9fEFQuKnjMc",
+      "name": "Complete TAT task Airtable setup with formula fields",
+      "category": "1",
+      "status": "Not Started",
+      "due_status": "later",
+      "days_remaining": 999,
+      "urgency": "\ud83d\udfe2 Normal",
+      "due_date": {
+        "error": "#ERROR"
+      }
+    },
+    {
+      "id": "recQeSArOIzgTkdBC",
+      "name": "Set up Cloudflare Pages for Mission Control dashboard using samsclaw.org domain",
+      "category": "1",
+      "status": "Not Started",
+      "due_status": "later",
+      "days_remaining": 999,
+      "urgency": "\ud83d\udfe2 Normal",
+      "due_date": {
+        "error": "#ERROR"
+      }
+    },
+    {
+      "id": "recXQ21AUbQNxqnpi",
+      "name": "Fix WSL DNS permanently - create wsl.conf and set Google DNS 8.8.8.8",
+      "category": "7",
+      "status": "Not Started",
+      "due_status": "later",
+      "days_remaining": 999,
+      "urgency": "\ud83d\udfe2 Normal",
+      "due_date": {
+        "error": "#ERROR"
+      }
+    },
+    {
+      "id": "recm47ii1C8DbnLdX",
+      "name": "Call Micasa to fix drainage and overflow issues",
+      "category": "7",
+      "status": "Not Started",
+      "due_status": "later",
+      "days_remaining": 999,
+      "urgency": "\ud83d\udfe2 Normal",
+      "due_date": {
+        "error": "#ERROR"
+      }
+    },
+    {
+      "id": "recyD5iTCJ32SZ91G",
+      "name": "Set up SSH remote access for Termius - install OpenSSH server and configure for remote WiFi access",
+      "category": "1",
+      "status": "Not Started",
+      "due_status": "later",
+      "days_remaining": 999,
+      "urgency": "\ud83d\udfe2 Normal",
+      "due_date": {
+        "error": "#ERROR"
+      }
+    }
+  ],
+  "habit_days": [
+    {
+      "date": "2026-02-07",
+      "day_name": "Sat",
+      "day_num": "07",
+      "score": 5,
+      "water": 8
+    },
+    {
+      "date": "2026-02-08",
+      "day_name": "Sun",
+      "day_num": "08",
+      "score": 2,
+      "water": 8
+    },
+    {
+      "date": "2026-02-09",
+      "day_name": "Mon",
+      "day_num": "09",
+      "score": 5,
+      "water": 8
+    },
+    {
+      "date": "2026-02-10",
+      "day_name": "Tue",
+      "day_num": "10",
+      "score": 5,
+      "water": 8
+    },
+    {
+      "date": "2026-02-11",
+      "day_name": "Wed",
+      "day_num": "11",
+      "score": 5,
+      "water": 8
+    },
+    {
+      "date": "2026-02-12",
+      "day_name": "Thu",
+      "day_num": "12",
+      "score": 5,
+      "water": 8
+    }
+  ],
+  "stats": {
+    "active": 34,
+    "overdue": 2,
+    "today": 1,
+    "completed_7d": 0
+  }
+}

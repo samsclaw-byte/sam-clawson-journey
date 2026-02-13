@@ -127,6 +127,10 @@
             transition: all 0.2s;
         }
         
+        .filter-tab:hover {
+            background: #e0e0e5;
+        }
+        
         .filter-tab.active {
             background: linear-gradient(135deg, #9945FF, #FF6B9D);
             color: white;
@@ -136,6 +140,23 @@
             display: flex;
             flex-direction: column;
             gap: 12px;
+            max-height: 600px;
+            overflow-y: auto;
+            padding-right: 8px;
+        }
+        
+        .task-list::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .task-list::-webkit-scrollbar-track {
+            background: #f0f0f5;
+            border-radius: 3px;
+        }
+        
+        .task-list::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #9945FF, #FF6B9D);
+            border-radius: 3px;
         }
         
         .task-item {
@@ -153,11 +174,16 @@
             border-color: rgba(153, 69, 255, 0.3);
         }
         
+        .task-item.hidden {
+            display: none;
+        }
+        
         .task-priority {
             width: 4px;
             min-height: 40px;
             border-radius: 2px;
             margin-right: 12px;
+            flex-shrink: 0;
         }
         
         .priority-1 { background: #FF6B6B; }
@@ -167,12 +193,14 @@
         
         .task-content {
             flex: 1;
+            min-width: 0;
         }
         
         .task-name {
             font-weight: 500;
             margin-bottom: 6px;
             font-size: 15px;
+            word-wrap: break-word;
         }
         
         .task-meta {
@@ -205,6 +233,7 @@
             font-size: 12px;
             font-weight: 500;
             white-space: nowrap;
+            flex-shrink: 0;
         }
         
         .status-not-started { background: #f0f0f5; color: #666; }
@@ -226,10 +255,19 @@
             border-radius: 8px;
         }
         
+        .habit-day.complete {
+            background: linear-gradient(135deg, #9945FF 0%, #FF6B9D 100%);
+            color: white;
+        }
+        
         .habit-day-label {
             font-size: 10px;
             color: #666;
             text-transform: uppercase;
+        }
+        
+        .habit-day.complete .habit-day-label {
+            color: white;
         }
         
         .habit-day-date {
@@ -239,7 +277,13 @@
         }
         
         .habit-day-score {
-            font-size: 18px;
+            font-size: 16px;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #9945FF;
         }
         
         .add-task-btn {
@@ -288,19 +332,19 @@
             <h2>📊 Task Stats</h2>
             <div class="stats-row">
                 <div class="stat-box">
-                    <div class="stat-number">12</div>
+                    <div class="stat-number" id="stat-active">--</div>
                     <div class="stat-label">Active Tasks</div>
                 </div>
                 <div class="stat-box">
-                    <div class="stat-number">3</div>
+                    <div class="stat-number" id="stat-today">--</div>
                     <div class="stat-label">Due Today</div>
                 </div>
                 <div class="stat-box">
-                    <div class="stat-number">2</div>
+                    <div class="stat-number" id="stat-overdue">--</div>
                     <div class="stat-label">Overdue</div>
                 </div>
                 <div class="stat-box">
-                    <div class="stat-number">8</div>
+                    <div class="stat-number">--</div>
                     <div class="stat-label">Completed (7d)</div>
                 </div>
             </div>
@@ -310,93 +354,15 @@
         <div class="card">
             <h2>📋 TAT Tasks</h2>
             <div class="filter-tabs">
-                <button class="filter-tab active">All</button>
-                <button class="filter-tab">Today</button>
-                <button class="filter-tab">Overdue</button>
-                <button class="filter-tab">In Progress</button>
+                <button class="filter-tab active" data-filter="all">All</button>
+                <button class="filter-tab" data-filter="today">Today</button>
+                <button class="filter-tab" data-filter="overdue">Overdue</button>
+                <button class="filter-tab" data-filter="soon">Soon (3 days)</button>
+                <button class="filter-tab" data-filter="in-progress">In Progress</button>
             </div>
             
-            <div class="task-list">
-                <!-- Overdue -->
-                <div class="task-item">
-                    <div class="task-priority priority-1"></div>
-                    <div class="task-content">
-                        <div class="task-name">Complete TAT table setup in Airtable</div>
-                        <div class="task-meta">
-                            <span class="task-tag">Work</span>
-                            <span class="task-tag">1 day</span>
-                            <span class="task-due due-overdue">🔴 1 day overdue</span>
-                        </div>
-                    </div>
-                    <span class="task-status status-not-started">Not Started</span>
-                </div>
-                
-                <div class="task-item">
-                    <div class="task-priority priority-1"></div>
-                    <div class="task-content">
-                        <div class="task-name">Set up Cloudflare Pages for Mission Control</div>
-                        <div class="task-meta">
-                            <span class="task-tag">Work</span>
-                            <span class="task-tag">1 day</span>
-                            <span class="task-due due-overdue">🔴 1 day overdue</span>
-                        </div>
-                    </div>
-                    <span class="task-status status-in-progress">In Progress</span>
-                </div>
-                
-                <!-- Due Soon -->
-                <div class="task-item">
-                    <div class="task-priority priority-3"></div>
-                    <div class="task-content">
-                        <div class="task-name">Call Micasa - fix drainage</div>
-                        <div class="task-meta">
-                            <span class="task-tag">Home</span>
-                            <span class="task-tag">3 days</span>
-                            <span class="task-due due-soon">🟠 3 days</span>
-                        </div>
-                    </div>
-                    <span class="task-status status-not-started">Not Started</span>
-                </div>
-                
-                <div class="task-item">
-                    <div class="task-priority priority-3"></div>
-                    <div class="task-content">
-                        <div class="task-name">Set up SSH remote access for Termius</div>
-                        <div class="task-meta">
-                            <span class="task-tag">Tech</span>
-                            <span class="task-tag">1 day</span>
-                            <span class="task-due due-today">🟡 Today</span>
-                        </div>
-                    </div>
-                    <span class="task-status status-not-started">Not Started</span>
-                </div>
-                
-                <!-- Later -->
-                <div class="task-item">
-                    <div class="task-priority priority-7"></div>
-                    <div class="task-content">
-                        <div class="task-name">Review Mission Control pages</div>
-                        <div class="task-meta">
-                            <span class="task-tag">Admin</span>
-                            <span class="task-tag">7 days</span>
-                            <span class="task-due due-later">🟢 7 days</span>
-                        </div>
-                    </div>
-                    <span class="task-status status-not-started">Not Started</span>
-                </div>
-                
-                <div class="task-item">
-                    <div class="task-priority priority-30"></div>
-                    <div class="task-content">
-                        <div class="task-name">Quarterly review preparation</div>
-                        <div class="task-meta">
-                            <span class="task-tag">Work</span>
-                            <span class="task-tag">30 days</span>
-                            <span class="task-due due-later">🟢 30 days</span>
-                        </div>
-                    </div>
-                    <span class="task-status status-not-started">Not Started</span>
-                </div>
+            <div class="task-list" id="task-list">
+                <div class="loading">Loading tasks...</div>
             </div>
             
             <button class="add-task-btn">+ Add New Task</button>
@@ -405,85 +371,172 @@
         <!-- Weekly Habit Tracker -->
         <div class="card">
             <h2>✅ Weekly Habit Tracker (Last 7 Days)</h2>
-            <div class="habit-tracker">
-                <div class="habit-day">
-                    <div class="habit-day-label">Mon</div>
-                    <div class="habit-day-date">06</div>
-                    <div class="habit-day-score">🟡 3/5</div>
-                </div>
-                <div class="habit-day">
-                    <div class="habit-day-label">Tue</div>
-                    <div class="habit-day-date">07</div>
-                    <div class="habit-day-score">🟡 3/5</div>
-                </div>
-                <div class="habit-day">
-                    <div class="habit-day-label">Wed</div>
-                    <div class="habit-day-date">08</div>
-                    <div class="habit-day-score">🟢 4/5</div>
-                </div>
-                <div class="habit-day">
-                    <div class="habit-day-label">Thu</div>
-                    <div class="habit-day-date">09</div>
-                    <div class="habit-day-score">🟢 4/5</div>
-                </div>
-                <div class="habit-day">
-                    <div class="habit-day-label">Fri</div>
-                    <div class="habit-day-date">10</div>
-                    <div class="habit-day-score">🟢 4/5</div>
-                </div>
-                <div class="habit-day">
-                    <div class="habit-day-label">Sat</div>
-                    <div class="habit-day-date">11</div>
-                    <div class="habit-day-score">🟡 3/5</div>
-                </div>
-                <div class="habit-day" style="background: linear-gradient(135deg, #9945FF 0%, #FF6B9D 100%); color: white;">
-                    <div class="habit-day-label" style="color: white;">Sun</div>
-                    <div class="habit-day-date">12</div>
-                    <div class="habit-day-score">✅ 5/5</div>
-                </div>
+            <div class="habit-tracker" id="habit-tracker">
+                <div class="loading">Loading habits...</div>
             </div>
         </div>
         
-        <!-- Recent Completions -->
-        <div class="card">
-            <h2>🎉 Recent Completions</h2>
-            <div class="task-list">
-                <div class="task-item" style="border-left: 4px solid #51CF66;">
-                    <div class="task-content">
-                        <div class="task-name">✅ Fix WSL DNS permanently</div>
-                        <div class="task-meta">
-                            <span class="task-tag">Tech</span>
-                            <span>Completed: Feb 12, 10:52 PM</span>
-                        </div>
-                    </div>
-                    <span class="task-status status-complete">Complete</span>
-                </div>
-                
-                <div class="task-item" style="border-left: 4px solid #51CF66;">
-                    <div class="task-content">
-                        <div class="task-name">✅ Deploy Mission Control to Cloudflare</div>
-                        <div class="task-meta">
-                            <span class="task-tag">Work</span>
-                            <span>Completed: Feb 12, 10:46 PM</span>
-                        </div>
-                    </div>
-                    <span class="task-status status-complete">Complete</span>
-                </div>
-                
-                <div class="task-item" style="border-left: 4px solid #51CF66;">
-                    <div class="task-content">
-                        <div class="task-name">✅ Update Edamam API key</div>
-                        <div class="task-meta">
-                            <span class="task-tag">Tech</span>
-                            <span>Completed: Feb 12, 5:08 PM</span>
-                        </div>
-                    </div>
-                    <span class="task-status status-complete">Complete</span>
-                </div>
-            </div>
-        </div>
-        
-        <p class="last-updated">Last updated: Feb 12, 2026 at 11:57 PM | Data source: Airtable (auto-sync every 15 min)</p>
+        <p class="last-updated">Last updated: <span id="last-updated">--</span> | Data source: Airtable (auto-sync every 15 min)</p>
     </div>
+    
+    <script>
+        let allTasks = [];
+        
+        // Get priority color class
+        function getPriorityClass(category) {
+            if (category === '1' || category?.includes('1')) return 'priority-1';
+            if (category === '3' || category?.includes('3')) return 'priority-3';
+            if (category === '7' || category?.includes('7')) return 'priority-7';
+            return 'priority-30';
+        }
+        
+        // Get due status display
+        function getDueDisplay(dueStatus, daysRemaining) {
+            switch(dueStatus) {
+                case 'overdue':
+                    return `<span class="task-due due-overdue">🔴 ${Math.abs(daysRemaining)} days overdue</span>`;
+                case 'today':
+                    return `<span class="task-due due-today">🟡 Due today</span>`;
+                case 'soon':
+                    return `<span class="task-due due-soon">🟠 ${daysRemaining} days</span>`;
+                default:
+                    return `<span class="task-due due-later">🟢 ${daysRemaining} days</span>`;
+            }
+        }
+        
+        // Get status class
+        function getStatusClass(status) {
+            const statusMap = {
+                'Not Started': 'status-not-started',
+                'In Progress': 'status-in-progress',
+                'Blocked': 'status-blocked',
+                'Complete': 'status-complete'
+            };
+            return statusMap[status] || 'status-not-started';
+        }
+        
+        // Render task item
+        function renderTask(task) {
+            const priorityClass = getPriorityClass(task.category);
+            const dueDisplay = getDueDisplay(task.due_status, task.days_remaining);
+            const statusClass = getStatusClass(task.status);
+            
+            return `
+                <div class="task-item" data-due-status="${task.due_status}" data-status="${task.status}">
+                    <div class="task-priority ${priorityClass}"></div>
+                    <div class="task-content">
+                        <div class="task-name">${escapeHtml(task.name)}</div>
+                        <div class="task-meta">
+                            <span class="task-tag">${escapeHtml(task.category)}</span>
+                            ${dueDisplay}
+                        </div>
+                    </div>
+                    <span class="task-status ${statusClass}">${task.status}</span>
+                </div>
+            `;
+        }
+        
+        // Escape HTML
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        // Filter tasks
+        function filterTasks(filter) {
+            const taskItems = document.querySelectorAll('.task-item');
+            
+            taskItems.forEach(item => {
+                const dueStatus = item.getAttribute('data-due-status');
+                const status = item.getAttribute('data-status');
+                
+                let show = false;
+                
+                switch(filter) {
+                    case 'all':
+                        show = true;
+                        break;
+                    case 'today':
+                        show = dueStatus === 'today';
+                        break;
+                    case 'overdue':
+                        show = dueStatus === 'overdue';
+                        break;
+                    case 'soon':
+                        show = dueStatus === 'soon';
+                        break;
+                    case 'in-progress':
+                        show = status === 'In Progress';
+                        break;
+                }
+                
+                if (show) {
+                    item.classList.remove('hidden');
+                } else {
+                    item.classList.add('hidden');
+                }
+            });
+        }
+        
+        // Load productivity data
+        async function loadData() {
+            try {
+                const response = await fetch('../data/productivity_data.json');
+                const data = await response.json();
+                
+                // Update stats
+                document.getElementById('stat-active').textContent = data.stats.active;
+                document.getElementById('stat-today').textContent = data.stats.today;
+                document.getElementById('stat-overdue').textContent = data.stats.overdue;
+                
+                // Render tasks
+                const taskList = document.getElementById('task-list');
+                if (data.tat_tasks && data.tat_tasks.length > 0) {
+                    taskList.innerHTML = data.tat_tasks.map(renderTask).join('');
+                    allTasks = data.tat_tasks;
+                } else {
+                    taskList.innerHTML = '<div style="text-align: center; padding: 40px; color: #666;">No active tasks! 🎉</div>';
+                }
+                
+                // Render habits
+                const habitTracker = document.getElementById('habit-tracker');
+                if (data.habit_days && data.habit_days.length > 0) {
+                    habitTracker.innerHTML = data.habit_days.map(day => `
+                        <div class="habit-day ${day.score >= 5 ? 'complete' : ''}">
+                            <div class="habit-day-label">${day.day_name}</div>
+                            <div class="habit-day-date">${day.day_num}</div>
+                            <div class="habit-day-score">${day.score >= 5 ? '✅' : '🟡'} ${day.score}/5</div>
+                        </div>
+                    `).join('');
+                } else {
+                    habitTracker.innerHTML = '<div style="text-align: center; padding: 20px; color: #666;">No habit data for last 7 days</div>';
+                }
+                
+                // Update last updated time
+                const updated = new Date(data.generated_at);
+                document.getElementById('last-updated').textContent = updated.toLocaleString();
+                
+            } catch (error) {
+                console.error('Error loading data:', error);
+                document.getElementById('task-list').innerHTML = '<div style="color: #FF6B6B; padding: 20px;">Error loading tasks. Please refresh.</div>';
+            }
+        }
+        
+        // Set up filter buttons
+        document.querySelectorAll('.filter-tab').forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active from all
+                document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
+                // Add active to clicked
+                button.classList.add('active');
+                // Apply filter
+                filterTasks(button.getAttribute('data-filter'));
+            });
+        });
+        
+        // Load data when page loads
+        document.addEventListener('DOMContentLoaded', loadData);
+    </script>
 </body>
 </html>
