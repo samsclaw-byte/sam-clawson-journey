@@ -266,81 +266,39 @@
     </div>
     
     <div class="container">
+        <!-- Date Selector -->
+        <div class="card" style="padding: 16px 24px;">
+            <div style="display: flex; align-items: center; gap: 16px;">
+                <span style="font-weight: 600; color: #9945FF;">📅 Select Date:</span>
+                <select id="date-selector" style="padding: 10px 16px; border: 2px solid rgba(153, 69, 255, 0.3); border-radius: 8px; font-size: 16px; background: white; color: #1a1a2e; cursor: pointer; min-width: 150px;">
+                    <option value="today">Today</option>
+                </select>
+            </div>
+        </div>
+        
         <!-- Today's Meals -->
         <div class="card">
-            <h2>🍽️ Today's Meals</h2>
-            <div class="meal-section">
-                <div class="meal-card">
-                    <div class="meal-type">Breakfast</div>
-                    <div class="meal-items">Multigrain bread, ham, cafe au lait</div>
-                    <div class="meal-calories">450 cal</div>
-                </div>
-                
-                <div class="meal-card">
-                    <div class="meal-type">Lunch</div>
-                    <div class="meal-items">Chicken avocado wrap, cappuccino, tea</div>
-                    <div class="meal-calories">740 cal</div>
-                </div>
-                
-                <div class="meal-card">
-                    <div class="meal-type">Dinner</div>
-                    <div class="meal-items">Spaghetti bolognese</div>
-                    <div class="meal-calories">650 cal</div>
-                </div>
-                
-                <div class="meal-card">
-                    <div class="meal-type">Snacks</div>
-                    <div class="meal-items">2 dates, banana, apple, protein shake</div>
-                    <div class="meal-calories">532 cal</div>
-                </div>
+            <h2 id="meals-title">🍽️ Today's Meals</h2>
+            <div class="meal-section" id="meal-section">
+                <div class="loading" style="text-align: center; padding: 40px; color: #9945FF;">Loading meals...</div>
             </div>
             
             <div class="total-calories">
-                <div class="number">2,372</div>
-                <div class="label">Total Calories Today</div>
+                <div class="number" id="total-calories">--</div>
+                <div class="label" id="total-label">Total Calories</div>
             </div>
         </div>
         
         <!-- Macros Pie Chart -->
         <div class="card">
-            <h2>📊 Macronutrient Breakdown (Today)</h2>
+            <h2 id="macros-title">📊 Macronutrient Breakdown</h2>
             <div class="chart-container">
                 <div style="position: relative; height: 300px; width: 100%;">
                     <canvas id="macroChart"></canvas>
                 </div>
                 
-                <div class="macro-legend">
-                    <div class="macro-item">
-                        <div class="macro-color" style="background: #9945FF;"></div>
-                        <div class="macro-info">
-                            <div class="macro-name">Protein</div>
-                            <div class="macro-value">95g</div>
-                        </div>
-                    </div>
-                    
-                    <div class="macro-item">
-                        <div class="macro-color" style="background: #FF6B9D;"></div>
-                        <div class="macro-info">
-                            <div class="macro-name">Carbs</div>
-                            <div class="macro-value">178g</div>
-                        </div>
-                    </div>
-                    
-                    <div class="macro-item">
-                        <div class="macro-color" style="background: #FFB6C1;"></div>
-                        <div class="macro-info">
-                            <div class="macro-name">Fat</div>
-                            <div class="macro-value">52g</div>
-                        </div>
-                    </div>
-                    
-                    <div class="macro-item">
-                        <div class="macro-color" style="background: #DDA0DD;"></div>
-                        <div class="macro-info">
-                            <div class="macro-name">Fiber</div>
-                            <div class="macro-value">24g</div>
-                        </div>
-                    </div>
+                <div class="macro-legend" id="macro-legend">
+                    <div class="loading" style="text-align: center; padding: 20px; color: #9945FF;">Loading macros...</div>
                 </div>
             </div>
         </div>
@@ -579,8 +537,174 @@
             }
         }
         
+        // Daily nutrition data cache
+        let dailyNutritionData = {};
+        let macroChart = null;
+        
+        // Generate last 7 days for dropdown
+        function populateDateSelector() {
+            const selector = document.getElementById('date-selector');
+            const today = new Date();
+            
+            for (let i = 1; i <= 6; i++) {
+                const date = new Date(today);
+                date.setDate(date.getDate() - i);
+                const value = date.toISOString().split('T')[0];
+                const label = date.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit' });
+                selector.innerHTML += `<option value="${value}">${label}</option>`;
+            }
+        }
+        
+        // Load daily nutrition data for a specific date
+        async function loadDailyNutrition(date) {
+            try {
+                // Check cache first
+                if (dailyNutritionData[date]) {
+                    renderDailyNutrition(dailyNutritionData[date], date);
+                    return;
+                }
+                
+                // Fetch from Airtable
+                const response = await fetch(`data/daily_nutrition_${date}.json`);
+                if (response.ok) {
+                    const data = await response.json();
+                    dailyNutritionData[date] = data;
+                    renderDailyNutrition(data, date);
+                } else {
+                    // No data for this date - show empty state
+                    renderDailyNutrition(null, date);
+                }
+            } catch (error) {
+                console.error('Error loading nutrition data:', error);
+                renderDailyNutrition(null, date);
+            }
+        }
+        
+        // Render meals and macros for selected date
+        function renderDailyNutrition(data, date) {
+            const isToday = date === 'today' || date === new Date().toISOString().split('T')[0];
+            const dateLabel = isToday ? "Today" : new Date(date).toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit' });
+            
+            // Update titles
+            document.getElementById('meals-title').textContent = `🍽️ Meals (${dateLabel})`;
+            document.getElementById('macros-title').textContent = `📊 Macronutrient Breakdown (${dateLabel})`;
+            
+            if (!data || !data.meals || data.meals.length === 0) {
+                // No data state
+                document.getElementById('meal-section').innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: #666;">
+                        <p>No meals logged for ${dateLabel}</p>
+                    </div>
+                `;
+                document.getElementById('total-calories').textContent = '--';
+                document.getElementById('total-label').textContent = 'Total Calories';
+                document.getElementById('macro-legend').innerHTML = '<p style="text-align: center; color: #666;">No nutrition data available</p>';
+                if (macroChart) {
+                    macroChart.destroy();
+                    macroChart = null;
+                }
+                return;
+            }
+            
+            // Render meals
+            const mealSection = document.getElementById('meal-section');
+            mealSection.innerHTML = data.meals.map(meal => `
+                <div class="meal-card">
+                    <div class="meal-type">${meal.type}</div>
+                    <div class="meal-items">${meal.items}</div>
+                    <div class="meal-calories">${meal.calories} cal</div>
+                </div>
+            `).join('');
+            
+            // Update total
+            document.getElementById('total-calories').textContent = data.total_calories.toLocaleString();
+            document.getElementById('total-label').textContent = `Total Calories (${dateLabel})`;
+            
+            // Render macros
+            const macros = data.macros;
+            document.getElementById('macro-legend').innerHTML = `
+                <div class="macro-item">
+                    <div class="macro-color" style="background: #9945FF;"></div>
+                    <div class="macro-info">
+                        <div class="macro-name">Protein</div>
+                        <div class="macro-value">${macros.protein}g</div>
+                    </div>
+                </div>
+                <div class="macro-item">
+                    <div class="macro-color" style="background: #FF6B9D;"></div>
+                    <div class="macro-info">
+                        <div class="macro-name">Carbs</div>
+                        <div class="macro-value">${macros.carbs}g</div>
+                    </div>
+                </div>
+                <div class="macro-item">
+                    <div class="macro-color" style="background: #FFB6C1;"></div>
+                    <div class="macro-info">
+                        <div class="macro-name">Fat</div>
+                        <div class="macro-value">${macros.fat}g</div>
+                    </div>
+                </div>
+                <div class="macro-item">
+                    <div class="macro-color" style="background: #DDA0DD;"></div>
+                    <div class="macro-info">
+                        <div class="macro-name">Fiber</div>
+                        <div class="macro-value">${macros.fiber}g</div>
+                    </div>
+                </div>
+            `;
+            
+            // Update chart
+            updateMacroChart(macros);
+        }
+        
+        // Update pie chart
+        function updateMacroChart(macros) {
+            const ctx = document.getElementById('macroChart');
+            if (!ctx) return;
+            
+            if (macroChart) {
+                macroChart.destroy();
+            }
+            
+            macroChart = new Chart(ctx.getContext('2d'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['Protein', 'Carbs', 'Fat', 'Fiber'],
+                    datasets: [{
+                        data: [macros.protein, macros.carbs, macros.fat, macros.fiber],
+                        backgroundColor: ['#9945FF', '#FF6B9D', '#FFB6C1', '#DDA0DD'],
+                        borderWidth: 0,
+                        hoverOffset: 10
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.label + ': ' + context.parsed + 'g';
+                                }
+                            }
+                        }
+                    },
+                    cutout: '60%'
+                }
+            });
+        }
+        
+        // Handle date selection
+        document.getElementById('date-selector').addEventListener('change', (e) => {
+            const selectedDate = e.target.value === 'today' ? new Date().toISOString().split('T')[0] : e.target.value;
+            loadDailyNutrition(selectedDate);
+        });
+        
         // Load data when page loads
         document.addEventListener('DOMContentLoaded', () => {
+            populateDateSelector();
+            loadDailyNutrition('today');
             loadTimelineData();
             loadExerciseData();
         });

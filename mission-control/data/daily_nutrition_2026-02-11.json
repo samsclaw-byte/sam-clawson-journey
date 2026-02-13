@@ -1,0 +1,32 @@
+{
+  "date": "2026-02-11",
+  "meals": [
+    {
+      "type": "Breakfast",
+      "items": "3 eggs, protein bread, Lurpak, coffee",
+      "calories": 480
+    },
+    {
+      "type": "Lunch",
+      "items": "Tawouk, shish, hummus, patatas, pita",
+      "calories": 750
+    },
+    {
+      "type": "Snack",
+      "items": "Smoothie: pineapple, 2 bananas, apple, coconut water, flaxse...",
+      "calories": 420
+    },
+    {
+      "type": "Snack",
+      "items": "Protein shake with creatine 5g",
+      "calories": 150
+    }
+  ],
+  "total_calories": 1800,
+  "macros": {
+    "protein": 113,
+    "carbs": 203,
+    "fat": 64,
+    "fiber": 20.3
+  }
+}

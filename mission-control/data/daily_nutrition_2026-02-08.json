@@ -1,0 +1,27 @@
+{
+  "date": "2026-02-08",
+  "meals": [
+    {
+      "type": "Breakfast",
+      "items": "3 eggs, protein bread, butter, coffee",
+      "calories": 450
+    },
+    {
+      "type": "Lunch",
+      "items": "Chicken breast, rice, vegetables",
+      "calories": 550
+    },
+    {
+      "type": "Dinner",
+      "items": "Salmon, sweet potato, broccoli",
+      "calories": 480
+    }
+  ],
+  "total_calories": 1480,
+  "macros": {
+    "protein": 108,
+    "carbs": 140,
+    "fat": 52,
+    "fiber": 14.0
+  }
+}
