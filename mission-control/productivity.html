@@ -499,10 +499,10 @@
                     taskList.innerHTML = '<div style="text-align: center; padding: 40px; color: #666;">No active tasks! 🎉</div>';
                 }
                 
-                // Render habits
+                // Render habits (most recent on left)
                 const habitTracker = document.getElementById('habit-tracker');
                 if (data.habit_days && data.habit_days.length > 0) {
-                    habitTracker.innerHTML = data.habit_days.map(day => `
+                    habitTracker.innerHTML = data.habit_days.slice().reverse().map(day => `
                         <div class="habit-day ${day.score >= 5 ? 'complete' : ''}">
                             <div class="habit-day-label">${day.day_name}</div>
                             <div class="habit-day-date">${day.day_num}</div>
