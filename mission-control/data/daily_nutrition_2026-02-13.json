@@ -3,15 +3,15 @@
   "meals": [
     {
       "type": "Breakfast",
-      "items": "2 cafe au laits, half sourdough, 2-egg omelette, 1/3 butter chicken with pita",
+      "items": "2 cafe au laits, half slice sourdough bread, 2 egg omelette ...",
       "calories": 730
     }
   ],
   "total_calories": 730,
   "macros": {
-    "protein": 40,
-    "carbs": 65,
-    "fat": 32,
-    "fiber": 8
+    "protein": 36,
+    "carbs": 60,
+    "fat": 36,
+    "fiber": 3
   }
 }
