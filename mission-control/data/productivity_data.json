@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-02-13T16:15:10.512307",
+  "generated_at": "2026-02-13T16:30:16.397254",
   "tat_tasks": [
     {
       "id": "recsyjQbZe1bzS6b9",
@@ -292,6 +292,18 @@
       "due_date": "2026-02-18T00:00:00.000Z"
     },
     {
+      "id": "recC3qtz1X2t3WcxU",
+      "name": "Handwritten letter for Theo",
+      "category": "3",
+      "status": "Not Started",
+      "due_status": "later",
+      "days_remaining": 999,
+      "urgency": "\ud83d\udfe2 Normal",
+      "due_date": {
+        "error": "#ERROR"
+      }
+    },
+    {
       "id": "recG3O9fEFQuKnjMc",
       "name": "Complete TAT task Airtable setup with formula fields",
       "category": "1",
@@ -432,7 +444,7 @@
     }
   ],
   "stats": {
-    "active": 34,
+    "active": 35,
     "overdue": 2,
     "today": 1,
     "completed_7d": 0
