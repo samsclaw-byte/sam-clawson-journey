@@ -379,9 +379,9 @@
             
             <!-- Habit Streaks -->
             <div style="margin-top: 24px; padding-top: 20px; border-top: 1px solid rgba(153, 69, 255, 0.1);">
-                <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: #9945FF; margin-bottom: 12px; font-weight: 600;">Current Streaks</div>
-                <div id="habit-streaks" style="display: flex; flex-wrap: wrap; gap: 12px;">
-                    <!-- Streaks will be inserted here -->
+                <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: #9945FF; margin-bottom: 16px; font-weight: 600;">Current Streaks</div>
+                <div id="habit-streaks" style="width: 100%;">
+                    <!-- Streak bars will be inserted here -->
                 </div>
             </div>
         </div>
@@ -622,15 +622,27 @@
                 return { ...habit, streak };
             });
             
-            // Render streaks
+            // Render streaks as horizontal bar chart
+            const maxStreak = Math.max(...streaks.map(h => h.streak), 7); // Minimum scale of 7 days
             const streaksContainer = document.getElementById('habit-streaks');
-            streaksContainer.innerHTML = streaks.map(h => `
-                <div style="display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: linear-gradient(135deg, #f8f5ff 0%, #fff5f8 100%); border-radius: 20px; border: 1px solid rgba(153, 69, 255, 0.15);">
-                    <span style="font-size: 16px;">${h.icon}</span>
-                    <span style="font-size: 13px; font-weight: 500;">${h.name}</span>
-                    <span style="font-size: 13px; color: #9945FF; font-weight: 700;">${h.streak} day${h.streak !== 1 ? 's' : ''}</span>
+            streaksContainer.innerHTML = streaks.map(h => {
+                const percentage = (h.streak / maxStreak) * 100;
+                return `
+                <div style="width: 100%; margin-bottom: 12px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span style="font-size: 18px;">${h.icon}</span>
+                            <span style="font-size: 14px; font-weight: 500;">${h.name}</span>
+                        </div>
+                        <span style="font-size: 14px; color: #9945FF; font-weight: 700;">${h.streak} day${h.streak !== 1 ? 's' : ''}</span>
+                    </div>
+                    <div style="background: #f0f0f5; border-radius: 8px; height: 24px; overflow: hidden;">
+                        <div style="background: linear-gradient(90deg, #9945FF, #FF6B9D); height: 100%; width: ${percentage}%; border-radius: 8px; display: flex; align-items: center; justify-content: flex-end; padding-right: 8px; transition: width 0.5s ease;">
+                            ${h.streak > 0 ? `<span style="color: white; font-size: 12px; font-weight: 600;">🔥</span>` : ''}
+                        </div>
+                    </div>
                 </div>
-            `).join('');
+            `}).join('');
         }
         
         // Set up filter buttons
