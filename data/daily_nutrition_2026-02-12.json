@@ -12,6 +12,11 @@
       "calories": 133
     },
     {
+      "type": "Lunch",
+      "items": "Chicken avocado and pesto tortilla, cappuccino",
+      "calories": 520
+    },
+    {
       "type": "Snack",
       "items": "banana, red apple",
       "calories": 200
@@ -27,11 +32,11 @@
       "calories": 120
     }
   ],
-  "total_calories": 1443,
+  "total_calories": 1963,
   "macros": {
-    "protein": 80.4,
-    "carbs": 190,
-    "fat": 60,
-    "fiber": 18
+    "protein": 108.4,
+    "carbs": 235,
+    "fat": 84,
+    "fiber": 24
   }
 }
