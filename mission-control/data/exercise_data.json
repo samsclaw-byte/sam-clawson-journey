@@ -1,0 +1,42 @@
+{
+  "generated_at": "2026-02-13T07:37:01.461528",
+  "workout_count": 4,
+  "total_minutes": 119.83,
+  "avg_strain": 10.1,
+  "exercise_types": {
+    "Hard": {
+      "minutes": 89.33,
+      "count": 3
+    },
+    "Active Recovery": {
+      "minutes": 30.5,
+      "count": 1
+    }
+  },
+  "workouts": [
+    {
+      "date": "2026-02-11",
+      "type": "Hard",
+      "duration": 33.01,
+      "strain": 12
+    },
+    {
+      "date": "2026-02-07",
+      "type": "Hard",
+      "duration": 30,
+      "strain": 9.5
+    },
+    {
+      "date": "2026-02-10",
+      "type": "Hard",
+      "duration": 26.32,
+      "strain": 7.9
+    },
+    {
+      "date": "2026-02-09",
+      "type": "Active Recovery",
+      "duration": 30.5,
+      "strain": 10.9
+    }
+  ]
+}
