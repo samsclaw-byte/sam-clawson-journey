@@ -519,11 +519,18 @@
                 document.getElementById('stat-overdue').textContent = data.stats.overdue;
                 document.getElementById('stat-inprogress').textContent = data.tat_tasks.filter(t => t.status === 'In Progress').length;
                 
-                // Render tasks
+                // Sort and render tasks (overdue first, then by days remaining)
                 const taskList = document.getElementById('task-list');
                 if (data.tat_tasks && data.tat_tasks.length > 0) {
-                    taskList.innerHTML = data.tat_tasks.map(renderTask).join('');
-                    allTasks = data.tat_tasks;
+                    // Sort: overdue first (negative days), then by days remaining ascending
+                    const sortedTasks = data.tat_tasks.sort((a, b) => {
+                        // Handle null/undefined days_remaining
+                        const daysA = a.days_remaining === null ? 999 : a.days_remaining;
+                        const daysB = b.days_remaining === null ? 999 : b.days_remaining;
+                        return daysA - daysB;
+                    });
+                    taskList.innerHTML = sortedTasks.map(renderTask).join('');
+                    allTasks = sortedTasks;
                 } else {
                     taskList.innerHTML = '<div style="text-align: center; padding: 40px; color: #666;">No active tasks! 🎉</div>';
                 }
