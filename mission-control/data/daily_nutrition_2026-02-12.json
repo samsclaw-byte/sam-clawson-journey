@@ -3,8 +3,8 @@
   "meals": [
     {
       "type": "Breakfast",
-      "items": "2 multigrain bread with lurpak butter and ham, cafe au lait,...",
-      "calories": 2607.6
+      "items": "2 multigrain bread with lurpak butter and ham, cafe au lait",
+      "calories": 340
     },
     {
       "type": "Snack",
@@ -17,11 +17,11 @@
       "calories": 200.25
     }
   ],
-  "total_calories": 2940.81,
+  "total_calories": 673.21,
   "macros": {
-    "protein": 134.9,
-    "carbs": 513.8,
-    "fat": 42.4,
-    "fiber": 81.9
+    "protein": 21.4,
+    "carbs": 129.3,
+    "fat": 14.8,
+    "fiber": 15.1
   }
 }
