@@ -20,13 +20,18 @@
       "type": "Dinner",
       "items": "Spaghetti bolognese",
       "calories": 650
+    },
+    {
+      "type": "Snack",
+      "items": "31g protein powder",
+      "calories": 120
     }
   ],
-  "total_calories": 1323,
+  "total_calories": 1443,
   "macros": {
-    "protein": 52,
-    "carbs": 185,
-    "fat": 58,
+    "protein": 80.4,
+    "carbs": 190,
+    "fat": 60,
     "fiber": 18
   }
 }
