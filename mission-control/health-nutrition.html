@@ -560,20 +560,28 @@
         
         // Load daily nutrition data for a specific date
         async function loadDailyNutrition(date) {
+            console.log('Loading nutrition for date:', date);
             try {
                 // Check cache first
                 if (dailyNutritionData[date]) {
+                    console.log('Found in cache:', dailyNutritionData[date]);
                     renderDailyNutrition(dailyNutritionData[date], date);
                     return;
                 }
                 
-                // Fetch from Airtable
-                const response = await fetch(`data/daily_nutrition_${date}.json`);
+                // Fetch from JSON file
+                const url = `data/daily_nutrition_${date}.json`;
+                console.log('Fetching:', url);
+                const response = await fetch(url);
+                console.log('Response status:', response.status);
+                
                 if (response.ok) {
                     const data = await response.json();
+                    console.log('Data received:', data);
                     dailyNutritionData[date] = data;
                     renderDailyNutrition(data, date);
                 } else {
+                    console.log('No data found for date:', date);
                     // No data for this date - show empty state
                     renderDailyNutrition(null, date);
                 }
@@ -700,14 +708,31 @@
         
         // Handle date selection
         document.getElementById('date-selector').addEventListener('change', (e) => {
-            const selectedDate = e.target.value === 'today' ? new Date().toISOString().split('T')[0] : e.target.value;
-            loadDailyNutrition(selectedDate);
+            console.log('Date selected:', e.target.value);
+            const selectedDate = e.target.value;
+            if (selectedDate === 'today') {
+                const today = new Date();
+                const year = today.getFullYear();
+                const month = String(today.getMonth() + 1).padStart(2, '0');
+                const day = String(today.getDate()).padStart(2, '0');
+                const todayStr = `${year}-${month}-${day}`;
+                console.log('Today formatted:', todayStr);
+                loadDailyNutrition(todayStr);
+            } else {
+                loadDailyNutrition(selectedDate);
+            }
         });
         
         // Load data when page loads
         document.addEventListener('DOMContentLoaded', () => {
             populateDateSelector();
-            loadDailyNutrition('today');
+            const today = new Date();
+            const year = today.getFullYear();
+            const month = String(today.getMonth() + 1).padStart(2, '0');
+            const day = String(today.getDate()).padStart(2, '0');
+            const todayStr = `${year}-${month}-${day}`;
+            console.log('Loading initial data for:', todayStr);
+            loadDailyNutrition(todayStr);
             loadTimelineData();
             loadExerciseData();
         });
