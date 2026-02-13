@@ -1,26 +1,6 @@
 {
-  "generated_at": "2026-02-13T17:00:18.057491",
+  "generated_at": "2026-02-13T17:15:11.350458",
   "tat_tasks": [
-    {
-      "id": "recsyjQbZe1bzS6b9",
-      "name": "Add SSH key to GitHub for auto-push",
-      "category": "\ud83d\udcbb Laptop Tasks",
-      "status": "Not Started",
-      "due_status": "overdue",
-      "days_remaining": -1,
-      "urgency": "\ud83d\udd34 Overdue",
-      "due_date": "2026-02-12T00:00:00.000Z"
-    },
-    {
-      "id": "recyN2oAP2mdammNy",
-      "name": "Complete Mission Control dashboard - connect to live data",
-      "category": "\ud83e\udd16 AI Development",
-      "status": "Not Started",
-      "due_status": "overdue",
-      "days_remaining": -1,
-      "urgency": "\ud83d\udd34 Overdue",
-      "due_date": "2026-02-12T00:00:00.000Z"
-    },
     {
       "id": "recBSDHfWKo4NWTBK",
       "name": "Test task from overnight script update",
@@ -42,38 +22,8 @@
       "due_date": "2026-02-14T00:00:00.000Z"
     },
     {
-      "id": "recsLYJdrxlyzXjiV",
-      "name": "Set up permanent Cloudflare named tunnel for WHOOP webhooks",
-      "category": "\ud83d\udcc5 3 Days",
-      "status": "Not Started",
-      "due_status": "soon",
-      "days_remaining": 1,
-      "urgency": "\ud83d\udfe0 Urgent",
-      "due_date": "2026-02-14T00:00:00.000Z"
-    },
-    {
-      "id": "recU8ISYhf8o2HEDZ",
-      "name": "\ud83c\udf7d\ufe0f Update nutrition: Snack - Banana, red apple, one glass of water",
-      "category": "3",
-      "status": "Not Started",
-      "due_status": "soon",
-      "days_remaining": 2,
-      "urgency": "\ud83d\udfe1 Soon",
-      "due_date": "2026-02-15T00:00:00.000Z"
-    },
-    {
       "id": "rec4ZTt3lLIEJFVkI",
       "name": "Perform check of tasks before adding new one",
-      "category": "\ud83e\udd16 AI Development",
-      "status": "Not Started",
-      "due_status": "later",
-      "days_remaining": 4,
-      "urgency": "\ud83d\udfe2 Normal",
-      "due_date": "2026-02-17T00:00:00.000Z"
-    },
-    {
-      "id": "rec6H6odaqLmxv61n",
-      "name": "Fix voice transcription system - install ffmpeg",
       "category": "\ud83e\udd16 AI Development",
       "status": "Not Started",
       "due_status": "later",
@@ -85,16 +35,6 @@
       "id": "rec82QLASN6uQUiHu",
       "name": "Complete Google Calendar update",
       "category": "\ud83d\udcbc Work",
-      "status": "Not Started",
-      "due_status": "later",
-      "days_remaining": 4,
-      "urgency": "\ud83d\udfe2 Normal",
-      "due_date": "2026-02-17T00:00:00.000Z"
-    },
-    {
-      "id": "recByySFb9g94vm1p",
-      "name": "Create Sam Work Telegram group for work/personal separation",
-      "category": "\ud83e\udd16 AI Development",
       "status": "Not Started",
       "due_status": "later",
       "days_remaining": 4,
@@ -175,16 +115,6 @@
       "id": "recZOSWGvUtJn4Y8S",
       "name": "Link to Gmail and forward nursery dates and times",
       "category": "\ud83d\udc68\u200d\ud83d\udc69\u200d\ud83d\udc67\u200d\ud83d\udc66 Family",
-      "status": "Not Started",
-      "due_status": "later",
-      "days_remaining": 4,
-      "urgency": "\ud83d\udfe2 Normal",
-      "due_date": "2026-02-17T00:00:00.000Z"
-    },
-    {
-      "id": "recan1aTVTEf611h9",
-      "name": "Review workflows",
-      "category": "\ud83e\udd16 AI Development",
       "status": "Not Started",
       "due_status": "later",
       "days_remaining": 4,
@@ -444,8 +374,8 @@
     }
   ],
   "stats": {
-    "active": 35,
-    "overdue": 2,
+    "active": 28,
+    "overdue": 0,
     "today": 1,
     "completed_7d": 0
   }
