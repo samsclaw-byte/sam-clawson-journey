@@ -3,30 +3,30 @@
   "meals": [
     {
       "type": "Breakfast",
-      "items": "2 multigrain bread with butter and ham, cafe au lait",
+      "items": "2 multigrain bread with lurpak butter and ham, cafe au lait",
       "calories": 340
-    },
-    {
-      "type": "Snack",
-      "items": "2 dates",
-      "calories": 133
-    },
-    {
-      "type": "Snack",
-      "items": "banana, red apple",
-      "calories": 200
     },
     {
       "type": "Dinner",
       "items": "Spaghetti bolognese",
       "calories": 650
+    },
+    {
+      "type": "Snack",
+      "items": "2 dates",
+      "calories": 132.96
+    },
+    {
+      "type": "Snack",
+      "items": "banana, red apple, 1 glass water",
+      "calories": 200.25
     }
   ],
-  "total_calories": 1323,
+  "total_calories": 1323.21,
   "macros": {
-    "protein": 52,
-    "carbs": 185,
-    "fat": 58,
-    "fiber": 18
+    "protein": 49.4,
+    "carbs": 214.3,
+    "fat": 36.8,
+    "fiber": 21.1
   }
 }
