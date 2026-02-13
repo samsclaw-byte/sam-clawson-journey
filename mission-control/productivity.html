@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mission Control - Productivity</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #f8f9ff 0%, #fff5f8 100%);
+            color: #1a1a2e;
+            min-height: 100vh;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #9945FF 0%, #FF6B9D 100%);
+            padding: 30px 20px;
+            text-align: center;
+            color: white;
+            box-shadow: 0 4px 20px rgba(153, 69, 255, 0.3);
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .nav {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .nav a {
+            padding: 12px 24px;
+            background: white;
+            border: 1px solid rgba(153, 69, 255, 0.2);
+            border-radius: 25px;
+            color: #9945FF;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        
+        .nav a:hover, .nav a.active {
+            background: linear-gradient(135deg, #9945FF, #FF6B9D);
+            color: white;
+            border-color: transparent;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 20px rgba(153, 69, 255, 0.08);
+            border: 1px solid rgba(153, 69, 255, 0.1);
+        }
+        
+        .card h2 {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, #9945FF, #FF6B9D);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+        
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .stat-box {
+            background: linear-gradient(135deg, #f8f5ff 0%, #fff5f8 100%);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid rgba(153, 69, 255, 0.15);
+        }
+        
+        .stat-number {
+            font-size: 32px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #9945FF, #FF6B9D);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .stat-label {
+            font-size: 11px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 4px;
+        }
+        
+        .filter-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-tab {
+            padding: 8px 16px;
+            background: #f0f0f5;
+            border: none;
+            border-radius: 20px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .filter-tab.active {
+            background: linear-gradient(135deg, #9945FF, #FF6B9D);
+            color: white;
+        }
+        
+        .task-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .task-item {
+            display: flex;
+            align-items: flex-start;
+            padding: 16px;
+            background: white;
+            border-radius: 12px;
+            border: 1px solid #f0f0f5;
+            transition: all 0.2s;
+        }
+        
+        .task-item:hover {
+            box-shadow: 0 4px 12px rgba(153, 69, 255, 0.1);
+            border-color: rgba(153, 69, 255, 0.3);
+        }
+        
+        .task-priority {
+            width: 4px;
+            min-height: 40px;
+            border-radius: 2px;
+            margin-right: 12px;
+        }
+        
+        .priority-1 { background: #FF6B6B; }
+        .priority-3 { background: #FFA500; }
+        .priority-7 { background: #339AF0; }
+        .priority-30 { background: #51CF66; }
+        
+        .task-content {
+            flex: 1;
+        }
+        
+        .task-name {
+            font-weight: 500;
+            margin-bottom: 6px;
+            font-size: 15px;
+        }
+        
+        .task-meta {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .task-tag {
+            font-size: 11px;
+            padding: 3px 8px;
+            border-radius: 4px;
+            background: #f0f0f5;
+            color: #666;
+        }
+        
+        .task-due {
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .due-overdue { color: #FF6B6B; }
+        .due-today { color: #FFA500; }
+        .due-soon { color: #339AF0; }
+        .due-later { color: #51CF66; }
+        
+        .task-status {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+        
+        .status-not-started { background: #f0f0f5; color: #666; }
+        .status-in-progress { background: #E7F5FF; color: #1971C2; }
+        .status-blocked { background: #FFE0E0; color: #C92A2A; }
+        .status-complete { background: #D3F9D8; color: #2B8A3E; }
+        
+        .habit-tracker {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+            margin-top: 16px;
+        }
+        
+        .habit-day {
+            text-align: center;
+            padding: 12px 4px;
+            background: #f8f5ff;
+            border-radius: 8px;
+        }
+        
+        .habit-day-label {
+            font-size: 10px;
+            color: #666;
+            text-transform: uppercase;
+        }
+        
+        .habit-day-date {
+            font-size: 14px;
+            font-weight: 600;
+            margin: 4px 0;
+        }
+        
+        .habit-day-score {
+            font-size: 18px;
+        }
+        
+        .add-task-btn {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #9945FF, #FF6B9D);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 16px;
+            transition: all 0.2s;
+        }
+        
+        .add-task-btn:hover {
+            box-shadow: 0 4px 20px rgba(153, 69, 255, 0.3);
+        }
+        
+        .last-updated {
+            text-align: center;
+            color: #999;
+            font-size: 12px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>📈 Productivity</h1>
+        <p>Tasks, Habits & Goals</p>
+    </div>
+    
+    <div class="nav">
+        <a href="index.html">Overview</a>
+        <a href="health-nutrition.html">Health & Nutrition</a>
+        <a href="productivity.html" class="active">Productivity</a>
+        <a href="work.html">Work</a>
+    </div>
+    
+    <div class="container">
+        <!-- TAT Stats -->
+        <div class="card">
+            <h2>📊 Task Stats</h2>
+            <div class="stats-row">
+                <div class="stat-box">
+                    <div class="stat-number">12</div>
+                    <div class="stat-label">Active Tasks</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">3</div>
+                    <div class="stat-label">Due Today</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">2</div>
+                    <div class="stat-label">Overdue</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">8</div>
+                    <div class="stat-label">Completed (7d)</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- TAT Tasks -->
+        <div class="card">
+            <h2>📋 TAT Tasks</h2>
+            <div class="filter-tabs">
+                <button class="filter-tab active">All</button>
+                <button class="filter-tab">Today</button>
+                <button class="filter-tab">Overdue</button>
+                <button class="filter-tab">In Progress</button>
+            </div>
+            
+            <div class="task-list">
+                <!-- Overdue -->
+                <div class="task-item">
+                    <div class="task-priority priority-1"></div>
+                    <div class="task-content">
+                        <div class="task-name">Complete TAT table setup in Airtable</div>
+                        <div class="task-meta">
+                            <span class="task-tag">Work</span>
+                            <span class="task-tag">1 day</span>
+                            <span class="task-due due-overdue">🔴 1 day overdue</span>
+                        </div>
+                    </div>
+                    <span class="task-status status-not-started">Not Started</span>
+                </div>
+                
+                <div class="task-item">
+                    <div class="task-priority priority-1"></div>
+                    <div class="task-content">
+                        <div class="task-name">Set up Cloudflare Pages for Mission Control</div>
+                        <div class="task-meta">
+                            <span class="task-tag">Work</span>
+                            <span class="task-tag">1 day</span>
+                            <span class="task-due due-overdue">🔴 1 day overdue</span>
+                        </div>
+                    </div>
+                    <span class="task-status status-in-progress">In Progress</span>
+                </div>
+                
+                <!-- Due Soon -->
+                <div class="task-item">
+                    <div class="task-priority priority-3"></div>
+                    <div class="task-content">
+                        <div class="task-name">Call Micasa - fix drainage</div>
+                        <div class="task-meta">
+                            <span class="task-tag">Home</span>
+                            <span class="task-tag">3 days</span>
+                            <span class="task-due due-soon">🟠 3 days</span>
+                        </div>
+                    </div>
+                    <span class="task-status status-not-started">Not Started</span>
+                </div>
+                
+                <div class="task-item">
+                    <div class="task-priority priority-3"></div>
+                    <div class="task-content">
+                        <div class="task-name">Set up SSH remote access for Termius</div>
+                        <div class="task-meta">
+                            <span class="task-tag">Tech</span>
+                            <span class="task-tag">1 day</span>
+                            <span class="task-due due-today">🟡 Today</span>
+                        </div>
+                    </div>
+                    <span class="task-status status-not-started">Not Started</span>
+                </div>
+                
+                <!-- Later -->
+                <div class="task-item">
+                    <div class="task-priority priority-7"></div>
+                    <div class="task-content">
+                        <div class="task-name">Review Mission Control pages</div>
+                        <div class="task-meta">
+                            <span class="task-tag">Admin</span>
+                            <span class="task-tag">7 days</span>
+                            <span class="task-due due-later">🟢 7 days</span>
+                        </div>
+                    </div>
+                    <span class="task-status status-not-started">Not Started</span>
+                </div>
+                
+                <div class="task-item">
+                    <div class="task-priority priority-30"></div>
+                    <div class="task-content">
+                        <div class="task-name">Quarterly review preparation</div>
+                        <div class="task-meta">
+                            <span class="task-tag">Work</span>
+                            <span class="task-tag">30 days</span>
+                            <span class="task-due due-later">🟢 30 days</span>
+                        </div>
+                    </div>
+                    <span class="task-status status-not-started">Not Started</span>
+                </div>
+            </div>
+            
+            <button class="add-task-btn">+ Add New Task</button>
+        </div>
+        
+        <!-- Weekly Habit Tracker -->
+        <div class="card">
+            <h2>✅ Weekly Habit Tracker (Last 7 Days)</h2>
+            <div class="habit-tracker">
+                <div class="habit-day">
+                    <div class="habit-day-label">Mon</div>
+                    <div class="habit-day-date">06</div>
+                    <div class="habit-day-score">🟡 3/5</div>
+                </div>
+                <div class="habit-day">
+                    <div class="habit-day-label">Tue</div>
+                    <div class="habit-day-date">07</div>
+                    <div class="habit-day-score">🟡 3/5</div>
+                </div>
+                <div class="habit-day">
+                    <div class="habit-day-label">Wed</div>
+                    <div class="habit-day-date">08</div>
+                    <div class="habit-day-score">🟢 4/5</div>
+                </div>
+                <div class="habit-day">
+                    <div class="habit-day-label">Thu</div>
+                    <div class="habit-day-date">09</div>
+                    <div class="habit-day-score">🟢 4/5</div>
+                </div>
+                <div class="habit-day">
+                    <div class="habit-day-label">Fri</div>
+                    <div class="habit-day-date">10</div>
+                    <div class="habit-day-score">🟢 4/5</div>
+                </div>
+                <div class="habit-day">
+                    <div class="habit-day-label">Sat</div>
+                    <div class="habit-day-date">11</div>
+                    <div class="habit-day-score">🟡 3/5</div>
+                </div>
+                <div class="habit-day" style="background: linear-gradient(135deg, #9945FF 0%, #FF6B9D 100%); color: white;">
+                    <div class="habit-day-label" style="color: white;">Sun</div>
+                    <div class="habit-day-date">12</div>
+                    <div class="habit-day-score">✅ 5/5</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Recent Completions -->
+        <div class="card">
+            <h2>🎉 Recent Completions</h2>
+            <div class="task-list">
+                <div class="task-item" style="border-left: 4px solid #51CF66;">
+                    <div class="task-content">
+                        <div class="task-name">✅ Fix WSL DNS permanently</div>
+                        <div class="task-meta">
+                            <span class="task-tag">Tech</span>
+                            <span>Completed: Feb 12, 10:52 PM</span>
+                        </div>
+                    </div>
+                    <span class="task-status status-complete">Complete</span>
+                </div>
+                
+                <div class="task-item" style="border-left: 4px solid #51CF66;">
+                    <div class="task-content">
+                        <div class="task-name">✅ Deploy Mission Control to Cloudflare</div>
+                        <div class="task-meta">
+                            <span class="task-tag">Work</span>
+                            <span>Completed: Feb 12, 10:46 PM</span>
+                        </div>
+                    </div>
+                    <span class="task-status status-complete">Complete</span>
+                </div>
+                
+                <div class="task-item" style="border-left: 4px solid #51CF66;">
+                    <div class="task-content">
+                        <div class="task-name">✅ Update Edamam API key</div>
+                        <div class="task-meta">
+                            <span class="task-tag">Tech</span>
+                            <span>Completed: Feb 12, 5:08 PM</span>
+                        </div>
+                    </div>
+                    <span class="task-status status-complete">Complete</span>
+                </div>
+            </div>
+        </div>
+        
+        <p class="last-updated">Last updated: Feb 12, 2026 at 11:57 PM | Data source: Airtable (auto-sync every 15 min)</p>
+    </div>
+</body>
+</html>
