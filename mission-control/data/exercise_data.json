@@ -1,22 +1,12 @@
 {
-  "generated_at": "2026-02-13T12:15:06.941128",
+  "generated_at": "2026-02-13T12:30:05.033145",
   "workout_count": 4,
   "total_minutes": 119.83,
   "avg_strain": 10.1,
   "exercise_types": {
-    "Kettlebell full body + calf routine": {
-      "minutes": 33.01,
-      "count": 1,
-      "type": "Hard"
-    },
-    "Kettlebell: Goblet Squats, Swings, Rows": {
-      "minutes": 30,
-      "count": 1,
-      "type": "Hard"
-    },
-    "Kettlebell: Goblet Squats, Swings, Rows, Press, Calf Raises": {
-      "minutes": 26.32,
-      "count": 1,
+    "Kettlebell": {
+      "minutes": 89.33,
+      "count": 3,
       "type": "Hard"
     },
     "Swimming": {
@@ -29,21 +19,21 @@
     {
       "date": "2026-02-11",
       "type": "Hard",
-      "exercises": "Kettlebell full body + calf routine",
+      "exercises": "Kettlebell",
       "duration": 33.01,
       "strain": 12
     },
     {
       "date": "2026-02-07",
       "type": "Hard",
-      "exercises": "Kettlebell: Goblet Squats, Swings, Rows",
+      "exercises": "Kettlebell",
       "duration": 30,
       "strain": 9.5
     },
     {
       "date": "2026-02-10",
       "type": "Hard",
-      "exercises": "Kettlebell: Goblet Squats, Swings, Rows, Press, Calf Raises",
+      "exercises": "Kettlebell",
       "duration": 26.32,
       "strain": 7.9
     },
