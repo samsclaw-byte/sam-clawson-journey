@@ -6,10 +6,16 @@ When food contains these items, update Daily Habits table
 
 import requests
 import re
+import sys
+from datetime import datetime
 
 AIRTABLE_KEY = open('/home/samsclaw/.config/airtable/api_key').read().strip()
 HEALTH_BASE = "appnVeGSjwJgG2snS"
 PRODUCTIVITY_BASE = "appvUbV8IeGhxmcPn"
+
+def get_today():
+    """Get today's date in YYYY-MM-DD format"""
+    return datetime.now().strftime('%Y-%m-%d')
 
 def update_habits_from_food(food_description):
     """Check if food mentions habits and update accordingly"""
@@ -71,8 +77,10 @@ def update_daily_habits(updates):
         "Content-Type": "application/json"
     }
     
+    today = get_today()
+    
     # Check if today's entry exists
-    filter_formula = "Date='2026-02-12'"
+    filter_formula = f"Date='{today}'"
     response = requests.get(
         f"{url}?filterByFormula={filter_formula}",
         headers=headers
@@ -86,7 +94,7 @@ def update_daily_habits(updates):
             record_id = records[0]['id']
             existing = records[0].get('fields', {})
             
-            # Merge updates
+            # Merge updates (for Water, add to existing count)
             if 'Water' in updates and 'Water' in existing:
                 updates['Water'] = existing['Water'] + updates['Water']
             
@@ -99,7 +107,7 @@ def update_daily_habits(updates):
                 print(f"  ⚠️  Could not update habits: {update_response.status_code}")
         else:
             # Create new record
-            updates['Date'] = '2026-02-12'
+            updates['Date'] = today
             create_response = requests.post(url, headers=headers, json={"fields": updates})
             
             if create_response.status_code == 200:
