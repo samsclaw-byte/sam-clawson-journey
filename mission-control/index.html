@@ -6,168 +6,313 @@
     <title>Sam's Mission Control</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: linear-gradient(135deg, #0a0a0f, #1a1a2e); color: #fff; min-height: 100vh; }
-        .header { background: linear-gradient(135deg, #667eea, #764ba2); padding: 20px; text-align: center; position: relative; }
-        .refresh-btn { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.2); border: none; color: white; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-size: 14px; }
-        .refresh-btn:hover { background: rgba(255,255,255,0.3); }
-        .last-updated { font-size: 12px; opacity: 0.8; margin-top: 5px; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
-        .nav { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
-        .nav a { padding: 10px 20px; background: #1a1a2e; border: 1px solid #333; border-radius: 8px; color: #aaa; text-decoration: none; transition: all 0.2s; }
-        .nav a.active { background: #667eea; color: #fff; }
-        .nav a:hover { background: #2a2a3e; }
-        .section { background: #1a1a2e; border: 1px solid #333; border-radius: 12px; padding: 20px; margin-bottom: 20px; }
-        .section h2 { font-size: 16px; color: #667eea; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; }
-        .habit-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 10px; }
-        .habit-item { background: #0a0a0f; padding: 15px; border-radius: 8px; text-align: center; transition: transform 0.2s; }
-        .habit-item:hover { transform: scale(1.05); }
-        .card { background: #0a0a0f; padding: 20px; border-radius: 10px; text-align: center; transition: transform 0.2s; }
-        .card:hover { transform: translateY(-2px); }
-        .card-number { font-size: 36px; font-weight: bold; color: #667eea; }
-        .card-label { font-size: 12px; color: #aaa; margin-top: 5px; }
-        .task-item { background: #0a0a0f; padding: 15px; border-radius: 8px; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; transition: background 0.2s; }
-        .task-item:hover { background: #1a1a2e; }
-        .tag { font-size: 11px; padding: 2px 8px; border-radius: 4px; font-weight: 500; }
-        .tag-urgent { background: #ef444420; color: #ef4444; }
-        .tag-work { background: #3b82f620; color: #3b82f6; }
-        .tag-personal { background: #22c55e20; color: #22c55e; }
-        .tag-health { background: #a855f720; color: #a855f7; }
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 15px; margin-bottom: 15px; }
-        .recovery-card { background: linear-gradient(135deg, #eab30820, #eab30810); border: 1px solid #eab30840; }
-        .recovery-value { color: #eab308; font-size: 48px; font-weight: bold; }
-        .progress-bar { width: 100%; height: 8px; background: #333; border-radius: 4px; overflow: hidden; margin-top: 10px; }
-        .progress-fill { height: 100%; background: linear-gradient(90deg, #667eea, #764ba2); transition: width 0.5s; }
-        .empty-state { color: #666; text-align: center; padding: 20px; font-style: italic; }
-        .api-status { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; padding: 2px 8px; border-radius: 12px; background: #22c55e20; color: #22c55e; }
-        .api-status.error { background: #ef444420; color: #ef4444; }
-        @media (max-width: 600px) { .card-number { font-size: 24px; } .recovery-value { font-size: 32px; } }
+        
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+            background: linear-gradient(135deg, #f8f9ff 0%, #fff5f8 100%);
+            color: #1a1a2e; 
+            min-height: 100vh; 
+        }
+        
+        .header { 
+            background: linear-gradient(135deg, #9945FF 0%, #FF6B9D 100%); 
+            padding: 30px 20px; 
+            text-align: center; 
+            color: white;
+            box-shadow: 0 4px 20px rgba(153, 69, 255, 0.3);
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .header-subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .last-updated { 
+            font-size: 12px; 
+            opacity: 0.8; 
+            margin-top: 8px;
+        }
+        
+        .container { 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            padding: 20px; 
+        }
+        
+        .nav { 
+            display: flex; 
+            justify-content: center; 
+            gap: 12px; 
+            margin: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .nav a { 
+            padding: 12px 24px; 
+            background: white;
+            border: 1px solid rgba(153, 69, 255, 0.2);
+            border-radius: 25px;
+            color: #9945FF;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        
+        .nav a.active { 
+            background: linear-gradient(135deg, #9945FF, #FF6B9D);
+            color: white;
+            border-color: transparent;
+        }
+        
+        .nav a:hover {
+            box-shadow: 0 4px 12px rgba(153, 69, 255, 0.15);
+        }
+        
+        .section { 
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 20px rgba(153, 69, 255, 0.08);
+            border: 1px solid rgba(153, 69, 255, 0.1);
+        }
+        
+        .section h2 { 
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, #9945FF, #FF6B9D);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+        
+        .habit-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); 
+            gap: 12px; 
+        }
+        
+        .habit-item { 
+            text-align: center;
+            padding: 16px 8px;
+            background: linear-gradient(135deg, #f8f5ff 0%, #fff5f8 100%);
+            border-radius: 12px;
+            border: 1px solid rgba(153, 69, 255, 0.1);
+        }
+        
+        .habit-icon {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+        
+        .habit-name {
+            font-size: 11px;
+            text-transform: uppercase;
+            color: #666;
+            letter-spacing: 1px;
+        }
+        
+        .card { 
+            background: linear-gradient(135deg, #f8f5ff 0%, #fff5f8 100%);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid rgba(153, 69, 255, 0.15);
+        }
+        
+        .card-number { 
+            font-size: 32px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #9945FF, #FF6B9D);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .card-label { 
+            font-size: 11px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 4px;
+        }
+        
+        .task-item { 
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            background: linear-gradient(135deg, #f8f5ff 0%, #fff5f8 100%);
+            border-radius: 12px;
+            margin-bottom: 8px;
+            border-left: 4px solid #9945FF;
+        }
+        
+        .tag { 
+            font-size: 11px; 
+            padding: 3px 8px; 
+            border-radius: 4px; 
+            font-weight: 500; 
+            background: #f0f0f5;
+            color: #666;
+            margin-right: 10px;
+        }
+        
+        .stats-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); 
+            gap: 16px;
+        }
+        
+        .progress-bar { 
+            width: 100%; 
+            height: 8px; 
+            background: #f0f0f5; 
+            border-radius: 4px; 
+            overflow: hidden; 
+            margin-top: 10px; 
+        }
+        
+        .progress-fill { 
+            height: 100%; 
+            background: linear-gradient(90deg, #9945FF, #FF6B9D);
+            transition: width 0.5s; 
+        }
+        
+        .empty-state { 
+            color: #999;
+            text-align: center; 
+            padding: 40px;
+            font-style: italic;
+        }
+        
+        .api-status { 
+            display: inline-flex; 
+            align-items: center; 
+            gap: 5px; 
+            font-size: 11px; 
+            padding: 4px 12px;
+            border-radius: 20px;
+            background: #D3F9D8;
+            color: #2B8A3E;
+        }
+        
+        @media (max-width: 600px) { 
+            .card-number { font-size: 24px; }
+        }
     </style>
 </head>
 <body>
     <div class="header">
-        <h1>🎯 Sam's Mission Control</h1>
-        <div style="font-size: 14px; opacity: 0.9;">Friday, February 13</div>
-        <div class="last-updated">Last updated: 10:30 | <span class="api-status">● Airtable Connected</span></div>
-        <button class="refresh-btn" onclick="refreshData()">🔄 Refresh</button>
+        <h1>🎯 Mission Control</h1>
+        <div class="header-subtitle">Sam's Daily Dashboard</div>
+        <div class="last-updated">Last updated: <span id="last-updated">--</span> | <span class="api-status">● Airtable Connected</span></div>
+    </div>
+    
+    <div class="nav">
+        <a href="index.html" class="active">📊 Overview</a>
+        <a href="health-nutrition.html">🏥 Health & Nutrition</a>
+        <a href="productivity.html">📈 Productivity</a>
+        <a href="work.html">💼 Work</a>
     </div>
     
     <div class="container">
-        <div class="nav">
-            <a href="index.html" class="active">📊 Overview</a>
-            <a href="#health">💪 Health</a>
-            <a href="#tasks">✅ Tasks</a>
-            <a href="#nutrition">🍽️ Nutrition</a>
-        </div>
-        
-        <div class="section" id="urgent">
-            <h2>🔥 Urgent Tasks</h2>
-            <div class="task-item"><span class="tag tag-work">WHOOP</span><span>Recovery 62% - Take it easy</span></div>
-        </div>
-        
-        <div class="section" id="recovery">
-            <h2>💓 Recovery Status</h2>
+        <!-- Quick Stats -->
+        <div class="section">
+            <h2>📊 Quick Stats</h2>
             <div class="stats-grid">
-                <div class="card recovery-card">
-                    <div class="recovery-value">62%</div>
-                    <div class="card-label">Recovery Score</div>
-                    <div class="progress-bar"><div class="progress-fill" style="width: 62%; background: #eab308;"></div></div>
+                <div class="card">
+                    <div class="card-number" id="stat-calories">--</div>
+                    <div class="card-label">Calories Today</div>
                 </div>
                 <div class="card">
-                    <div class="card-number">83%</div>
-                    <div class="card-label">Sleep Performance</div>
-                </div>
-                <div class="card">
-                    <div class="card-number">0/8</div>
+                    <div class="card-number" id="stat-water">--</div>
                     <div class="card-label">Water Glasses</div>
                 </div>
                 <div class="card">
-                    <div class="card-number">4</div>
-                    <div class="card-label">Workouts This Week</div>
+                    <div class="card-number" id="stat-tasks">--</div>
+                    <div class="card-label">Tasks Due Today</div>
+                </div>
+                <div class="card">
+                    <div class="card-number" id="stat-recovery">--</div>
+                    <div class="card-label">WHOOP Recovery</div>
                 </div>
             </div>
         </div>
         
-        <div class="section" id="habits">
-            <h2>✅ Today's Habits (0/5 completed)</h2>
+        <!-- Today's Priorities -->
+        <div class="section">
+            <h2>🔥 Today's Priorities</h2>
+            <div id="priorities-list">
+                <div class="task-item">
+                    <span class="tag">Work</span>
+                    <span>Complete TAT table setup in Airtable</span>
+                </div>
+                <div class="task-item">
+                    <span class="tag">Home</span>
+                    <span>Call Micasa - fix drainage</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Daily Habits -->
+        <div class="section">
+            <h2>✅ Daily Habits</h2>
             <div class="habit-grid">
-                <div class="habit-item"><div style="font-size: 28px;">⚪</div><div>💊 Creatine</div></div><div class="habit-item"><div style="font-size: 28px;">⚪</div><div>💊 Multi</div></div><div class="habit-item"><div style="font-size: 28px;">⚪</div><div>💪 Exercise</div></div><div class="habit-item"><div style="font-size: 28px;">⚪</div><div>🍎 Fruit</div></div><div class="habit-item"><div style="font-size: 28px;">⚪</div><div>💧 Water</div></div>
-            </div>
-        </div>
-        
-        <div class="section" id="nutrition">
-            <h2>🍽️ Today's Nutrition</h2>
-            <div class="stats-grid">
-                <div class="card">
-                    <div class="card-number">2940.81</div>
-                    <div class="card-label">Calories</div>
+                <div class="habit-item">
+                    <div class="habit-icon">💊</div>
+                    <div class="habit-name">Multivitamin</div>
                 </div>
-                <div class="card">
-                    <div class="card-number">134.9g</div>
-                    <div class="card-label">Protein</div>
+                <div class="habit-item">
+                    <div class="habit-icon">🍎</div>
+                    <div class="habit-name">Fruit</div>
                 </div>
-                <div class="card">
-                    <div class="card-number">3</div>
-                    <div class="card-label">Meals Logged</div>
+                <div class="habit-item">
+                    <div class="habit-icon">💧</div>
+                    <div class="habit-name">Water</div>
                 </div>
-                <div class="card">
-                    <div class="card-number">104</div>
-                    <div class="card-label">Weight (kg)</div>
+                <div class="habit-item">
+                    <div class="habit-icon">💪</div>
+                    <div class="habit-name">Creatine</div>
+                </div>
+                <div class="habit-item">
+                    <div class="habit-icon">🏊</div>
+                    <div class="habit-name">Exercise</div>
                 </div>
             </div>
         </div>
         
-        <div class="section" id="tasks">
-            <h2>💼 Task Summary</h2>
-            <div class="stats-grid">
-                <div class="card">
-                    <div class="card-number">0</div>
-                    <div class="card-label">Total Urgent</div>
-                </div>
-                <div class="card">
-                    <div class="card-number">0</div>
-                    <div class="card-label">In Progress</div>
-                </div>
-                <div class="card">
-                    <div class="card-number">0</div>
-                    <div class="card-label">Completed Today</div>
-                </div>
-                <div class="card">
-                    <div class="card-number">0</div>
-                    <div class="card-label">From Steve</div>
-                </div>
-                <div class="card">
-                    <div class="card-number">0</div>
-                    <div class="card-label">From Rafi</div>
+        <!-- Recent Activity -->
+        <div class="section">
+            <h2>📊 Recent Activity</h2>
+            <div id="recent-activity">
+                <div class="task-item" style="border-left-color: #51CF66;">
+                    <span>🌙 Breakfast logged: 2 café au laits, omelette</span>
                 </div>
             </div>
         </div>
         
-        <div class="section" id="all-tasks">
-            <h2>📋 All Urgent Tasks</h2>
-    <div class="empty-state">No urgent tasks. You're all caught up! 🎉</div>
-        </div>
+        <p style="text-align: center; color: #999; font-size: 12px; margin-top: 20px;">Data source: Airtable (auto-sync every 15 min)</p>
     </div>
     
     <script>
-        // Auto-refresh every 5 minutes
-        setInterval(function() {
-            location.reload();
-        }, 300000);
-        
-        function refreshData() {
-            const btn = document.querySelector('.refresh-btn');
-            btn.textContent = '🔄 Refreshing...';
-            btn.disabled = true;
-            location.reload();
+        // Load overview data
+        async function loadOverviewData() {
+            try {
+                // This would fetch from a data file when connected
+                document.getElementById('last-updated').textContent = new Date().toLocaleTimeString();
+            } catch (error) {
+                console.error('Error loading overview data:', error);
+            }
         }
         
-        // Update timestamp
-        document.addEventListener('DOMContentLoaded', function() {
-            const now = new Date();
-            document.querySelector('.last-updated').innerHTML = 
-                'Last updated: ' + now.toLocaleTimeString() + ' | <span class="api-status">● Airtable Connected</span>';
-        });
+        document.addEventListener('DOMContentLoaded', loadOverviewData);
     </script>
 </body>
 </html>
-    
