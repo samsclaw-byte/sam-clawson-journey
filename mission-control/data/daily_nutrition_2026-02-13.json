@@ -5,13 +5,28 @@
       "type": "Breakfast",
       "items": "2 cafe au laits, half slice sourdough bread, 2 egg omelette ...",
       "calories": 730
+    },
+    {
+      "type": "Breakfast",
+      "items": "2 multigrain bread with lurpak butter and ham, cafe au lait,...",
+      "calories": 450
+    },
+    {
+      "type": "Snack",
+      "items": "2 dates",
+      "calories": 140
+    },
+    {
+      "type": "Snack",
+      "items": "banana, red apple, 1 glass water",
+      "calories": 150
     }
   ],
-  "total_calories": 730,
+  "total_calories": 1470,
   "macros": {
-    "protein": 36,
-    "carbs": 60,
-    "fat": 36,
+    "protein": 54,
+    "carbs": 192,
+    "fat": 52,
     "fiber": 3
   }
 }
