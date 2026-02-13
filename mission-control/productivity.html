@@ -351,21 +351,21 @@
         <div class="card">
             <h2>📊 Task Stats</h2>
             <div class="stats-row">
-                <div class="stat-box" data-filter="all" onclick="filterHabits('all')">
+                <div class="stat-box" data-filter="all" onclick="filterTasksFromStats('all')">
                     <div class="stat-number" id="stat-active">--</div>
                     <div class="stat-label">Active Tasks</div>
                 </div>
-                <div class="stat-box" data-filter="today" onclick="filterHabits('today')">
+                <div class="stat-box" data-filter="today" onclick="filterTasksFromStats('today')">
                     <div class="stat-number" id="stat-today">--</div>
                     <div class="stat-label">Due Today</div>
                 </div>
-                <div class="stat-box" data-filter="overdue" onclick="filterHabits('overdue')">
+                <div class="stat-box" data-filter="overdue" onclick="filterTasksFromStats('overdue')">
                     <div class="stat-number" id="stat-overdue">--</div>
                     <div class="stat-label">Overdue</div>
                 </div>
-                <div class="stat-box" data-filter="complete" onclick="filterHabits('complete')">
-                    <div class="stat-number" id="stat-completed">--</div>
-                    <div class="stat-label">Completed (7d)</div>
+                <div class="stat-box" data-filter="in-progress" onclick="filterTasksFromStats('in-progress')">
+                    <div class="stat-number" id="stat-inprogress">--</div>
+                    <div class="stat-label">In Progress</div>
                 </div>
             </div>
         </div>
@@ -509,6 +509,7 @@
                 document.getElementById('stat-active').textContent = data.stats.active;
                 document.getElementById('stat-today').textContent = data.stats.today;
                 document.getElementById('stat-overdue').textContent = data.stats.overdue;
+                document.getElementById('stat-inprogress').textContent = data.tat_tasks.filter(t => t.status === 'In Progress').length;
                 
                 // Render tasks
                 const taskList = document.getElementById('task-list');
@@ -519,9 +520,20 @@
                     taskList.innerHTML = '<div style="text-align: center; padding: 40px; color: #666;">No active tasks! 🎉</div>';
                 }
                 
-                // Store and render habits
+                // Store and render habits (always show all, most recent first)
                 habitData = data.habit_days || [];
-                renderHabits();
+                const habitTracker = document.getElementById('habit-tracker');
+                if (habitData.length > 0) {
+                    habitTracker.innerHTML = habitData.slice().reverse().map(day => `
+                        <div class="habit-day ${day.score >= 5 ? 'complete' : ''}">
+                            <div class="habit-day-label">${day.day_name}</div>
+                            <div class="habit-day-date">${day.day_num}</div>
+                            <div class="habit-day-score">${day.score >= 5 ? '✅' : '🟡'} ${day.score}/5</div>
+                        </div>
+                    `).join('');
+                } else {
+                    habitTracker.innerHTML = '<div style="text-align: center; padding: 20px; color: #666;">No habit data for last 7 days</div>';
+                }
                 
                 // Update last updated time
                 const updated = new Date(data.generated_at);
@@ -535,11 +547,11 @@
         
         // Store habit data for filtering
         let habitData = [];
-        let currentHabitFilter = 'all';
+        let currentTaskFilter = 'all';
         
-        // Filter habits based on stat box clicked
-        function filterHabits(filter) {
-            currentHabitFilter = filter;
+        // Filter tasks based on stat box clicked
+        function filterTasksFromStats(filter) {
+            currentTaskFilter = filter;
             
             // Update active state on stat boxes
             document.querySelectorAll('.stat-box').forEach(box => {
@@ -549,45 +561,16 @@
                 }
             });
             
-            // Re-render habits with filter
-            renderHabits();
-        }
-        
-        // Render habits with current filter
-        function renderHabits() {
-            const habitTracker = document.getElementById('habit-tracker');
-            if (!habitData || habitData.length === 0) {
-                habitTracker.innerHTML = '<div style="text-align: center; padding: 20px; color: #666;">No habit data for last 7 days</div>';
-                return;
-            }
+            // Update filter tabs to match
+            document.querySelectorAll('.filter-tab').forEach(tab => {
+                tab.classList.remove('active');
+                if (tab.getAttribute('data-filter') === filter) {
+                    tab.classList.add('active');
+                }
+            });
             
-            let filteredData = habitData.slice().reverse(); // Most recent first
-            
-            // Apply filter
-            if (currentHabitFilter === 'today') {
-                // Show only today (first item since reversed)
-                filteredData = filteredData.slice(0, 1);
-            } else if (currentHabitFilter === 'overdue') {
-                // Show days with incomplete habits (score < 5)
-                filteredData = filteredData.filter(day => day.score < 5);
-            } else if (currentHabitFilter === 'complete') {
-                // Show days with all habits complete (score >= 5)
-                filteredData = filteredData.filter(day => day.score >= 5);
-            }
-            // 'all' shows everything
-            
-            if (filteredData.length === 0) {
-                habitTracker.innerHTML = `<div style="text-align: center; padding: 20px; color: #666;">No habits match "${currentHabitFilter}" filter</div>`;
-                return;
-            }
-            
-            habitTracker.innerHTML = filteredData.map(day => `
-                <div class="habit-day ${day.score >= 5 ? 'complete' : ''}">
-                    <div class="habit-day-label">${day.day_name}</div>
-                    <div class="habit-day-date">${day.day_num}</div>
-                    <div class="habit-day-score">${day.score >= 5 ? '✅' : '🟡'} ${day.score}/5</div>
-                </div>
-            `).join('');
+            // Apply filter to tasks
+            filterTasks(filter);
         }
         
         // Set up filter buttons
