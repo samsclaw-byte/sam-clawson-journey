@@ -137,6 +137,40 @@ def extract_sleep_metrics(data):
     except:
         return {}
 
+def extract_workout_metrics(data):
+    """Extract key workout metrics"""
+    try:
+        score = data.get('score', {})
+        return {
+            'workout_id': data.get('id'),
+            'sport_id': data.get('sport_id'),
+            'sport_name': data.get('sport_name', 'Unknown'),
+            'strain': score.get('strain'),
+            'average_heart_rate': score.get('average_heart_rate'),
+            'max_heart_rate': score.get('max_heart_rate'),
+            'duration_minutes': data.get('duration', 0) / 60000,  # milliseconds to minutes
+            'calories': score.get('kilojoule', 0) * 0.239,  # kJ to kcal
+            'timestamp': data.get('updated_at'),
+            'date': data.get('start')[:10] if data.get('start') else datetime.now().strftime('%Y-%m-%d')
+        }
+    except Exception as e:
+        log_event(f"❌ Error extracting workout metrics: {e}")
+        return {}
+
+def extract_cycle_metrics(data):
+    """Extract key cycle (daily) metrics"""
+    try:
+        score = data.get('score', {})
+        return {
+            'date': data.get('date'),
+            'strain': score.get('strain'),
+            'kilojoule': score.get('kilojoule'),
+            'calories': score.get('kilojoule', 0) * 0.239,  # kJ to kcal
+            'timestamp': data.get('updated_at')
+        }
+    except:
+        return {}
+
 def save_to_airtable_recovery(metrics):
     """Save recovery data to Airtable"""
     if not AIRTABLE_AVAILABLE:
@@ -185,6 +219,53 @@ def save_to_airtable_sleep(metrics):
         
     except Exception as e:
         log_event(f"⚠️ Failed to save sleep to Airtable: {e}")
+        return False
+
+def save_to_airtable_workout(metrics):
+    """Save workout data to Airtable Workouts table"""
+    if not AIRTABLE_AVAILABLE:
+        return False
+    
+    try:
+        client = get_health_client()
+        
+        # Save to Workouts table
+        result = client.save_workout(
+            date=metrics.get('date'),
+            workout_type=metrics.get('sport_name', 'Unknown'),
+            duration=metrics.get('duration_minutes', 0),
+            strain=metrics.get('strain', 0),
+            calories=metrics.get('calories', 0),
+            source='WHOOP'
+        )
+        
+        log_event(f"✅ Saved workout to Airtable: {metrics.get('sport_name')} ({metrics.get('duration_minutes', 0):.0f} min)")
+        return True
+        
+    except Exception as e:
+        log_event(f"⚠️ Failed to save workout to Airtable: {e}")
+        return False
+
+def save_to_airtable_cycle(metrics):
+    """Save cycle (daily strain/calories) to WHOOP Data table"""
+    if not AIRTABLE_AVAILABLE:
+        return False
+    
+    try:
+        client = get_health_client()
+        
+        # Save to WHOOP Data table
+        result = client.save_whoop_data(
+            date=metrics.get('date'),
+            strain=metrics.get('strain', 0),
+            calories=metrics.get('calories', 0)
+        )
+        
+        log_event(f"✅ Saved cycle to Airtable: {metrics.get('date')} - Strain {metrics.get('strain', 0):.1f}")
+        return True
+        
+    except Exception as e:
+        log_event(f"⚠️ Failed to save cycle to Airtable: {e}")
         return False
 
 @app.route('/webhook/whoop', methods=['POST'])
@@ -249,12 +330,21 @@ def whoop_webhook():
             if save_to_airtable_sleep(metrics):
                 airtable_saved = True
     
-    elif event_type == 'workout.created':
+    elif event_type == 'workout.created' or event_type == 'workout.updated':
         log_event("🏋️ New workout recorded")
-        # Could save workout to Airtable too if desired
+        # Extract workout metrics and save to Airtable
+        workout_metrics = extract_workout_metrics(data)
+        if workout_metrics:
+            if save_to_airtable_workout(workout_metrics):
+                airtable_saved = True
     
     elif event_type == 'cycles.updated':
         log_event("📅 Cycle data updated")
+        # Cycle contains daily strain and calories
+        cycle_metrics = extract_cycle_metrics(data)
+        if cycle_metrics:
+            if save_to_airtable_cycle(cycle_metrics):
+                airtable_saved = True
     
     log_event("✅ Webhook processed successfully")
     
