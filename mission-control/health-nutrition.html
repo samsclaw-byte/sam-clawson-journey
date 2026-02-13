@@ -449,7 +449,7 @@
                 const timeline = document.getElementById('timeline');
                 timeline.innerHTML = '';
                 
-                data.days.forEach(day => {
+                data.days.slice().reverse().forEach(day => {
                     const netCalories = day.calories_consumed - day.calories_burned;
                     const netClass = netCalories < 0 ? 'style="background: #D3F9D8;"' : 'style="background: #FFF3BF;"';
                     const netColor = netCalories < 0 ? 'style="color: #2B8A3E;"' : 'style="color: #E67700;"';
