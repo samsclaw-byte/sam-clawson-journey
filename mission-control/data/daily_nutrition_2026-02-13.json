@@ -13,24 +13,14 @@
     },
     {
       "type": "Snack",
-      "items": "2 dates",
-      "calories": 140
-    },
-    {
-      "type": "Snack",
-      "items": "banana, red apple, 1 glass water",
-      "calories": 150
-    },
-    {
-      "type": "Snack",
       "items": "banana, 3 small dates, green apple",
       "calories": 210
     }
   ],
-  "total_calories": 1680,
+  "total_calories": 1390,
   "macros": {
     "protein": 56,
-    "carbs": 246,
+    "carbs": 169,
     "fat": 53,
     "fiber": 9
   }
