@@ -415,8 +415,12 @@ class DataValidator:
         }
         
         try:
+            # TAT Tasks don't have a Date field - use Date Created instead
+            # Get tasks created recently (last 7 days) or filter by Due Date
+            from datetime import datetime, timedelta
+            week_ago = (datetime.strptime(date, '%Y-%m-%d') - timedelta(days=7)).strftime('%Y-%m-%d')
             response = requests.get(
-                f"{url}?filterByFormula=Date='{date}'&maxRecords=50",
+                f"{url}?filterByFormula=IS_AFTER({{Date Created}}, '{week_ago}')&maxRecords=50",
                 headers=self.headers,
                 timeout=30
             )
