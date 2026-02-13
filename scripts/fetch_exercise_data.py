@@ -31,14 +31,17 @@ def fetch_exercise_data():
         
         for r in records:
             f = r['fields']
+            # Use Exercises field for the workout description
+            exercises = f.get('Exercises', f.get('Workout Name', 'Unnamed'))
             workout_type = f.get('Type', 'Other')
             duration = f.get('Duration (min)', 0) or 0
             strain = f.get('Strain', 0) or 0
             
-            if workout_type not in exercise_types:
-                exercise_types[workout_type] = {'minutes': 0, 'count': 0}
-            exercise_types[workout_type]['minutes'] += duration
-            exercise_types[workout_type]['count'] += 1
+            # Group by exercises (actual workout description)
+            if exercises not in exercise_types:
+                exercise_types[exercises] = {'minutes': 0, 'count': 0, 'type': workout_type}
+            exercise_types[exercises]['minutes'] += duration
+            exercise_types[exercises]['count'] += 1
             
             total_minutes += duration
             total_strain += strain
@@ -53,6 +56,7 @@ def fetch_exercise_data():
                 {
                     'date': r['fields'].get('Date'),
                     'type': r['fields'].get('Type', 'Other'),
+                    'exercises': r['fields'].get('Exercises', r['fields'].get('Workout Name', 'Unnamed')),
                     'duration': r['fields'].get('Duration (min)', 0) or 0,
                     'strain': r['fields'].get('Strain', 0) or 0
                 }
