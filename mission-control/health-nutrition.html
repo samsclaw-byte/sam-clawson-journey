@@ -587,20 +587,37 @@
                 }
             } catch (error) {
                 console.error('Error loading nutrition data:', error);
-                renderDailyNutrition(null, date);
+                document.getElementById('meal-section').innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: #FF6B6B;">
+                        <p>Error loading data: ${error.message}</p>
+                        <p style="font-size: 12px;">Date: ${date}</p>
+                    </div>
+                `;
             }
         }
         
         // Render meals and macros for selected date
         function renderDailyNutrition(data, date) {
-            const isToday = date === 'today' || date === new Date().toISOString().split('T')[0];
-            const dateLabel = isToday ? "Today" : new Date(date).toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit' });
+            console.log('Rendering nutrition for date:', date, 'data:', data);
+            
+            // Format today's date for comparison
+            const today = new Date();
+            const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+            const isToday = date === todayStr;
+            
+            let dateLabel;
+            try {
+                dateLabel = isToday ? "Today" : new Date(date).toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit' });
+            } catch (e) {
+                dateLabel = date;
+            }
             
             // Update titles
             document.getElementById('meals-title').textContent = `🍽️ Meals (${dateLabel})`;
             document.getElementById('macros-title').textContent = `📊 Macronutrient Breakdown (${dateLabel})`;
             
             if (!data || !data.meals || data.meals.length === 0) {
+                console.log('No data or empty meals array for date:', date);
                 // No data state
                 document.getElementById('meal-section').innerHTML = `
                     <div style="text-align: center; padding: 40px; color: #666;">
