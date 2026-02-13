@@ -7,6 +7,10 @@ import json
 import os
 from datetime import datetime
 
+def get_today():
+    """Get today's date in YYYY-MM-DD format"""
+    return datetime.now().strftime('%Y-%m-%d')
+
 AIRTABLE_KEY = open('/home/samsclaw/.config/airtable/api_key').read().strip()
 HEALTH_BASE = "appnVeGSjwJgG2snS"
 PRODUCTIVITY_BASE = "appvUbV8IeGhxmcPn"
@@ -26,7 +30,7 @@ def sync_daily_habits():
     if os.path.exists(habit_file):
         with open(habit_file) as f:
             habit_data = json.load(f)
-        if habit_data.get('date') == '2026-02-12':
+        if habit_data.get('date') == get_today():
             if habit_data.get('habits', {}).get('Fruit'):
                 updates['Fruit'] = True
             if habit_data.get('habits', {}).get('Multivitamin'):
@@ -35,7 +39,7 @@ def sync_daily_habits():
     if os.path.exists(water_file):
         with open(water_file) as f:
             water_data = json.load(f)
-        if water_data.get('date') == '2026-02-12':
+        if water_data.get('date') == get_today():
             updates['Water'] = water_data.get('today', 0)
     
     if not updates:
@@ -48,7 +52,7 @@ def sync_daily_habits():
     
     try:
         response = requests.get(
-            f"{url}?filterByFormula=Date='2026-02-12'",
+            f"{url}?filterByFormula=Date='{get_today()}'",
             headers=headers,
             timeout=10
         )
@@ -92,7 +96,7 @@ def sync_daily_habits():
                 print("  ✅ Habits already up to date")
         else:
             # Create new record
-            updates['Date'] = '2026-02-12'
+            updates['Date'] = get_today()
             create_resp = requests.post(
                 url,
                 headers={**headers, "Content-Type": "application/json"},
@@ -149,7 +153,7 @@ def sync_food_log():
     try:
         # Check what's already in Airtable
         response = requests.get(
-            f"{url}?filterByFormula=Date='2026-02-12'",
+            f"{url}?filterByFormula=Date='{get_today()}'",
             headers=headers,
             timeout=10
         )
@@ -171,7 +175,7 @@ def sync_food_log():
             # Create record
             record = {
                 "fields": {
-                    "Date": "2026-02-12",
+                    "Date": get_today(),
                     "Meal Type": meal['meal_type'],
                     "Food Items": meal['food'],
                     "Calories": meal.get('calories', 0),

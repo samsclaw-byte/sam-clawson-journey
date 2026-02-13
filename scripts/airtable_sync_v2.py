@@ -14,6 +14,10 @@ import re
 import requests
 from datetime import datetime
 
+def get_today():
+    """Get today's date in YYYY-MM-DD format"""
+    return datetime.now().strftime('%Y-%m-%d')
+
 AIRTABLE_KEY = open('/home/samsclaw/.config/airtable/api_key').read().strip()
 HEALTH_BASE = "appnVeGSjwJgG2snS"
 PRODUCTIVITY_BASE = "appvUbV8IeGhxmcPn"
@@ -76,20 +80,20 @@ class AirtableSync:
         water_file = '/home/samsclaw/.openclaw/workspace/data/water_tracker.json'
         
         local_data = {
-            'date': '2026-02-12',
+            'date': get_today(),
             'habits': {}
         }
         
         if os.path.exists(habit_file):
             with open(habit_file) as f:
                 data = json.load(f)
-                if data.get('date') == '2026-02-12':
+                if data.get('date') == get_today():
                     local_data['habits'] = data.get('habits', {})
         
         if os.path.exists(water_file):
             with open(water_file) as f:
                 data = json.load(f)
-                if data.get('date') == '2026-02-12':
+                if data.get('date') == get_today():
                     local_data['water'] = data.get('today', 0)
         
         # Build updates
@@ -114,7 +118,7 @@ class AirtableSync:
         
         try:
             response = requests.get(
-                f"{url}?filterByFormula=Date='2026-02-12'",
+                f"{url}?filterByFormula=Date='{get_today()}'",
                 headers=self.headers,
                 timeout=15
             )
@@ -162,7 +166,7 @@ class AirtableSync:
                     return {'synced': 0}
             else:
                 # Create new record
-                updates['Date'] = '2026-02-12'
+                updates['Date'] = get_today()
                 create_resp = requests.post(
                     url,
                     headers=self.headers,
@@ -225,7 +229,7 @@ class AirtableSync:
             existing_records = response.json().get('records', [])
             
             # Filter for today's meals
-            today_records = [(r['id'], r['fields']) for r in existing_records if r.get('fields', {}).get('Date') == '2026-02-12']
+            today_records = [(r['id'], r['fields']) for r in existing_records if r.get('fields', {}).get('Date') == get_today()]
             
             synced = 0
             duplicates_found = 0
@@ -249,7 +253,7 @@ class AirtableSync:
                 # Create record
                 record = {
                     "fields": {
-                        "Date": "2026-02-12",
+                        "Date": get_today(),
                         "Meal Type": meal['meal_type'],
                         "Food Items": meal['food'],
                         "Calories": meal.get('calories', 0),
@@ -303,7 +307,7 @@ class AirtableSync:
             # Formula: Edamam Data is unchecked OR Protein is empty
             # Find meals missing Edamam data (check today's meals manually)
             response = requests.get(
-                f"{url}?filterByFormula=Date='2026-02-12'&maxRecords=10",
+                f"{url}?filterByFormula=Date='{get_today()}'&maxRecords=10",
                 headers=self.headers,
                 timeout=15
             )
