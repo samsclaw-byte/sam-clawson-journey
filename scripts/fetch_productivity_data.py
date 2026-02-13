@@ -87,7 +87,11 @@ def fetch_productivity_data():
                     'day_name': dt.strftime('%a'),
                     'day_num': dt.strftime('%d'),
                     'score': score,
-                    'water': f.get('Water', 0)
+                    'water': f.get('Water', 0),
+                    'multivitamin': f.get('Multivitamin', False),
+                    'fruit': f.get('Fruit', False),
+                    'exercise': f.get('Exercise', False),
+                    'creatine': f.get('Creatine', False)
                 })
         
         # Sort by date
