@@ -14,7 +14,7 @@ DASHBOARD_PATH = Path.home() / '.openclaw/workspace/dashboard/index.html'
 DATA_DIR = Path.home() / '.openclaw'
 
 def get_tat_tasks():
-    """Fetch urgent TAT tasks - Category 1 (Today) + overdue from Notion"""
+    """Fetch urgent TAT tasks - 🔥 Today category + overdue from Notion"""
     try:
         import requests
         
@@ -31,20 +31,20 @@ def get_tat_tasks():
         
         headers = {
             "Authorization": f"Bearer {notion_key}",
-            "Notion-Version": "2025-09-03",
+            "Notion-Version": "2022-06-28",
             "Content-Type": "application/json"
         }
         
         today = datetime.now().strftime('%Y-%m-%d')
         
-        # Query for Category 1 + overdue tasks
+        # Query for "🔥 Today" category + overdue tasks
         query = {
             "filter": {
                 "or": [
                     {
-                        "property": "Category",
+                        "property": "TAT Category Days",
                         "select": {
-                            "equals": "1"
+                            "equals": "🔥 Today"
                         }
                     },
                     {
@@ -96,8 +96,8 @@ def get_tat_tasks():
                 if title_items:
                     name = title_items[0].get('text', {}).get('content', '')
             
-            # Get category (handle both old and new formats)
-            category = props.get('Category', {}).get('select', {}).get('name', '')
+            # Get TAT Category Days
+            tat_category = props.get('TAT Category Days', {}).get('select', {}).get('name', '')
             
             # Get due date
             due_date = props.get('Due Date', {}).get('date', {}).get('start', '')
@@ -105,17 +105,17 @@ def get_tat_tasks():
             # Determine urgency display
             is_overdue = due_date and due_date < today
             
-            # Handle both formats
-            if category in ['1', '🔥 Today']:
+            # Map category to urgency display
+            if tat_category == '🔥 Today' or tat_category == '🔥 1 Day':
                 urgency = "🔥 Today"
             elif is_overdue:
                 urgency = "⚠️ Overdue"
-            elif category == '3':
+            elif tat_category in ['⚡ 3 Days', '🟠 3-Day']:
                 urgency = "⚡ 3 Days"
-            elif category == '7':
+            elif tat_category in ['📅 7 Days', '🟡 7-Day']:
                 urgency = "📅 7 Days"
             else:
-                urgency = category
+                urgency = tat_category or "📌 Later"
             
             due_display = "Overdue" if is_overdue else (due_date or "Today")
             
@@ -136,22 +136,136 @@ def get_tat_tasks():
         return [{"name": f"Error loading TAT: {str(e)[:30]}", "urgency": "Error", "due": "-"}]
 
 def get_nutrition_with_meals():
-    """Get nutrition with detailed meal breakdown"""
+    """Get nutrition with detailed meal breakdown from Notion Food Log"""
+    try:
+        import requests
+        from datetime import datetime
+
+        # Get Notion API key
+        notion_key_path = Path.home() / '.config/notion/api_key'
+        if not notion_key_path.exists():
+            return _get_fallback_nutrition()
+
+        with open(notion_key_path, 'r') as f:
+            notion_key = f.read().strip()
+
+        # Food Log Data Source ID
+        data_source_id = "c1d1100c-cbc4-416d-8c1b-59f7e2ff15c0"
+
+        headers = {
+            "Authorization": f"Bearer {notion_key}",
+            "Notion-Version": "2025-09-03",
+            "Content-Type": "application/json"
+        }
+
+        today = datetime.now().strftime('%Y-%m-%d')
+
+        # Query for today's entries
+        query = {
+            "filter": {
+                "property": "Date",
+                "date": {
+                    "equals": today
+                }
+            },
+            "sorts": [{"property": "Meal", "direction": "ascending"}]
+        }
+
+        response = requests.post(
+            f"https://api.notion.com/v1/data_sources/{data_source_id}/query",
+            headers=headers,
+            json=query
+        )
+
+        if response.status_code != 200:
+            return _get_fallback_nutrition()
+
+        data = response.json()
+        meals = []
+        total_calories = 0
+        total_protein = 0
+        total_carbs = 0
+        total_fat = 0
+
+        # Group entries by meal type
+        meal_groups = {"Breakfast": [], "Lunch": [], "Dinner": [], "Snack": []}
+
+        for page in data.get('results', []):
+            props = page.get('properties', {})
+
+            # Get food name
+            name = ""
+            if 'Name' in props:
+                title_items = props['Name'].get('title', [])
+                if title_items:
+                    name = title_items[0].get('text', {}).get('content', '')
+
+            # Get meal type
+            meal_type = props.get('Meal', {}).get('select', {}).get('name', 'Snack')
+
+            # Get nutrition values
+            calories = props.get('Calories', {}).get('number') or 0
+            protein = props.get('Protein (g)', {}).get('number') or 0
+            carbs = props.get('Carbs (g)', {}).get('number') or 0
+            fat = props.get('Fat (g)', {}).get('number') or 0
+
+            total_calories += calories
+            total_protein += protein
+            total_carbs += carbs
+            total_fat += fat
+
+            meal_groups[meal_type] = meal_groups.get(meal_type, [])
+            meal_groups[meal_type].append({
+                "name": name,
+                "cal": int(calories) if calories else 0
+            })
+
+        # Build meal summary
+        meal_order = [("Breakfast", "🌅"), ("Lunch", "🍽️"), ("Dinner", "🌙"), ("Snack", "🥤")]
+        formatted_meals = []
+
+        for meal_type, icon in meal_order:
+            items = meal_groups.get(meal_type, [])
+            if items:
+                item_names = ", ".join([i["name"] for i in items])
+                meal_cals = sum([i["cal"] for i in items])
+                formatted_meals.append({
+                    "name": f"{icon} {meal_type}",
+                    "items": item_names[:60] + "..." if len(item_names) > 60 else item_names,
+                    "cal": meal_cals
+                })
+
+        if not formatted_meals:
+            formatted_meals = [{"name": "No meals logged", "items": "Add entries to Food Log", "cal": 0}]
+
+        return {
+            "calories": int(total_calories),
+            "calories_goal": 2500,
+            "protein": int(total_protein),
+            "protein_goal": 160,
+            "carbs": int(total_carbs),
+            "carbs_goal": 250,
+            "fat": int(total_fat),
+            "fat_goal": 80,
+            "meals": formatted_meals
+        }
+
+    except Exception as e:
+        print(f"Nutrition fetch error: {e}")
+        return _get_fallback_nutrition()
+
+def _get_fallback_nutrition():
+    """Fallback nutrition data when Notion is unavailable"""
     return {
-        "calories": 2260,
+        "calories": 0,
         "calories_goal": 2500,
-        "protein": 108,
+        "protein": 0,
         "protein_goal": 160,
-        "carbs": 220,
+        "carbs": 0,
         "carbs_goal": 250,
-        "fat": 94,
+        "fat": 0,
         "fat_goal": 80,
-        "meals": [
-            {"name": "Breakfast", "items": "3 eggs, protein bread, Lurpak, 2x coffee", "cal": 580},
-            {"name": "Snacks", "items": "Apple, nuts, protein shake", "cal": 567},
-            {"name": "Lunch", "items": "Tawouk, shish, hummus, patatas, pita", "cal": 860},
-            {"name": "Dinner", "items": "Chicken wraps, cheese, wedges", "cal": 253},
-        ]
+        "meals": [{"name": "No data", "items": "Check Notion connection", "cal": 0}]
     }
 
 def get_water_status():
@@ -164,27 +278,186 @@ def get_water_status():
         return {"current": 9, "goal": 8}
 
 def get_whoop_data():
-    """Get WHOOP recovery data"""
+    """Get WHOOP recovery data from latest available sources"""
+    # Try multiple sources in order of preference
+    
+    # 1. Try memory context (most recent from webhook/API)
+    try:
+        whoop_context_path = Path.home() / '.openclaw/workspace/memory/whoop_context.json'
+        if whoop_context_path.exists():
+            with open(whoop_context_path, 'r') as f:
+                data = json.load(f)
+                recovery = data.get('summary', {}).get('recovery_score', 0)
+                sleep = data.get('summary', {}).get('sleep_performance', 0)
+                if recovery > 0:
+                    return {
+                        "recovery": int(recovery),
+                        "sleep": int(sleep),
+                        "zone": "green" if recovery >= 67 else "yellow" if recovery >= 50 else "red"
+                    }
+    except Exception as e:
+        print(f"WHOOP context error: {e}")
+    
+    # 2. Try latest_recovery.json if it exists
+    try:
+        latest_path = Path.home() / '.openclaw/whoop_data/latest_recovery.json'
+        if latest_path.exists():
+            with open(latest_path, 'r') as f:
+                data = json.load(f)
+                recovery = data.get('recovery_score', 0)
+                sleep = data.get('sleep_performance', 0)
+                if recovery > 0:
+                    return {
+                        "recovery": int(recovery),
+                        "sleep": int(sleep),
+                        "zone": "green" if recovery >= 67 else "yellow" if recovery >= 50 else "red"
+                    }
+    except Exception as e:
+        print(f"WHOOP latest error: {e}")
+    
+    # 3. Try whoop_data.csv for sleep performance
+    try:
+        csv_path = Path.home() / '.openclaw/workspace/dashboard/whoop_data.csv'
+        if csv_path.exists():
+            import csv
+            with open(csv_path, 'r') as f:
+                reader = csv.DictReader(f)
+                rows = list(reader)
+                if rows:
+                    latest = rows[0]  # Most recent first
+                    sleep_perf = float(latest.get('sleep_performance', 0))
+                    # Estimate recovery based on sleep performance
+                    recovery = int(sleep_perf * 0.9)  # Rough estimate
+                    return {
+                        "recovery": recovery,
+                        "sleep": int(sleep_perf),
+                        "zone": "green" if recovery >= 67 else "yellow" if recovery >= 50 else "red"
+                    }
+    except Exception as e:
+        print(f"WHOOP CSV error: {e}")
+    
+    # 4. Try webhook data file
     try:
         with open(DATA_DIR / 'whoop_webhook_data.json', 'r') as f:
             data = json.load(f)
-            return {
-                "recovery": data.get('recovery_score', 92),
-                "sleep": data.get('sleep_performance', 83),
-                "zone": "green" if data.get('recovery_score', 0) >= 67 else "yellow" if data.get('recovery_score', 0) >= 50 else "red"
-            }
+            recovery = data.get('recovery_score', 0)
+            sleep = data.get('sleep_performance', 0)
+            if recovery > 0:
+                return {
+                    "recovery": int(recovery),
+                    "sleep": int(sleep),
+                    "zone": "green" if recovery >= 67 else "yellow" if recovery >= 50 else "red"
+                }
     except:
-        return {"recovery": 92, "sleep": 83, "zone": "green"}
+        pass
+    
+    # Fallback: no data available
+    return {"recovery": 0, "sleep": 0, "zone": "unknown", "nodata": True}
 
 def get_habits_with_streaks():
-    """Get habits with individual streaks"""
+    """Get habits with individual streaks from Notion Habit Tracker"""
+    try:
+        import requests
+        from datetime import datetime
+
+        # Get Notion API key
+        notion_key_path = Path.home() / '.config/notion/api_key'
+        if not notion_key_path.exists():
+            return _get_fallback_habits()
+
+        with open(notion_key_path, 'r') as f:
+            notion_key = f.read().strip()
+
+        # Habit Tracker Database ID
+        db_id = "304f2cb1-2276-81bb-b69f-c28f02d35fa5"
+
+        headers = {
+            "Authorization": f"Bearer {notion_key}",
+            "Notion-Version": "2022-06-28",
+            "Content-Type": "application/json"
+        }
+
+        today = datetime.now().strftime('%Y-%m-%d')
+
+        # Query for today's entry
+        query = {
+            "filter": {
+                "property": "Date",
+                "date": {
+                    "equals": today
+                }
+            }
+        }
+
+        response = requests.post(
+            f"https://api.notion.com/v1/databases/{db_id}/query",
+            headers=headers,
+            json=query
+        )
+
+        if response.status_code != 200:
+            return _get_fallback_habits()
+
+        data = response.json()
+        results = data.get('results', [])
+
+        # Default habits structure
+        habits = {
+            "fruit": {"current": 0, "goal": 2, "done": False, "streak": 0},
+            "vitamins": {"done": False, "streak": 0},
+            "creatine": {"done": False, "streak": 0},
+            "workout": {"done": False, "streak": 0},
+            "water": {"done": False, "streak": 0},
+            "sleep": {"hours": 0, "done": False, "streak": 0},
+        }
+
+        if results:
+            props = results[0].get('properties', {})
+
+            # Fruit (2 portions)
+            fruit_done = props.get('Fruit (2 portions)', {}).get('checkbox', False)
+            habits['fruit'] = {"current": 2 if fruit_done else 0, "goal": 2, "done": fruit_done, "streak": 0}
+
+            # Multivitamin
+            vitamin_done = props.get('Multivitamin', {}).get('checkbox', False)
+            habits['vitamins'] = {"done": vitamin_done, "streak": 0}
+
+            # Creatine
+            creatine_done = props.get('Creatine', {}).get('checkbox', False)
+            habits['creatine'] = {"done": creatine_done, "streak": 0}
+
+            # Exercise/Workout
+            exercise_done = props.get('Exercise', {}).get('checkbox', False)
+            exercise_type = ""
+            if 'Exercise Type' in props:
+                rich_text = props['Exercise Type'].get('rich_text', [])
+                if rich_text:
+                    exercise_type = rich_text[0].get('text', {}).get('content', '')
+            habits['workout'] = {"done": exercise_done, "streak": 0, "type": exercise_type}
+
+            # Water (8 glasses)
+            water_done = props.get('Water (8 glasses)', {}).get('checkbox', False)
+            habits['water'] = {"current": 8 if water_done else 0, "goal": 8, "done": water_done, "streak": 0}
+
+            # Sleep - estimate from WHOOP or default
+            sleep_hours = 7.5  # Default estimate
+            habits['sleep'] = {"hours": sleep_hours, "done": sleep_hours >= 7, "streak": 0}
+
+        return habits
+
+    except Exception as e:
+        print(f"Habits fetch error: {e}")
+        return _get_fallback_habits()
+
+def _get_fallback_habits():
+    """Fallback habits when Notion is unavailable"""
     return {
-        "fruit": {"current": 2, "goal": 2, "done": True, "streak": 15},
-        "vitamins": {"done": True, "streak": 8},
-        "creatine": {"done": True, "streak": 12},
-        "workout": {"done": True, "streak": 5},
-        "water": {"current": 9, "goal": 8, "done": True, "streak": 3},
-        "sleep": {"hours": 7.5, "done": True, "streak": 7},
+        "fruit": {"current": 0, "goal": 2, "done": False, "streak": 0},
+        "vitamins": {"done": False, "streak": 0},
+        "creatine": {"done": False, "streak": 0},
+        "workout": {"done": False, "streak": 0},
+        "water": {"current": 0, "goal": 8, "done": False, "streak": 0},
+        "sleep": {"hours": 0, "done": False, "streak": 0},
     }
 
 def get_workout_status():
@@ -196,8 +469,60 @@ def get_workout_status():
     }
 
 def get_security_status():
-    """Get security sentinel status"""
-    return {"status": "clear", "pending_updates": 35}
+    """Get security sentinel status from latest audit"""
+    try:
+        from datetime import datetime
+        import re
+        import glob
+
+        # Find latest security audit file
+        audit_dir = Path.home() / '.openclaw/workspace/research'
+        audit_files = glob.glob(str(audit_dir / 'security-audit-*.md'))
+
+        if not audit_files:
+            return {"status": "unknown", "pending_updates": 0, "last_check": "Never"}
+
+        # Sort by date (newest first)
+        latest_file = sorted(audit_files)[-1]
+
+        with open(latest_file, 'r') as f:
+            content = f.read()
+
+        # Count pending updates from the markdown
+        pending_count = 0
+        status = "clear"
+
+        # Look for upgradeable packages section
+        if 'upgradable' in content.lower():
+            # Count lines with upgradable packages
+            lines = content.split('\n')
+            for line in lines:
+                if 'upgradable from:' in line.lower():
+                    pending_count += 1
+
+        # Determine status
+        if pending_count == 0:
+            status = "clear"
+        elif pending_count < 10:
+            status = "low"
+        elif pending_count < 30:
+            status = "medium"
+        else:
+            status = "high"
+
+        # Extract date from filename
+        date_match = re.search(r'security-audit-(\d{4}-\d{2}-\d{2})\.md', latest_file)
+        last_check = date_match.group(1) if date_match else "Unknown"
+
+        return {
+            "status": status,
+            "pending_updates": pending_count,
+            "last_check": last_check
+        }
+
+    except Exception as e:
+        print(f"Security status error: {e}")
+        return {"status": "unknown", "pending_updates": 0, "last_check": "Error"}
 
 def get_7day_history():
     """Get 7-day history for charts"""
@@ -422,7 +747,21 @@ def generate_dashboard():
 '''
 
     # WHOOP Card
-    html += f'''
+    if whoop.get('nodata'):
+        # No WHOOP data available
+        html += '''
+    <div class="card whoop-card" style="background: linear-gradient(135deg, #333 0%, #1a1a2e 100%); border-color: #666;">
+        <div class="card-header">
+            <span class="icon">💓</span>
+            <span>WHOOP Recovery</span>
+        </div>
+        <div class="whoop-score" style="color: #888;">--</div>
+        <div class="whoop-label">No data available - Sync WHOOP</div>
+        <div class="whoop-label" style="margin-top: 8px;">Sleep: --% performance</div>
+    </div>
+'''
+    else:
+        html += f'''
     <div class="card whoop-card">
         <div class="card-header">
             <span class="icon">💓</span>
@@ -575,16 +914,28 @@ def generate_dashboard():
     
     for habit_name, habit_data in habits.items():
         icon = habit_icons.get(habit_name, '✓')
-        status_text = 'Done ✅' if habit_data.get('done') else 'Pending ☐'
-        status_class = 'habit-done' if habit_data.get('done') else 'habit-pending'
+        is_done = habit_data.get('done', False)
+        status_text = 'Done ✅' if is_done else 'Pending ☐'
+        status_class = 'habit-done' if is_done else 'habit-pending'
         streak = habit_data.get('streak', 0)
         
         if habit_name == 'fruit':
-            status_text = f"{habit_data['current']}/{habit_data['goal']} {status_text.split()[1]}"
+            current = habit_data.get('current', 0)
+            goal = habit_data.get('goal', 2)
+            status_text = f"{current}/{goal} {'✅' if is_done else '⏳'}"
         elif habit_name == 'water':
-            status_text = f"{habit_data['current']}/{habit_data['goal']} glasses ✅"
+            current = habit_data.get('current', 0)
+            goal = habit_data.get('goal', 8)
+            status_text = f"{current}/{goal} glasses {'✅' if is_done else '⏳'}"
         elif habit_name == 'sleep':
-            status_text = f"{habit_data['hours']}h ✅"
+            hours = habit_data.get('hours', 0)
+            status_text = f"{hours}h {'✅' if is_done else '⏳'}"
+        elif habit_name == 'workout':
+            exercise_type = habit_data.get('type', '')
+            if exercise_type and is_done:
+                status_text = f"{exercise_type} ✅"
+            else:
+                status_text = 'Done ✅' if is_done else 'Rest day ⏳'
         
         html += f'''        <div class="habit-item">
             <span class="habit-icon">{icon}</span>
@@ -618,6 +969,10 @@ def generate_dashboard():
 '''
 
     # Security
+    security_color = '#22c55e' if security['status'] == 'clear' else '#f59e0b' if security['status'] == 'low' else '#ef4444' if security['status'] in ['medium', 'high'] else '#888'
+    security_icon = '✓' if security['status'] == 'clear' else '⚠️'
+    security_text = 'All Clear' if security['status'] == 'clear' else f"{security['pending_updates']} updates pending"
+    
     html += f'''
     <div class="card">
         <div class="card-header">
@@ -625,11 +980,11 @@ def generate_dashboard():
             <span>Security Status</span>
         </div>
         <div style="display: flex; align-items: center; gap: 10px;">
-            <span style="color: #22c55e; font-size: 18px;">✓</span>
-            <span>All Clear</span>
+            <span style="color: {security_color}; font-size: 18px;">{security_icon}</span>
+            <span>{security_text}</span>
         </div>
-        <div style="margin-top: 8px; font-size: 12px; color: #f59e0b;">
-            {security['pending_updates']} system updates pending
+        <div style="margin-top: 8px; font-size: 12px; color: #888;">
+            Last check: {security.get('last_check', 'Unknown')}
         </div>
     </div>
     
