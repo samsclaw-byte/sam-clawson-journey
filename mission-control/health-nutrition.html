@@ -637,7 +637,7 @@
         // Load Exercise Data from Airtable
         async function loadExerciseData() {
             try {
-                const response = await fetch('../data/exercise_data.json');
+                const response = await fetch('data/exercise_data.json');
                 const data = await response.json();
                 
                 // Update summary stats
