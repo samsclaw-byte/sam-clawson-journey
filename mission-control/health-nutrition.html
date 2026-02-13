@@ -544,12 +544,15 @@
         // Generate last 7 days for dropdown
         function populateDateSelector() {
             const selector = document.getElementById('date-selector');
-            const today = new Date();
             
             for (let i = 1; i <= 6; i++) {
-                const date = new Date(today);
+                const date = new Date();
                 date.setDate(date.getDate() - i);
-                const value = date.toISOString().split('T')[0];
+                // Format as YYYY-MM-DD using local timezone
+                const year = date.getFullYear();
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const day = String(date.getDate()).padStart(2, '0');
+                const value = `${year}-${month}-${day}`;
                 const label = date.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit' });
                 selector.innerHTML += `<option value="${value}">${label}</option>`;
             }
