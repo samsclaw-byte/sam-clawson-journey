@@ -4,6 +4,81 @@ All notable changes to the workspace, systems, and data.
 
 ---
 
+## 2026-02-13
+
+### Systems
+- **Mission Control v2.0:** Complete dashboard system with 5 live-linked pages
+  - **Overview:** Daily priorities, habit summary, recent activity with white/purple-pink theme
+  - **Health & Nutrition:** 7-day timeline, exercise card, date selector for meals/macros
+  - **Productivity:** TAT task list with filters, weekly habit tracker, habit streaks
+  - **Work:** Line manager tasks and project tracking
+  - **Blog:** Stats and post grid with navigation
+  - All pages linked to live Airtable data with 15-minute auto-refresh
+- **WHOOP Integration v2.1:** Enhanced webhook server with workout/cycle support
+  - `workout.created` and `workout.updated` events auto-save to Airtable Workouts table
+  - Daily cycle data (strain, calories, recovery, sleep) auto-saved to WHOOP Data table
+  - Backfilled 3 days of data (Feb 10-12) after token refresh
+  - Server running at `whoop.samsclaw.org/webhook/whoop`
+- **TAT System v3.1:** Fixes and UI improvements
+  - Fixed validation script: changed from non-existent `Date` field to `Date Created`
+  - Task Stats clickable: filter tasks by clicking stat boxes (Active, Due Today, Overdue, In Progress)
+  - Tasks sorted by due date: overdue first, then ascending
+  - 34 active tasks, 2 overdue, 1 due today
+- **Airtable Habit Checker:** New script to replace Notion habit validation
+  - `check_airtable_habits.py` - validates Daily Habits table completeness
+  - Cron jobs updated to use Airtable instead of Notion
+- **Data Integrity Fixes:**
+  - Fixed 15 duplicate habit records for Feb 12 (merged and deleted duplicates)
+  - Fixed hardcoded dates in 3 scripts: `habit_tracker_from_food.py`, `airtable_sync_v2.py`, `sync_to_airtable.py`
+  - All scripts now use dynamic `get_today()` function
+
+### Features
+- **Mission Control Live Data Linking:** All dashboard pages connected to Airtable
+  - **Health Page:** Live 7-day timeline (calories consumed/burned, strain, weight, sleep)
+  - **Exercise Card:** Pulls from Workouts table with `Exercises` field display
+  - **Date Selector:** Dropdown to view any of last 7 days' meals and macros
+  - **Productivity Page:** TAT tasks with working filters, weekly habit tracker with streaks
+  - **Habit Streaks:** Horizontal bar charts showing 30-day streaks for each habit
+- **Habit Streak Visualization:** Added to Productivity page
+  - 30-day horizontal bar charts below weekly habit tracker
+  - Visual representation of consistency for each habit
+- **Blog Page:** New Mission Control page
+  - Blog Stats card (days published, research tasks, business plans, words written)
+  - Grid layout of blog post cards with hover effects
+  - Links to `samsclaw.org` blog
+- **Exercise Data Integration:** Real workout data in Health & Nutrition page
+  - 4 workouts last 7 days (Hard, Active Recovery types)
+  - 120 total minutes displayed with 0 decimal places
+
+### Data
+- **WHOOP Backfill:** Retrieved 3 days of missing data
+  - Feb 10: Strain 14.2, Recovery 84%, Sleep 78%, Calories 2,889
+  - Feb 11: Strain 13.7, Recovery 46%, Sleep 60%, Calories 2,771
+  - Feb 12: Strain 6.4, Recovery 54%, Sleep 65%, Calories 1,278
+- **Feb 12 Nutrition Complete:** 6 meals logged, 1,963 calories, 108g protein
+  - Breakfast: Multigrain bread + ham + café au lait (450 cal)
+  - Lunch: Chicken avocado pesto tortilla + cappuccino (520 cal)
+  - Dinner: Spaghetti bolognese (650 cal)
+  - Snacks: Dates, banana, apple, protein powder
+- **Feb 13 Nutrition Progress:** 940 calories by midday
+  - Breakfast: 2 café au laits, sourdough, omelette, butter chicken, pita (730 cal)
+  - Snack: Banana, 3 dates, green apple (210 cal)
+- **Water Tracking:** 7/8 glasses (synced between Airtable and local)
+  - Multiple duplicate records consolidated
+- **Research Tasks Completed:**
+  - Voice Technology Advances (11,656 words)
+  - OpenClaw Security Development
+  - Security Audit
+
+### Health
+- **Weight:** 102 kg logged (down from 104 kg earlier in week)
+- **Water Intake:** 7/8 glasses (87.5% of goal)
+- **Supplements:** Multivitamin ✅, Fruit habit ✅
+- **Workouts:** 4 sessions last 7 days (Hard, Active Recovery)
+- **WHOOP Status:** Token refreshed, webhook active, ready for workout auto-save
+
+---
+
 ## 2026-02-12
 
 ### Systems
