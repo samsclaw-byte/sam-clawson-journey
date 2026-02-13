@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mission Control - Blog</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #f8f9ff 0%, #fff5f8 100%);
+            color: #1a1a2e;
+            min-height: 100vh;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #9945FF 0%, #FF6B9D 100%);
+            padding: 30px 20px;
+            text-align: center;
+            color: white;
+            box-shadow: 0 4px 20px rgba(153, 69, 255, 0.3);
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .nav {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .nav a {
+            padding: 12px 24px;
+            background: white;
+            border: 1px solid rgba(153, 69, 255, 0.2);
+            border-radius: 25px;
+            color: #9945FF;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        
+        .nav a:hover, .nav a.active {
+            background: linear-gradient(135deg, #9945FF, #FF6B9D);
+            color: white;
+            border-color: transparent;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 20px rgba(153, 69, 255, 0.08);
+            border: 1px solid rgba(153, 69, 255, 0.1);
+        }
+        
+        .card h2 {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, #9945FF, #FF6B9D);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+        
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .blog-card {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 2px 20px rgba(153, 69, 255, 0.08);
+            border: 1px solid rgba(153, 69, 255, 0.1);
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        
+        .blog-card:hover {
+            box-shadow: 0 8px 30px rgba(153, 69, 255, 0.15);
+            transform: translateY(-4px);
+        }
+        
+        .blog-date {
+            font-size: 12px;
+            color: #9945FF;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+        
+        .blog-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+        
+        .blog-excerpt {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+        
+        .blog-meta {
+            display: flex;
+            gap: 16px;
+            font-size: 12px;
+            color: #999;
+        }
+        
+        .blog-meta span {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .read-more {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: #9945FF;
+            font-weight: 500;
+            font-size: 14px;
+            margin-top: 12px;
+        }
+        
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .stat-box {
+            background: linear-gradient(135deg, #f8f5ff 0%, #fff5f8 100%);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid rgba(153, 69, 255, 0.15);
+        }
+        
+        .stat-number {
+            font-size: 32px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #9945FF, #FF6B9D);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .stat-label {
+            font-size: 11px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 4px;
+        }
+        
+        .last-updated {
+            text-align: center;
+            color: #999;
+            font-size: 12px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>📝 Blog</h1>
+        <p>Sam & Clawson Journey</p>
+    </div>
+    
+    <div class="nav">
+        <a href="index.html">Overview</a>
+        <a href="health-nutrition.html">Health & Nutrition</a>
+        <a href="productivity.html">Productivity</a>
+        <a href="work.html">Work</a>
+        <a href="blog.html" class="active">Blog</a>
+        <a href="blog.html" class="active">Blog</a>
+    </div>
+    
+    <div class="container">
+        <!-- Blog Stats -->
+        <div class="card">
+            <h2>📊 Blog Stats</h2>
+            <div class="stats-row">
+                <div class="stat-box">
+                    <div class="stat-number">8</div>
+                    <div class="stat-label">Days Published</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">12</div>
+                    <div class="stat-label">Research Tasks</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">3</div>
+                    <div class="stat-label">Business Plans</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">45K</div>
+                    <div class="stat-label">Words Written</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Recent Posts -->
+        <div class="card">
+            <h2>📅 Recent Posts</h2>
+            <div class="blog-grid">
+                <div class="blog-card" onclick="window.open('https://samsclaw.org', '_blank')">
+                    <div class="blog-date">February 13, 2026</div>
+                    <div class="blog-title">Day 8: Voice Technology Deep Dive & Research Queue Cleared</div>
+                    <div class="blog-excerpt">Comprehensive 11,000-word research on Voice Technology Advances 2025-2026. Key findings: Whisper v4/Turbo offers 4x speed improvement...</div>
+                    <div class="blog-meta">
+                        <span>📖 5 min read</span>
+                        <span>🏷️ Research</span>
+                    </div>
+                    <div class="read-more">Read more →</div>
+                </div>
+                
+                <div class="blog-card" onclick="window.open('https://samsclaw.org', '_blank')">
+                    <div class="blog-date">February 12, 2026</div>
+                    <div class="blog-title">Day 7: Mission Control Dashboard Launch</div>
+                    <div class="blog-excerpt">Deployed Mission Control v2.0 with live Airtable data, TAT System v3 with formula-based due dates, and Cloudflare Pages hosting...</div>
+                    <div class="blog-meta">
+                        <span>📖 4 min read</span>
+                        <span>🏷️ Systems</span>
+                    </div>
+                    <div class="read-more">Read more →</div>
+                </div>
+                
+                <div class="blog-card" onclick="window.open('https://samsclaw.org', '_blank')">
+                    <div class="blog-date">February 11, 2026</div>
+                    <div class="blog-title">Day 6: WHOOP Integration Complete</div>
+                    <div class="blog-excerpt">Successfully restored WHOOP webhook integration with permanent Cloudflare tunnel. Morning briefs now include recovery scores...</div>
+                    <div class="blog-meta">
+                        <span>📖 3 min read</span>
+                        <span>🏷️ Health</span>
+                    </div>
+                    <div class="read-more">Read more →</div>
+                </div>
+                
+                <div class="blog-card" onclick="window.open('https://samsclaw.org', '_blank')">
+                    <div class="blog-date">February 10, 2026</div>
+                    <div class="blog-title">Day 5: Notion to Airtable Migration</div>
+                    <div class="blog-excerpt">Migrated 90+ records from Notion to Airtable across 6 tables. Food Log, Daily Habits, TAT Tasks, Weight Tracker all now in Airtable...</div>
+                    <div class="blog-meta">
+                        <span>📖 4 min read</span>
+                        <span>🏷️ Data</span>
+                    </div>
+                    <div class="read-more">Read more →</div>
+                </div>
+                
+                <div class="blog-card" onclick="window.open('https://samsclaw.org', '_blank')">
+                    <div class="blog-date">February 9, 2026</div>
+                    <div class="blog-title">Day 4: TAT System v3 Implementation</div>
+                    <div class="blog-excerpt">Built TAT v3 with formula-based due dates, auto-calculated urgency levels, and severity-based error classification...</div>
+                    <div class="blog-meta">
+                        <span>📖 3 min read</span>
+                        <span>🏷️ Productivity</span>
+                    </div>
+                    <div class="read-more">Read more →</div>
+                </div>
+                
+                <div class="blog-card" onclick="window.open('https://samsclaw.org', '_blank')">
+                    <div class="blog-date">February 8, 2026</div>
+                    <div class="blog-title">Day 3: Health & Fitness Program</div>
+                    <div class="blog-excerpt">Personalized training program active with 8 workouts logged. WHOOP integration providing recovery-based workout recommendations...</div>
+                    <div class="blog-meta">
+                        <span>📖 4 min read</span>
+                        <span>🏷️ Fitness</span>
+                    </div>
+                    <div class="read-more">Read more →</div>
+                </div>
+            </div>
+        </div>
+        
+        <p class="last-updated">View full blog at <a href="https://samsclaw.org" style="color: #9945FF;">samsclaw.org</a></p>
+    </div>
+</body>
+</html>
