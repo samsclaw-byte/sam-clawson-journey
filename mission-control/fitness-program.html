@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mission Control - Fitness Program</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #f8f9ff 0%, #fff5f8 100%);
+            color: #1a1a2e;
+            min-height: 100vh;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #9945FF 0%, #FF6B9D 100%);
+            padding: 30px 20px;
+            text-align: center;
+            color: white;
+            box-shadow: 0 4px 20px rgba(153, 69, 255, 0.3);
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .header p {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+        
+        .nav {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .nav a {
+            padding: 12px 24px;
+            background: white;
+            border: 1px solid rgba(153, 69, 255, 0.2);
+            border-radius: 25px;
+            color: #9945FF;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        
+        .nav a:hover, .nav a.active {
+            background: linear-gradient(135deg, #9945FF, #FF6B9D);
+            color: white;
+            border-color: transparent;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 20px rgba(153, 69, 255, 0.08);
+            border: 1px solid rgba(153, 69, 255, 0.1);
+        }
+        
+        .card h2 {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, #9945FF, #FF6B9D);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .stat-box {
+            background: linear-gradient(135deg, #f8f5ff 0%, #fff5f8 100%);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid rgba(153, 69, 255, 0.15);
+        }
+        
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #9945FF, #FF6B9D);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 4px;
+        }
+        
+        .recovery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+        }
+        
+        .recovery-card {
+            padding: 20px;
+            border-radius: 12px;
+            border: 2px solid;
+        }
+        
+        .recovery-green {
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            border-color: #28a745;
+        }
+        
+        .recovery-yellow {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeeba 100%);
+            border-color: #ffc107;
+        }
+        
+        .recovery-red {
+            background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+            border-color: #dc3545;
+        }
+        
+        .recovery-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .recovery-green .recovery-title { color: #155724; }
+        .recovery-yellow .recovery-title { color: #856404; }
+        .recovery-red .recovery-title { color: #721c24; }
+        
+        .recovery-desc {
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+        
+        .recovery-green .recovery-desc { color: #155724; }
+        .recovery-yellow .recovery-desc { color: #856404; }
+        .recovery-red .recovery-desc { color: #721c24; }
+        
+        .recovery-duration {
+            font-weight: 600;
+            font-size: 16px;
+        }
+        
+        .workout-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .workout-item {
+            background: linear-gradient(135deg, #f8f5ff 0%, #fff5f8 100%);
+            padding: 16px;
+            border-radius: 12px;
+            border: 1px solid rgba(153, 69, 255, 0.15);
+        }
+        
+        .workout-name {
+            font-weight: 600;
+            color: #9945FF;
+            margin-bottom: 4px;
+        }
+        
+        .workout-details {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .banned-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 12px;
+        }
+        
+        .banned-item {
+            background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+            padding: 16px;
+            border-radius: 12px;
+            border: 1px solid #dc3545;
+        }
+        
+        .banned-name {
+            font-weight: 600;
+            color: #721c24;
+            margin-bottom: 4px;
+        }
+        
+        .banned-reason {
+            font-size: 12px;
+            color: #721c24;
+            margin-bottom: 4px;
+        }
+        
+        .banned-replace {
+            font-size: 12px;
+            color: #155724;
+            font-weight: 500;
+        }
+        
+        .protocol-box {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeeba 100%);
+            padding: 20px;
+            border-radius: 12px;
+            border: 2px solid #ffc107;
+            margin-bottom: 16px;
+        }
+        
+        .protocol-title {
+            font-weight: 700;
+            color: #856404;
+            margin-bottom: 12px;
+            font-size: 16px;
+        }
+        
+        .protocol-step {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #856404;
+        }
+        
+        .protocol-step-number {
+            background: #ffc107;
+            color: #856404;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 12px;
+            flex-shrink: 0;
+        }
+        
+        .golden-rule {
+            background: linear-gradient(135deg, #9945FF 0%, #FF6B9D 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 16px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: #9945FF;
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🏋️ Fitness Program</h1>
+        <p>"The Flexible Daily" — Consistency Over Intensity</p>
+    </div>
+    
+    <div class="nav">
+        <a href="index.html">Overview</a>
+        <a href="health-nutrition.html">Health</a>
+        <a href="productivity.html">Productivity</a>
+        <a href="work.html">Work</a>
+        <a href="blog.html">Blog</a>
+        <a href="fitness-program.html" class="active">Fitness</a>
+    </div>
+    
+    <div class="container">
+        <!-- Goals -->
+        <div class="stats-grid">
+            <div class="stat-box">
+                <div class="stat-value">104→85</div>
+                <div class="stat-label">Weight Goal (kg)</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value">3-4</div>
+                <div class="stat-label">Hard Workouts/Week</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value">30-45</div>
+                <div class="stat-label">Minutes Max</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value">Month 1</div>
+                <div class="stat-label">Current Phase</div>
+            </div>
+        </div>
+        
+        <!-- Golden Rule -->
+        <div class="golden-rule">
+            ⚠️ Golden Rule: When in doubt, choose the easier option. Consistency beats intensity every time.
+        </div>
+        
+        <!-- Daily Decision Tree -->
+        <div class="card" style="margin-top: 20px;">
+            <h2>📋 Daily Decision Tree (Check WHOOP Recovery)</h2>
+            <div class="recovery-grid">
+                <div class="recovery-card recovery-green">
+                    <div class="recovery-title">🟢 Green Zone (67%+)</div>
+                    <div class="recovery-desc">HARD WORKOUT</div>
+                    <div class="recovery-duration">30-45 min (up to 60 min Fri/weekend)</div>
+                </div>
+                <div class="recovery-card recovery-yellow">
+                    <div class="recovery-title">🟡 Yellow Zone (50-66%)</div>
+                    <div class="recovery-desc">ACTIVE RECOVERY</div>
+                    <div class="recovery-duration">20-30 min easy movement</div>
+                </div>
+                <div class="recovery-card recovery-red">
+                    <div class="recovery-title">🔴 Red Zone (&lt;50%)</div>
+                    <div class="recovery-desc">REST DAY</div>
+                    <div class="recovery-duration">15 min stretching or complete rest</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Calf Protocol -->
+        <div class="card">
+            <h2>🚨 Non-Negotiable: Calf Protocol (Before Every Hard Workout)</h2>
+            <div class="protocol-box">
+                <div class="protocol-title">⚠️ Your calves are your Achilles heel — This isn't optional!</div>
+                <div class="protocol-step">
+                    <div class="protocol-step-number">1</div>
+                    <div><strong>Warm-Up (2 min):</strong> March in place → gentle jog, Ankle circles (10 each direction)</div>
+                </div>
+                <div class="protocol-step">
+                    <div class="protocol-step-number">2</div>
+                    <div><strong>Activation (3 min):</strong> 20x Calf raises (hold top 2s), 20x Single-leg balance, 30s Downward dog, 30s World's greatest stretch</div>
+                </div>
+                <div class="protocol-step">
+                    <div class="protocol-step-number">3</div>
+                    <div><strong>Test (30 sec):</strong> 10 gentle skips — STOP if sharp pain or tightness</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Weekly Schedule -->
+        <div class="card">
+            <h2>🗓️ Weekly Schedule (Phase 1: Weeks 1-4)</h2>
+            <div class="workout-list">
+                <div class="workout-item">
+                    <div class="workout-name">Monday — Hard (Kettlebell A)</div>
+                    <div class="workout-details">30 min • Goblet squats, swings, rows, push-ups, deadlifts, plank, farmer's carry</div>
+                </div>
+                <div class="workout-item">
+                    <div class="workout-name">Tuesday — Active Recovery</div>
+                    <div class="workout-details">20-30 min • Swim (preferred), walk, bike, or yoga</div>
+                </div>
+                <div class="workout-item">
+                    <div class="workout-name">Wednesday — Hard (Full Body B)</div>
+                    <div class="workout-details">30 min • Bodyweight circuit: squats, push-ups, rows, step-ups, glute bridges</div>
+                </div>
+                <div class="workout-item">
+                    <div class="workout-name">Thursday — Rest</div>
+                    <div class="workout-details">Complete rest OR 15 min mobility</div>
+                </div>
+                <div class="workout-item">
+                    <div class="workout-name">Friday — Hard (Friday Funday)</div>
+                    <div class="workout-details">45-60 min • Extended kettlebell, gym session, or outdoor walk/jog</div>
+                </div>
+                <div class="workout-item">
+                    <div class="workout-name">Saturday — Active Recovery</div>
+                    <div class="workout-details">20-30 min • Swim, Padel (if playing), or walk</div>
+                </div>
+                <div class="workout-item">
+                    <div class="workout-name">Sunday — Rest</div>
+                    <div class="workout-details">Complete rest</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Prohibited Exercises -->
+        <div class="card">
+            <h2>🚫 Prohibited Exercises (Until Month 3+)</h2>
+            <div class="banned-list">
+                <div class="banned-item">
+                    <div class="banned-name">❌ Box Jumps / Jump Squats</div>
+                    <div class="banned-reason">Explosive calf loading</div>
+                    <div class="banned-replace">✓ Step-ups, goblet squats</div>
+                </div>
+                <div class="banned-item">
+                    <div class="banned-name">❌ Sprints / Hill Runs</div>
+                    <div class="banned-reason">High-impact calf stress</div>
+                    <div class="banned-replace">✓ Incline walk, slow jog</div>
+                </div>
+                <div class="banned-item">
+                    <div class="banned-name">❌ Burpees with Jump</div>
+                    <div class="banned-reason">Explosive + impact</div>
+                    <div class="banned-replace">✓ Walk-out burpees (no jump)</div>
+                </div>
+                <div class="banned-item">
+                    <div class="banned-name">❌ Jump Rope / Skipping</div>
+                    <div class="banned-reason">Repetitive calf pounding</div>
+                    <div class="banned-replace">✓ Shadow boxing (no rope)</div>
+                </div>
+                <div class="banned-item">
+                    <div class="banned-name">❌ Heavy Calf Raises (&gt;20kg)</div>
+                    <div class="banned-reason">Excessive load</div>
+                    <div class="banned-replace">✓ Bodyweight only, high reps</div>
+                </div>
+                <div class="banned-item">
+                    <div class="banned-name">❌ Deep Heavy Squats</div>
+                    <div class="banned-reason">ACL + back stress</div>
+                    <div class="banned-replace">✓ Box squats, goblet squats</div>
+                </div>
+                <div class="banned-item">
+                    <div class="banned-name">❌ Plyometric Lunges</div>
+                    <div class="banned-reason">ACL danger zone</div>
+                    <div class="banned-replace">✓ Reverse lunges (static)</div>
+                </div>
+                <div class="banned-item">
+                    <div class="banned-name">❌ High-Rep Running (10K+)</div>
+                    <div class="banned-reason">Your injury pattern</div>
+                    <div class="banned-replace">✓ Build to 5K max (Month 1-2)</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mindset -->
+        <div class="card">
+            <h2>💪 Mindset</h2>
+            <div style="background: linear-gradient(135deg, #f8f5ff 0%, #fff5f8 100%); padding: 20px; border-radius: 12px; border: 1px solid rgba(153, 69, 255, 0.15);">
+                <p style="font-size: 16px; color: #1a1a2e; line-height: 1.6;">
+                    <strong>Goal:</strong> Build the habit + injury-proof your body<br>
+                    <strong>Frequency:</strong> 3-4 days/week Hard, 2-3 days Active Recovery<br>
+                    <strong>Mindset:</strong> "Show up and survive" — intensity comes later
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        🦞
+    </div>
+</body>
+</html>
