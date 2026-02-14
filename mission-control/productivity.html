@@ -375,23 +375,28 @@
         <!-- Weekly Habit Tracker -->
         <div class="card">
             <h2>✅ Weekly Habit Tracker (Last 7 Days)</h2>
-            <div class="habit-tracker" id="habit-tracker">
-                <div class="loading">Loading habits...</div>
+            
+            <!-- Today's Progress -->
+            <div style="margin-bottom: 24px; padding-bottom: 20px; border-bottom: 1px solid rgba(153, 69, 255, 0.1);">
+                <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: #9945FF; margin-bottom: 16px; font-weight: 600;">Today's Progress</div>
+                <div id="today-habits" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 12px;">
+                    <!-- Today's habits will be inserted here -->
+                </div>
             </div>
             
             <!-- Habit Streaks -->
-            <div style="margin-top: 24px; padding-top: 20px; border-top: 1px solid rgba(153, 69, 255, 0.1);">
+            <div style="margin-bottom: 24px; padding-bottom: 20px; border-bottom: 1px solid rgba(153, 69, 255, 0.1);">
                 <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: #9945FF; margin-bottom: 16px; font-weight: 600;">Current Streaks</div>
                 <div id="habit-streaks" style="width: 100%;">
                     <!-- Streak bars will be inserted here -->
                 </div>
             </div>
             
-            <!-- Today's Progress -->
-            <div style="margin-top: 24px; padding-top: 20px; border-top: 1px solid rgba(153, 69, 255, 0.1);">
-                <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: #9945FF; margin-bottom: 16px; font-weight: 600;">Today's Progress</div>
-                <div id="today-habits" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 12px;">
-                    <!-- Today's habits will be inserted here -->
+            <!-- 7 Day View -->
+            <div>
+                <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: #9945FF; margin-bottom: 16px; font-weight: 600;">7-Day View</div>
+                <div class="habit-tracker" id="habit-tracker">
+                    <div class="loading">Loading habits...</div>
                 </div>
             </div>
         </div>
