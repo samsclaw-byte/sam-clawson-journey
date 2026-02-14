@@ -7,6 +7,11 @@
       "calories": 730
     },
     {
+      "type": "Breakfast",
+      "items": "2 multigrain bread with lurpak butter and ham, cafe au lait,...",
+      "calories": 450
+    },
+    {
       "type": "Lunch",
       "items": "1/4 portion fries, 1/4 portion nachos, 1 chicken tender",
       "calories": 450
@@ -25,13 +30,23 @@
       "type": "Snack",
       "items": "30g protein powder",
       "calories": 120
+    },
+    {
+      "type": "Snack",
+      "items": "2 dates",
+      "calories": 140
+    },
+    {
+      "type": "Snack",
+      "items": "banana, red apple, 1 glass water",
+      "calories": 150
     }
   ],
-  "total_calories": 2750,
+  "total_calories": 3490,
   "macros": {
-    "protein": 145,
-    "carbs": 245,
-    "fat": 105,
+    "protein": 163,
+    "carbs": 377,
+    "fat": 121,
     "fiber": 9
   }
 }
