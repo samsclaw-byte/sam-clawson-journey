@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-02-14T14:15:11.727569",
+  "generated_at": "2026-02-14T14:30:09.533052",
   "tat_tasks": [
     {
       "id": "recBSDHfWKo4NWTBK",
@@ -246,6 +246,18 @@
       }
     },
     {
+      "id": "recKx5fJkrx1Ou7Lc",
+      "name": "Deploy Cloudflare Worker for TAT task completion from Mission Control",
+      "category": "3",
+      "status": "Not Started",
+      "due_status": "later",
+      "days_remaining": 999,
+      "urgency": "\ud83d\udfe2 Normal",
+      "due_date": {
+        "error": "#ERROR"
+      }
+    },
+    {
       "id": "recQeSArOIzgTkdBC",
       "name": "Set up Cloudflare Pages for Mission Control dashboard using samsclaw.org domain",
       "category": "1",
@@ -386,7 +398,7 @@
     }
   ],
   "stats": {
-    "active": 29,
+    "active": 30,
     "overdue": 1,
     "today": 1,
     "completed_7d": 0
