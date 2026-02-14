@@ -4,6 +4,64 @@ All notable changes to the workspace, systems, and data.
 
 ---
 
+## 2026-02-14
+
+### Systems
+- **Mission Control v2.1:** Major dashboard enhancements and live data integration
+  - **Fitness Program Page:** New dedicated page with recovery zones, calf protocol, weekly schedule, prohibited exercises (purple-pink theme)
+  - **Productivity Page Redesign:** TAT Tasks card with integrated badge counts in filter tabs, 🔴 Overdue tab added, removed "Add Task" button
+  - **Today's Progress Section:** Real-time habit status with water count integrated into weekly habit tracker
+  - **Cloudflare Worker API:** TAT task completion endpoint created (`tat-complete-worker.js`) - ready for 5-minute deployment
+  - **Navigation Updated:** All 6 pages now link to Fitness Program
+- **Data Integrity Fixes:**
+  - Fixed duplicate habit records for Feb 13 (merged 4 duplicates to correct values)
+  - Deleted 3 duplicate food entries (banana/apple snack, dates, extra breakfast)
+  - Updated data sync protocol: no auto-posting on mismatches, ask for clarification instead
+- **Security Sentinel:** Daily cron at 1:30 AM active
+- **API Testing Planned:** MiniMax 2.5 and GLM5 configured for testing (awaiting .env key updates)
+
+### Features
+- **Mission Control Live Data:** Overview page fully integrated with Airtable
+  - **Today View:** Real-time health snapshot, habit checklist, priority TAT tasks, quick wins score
+  - **Trend View:** Weight history with 85kg goal line, 7-day hydration bars, habit consistency scores, activity & strain tracking
+  - **Auto-refresh:** Every 15 minutes via cron job
+  - **Data sources:** Food Log, Weight Tracker, Workouts, Daily Habits, TAT Tasks
+- **TAT Completion Feature:** Cloudflare Worker with secure API endpoint
+  - ✓ "Complete" button on all non-completed tasks in Mission Control
+  - Confirmation dialog and visual feedback (loading → auto-refresh)
+  - Airtable key stored in Cloudflare secrets
+- **Mission Control Bug Fixes:**
+  - Fixed duplicate variable declaration in Overview page
+  - Regenerated overview_data.json with correct values
+
+### Data
+- **Feb 14 Nutrition (Partial):** Breakfast logged at resort
+  - Breakfast (9:45 AM): 2 bacon, 2-egg omelette, wholemeal bread, baked beans, pineapple, melon, dates, flat white (730 cal, 38g protein)
+  - Water: 6/8 glasses (75% of goal)
+  - Habits: Fruit ✅, Exercise ✅, Creatine ✅, Multivitamin ❓
+- **Feb 13 Food Log Completed:** Backfilled missing meals
+  - Lunch: Turkey & cheese croissant + protein bar (620 cal, 35g protein)
+  - Dinner: Arabic food (tawouk, shish, hummus, patatas, pita) + chocolate cake (950 cal)
+  - Evening: Beer + 2 glasses white wine (350 cal)
+  - **Final:** 3,600 calories, 131g protein (8 meals)
+- **Research Queue Status:** All 8 overnight research tasks complete, all 1 build task complete
+  - System Architecture Review completed (Feb 14)
+  - No pending tasks in queue
+- **TAT Status:** 2 priority tasks (1 overdue, 1 due today), 28 total with category validation errors to fix
+
+### Health
+- **Morning Run (10:12 AM):** 33min 6sec at resort
+  - Strain: 13.8 | Calories: ~400
+  - HR Zones: Z5: 52sec, Z4: 19:57, Z3: 9:30, Z2: 1:52, Z1: 55sec
+  - Exercise habit: ✅ Marked complete
+- **Water Intake:** 6/8 glasses (2 short of goal)
+  - Progress: 2 (8:10 AM) → 3 (11:03 AM) → 4 (1:51 PM) → 6 (6:29 PM)
+- **Supplements:** Creatine ✅ (30g protein powder + creatine at 6:29 PM)
+- **Weight:** 102 kg (current)
+- **WHOOP:** Token expired (refresh when back from resort)
+
+---
+
 ## 2026-02-13
 
 ### Systems
