@@ -523,7 +523,6 @@
                 document.getElementById('today-activity').textContent = health.today_activity ? Math.round(health.today_activity) : '--';
                 
                 // Habits
-                const habits = data.today.habits;
                 updateHabitDisplay('habit-multivitamin', habits.multivitamin, 'Taken');
                 updateHabitDisplay('habit-fruit', habits.fruit, 'Eaten');
                 updateHabitDisplay('habit-water', habits.water >= 8, `${habits.water}/8`);
