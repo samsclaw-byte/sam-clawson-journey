@@ -734,7 +734,7 @@
                 const trendResponse = await fetch('data/trend_data.json');
                 const trendData = await trendResponse.json();
                 
-                // Nutrition chart
+                // Nutrition chart with dual axis
                 const nutritionData = trendData.nutrition;
                 const nutritionCtx = document.getElementById('nutrition-chart').getContext('2d');
                 new Chart(nutritionCtx, {
@@ -747,17 +747,42 @@
                             borderColor: '#9945FF',
                             backgroundColor: 'rgba(153, 69, 255, 0.1)',
                             tension: 0.4,
-                            fill: true
+                            fill: true,
+                            yAxisID: 'y'
                         }, {
                             label: 'Protein (g)',
                             data: nutritionData.map(n => n.protein),
                             borderColor: '#51CF66',
-                            tension: 0.4
+                            backgroundColor: 'rgba(81, 207, 102, 0.1)',
+                            tension: 0.4,
+                            yAxisID: 'y1'
+                        }, {
+                            label: 'Protein Goal (120g)',
+                            data: nutritionData.map(() => 120),
+                            borderColor: '#28a745',
+                            borderDash: [5, 5],
+                            pointRadius: 0,
+                            yAxisID: 'y1'
                         }]
                     },
                     options: {
                         responsive: true,
-                        maintainAspectRatio: false
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                type: 'linear',
+                                display: true,
+                                position: 'left',
+                                title: { display: true, text: 'Calories' }
+                            },
+                            y1: {
+                                type: 'linear',
+                                display: true,
+                                position: 'right',
+                                title: { display: true, text: 'Protein (g)' },
+                                grid: { drawOnChartArea: false }
+                            }
+                        }
                     }
                 });
                 
