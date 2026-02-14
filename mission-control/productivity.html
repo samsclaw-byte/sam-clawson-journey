@@ -386,6 +386,14 @@
                     <!-- Streak bars will be inserted here -->
                 </div>
             </div>
+            
+            <!-- Today's Progress -->
+            <div style="margin-top: 24px; padding-top: 20px; border-top: 1px solid rgba(153, 69, 255, 0.1);">
+                <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: #9945FF; margin-bottom: 16px; font-weight: 600;">Today's Progress</div>
+                <div id="today-habits" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 12px;">
+                    <!-- Today's habits will be inserted here -->
+                </div>
+            </div>
         </div>
         
         <!-- TAT Tasks -->
@@ -652,7 +660,77 @@
                     </div>
                 </div>
             `}).join('');
+            
+            // Render today's habits
+            renderTodayHabits(sortedDays);
         }
+        // Render today's habit progress
+        function renderTodayHabits(habitDays) {
+            const todayHabitsContainer = document.getElementById('today-habits');
+            
+            // Get today's data (most recent day)
+            const today = habitDays[habitDays.length - 1];
+            
+            if (!today) {
+                todayHabitsContainer.innerHTML = '<div style="color: #666; font-size: 14px;">No data for today</div>';
+                return;
+            }
+            
+            // Define habits with their status
+            const habits = [
+                { 
+                    key: 'multivitamin', 
+                    icon: '💊', 
+                    name: 'Multivitamin',
+                    status: today.multivitamin ? '✅' : '⬜',
+                    done: today.multivitamin === true
+                },
+                { 
+                    key: 'fruit', 
+                    icon: '🍎', 
+                    name: 'Fruit',
+                    status: today.fruit ? '✅' : '⬜',
+                    done: today.fruit === true
+                },
+                { 
+                    key: 'water', 
+                    icon: '💧', 
+                    name: 'Water',
+                    status: `${today.water || 0}/8`,
+                    done: (today.water || 0) >= 8,
+                    isWater: true
+                },
+                { 
+                    key: 'creatine', 
+                    icon: '💪', 
+                    name: 'Creatine',
+                    status: today.creatine ? '✅' : '⬜',
+                    done: today.creatine === true
+                },
+                { 
+                    key: 'exercise', 
+                    icon: '🏃', 
+                    name: 'Exercise',
+                    status: today.exercise ? '✅' : '⬜',
+                    done: today.exercise === true
+                }
+            ];
+            
+            todayHabitsContainer.innerHTML = habits.map(h => {
+                const bgColor = h.done ? 'linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%)' : 'linear-gradient(135deg, #f8f5ff 0%, #fff5f8 100%)';
+                const borderColor = h.done ? '#28a745' : 'rgba(153, 69, 255, 0.15)';
+                const textColor = h.done ? '#155724' : '#1a1a2e';
+                
+                return `
+                <div style="background: ${bgColor}; padding: 12px; border-radius: 12px; border: 2px solid ${borderColor}; text-align: center;">
+                    <div style="font-size: 20px; margin-bottom: 4px;">${h.icon}</div>
+                    <div style="font-size: 12px; font-weight: 600; color: ${textColor}; margin-bottom: 2px;">${h.name}</div>
+                    <div style="font-size: 16px; font-weight: 700; color: ${h.isWater && !h.done ? '#9945FF' : textColor};">${h.status}</div>
+                </div>
+                `;
+            }).join('');
+        }
+
         
         // Set up filter buttons
         document.querySelectorAll('.filter-tab').forEach(button => {
