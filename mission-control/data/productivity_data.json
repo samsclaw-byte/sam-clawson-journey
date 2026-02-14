@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-02-14T09:45:11.628108",
+  "generated_at": "2026-02-14T10:00:11.631860",
   "tat_tasks": [
     {
       "id": "recBSDHfWKo4NWTBK",
@@ -258,6 +258,18 @@
       }
     },
     {
+      "id": "recWdJk6nBQgyYJwz",
+      "name": "Configure MiniMax 2.5 API key in .env file",
+      "category": "1",
+      "status": "Not Started",
+      "due_status": "later",
+      "days_remaining": 999,
+      "urgency": "\ud83d\udfe2 Normal",
+      "due_date": {
+        "error": "#ERROR"
+      }
+    },
+    {
       "id": "recXQ21AUbQNxqnpi",
       "name": "Fix WSL DNS permanently - create wsl.conf and set Google DNS 8.8.8.8",
       "category": "7",
@@ -365,16 +377,16 @@
       "date": "2026-02-14",
       "day_name": "Sat",
       "day_num": "14",
-      "score": 0,
+      "score": 1,
       "water": 2,
       "multivitamin": false,
-      "fruit": false,
+      "fruit": true,
       "exercise": false,
       "creatine": false
     }
   ],
   "stats": {
-    "active": 28,
+    "active": 29,
     "overdue": 1,
     "today": 1,
     "completed_7d": 0

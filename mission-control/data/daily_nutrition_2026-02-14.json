@@ -1,11 +1,17 @@
 {
   "date": "2026-02-14",
-  "meals": [],
-  "total_calories": 0,
+  "meals": [
+    {
+      "type": "Breakfast",
+      "items": "2 bacon, 2-egg omelette, wholemeal bread, baked beans, pinea...",
+      "calories": 730
+    }
+  ],
+  "total_calories": 730,
   "macros": {
-    "protein": 0,
-    "carbs": 0,
-    "fat": 0,
-    "fiber": 0
+    "protein": 38,
+    "carbs": 88,
+    "fat": 26,
+    "fiber": 9
   }
 }
