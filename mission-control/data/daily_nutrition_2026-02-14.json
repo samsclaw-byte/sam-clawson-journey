@@ -5,13 +5,28 @@
       "type": "Breakfast",
       "items": "2 bacon, 2-egg omelette, wholemeal bread, baked beans, pinea...",
       "calories": 730
+    },
+    {
+      "type": "Breakfast",
+      "items": "2 multigrain bread with lurpak butter and ham, cafe au lait,...",
+      "calories": 450
+    },
+    {
+      "type": "Snack",
+      "items": "2 dates",
+      "calories": 140
+    },
+    {
+      "type": "Snack",
+      "items": "banana, red apple, 1 glass water",
+      "calories": 150
     }
   ],
-  "total_calories": 730,
+  "total_calories": 1470,
   "macros": {
-    "protein": 38,
-    "carbs": 88,
-    "fat": 26,
+    "protein": 56,
+    "carbs": 220,
+    "fat": 42,
     "fiber": 9
   }
 }
