@@ -5,13 +5,33 @@
       "type": "Breakfast",
       "items": "2 bacon, 2-egg omelette, wholemeal bread, baked beans, pinea...",
       "calories": 730
+    },
+    {
+      "type": "Lunch",
+      "items": "1/4 portion fries, 1/4 portion nachos, 1 chicken tender",
+      "calories": 450
+    },
+    {
+      "type": "Dinner",
+      "items": "Beef rib steak, 1/3 portion fries, rice, three tuna tartare,...",
+      "calories": 1200
+    },
+    {
+      "type": "Snack",
+      "items": "Aperol Spritz, glass of rose wine",
+      "calories": 250
+    },
+    {
+      "type": "Snack",
+      "items": "30g protein powder",
+      "calories": 120
     }
   ],
-  "total_calories": 730,
+  "total_calories": 2750,
   "macros": {
-    "protein": 38,
-    "carbs": 88,
-    "fat": 26,
+    "protein": 145,
+    "carbs": 245,
+    "fat": 105,
     "fiber": 9
   }
 }
