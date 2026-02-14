@@ -516,8 +516,9 @@
                 
                 // Health data
                 const health = data.today.health;
+                const habits = data.today.habits;
                 document.getElementById('today-calories').textContent = health.today_calories || '--';
-                document.getElementById('today-water').textContent = health.today_activity ? Math.round(health.today_activity) : '--';
+                document.getElementById('today-water').textContent = habits.water || '--';
                 document.getElementById('today-weight').textContent = health.current_weight ? health.current_weight + 'kg' : '--';
                 document.getElementById('today-activity').textContent = health.today_activity ? Math.round(health.today_activity) : '--';
                 
