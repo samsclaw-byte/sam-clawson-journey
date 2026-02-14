@@ -349,29 +349,6 @@
     </div>
     
     <div class="container">
-        <!-- TAT Stats -->
-        <div class="card">
-            <h2>📊 Task Stats</h2>
-            <div class="stats-row">
-                <div class="stat-box" data-filter="all" onclick="filterTasksFromStats('all')">
-                    <div class="stat-number" id="stat-active">--</div>
-                    <div class="stat-label">Active Tasks</div>
-                </div>
-                <div class="stat-box" data-filter="today" onclick="filterTasksFromStats('today')">
-                    <div class="stat-number" id="stat-today">--</div>
-                    <div class="stat-label">Due Today</div>
-                </div>
-                <div class="stat-box" data-filter="overdue" onclick="filterTasksFromStats('overdue')">
-                    <div class="stat-number" id="stat-overdue">--</div>
-                    <div class="stat-label">Overdue</div>
-                </div>
-                <div class="stat-box" data-filter="in-progress" onclick="filterTasksFromStats('in-progress')">
-                    <div class="stat-number" id="stat-inprogress">--</div>
-                    <div class="stat-label">In Progress</div>
-                </div>
-            </div>
-        </div>
-        
         <!-- Weekly Habit Tracker -->
         <div class="card">
             <h2>✅ Weekly Habit Tracker (Last 7 Days)</h2>
@@ -404,12 +381,33 @@
         <!-- TAT Tasks -->
         <div class="card">
             <h2>📋 TAT Tasks</h2>
+            
+            <!-- Task Stats -->
+            <div class="stats-row" style="margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid rgba(153, 69, 255, 0.1);">
+                <div class="stat-box" data-filter="all" onclick="filterTasksFromStats('all')">
+                    <div class="stat-number" id="stat-active">--</div>
+                    <div class="stat-label">Active</div>
+                </div>
+                <div class="stat-box" data-filter="today" onclick="filterTasksFromStats('today')">
+                    <div class="stat-number" id="stat-today">--</div>
+                    <div class="stat-label">Due Today</div>
+                </div>
+                <div class="stat-box" data-filter="overdue" onclick="filterTasksFromStats('overdue')">
+                    <div class="stat-number" id="stat-overdue">--</div>
+                    <div class="stat-label">Overdue</div>
+                </div>
+                <div class="stat-box" data-filter="in-progress" onclick="filterTasksFromStats('in-progress')">
+                    <div class="stat-number" id="stat-inprogress">--</div>
+                    <div class="stat-label">In Progress</div>
+                </div>
+            </div>
+            
             <div class="filter-tabs">
                 <button class="filter-tab active" data-filter="all">All</button>
-                <button class="filter-tab" data-filter="today">Today</button>
-                <button class="filter-tab" data-filter="overdue">Overdue</button>
-                <button class="filter-tab" data-filter="soon">Soon (3 days)</button>
-                <button class="filter-tab" data-filter="in-progress">In Progress</button>
+                <button class="filter-tab" data-filter="today">Due Today</button>
+                <button class="filter-tab" data-filter="3days">3 Days</button>
+                <button class="filter-tab" data-filter="7days">7 Days</button>
+                <button class="filter-tab" data-filter="30days">30 Days</button>
             </div>
             
             <div class="task-list" id="task-list">
@@ -465,7 +463,7 @@
             const statusClass = getStatusClass(task.status);
             
             return `
-                <div class="task-item" data-due-status="${task.due_status}" data-status="${task.status}">
+                <div class="task-item" data-due-status="${task.due_status}" data-status="${task.status}" data-days-remaining="${task.days_remaining || 999}">
                     <div class="task-priority ${priorityClass}"></div>
                     <div class="task-content">
                         <div class="task-name">${escapeHtml(task.name)}</div>
@@ -493,6 +491,7 @@
             taskItems.forEach(item => {
                 const dueStatus = item.getAttribute('data-due-status');
                 const status = item.getAttribute('data-status');
+                const daysRemaining = parseInt(item.getAttribute('data-days-remaining')) || 999;
                 
                 let show = false;
                 
@@ -506,8 +505,14 @@
                     case 'overdue':
                         show = dueStatus === 'overdue';
                         break;
-                    case 'soon':
-                        show = dueStatus === 'soon';
+                    case '3days':
+                        show = daysRemaining >= 0 && daysRemaining <= 3;
+                        break;
+                    case '7days':
+                        show = daysRemaining >= 0 && daysRemaining <= 7;
+                        break;
+                    case '30days':
+                        show = daysRemaining >= 0 && daysRemaining <= 30;
                         break;
                     case 'in-progress':
                         show = status === 'In Progress';
