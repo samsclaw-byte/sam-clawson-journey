@@ -277,6 +277,35 @@
         .status-blocked { background: #FFE0E0; color: #C92A2A; }
         .status-complete { background: #D3F9D8; color: #2B8A3E; }
         
+        .complete-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 2px solid #28a745;
+            background: white;
+            color: #28a745;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+        
+        .complete-btn:hover {
+            background: #28a745;
+            color: white;
+            transform: scale(1.1);
+        }
+        
+        .complete-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
         .habit-tracker {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
@@ -456,9 +485,10 @@
             const priorityClass = getPriorityClass(task.category);
             const dueDisplay = getDueDisplay(task.due_status, task.days_remaining);
             const statusClass = getStatusClass(task.status);
+            const canComplete = task.status !== 'Complete';
             
             return `
-                <div class="task-item" data-due-status="${task.due_status}" data-status="${task.status}" data-days-remaining="${task.days_remaining || 999}">
+                <div class="task-item" data-due-status="${task.due_status}" data-status="${task.status}" data-days-remaining="${task.days_remaining || 999}" data-task-id="${task.id}">
                     <div class="task-priority ${priorityClass}"></div>
                     <div class="task-content">
                         <div class="task-name">${escapeHtml(task.name)}</div>
@@ -467,9 +497,58 @@
                             ${dueDisplay}
                         </div>
                     </div>
-                    <span class="task-status ${statusClass}">${task.status}</span>
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <span class="task-status ${statusClass}">${task.status}</span>
+                        ${canComplete ? `<button class="complete-btn" onclick="completeTask('${task.id}', '${escapeHtml(task.name).replace(/'/g, "\\'")}')">✓</button>` : ''}
+                    </div>
                 </div>
             `;
+        }
+        
+        // Complete task via Cloudflare Worker
+        async function completeTask(taskId, taskName) {
+            if (!confirm(`Mark "${taskName}" as complete?`)) {
+                return;
+            }
+            
+            const btn = document.querySelector(`button[onclick*="${taskId}"]`);
+            if (btn) {
+                btn.textContent = '...';
+                btn.disabled = true;
+            }
+            
+            try {
+                // Cloudflare Worker URL - update this after deployment
+                const WORKER_URL = 'https://tat-complete.YOUR_SUBDOMAIN.workers.dev';
+                
+                const response = await fetch(WORKER_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        taskId: taskId,
+                        status: 'Complete',
+                    }),
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    // Reload data to show updated status
+                    await loadData();
+                    alert(`✅ "${taskName}" marked as complete!`);
+                } else {
+                    throw new Error(result.error || 'Unknown error');
+                }
+            } catch (error) {
+                console.error('Error completing task:', error);
+                alert(`❌ Failed to complete task: ${error.message}`);
+                if (btn) {
+                    btn.textContent = '✓';
+                    btn.disabled = false;
+                }
+            }
         }
         
         // Escape HTML
