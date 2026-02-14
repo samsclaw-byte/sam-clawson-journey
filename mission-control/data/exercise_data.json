@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-02-14T12:00:12.908686",
+  "generated_at": "2026-02-14T12:15:05.901676",
   "workout_count": 5,
   "total_minutes": 142.48000000000002,
   "avg_strain": 11.0,
@@ -9,7 +9,7 @@
       "count": 2,
       "type": "Hard"
     },
-    "Running - Resort": {
+    "Running": {
       "minutes": 33.1,
       "count": 1,
       "type": "Other"
@@ -31,7 +31,7 @@
     {
       "date": "2026-02-14",
       "type": "Other",
-      "exercises": "Running - Resort",
+      "exercises": "Running",
       "duration": 33.1,
       "strain": 13.8
     },
