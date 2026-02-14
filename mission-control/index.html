@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mission Control - Overview</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
@@ -26,6 +27,36 @@
             font-size: 28px;
             font-weight: 700;
             margin-bottom: 8px;
+        }
+        
+        .view-toggle {
+            display: flex;
+            justify-content: center;
+            margin: 20px;
+            background: white;
+            border-radius: 25px;
+            padding: 4px;
+            max-width: 300px;
+            margin-left: auto;
+            margin-right: auto;
+            box-shadow: 0 2px 10px rgba(153, 69, 255, 0.1);
+        }
+        
+        .view-toggle button {
+            flex: 1;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            background: transparent;
+            color: #666;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .view-toggle button.active {
+            background: linear-gradient(135deg, #9945FF, #FF6B9D);
+            color: white;
         }
         
         .nav {
@@ -104,6 +135,7 @@
             background: linear-gradient(135deg, #9945FF, #FF6B9D);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            margin-bottom: 4px;
         }
         
         .stat-label {
@@ -111,57 +143,11 @@
             color: #666;
             text-transform: uppercase;
             letter-spacing: 1px;
-            margin-top: 4px;
-        }
-        
-        .quick-links {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            justify-content: center;
-        }
-        
-        .quick-link {
-            padding: 16px 24px;
-            background: white;
-            border-radius: 12px;
-            text-decoration: none;
-            color: #1a1a2e;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            transition: all 0.2s;
-            border: 1px solid #f0f0f5;
-            min-width: 140px;
-            text-align: center;
-        }
-        
-        .quick-link:hover {
-            box-shadow: 0 4px 20px rgba(153, 69, 255, 0.15);
-            border-color: rgba(153, 69, 255, 0.3);
-        }
-        
-        .task-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-        
-        .task-item {
-            display: flex;
-            align-items: center;
-            padding: 16px;
-            background: linear-gradient(135deg, #f8f5ff 0%, #fff5f8 100%);
-            border-radius: 12px;
-            border-left: 4px solid #9945FF;
-        }
-        
-        .task-item.urgent {
-            border-left-color: #FF6B6B;
-            background: linear-gradient(135deg, #fff5f5 0%, #fff0f3 100%);
         }
         
         .habit-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            grid-template-columns: repeat(5, 1fr);
             gap: 12px;
         }
         
@@ -170,33 +156,172 @@
             padding: 16px 8px;
             background: linear-gradient(135deg, #f8f5ff 0%, #fff5f8 100%);
             border-radius: 12px;
-            border: 1px solid rgba(153, 69, 255, 0.1);
+            border: 2px solid transparent;
+            transition: all 0.2s;
+        }
+        
+        .habit-item.complete {
+            border-color: #28a745;
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+        }
+        
+        .habit-item.incomplete {
+            border-color: #ffc107;
         }
         
         .habit-icon {
-            font-size: 28px;
+            font-size: 24px;
             margin-bottom: 8px;
         }
         
         .habit-name {
             font-size: 11px;
-            text-transform: uppercase;
-            color: #666;
-            letter-spacing: 1px;
+            font-weight: 600;
+            color: #1a1a2e;
         }
         
-        .last-updated {
-            text-align: center;
-            color: #999;
+        .habit-status {
             font-size: 12px;
+            margin-top: 4px;
+            font-weight: 700;
+        }
+        
+        .task-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .task-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px;
+            background: linear-gradient(135deg, #f8f5ff 0%, #fff5f8 100%);
+            border-radius: 12px;
+            border-left: 4px solid #9945FF;
+        }
+        
+        .task-item.overdue {
+            border-left-color: #dc3545;
+        }
+        
+        .task-item.today {
+            border-left-color: #ffc107;
+        }
+        
+        .task-content {
+            flex: 1;
+        }
+        
+        .task-name {
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+        
+        .task-meta {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 300px;
             margin-top: 20px;
+        }
+        
+        .chart-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 20px;
+        }
+        
+        .trend-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 2px 20px rgba(153, 69, 255, 0.08);
+            border: 1px solid rgba(153, 69, 255, 0.1);
+        }
+        
+        .trend-card h3 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #9945FF;
+            margin-bottom: 16px;
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+        
+        .date-display {
+            text-align: center;
+            font-size: 18px;
+            font-weight: 600;
+            color: #9945FF;
+            margin-bottom: 8px;
+        }
+        
+        .day-counter {
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        
+        .quick-win-card {
+            background: linear-gradient(135deg, #9945FF 0%, #FF6B9D 100%);
+            color: white;
+            padding: 24px;
+            border-radius: 16px;
+            text-align: center;
+        }
+        
+        .quick-win-card h3 {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 12px;
+        }
+        
+        .quick-win-value {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .quick-win-label {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: #9945FF;
+            font-size: 24px;
+        }
+        
+        @media (max-width: 768px) {
+            .habit-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            .chart-row {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
     <div class="header">
         <h1>🎯 Mission Control</h1>
-        <p>Sam's Daily Dashboard</p>
+        <p>Your Personal Dashboard</p>
+    </div>
+    
+    <div class="view-toggle">
+        <button class="active" onclick="switchView('today')">Today</button>
+        <button onclick="switchView('trend')">Trend</button>
     </div>
     
     <div class="nav">
@@ -209,97 +334,443 @@
     </div>
     
     <div class="container">
-        <!-- Key Stats -->
-        <div class="dashboard-grid">
-            <div class="stat-card">
-                <div class="stat-icon">🔥</div>
-                <div class="stat-value" id="stat-calories">--</div>
-                <div class="stat-label">Calories Today</div>
+        <!-- TODAY VIEW -->
+        <div id="today-view">
+            <div class="date-display" id="today-date">Loading...</div>
+            <div class="day-counter" id="day-counter">Day -- of your journey</div>
+            
+            <!-- Health Snapshot -->
+            <div class="card">
+                <h2>💪 Health Snapshot</h2>
+                <div class="dashboard-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">🔥</div>
+                        <div class="stat-value" id="today-calories">--</div>
+                        <div class="stat-label">Calories Today</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">💧</div>
+                        <div class="stat-value" id="today-water">--</div>
+                        <div class="stat-label">Water (glasses)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">⚖️</div>
+                        <div class="stat-value" id="today-weight">--</div>
+                        <div class="stat-label">Current Weight</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">🏃</div>
+                        <div class="stat-value" id="today-activity">--</div>
+                        <div class="stat-label">Activity (min)</div>
+                    </div>
+                </div>
             </div>
             
-            <div class="stat-card">
-                <div class="stat-icon">💧</div>
-                <div class="stat-value" id="stat-water">--</div>
-                <div class="stat-label">Water Glasses</div>
+            <!-- Habit Checklist -->
+            <div class="card">
+                <h2>✅ Today's Habits</h2>
+                <div class="habit-grid" id="today-habits">
+                    <div class="habit-item" id="habit-multivitamin">
+                        <div class="habit-icon">💊</div>
+                        <div class="habit-name">Multivitamin</div>
+                        <div class="habit-status">--</div>
+                    </div>
+                    <div class="habit-item" id="habit-fruit">
+                        <div class="habit-icon">🍎</div>
+                        <div class="habit-name">Fruit</div>
+                        <div class="habit-status">--</div>
+                    </div>
+                    <div class="habit-item" id="habit-water">
+                        <div class="habit-icon">💧</div>
+                        <div class="habit-name">Water</div>
+                        <div class="habit-status">--</div>
+                    </div>
+                    <div class="habit-item" id="habit-exercise">
+                        <div class="habit-icon">🏃</div>
+                        <div class="habit-name">Exercise</div>
+                        <div class="habit-status">--</div>
+                    </div>
+                    <div class="habit-item" id="habit-creatine">
+                        <div class="habit-icon">💪</div>
+                        <div class="habit-name">Creatine</div>
+                        <div class="habit-status">--</div>
+                    </div>
+                </div>
             </div>
             
-            <div class="stat-card">
-                <div class="stat-icon">📋</div>
-                <div class="stat-value" id="stat-tasks">--</div>
-                <div class="stat-label">Tasks Due Today</div>
+            <!-- Priority Tasks -->
+            <div class="card">
+                <h2>📋 Priority Tasks</h2>
+                <div class="task-list" id="priority-tasks">
+                    <div style="text-align: center; padding: 20px; color: #666;">Loading tasks...</div>
+                </div>
             </div>
             
-            <div class="stat-card">
-                <div class="stat-icon">💓</div>
-                <div class="stat-value" id="stat-recovery">--</div>
-                <div class="stat-label">WHOOP Recovery</div>
-            </div>
-        </div>
-        
-        <!-- Quick Links -->
-        <div class="card">
-            <h2>⚡ Quick Access</h2>
-            <div class="quick-links">
-                <a href="health-nutrition.html" class="quick-link">
-                    <div style="font-size: 24px; margin-bottom: 8px;">🍽️</div>
-                    <div>Log Meal</div>
-                </a>
-                <a href="productivity.html" class="quick-link">
-                    <div style="font-size: 24px; margin-bottom: 8px;">✅</div>
-                    <div>Add Task</div>
-                </a>
-                <a href="health-nutrition.html" class="quick-link">
-                    <div style="font-size: 24px; margin-bottom: 8px;">💧</div>
-                    <div>Log Water</div>
-                </a>
-                <a href="work.html" class="quick-link">
-                    <div style="font-size: 24px; margin-bottom: 8px;">💼</div>
-                    <div>Work Tasks</div>
-                </a>
-            </div>
-        </div>
-        
-        <!-- Today's Priorities -->
-        <div class="card">
-            <h2>🔥 Today's Priorities</h2>
-            <div class="task-list">
-                <div class="task-item urgent">
-                    <div>Complete TAT table setup in Airtable</div>
+            <!-- Quick Wins -->
+            <div class="dashboard-grid">
+                <div class="quick-win-card">
+                    <h3>✅ Habits Complete</h3>
+                    <div class="quick-win-value" id="habits-score">--</div>
+                    <div class="quick-win-label">out of 5 today</div>
                 </div>
-                <div class="task-item">
-                    <div>Call Micasa - fix drainage</div>
+                <div class="quick-win-card">
+                    <h3>📊 Weekly Average</h3>
+                    <div class="quick-win-value" id="weekly-score">--</div>
+                    <div class="quick-win-label">habits per day</div>
                 </div>
             </div>
         </div>
         
-        <!-- Daily Habits -->
-        <div class="card">
-            <h2>✅ Daily Habits</h2>
-            <div class="habit-grid">
-                <div class="habit-item">
-                    <div class="habit-icon">💊</div>
-                    <div class="habit-name">Multivitamin</div>
+        <!-- TREND VIEW -->
+        <div id="trend-view" class="hidden">
+            <!-- Weight Trend -->
+            <div class="trend-card">
+                <h3>⚖️ Weight Trend (Last 30 Days)</h3>
+                <div class="chart-container">
+                    <canvas id="weight-chart"></canvas>
                 </div>
-                <div class="habit-item">
-                    <div class="habit-icon">🍎</div>
-                    <div class="habit-name">Fruit</div>
+            </div>
+            
+            <div class="chart-row">
+                <!-- Hydration Score -->
+                <div class="trend-card">
+                    <h3>💧 Hydration (7 Days)</h3>
+                    <div class="chart-container">
+                        <canvas id="hydration-chart"></canvas>
+                    </div>
                 </div>
-                <div class="habit-item">
-                    <div class="habit-icon">💧</div>
-                    <div class="habit-name">Water</div>
+                
+                <!-- Habit Consistency -->
+                <div class="trend-card">
+                    <h3>✅ Habit Consistency (7 Days)</h3>
+                    <div class="chart-container">
+                        <canvas id="habit-chart"></canvas>
+                    </div>
                 </div>
-                <div class="habit-item">
-                    <div class="habit-icon">💪</div>
-                    <div class="habit-name">Creatine</div>
+            </div>
+            
+            <div class="chart-row">
+                <!-- Activity Timeline -->
+                <div class="trend-card">
+                    <h3>🏋️ Activity & Strain (7 Days)</h3>
+                    <div class="chart-container">
+                        <canvas id="activity-chart"></canvas>
+                    </div>
                 </div>
-                <div class="habit-item">
-                    <div class="habit-icon">🏊</div>
-                    <div class="habit-name">Exercise</div>
+                
+                <!-- Nutrition Trends -->
+                <div class="trend-card">
+                    <h3>🍽️ Nutrition Trends (7 Days)</h3>
+                    <div class="chart-container">
+                        <canvas id="nutrition-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Productivity Velocity -->
+            <div class="trend-card">
+                <h3>📈 Productivity Velocity (30 Days)</h3>
+                <div class="chart-container">
+                    <canvas id="productivity-chart"></canvas>
                 </div>
             </div>
         </div>
-        
-        <p class="last-updated">Last updated: Feb 13, 2026 at 11:00 AM | Data source: Airtable (auto-sync every 15 min)</p>
     </div>
+    
+    <div class="footer">
+        🦞
+    </div>
+    
+    <script>
+        // View switching
+        function switchView(view) {
+            document.querySelectorAll('.view-toggle button').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            if (view === 'today') {
+                document.getElementById('today-view').classList.remove('hidden');
+                document.getElementById('trend-view').classList.add('hidden');
+            } else {
+                document.getElementById('today-view').classList.add('hidden');
+                document.getElementById('trend-view').classList.remove('hidden');
+                loadTrendCharts();
+            }
+        }
+        
+        // Load today's data
+        async function loadTodayData() {
+            try {
+                // Set date
+                const today = new Date();
+                const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                document.getElementById('today-date').textContent = today.toLocaleDateString('en-US', options);
+                
+                // Calculate day of journey (from Feb 1, 2026)
+                const startDate = new Date('2026-02-01');
+                const dayDiff = Math.floor((today - startDate) / (1000 * 60 * 60 * 24)) + 1;
+                document.getElementById('day-counter').textContent = `Day ${dayDiff} of your journey`;
+                
+                // Load health data
+                const healthResponse = await fetch('data/health_data.json');
+                const healthData = await healthResponse.json();
+                
+                document.getElementById('today-calories').textContent = healthData.today_calories || '--';
+                document.getElementById('today-water').textContent = healthData.today_water || '--';
+                document.getElementById('today-weight').textContent = healthData.current_weight ? healthData.current_weight + 'kg' : '--';
+                document.getElementById('today-activity').textContent = healthData.today_activity || '--';
+                
+                // Load habits
+                const habitsResponse = await fetch('data/productivity_data.json');
+                const habitsData = await habitsResponse.json();
+                
+                if (habitsData.habit_days && habitsData.habit_days.length > 0) {
+                    const todayHabits = habitsData.habit_days[habitsData.habit_days.length - 1];
+                    
+                    updateHabitDisplay('habit-multivitamin', todayHabits.multivitamin, 'Taken');
+                    updateHabitDisplay('habit-fruit', todayHabits.fruit, 'Eaten');
+                    updateHabitDisplay('habit-water', todayHabits.water >= 8, `${todayHabits.water || 0}/8`);
+                    updateHabitDisplay('habit-exercise', todayHabits.exercise, 'Done');
+                    updateHabitDisplay('habit-creatine', todayHabits.creatine, 'Taken');
+                    
+                    // Calculate score
+                    let score = 0;
+                    if (todayHabits.multivitamin) score++;
+                    if (todayHabits.fruit) score++;
+                    if (todayHabits.water >= 8) score++;
+                    if (todayHabits.exercise) score++;
+                    if (todayHabits.creatine) score++;
+                    
+                    document.getElementById('habits-score').textContent = score;
+                    
+                    // Weekly average
+                    const recentDays = habitsData.habit_days.slice(-7);
+                    let totalScore = 0;
+                    recentDays.forEach(day => {
+                        if (day.multivitamin) totalScore++;
+                        if (day.fruit) totalScore++;
+                        if (day.water >= 8) totalScore++;
+                        if (day.exercise) totalScore++;
+                        if (day.creatine) totalScore++;
+                    });
+                    document.getElementById('weekly-score').textContent = (totalScore / recentDays.length).toFixed(1);
+                }
+                
+                // Load priority tasks
+                if (habitsData.tat_tasks) {
+                    const priorityTasks = habitsData.tat_tasks
+                        .filter(t => t.due_status === 'today' || t.due_status === 'overdue')
+                        .slice(0, 3);
+                    
+                    const tasksContainer = document.getElementById('priority-tasks');
+                    if (priorityTasks.length > 0) {
+                        tasksContainer.innerHTML = priorityTasks.map(task => `
+                            <div class="task-item ${task.due_status}">
+                                <div class="task-content">
+                                    <div class="task-name">${task.name}</div>
+                                    <div class="task-meta">${task.due_status === 'overdue' ? '🔴 Overdue' : '🟡 Due Today'} • ${task.category}</div>
+                                </div>
+                            </div>
+                        `).join('');
+                    } else {
+                        tasksContainer.innerHTML = '<div style="text-align: center; padding: 20px; color: #28a745;">🎉 No urgent tasks!</div>';
+                    }
+                }
+                
+            } catch (error) {
+                console.error('Error loading today data:', error);
+            }
+        }
+        
+        function updateHabitDisplay(elementId, completed, label) {
+            const element = document.getElementById(elementId);
+            const statusEl = element.querySelector('.habit-status');
+            
+            if (completed) {
+                element.classList.add('complete');
+                element.classList.remove('incomplete');
+                statusEl.textContent = '✅ ' + label;
+                statusEl.style.color = '#28a745';
+            } else {
+                element.classList.add('incomplete');
+                element.classList.remove('complete');
+                statusEl.textContent = '⬜ ' + label;
+                statusEl.style.color = '#666';
+            }
+        }
+        
+        // Load trend charts
+        let chartsLoaded = false;
+        async function loadTrendCharts() {
+            if (chartsLoaded) return;
+            chartsLoaded = true;
+            
+            try {
+                // Weight chart
+                const weightCtx = document.getElementById('weight-chart').getContext('2d');
+                new Chart(weightCtx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Day 1', 'Day 5', 'Day 10', 'Day 15', 'Day 20', 'Day 25', 'Day 30'],
+                        datasets: [{
+                            label: 'Weight (kg)',
+                            data: [104, 103.5, 103, 102.5, 102, 102, 102],
+                            borderColor: '#9945FF',
+                            backgroundColor: 'rgba(153, 69, 255, 0.1)',
+                            tension: 0.4,
+                            fill: true
+                        }, {
+                            label: 'Goal (85kg)',
+                            data: [85, 85, 85, 85, 85, 85, 85],
+                            borderColor: '#28a745',
+                            borderDash: [5, 5],
+                            pointRadius: 0
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: true }
+                        }
+                    }
+                });
+                
+                // Hydration chart
+                const hydrationCtx = document.getElementById('hydration-chart').getContext('2d');
+                new Chart(hydrationCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                        datasets: [{
+                            label: 'Glasses',
+                            data: [6, 8, 5, 7, 8, 6, 4],
+                            backgroundColor: '#339AF0',
+                            borderRadius: 8
+                        }, {
+                            label: 'Goal',
+                            data: [8, 8, 8, 8, 8, 8, 8],
+                            type: 'line',
+                            borderColor: '#dc3545',
+                            borderDash: [5, 5],
+                            pointRadius: 0
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: { max: 10 }
+                        }
+                    }
+                });
+                
+                // Habit consistency chart
+                const habitCtx = document.getElementById('habit-chart').getContext('2d');
+                new Chart(habitCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                        datasets: [{
+                            label: 'Habits Complete',
+                            data: [4, 5, 3, 4, 5, 4, 3],
+                            backgroundColor: '#51CF66',
+                            borderRadius: 8
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: { max: 5 }
+                        }
+                    }
+                });
+                
+                // Activity chart
+                const activityCtx = document.getElementById('activity-chart').getContext('2d');
+                new Chart(activityCtx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                        datasets: [{
+                            label: 'Strain',
+                            data: [8.5, 12.3, 6.2, 0, 13.8, 0, 13.8],
+                            borderColor: '#FF6B9D',
+                            backgroundColor: 'rgba(255, 107, 157, 0.1)',
+                            tension: 0.4,
+                            fill: true
+                        }, {
+                            label: 'Duration (min)',
+                            data: [30, 45, 25, 0, 33, 0, 33],
+                            borderColor: '#9945FF',
+                            yAxisID: 'y1'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y1: {
+                                type: 'linear',
+                                display: true,
+                                position: 'right'
+                            }
+                        }
+                    }
+                });
+                
+                // Nutrition chart
+                const nutritionCtx = document.getElementById('nutrition-chart').getContext('2d');
+                new Chart(nutritionCtx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                        datasets: [{
+                            label: 'Calories',
+                            data: [2100, 2300, 1950, 2200, 2650, 940, 1950],
+                            borderColor: '#9945FF',
+                            tension: 0.4
+                        }, {
+                            label: 'Protein (g)',
+                            data: [120, 135, 110, 125, 131, 38, 80],
+                            borderColor: '#51CF66',
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false
+                    }
+                });
+                
+                // Productivity chart
+                const productivityCtx = document.getElementById('productivity-chart').getContext('2d');
+                new Chart(productivityCtx, {
+                    type: 'line',
+                    data: {
+                        labels: Array.from({length: 30}, (_, i) => `Day ${i + 1}`),
+                        datasets: [{
+                            label: 'Tasks Completed',
+                            data: Array.from({length: 30}, () => Math.floor(Math.random() * 5) + 1),
+                            borderColor: '#9945FF',
+                            backgroundColor: 'rgba(153, 69, 255, 0.1)',
+                            tension: 0.4,
+                            fill: true
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false
+                    }
+                });
+                
+            } catch (error) {
+                console.error('Error loading trend charts:', error);
+            }
+        }
+        
+        // Load data on page load
+        document.addEventListener('DOMContentLoaded', loadTodayData);
+    </script>
 </body>
 </html>
