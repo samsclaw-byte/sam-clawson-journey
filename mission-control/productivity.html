@@ -400,6 +400,7 @@
             
             <div class="filter-tabs">
                 <button class="filter-tab active" data-filter="all">All <span class="filter-count" id="count-all">--</span></button>
+                <button class="filter-tab" data-filter="overdue">🔴 Overdue <span class="filter-count" id="count-overdue">--</span></button>
                 <button class="filter-tab" data-filter="today">Due Today <span class="filter-count" id="count-today">--</span></button>
                 <button class="filter-tab" data-filter="3days">3 Days <span class="filter-count" id="count-3days">--</span></button>
                 <button class="filter-tab" data-filter="7days">7 Days <span class="filter-count" id="count-7days">--</span></button>
@@ -409,8 +410,6 @@
             <div class="task-list" id="task-list">
                 <div class="loading">Loading tasks...</div>
             </div>
-            
-            <button class="add-task-btn">+ Add New Task</button>
         </div>
         
         <p class="last-updated">Last updated: <span id="last-updated">--</span> | Data source: Airtable (auto-sync every 15 min)</p>
@@ -527,6 +526,7 @@
         function calculateFilterCounts(tasks) {
             const counts = {
                 all: tasks.length,
+                overdue: 0,
                 today: 0,
                 '3days': 0,
                 '7days': 0,
@@ -537,6 +537,9 @@
                 const daysRemaining = task.days_remaining === null ? 999 : task.days_remaining;
                 const dueStatus = task.due_status;
                 
+                if (dueStatus === 'overdue') {
+                    counts.overdue++;
+                }
                 if (dueStatus === 'today') {
                     counts.today++;
                 }
@@ -553,6 +556,7 @@
             
             // Update UI
             document.getElementById('count-all').textContent = counts.all;
+            document.getElementById('count-overdue').textContent = counts.overdue;
             document.getElementById('count-today').textContent = counts.today;
             document.getElementById('count-3days').textContent = counts['3days'];
             document.getElementById('count-7days').textContent = counts['7days'];
