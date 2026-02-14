@@ -1,13 +1,18 @@
 {
-  "generated_at": "2026-02-14T10:00:09.295097",
-  "workout_count": 4,
-  "total_minutes": 109.38,
-  "avg_strain": 10.3,
+  "generated_at": "2026-02-14T10:15:04.811170",
+  "workout_count": 5,
+  "total_minutes": 142.48000000000002,
+  "avg_strain": 11.0,
   "exercise_types": {
     "Kettlebell": {
       "minutes": 59.33,
       "count": 2,
       "type": "Hard"
+    },
+    "Running - Resort": {
+      "minutes": 33.1,
+      "count": 1,
+      "type": "Other"
     },
     "Swimming": {
       "minutes": 50.05,
@@ -22,6 +27,13 @@
       "exercises": "Kettlebell",
       "duration": 33.01,
       "strain": 12
+    },
+    {
+      "date": "2026-02-14",
+      "type": "Other",
+      "exercises": "Running - Resort",
+      "duration": 33.1,
+      "strain": 13.8
     },
     {
       "date": "2026-02-10",
