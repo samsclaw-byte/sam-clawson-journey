@@ -1,0 +1,146 @@
+{
+  "generated_at": "2026-02-14T19:30:01.993756",
+  "today": {
+    "health": {
+      "today_calories": 1470,
+      "today_protein": 56,
+      "current_weight": 102,
+      "today_activity": 33.1
+    },
+    "habits": {
+      "multivitamin": false,
+      "fruit": true,
+      "water": 6,
+      "exercise": true,
+      "creatine": true
+    },
+    "priority_tasks": [
+      {
+        "id": "recBSDHfWKo4NWTBK",
+        "name": "Test task from overnight script update",
+        "category": "1",
+        "due_status": "overdue",
+        "days_remaining": -1,
+        "status": "Not Started"
+      },
+      {
+        "id": "recS1MZcFhF4vufpI",
+        "name": "Set up permanent remote console access",
+        "category": "\ud83e\udd16 AI Development",
+        "due_status": "today",
+        "days_remaining": 0,
+        "status": "Not Started"
+      }
+    ]
+  },
+  "trends": {
+    "habit_days": [
+      {
+        "date": "2026-02-14",
+        "multivitamin": false,
+        "fruit": true,
+        "water": 6,
+        "exercise": true,
+        "creatine": true
+      },
+      {
+        "date": "2026-02-13",
+        "multivitamin": true,
+        "fruit": true,
+        "water": 8,
+        "exercise": false,
+        "creatine": false
+      },
+      {
+        "date": "2026-02-12",
+        "multivitamin": true,
+        "fruit": true,
+        "water": 8,
+        "exercise": true,
+        "creatine": true
+      },
+      {
+        "date": "2026-02-11",
+        "multivitamin": true,
+        "fruit": true,
+        "water": 8,
+        "exercise": true,
+        "creatine": true
+      },
+      {
+        "date": "2026-02-10",
+        "multivitamin": true,
+        "fruit": true,
+        "water": 8,
+        "exercise": true,
+        "creatine": true
+      },
+      {
+        "date": "2026-02-09",
+        "multivitamin": true,
+        "fruit": true,
+        "water": 8,
+        "exercise": true,
+        "creatine": true
+      },
+      {
+        "date": "2026-02-08",
+        "multivitamin": true,
+        "fruit": false,
+        "water": 8,
+        "exercise": false,
+        "creatine": false
+      }
+    ],
+    "weight_history": [
+      {
+        "date": "2026-02-13",
+        "weight": 102
+      },
+      {
+        "date": "2026-02-11",
+        "weight": 103
+      },
+      {
+        "date": "2026-02-09",
+        "weight": 104
+      },
+      {
+        "date": "2026-02-08",
+        "weight": 104
+      }
+    ],
+    "workouts": [
+      {
+        "date": "2026-02-09",
+        "duration": 30.5,
+        "strain": 10.9,
+        "name": "Swim session"
+      },
+      {
+        "date": "2026-02-10",
+        "duration": 26.32,
+        "strain": 7.9,
+        "name": "Hard Workout A"
+      },
+      {
+        "date": "2026-02-11",
+        "duration": 33.01,
+        "strain": 12,
+        "name": "Kettlebell Full Body"
+      },
+      {
+        "date": "2026-02-12",
+        "duration": 19.55,
+        "strain": 10.6,
+        "name": "Swim Session"
+      },
+      {
+        "date": "2026-02-14",
+        "duration": 33.1,
+        "strain": 13.8,
+        "name": "Morning Run"
+      }
+    ]
+  }
+}
