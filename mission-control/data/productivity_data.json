@@ -1,14 +1,14 @@
 {
-  "generated_at": "2026-02-14T03:45:10.542533",
+  "generated_at": "2026-02-14T04:00:11.363822",
   "tat_tasks": [
     {
       "id": "recBSDHfWKo4NWTBK",
       "name": "Test task from overnight script update",
       "category": "1",
       "status": "Not Started",
-      "due_status": "today",
-      "days_remaining": 0,
-      "urgency": "\ud83d\udfe0 Urgent",
+      "due_status": "overdue",
+      "days_remaining": -1,
+      "urgency": "\ud83d\udd34 Overdue",
       "due_date": "2026-02-13T00:00:00.000Z"
     },
     {
@@ -16,8 +16,8 @@
       "name": "Set up permanent remote console access",
       "category": "\ud83e\udd16 AI Development",
       "status": "Not Started",
-      "due_status": "soon",
-      "days_remaining": 1,
+      "due_status": "today",
+      "days_remaining": 0,
       "urgency": "\ud83d\udfe0 Urgent",
       "due_date": "2026-02-14T00:00:00.000Z"
     },
@@ -26,9 +26,9 @@
       "name": "Perform check of tasks before adding new one",
       "category": "\ud83e\udd16 AI Development",
       "status": "Not Started",
-      "due_status": "later",
-      "days_remaining": 4,
-      "urgency": "\ud83d\udfe2 Normal",
+      "due_status": "soon",
+      "days_remaining": 3,
+      "urgency": "\ud83d\udfe1 Soon",
       "due_date": "2026-02-17T00:00:00.000Z"
     },
     {
@@ -36,9 +36,9 @@
       "name": "Complete Google Calendar update",
       "category": "\ud83d\udcbc Work",
       "status": "Not Started",
-      "due_status": "later",
-      "days_remaining": 4,
-      "urgency": "\ud83d\udfe2 Normal",
+      "due_status": "soon",
+      "days_remaining": 3,
+      "urgency": "\ud83d\udfe1 Soon",
       "due_date": "2026-02-17T00:00:00.000Z"
     },
     {
@@ -46,9 +46,9 @@
       "name": "Complete GitHub Pages setup for mobile dashboard",
       "category": "\ud83d\udcbb Laptop Tasks",
       "status": "Not Started",
-      "due_status": "later",
-      "days_remaining": 4,
-      "urgency": "\ud83d\udfe2 Normal",
+      "due_status": "soon",
+      "days_remaining": 3,
+      "urgency": "\ud83d\udfe1 Soon",
       "due_date": "2026-02-17T00:00:00.000Z"
     },
     {
@@ -56,9 +56,9 @@
       "name": "Set up WHOOP webhooks with Cloudflare Tunnel",
       "category": "\ud83e\udd16 AI Development",
       "status": "Not Started",
-      "due_status": "later",
-      "days_remaining": 4,
-      "urgency": "\ud83d\udfe2 Normal",
+      "due_status": "soon",
+      "days_remaining": 3,
+      "urgency": "\ud83d\udfe1 Soon",
       "due_date": "2026-02-17T00:00:00.000Z"
     },
     {
@@ -66,9 +66,9 @@
       "name": "Complete WHOOP workflow",
       "category": "\ud83e\udd16 AI Development",
       "status": "Not Started",
-      "due_status": "later",
-      "days_remaining": 4,
-      "urgency": "\ud83d\udfe2 Normal",
+      "due_status": "soon",
+      "days_remaining": 3,
+      "urgency": "\ud83d\udfe1 Soon",
       "due_date": "2026-02-17T00:00:00.000Z"
     },
     {
@@ -76,9 +76,9 @@
       "name": "9pm cron final review of day",
       "category": "\ud83e\udd16 AI Development",
       "status": "Not Started",
-      "due_status": "later",
-      "days_remaining": 4,
-      "urgency": "\ud83d\udfe2 Normal",
+      "due_status": "soon",
+      "days_remaining": 3,
+      "urgency": "\ud83d\udfe1 Soon",
       "due_date": "2026-02-17T00:00:00.000Z"
     },
     {
@@ -86,9 +86,9 @@
       "name": "Complete TAT database cleanup in Notion UI",
       "category": "\ud83d\udcbb Laptop Tasks",
       "status": "Not Started",
-      "due_status": "later",
-      "days_remaining": 4,
-      "urgency": "\ud83d\udfe2 Normal",
+      "due_status": "soon",
+      "days_remaining": 3,
+      "urgency": "\ud83d\udfe1 Soon",
       "due_date": "2026-02-17T00:00:00.000Z"
     },
     {
@@ -96,9 +96,9 @@
       "name": "Integrate with web search (Brave)",
       "category": "\ud83e\udd16 AI Development",
       "status": "Not Started",
-      "due_status": "later",
-      "days_remaining": 4,
-      "urgency": "\ud83d\udfe2 Normal",
+      "due_status": "soon",
+      "days_remaining": 3,
+      "urgency": "\ud83d\udfe1 Soon",
       "due_date": "2026-02-17T00:00:00.000Z"
     },
     {
@@ -106,9 +106,9 @@
       "name": "Run security updates (35 packages pending)",
       "category": "\ud83e\udd16 AI Development",
       "status": "Not Started",
-      "due_status": "later",
-      "days_remaining": 4,
-      "urgency": "\ud83d\udfe2 Normal",
+      "due_status": "soon",
+      "days_remaining": 3,
+      "urgency": "\ud83d\udfe1 Soon",
       "due_date": "2026-02-17T00:00:00.000Z"
     },
     {
@@ -116,9 +116,9 @@
       "name": "Link to Gmail and forward nursery dates and times",
       "category": "\ud83d\udc68\u200d\ud83d\udc69\u200d\ud83d\udc67\u200d\ud83d\udc66 Family",
       "status": "Not Started",
-      "due_status": "later",
-      "days_remaining": 4,
-      "urgency": "\ud83d\udfe2 Normal",
+      "due_status": "soon",
+      "days_remaining": 3,
+      "urgency": "\ud83d\udfe1 Soon",
       "due_date": "2026-02-17T00:00:00.000Z"
     },
     {
@@ -126,9 +126,9 @@
       "name": "Give Clawson a voice to respond to voice messages",
       "category": "\ud83e\udd16 AI Development",
       "status": "Not Started",
-      "due_status": "later",
-      "days_remaining": 4,
-      "urgency": "\ud83d\udfe2 Normal",
+      "due_status": "soon",
+      "days_remaining": 3,
+      "urgency": "\ud83d\udfe1 Soon",
       "due_date": "2026-02-17T00:00:00.000Z"
     },
     {
@@ -136,9 +136,9 @@
       "name": "Review cron jobs",
       "category": "\ud83e\udd16 AI Development",
       "status": "Not Started",
-      "due_status": "later",
-      "days_remaining": 4,
-      "urgency": "\ud83d\udfe2 Normal",
+      "due_status": "soon",
+      "days_remaining": 3,
+      "urgency": "\ud83d\udfe1 Soon",
       "due_date": "2026-02-17T00:00:00.000Z"
     },
     {
@@ -146,9 +146,9 @@
       "name": "Push fitness program to GitHub",
       "category": "\ud83e\udd16 AI Development",
       "status": "Not Started",
-      "due_status": "later",
-      "days_remaining": 4,
-      "urgency": "\ud83d\udfe2 Normal",
+      "due_status": "soon",
+      "days_remaining": 3,
+      "urgency": "\ud83d\udfe1 Soon",
       "due_date": "2026-02-17T00:00:00.000Z"
     },
     {
@@ -156,9 +156,9 @@
       "name": "Review SOUL.md file",
       "category": "\ud83e\udd16 AI Development",
       "status": "Not Started",
-      "due_status": "later",
-      "days_remaining": 4,
-      "urgency": "\ud83d\udfe2 Normal",
+      "due_status": "soon",
+      "days_remaining": 3,
+      "urgency": "\ud83d\udfe1 Soon",
       "due_date": "2026-02-17T00:00:00.000Z"
     },
     {
@@ -166,9 +166,9 @@
       "name": "Set up Google Calendar integration",
       "category": "\ud83e\udd16 AI Development",
       "status": "Not Started",
-      "due_status": "later",
-      "days_remaining": 4,
-      "urgency": "\ud83d\udfe2 Normal",
+      "due_status": "soon",
+      "days_remaining": 3,
+      "urgency": "\ud83d\udfe1 Soon",
       "due_date": "2026-02-17T00:00:00.000Z"
     },
     {
@@ -176,9 +176,9 @@
       "name": "Renew CIMA membership",
       "category": "Productivity",
       "status": "Not Started",
-      "due_status": "later",
-      "days_remaining": 4,
-      "urgency": "\ud83d\udfe2 Normal",
+      "due_status": "soon",
+      "days_remaining": 3,
+      "urgency": "\ud83d\udfe1 Soon",
       "due_date": "2026-02-17T00:00:00.000Z"
     },
     {
@@ -187,7 +187,7 @@
       "category": "\ud83d\udcbb Laptop Tasks",
       "status": "Not Started",
       "due_status": "later",
-      "days_remaining": 5,
+      "days_remaining": 4,
       "urgency": "\ud83d\udfe2 Normal",
       "due_date": "2026-02-18T00:00:00.000Z"
     },
@@ -197,7 +197,7 @@
       "category": "\ud83d\udcbb Laptop Tasks",
       "status": "Not Started",
       "due_status": "later",
-      "days_remaining": 5,
+      "days_remaining": 4,
       "urgency": "\ud83d\udfe2 Normal",
       "due_date": "2026-02-18T00:00:00.000Z"
     },
@@ -207,7 +207,7 @@
       "category": "\ud83d\udcbb Laptop Tasks",
       "status": "Not Started",
       "due_status": "later",
-      "days_remaining": 5,
+      "days_remaining": 4,
       "urgency": "\ud83d\udfe2 Normal",
       "due_date": "2026-02-18T00:00:00.000Z"
     },
@@ -217,7 +217,7 @@
       "category": "\ud83d\udcbb Laptop Tasks",
       "status": "Not Started",
       "due_status": "later",
-      "days_remaining": 5,
+      "days_remaining": 4,
       "urgency": "\ud83d\udfe2 Normal",
       "due_date": "2026-02-18T00:00:00.000Z"
     },
@@ -397,7 +397,7 @@
   ],
   "stats": {
     "active": 28,
-    "overdue": 0,
+    "overdue": 1,
     "today": 1,
     "completed_7d": 0
   }
