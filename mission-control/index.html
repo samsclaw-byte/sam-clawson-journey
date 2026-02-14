@@ -730,16 +730,29 @@
                     }
                 });
                 
-                // Placeholder for nutrition (would need food log data)
+                // Load trend data for nutrition and productivity
+                const trendResponse = await fetch('data/trend_data.json');
+                const trendData = await trendResponse.json();
+                
+                // Nutrition chart
+                const nutritionData = trendData.nutrition;
                 const nutritionCtx = document.getElementById('nutrition-chart').getContext('2d');
                 new Chart(nutritionCtx, {
                     type: 'line',
                     data: {
-                        labels: ['Loading...'],
+                        labels: nutritionData.map(n => n.date.slice(5)),
                         datasets: [{
                             label: 'Calories',
-                            data: [0],
-                            borderColor: '#9945FF'
+                            data: nutritionData.map(n => n.calories),
+                            borderColor: '#9945FF',
+                            backgroundColor: 'rgba(153, 69, 255, 0.1)',
+                            tension: 0.4,
+                            fill: true
+                        }, {
+                            label: 'Protein (g)',
+                            data: nutritionData.map(n => n.protein),
+                            borderColor: '#51CF66',
+                            tension: 0.4
                         }]
                     },
                     options: {
@@ -748,16 +761,20 @@
                     }
                 });
                 
-                // Placeholder for productivity
+                // Productivity chart
+                const productivityData = trendData.productivity;
                 const productivityCtx = document.getElementById('productivity-chart').getContext('2d');
                 new Chart(productivityCtx, {
                     type: 'line',
                     data: {
-                        labels: ['Loading...'],
+                        labels: productivityData.map((p, i) => i % 5 === 0 ? p.date.slice(5) : ''),
                         datasets: [{
                             label: 'Tasks Completed',
-                            data: [0],
-                            borderColor: '#9945FF'
+                            data: productivityData.map(p => p.completed),
+                            borderColor: '#9945FF',
+                            backgroundColor: 'rgba(153, 69, 255, 0.1)',
+                            tension: 0.4,
+                            fill: true
                         }]
                     },
                     options: {
