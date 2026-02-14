@@ -1,18 +1,18 @@
 {
-  "generated_at": "2026-02-14T23:32:59.184329",
+  "generated_at": "2026-02-15T00:18:03.423171",
   "today": {
     "health": {
-      "today_calories": 3490,
-      "today_protein": 163,
+      "today_calories": 0,
+      "today_protein": 0,
       "current_weight": 102,
-      "today_activity": 33.1
+      "today_activity": 0
     },
     "habits": {
       "multivitamin": false,
-      "fruit": true,
-      "water": 8,
-      "exercise": true,
-      "creatine": true
+      "fruit": false,
+      "water": 0,
+      "exercise": false,
+      "creatine": false
     },
     "priority_tasks": [
       {
