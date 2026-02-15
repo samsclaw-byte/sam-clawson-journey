@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-02-15T03:45:08.131436",
+  "generated_at": "2026-02-15T04:00:08.330520",
   "tat_tasks": [
     {
       "id": "recBSDHfWKo4NWTBK",
@@ -7,7 +7,7 @@
       "category": "1",
       "status": "Not Started",
       "due_status": "overdue",
-      "days_remaining": -1,
+      "days_remaining": -2,
       "urgency": "\ud83d\udd34 Overdue",
       "due_date": "2026-02-13T00:00:00.000Z"
     },
@@ -16,9 +16,9 @@
       "name": "Set up permanent remote console access",
       "category": "\ud83e\udd16 AI Development",
       "status": "Not Started",
-      "due_status": "today",
-      "days_remaining": 0,
-      "urgency": "\ud83d\udfe0 Urgent",
+      "due_status": "overdue",
+      "days_remaining": -1,
+      "urgency": "\ud83d\udd34 Overdue",
       "due_date": "2026-02-14T00:00:00.000Z"
     },
     {
@@ -27,7 +27,7 @@
       "category": "\ud83e\udd16 AI Development",
       "status": "Not Started",
       "due_status": "soon",
-      "days_remaining": 3,
+      "days_remaining": 2,
       "urgency": "\ud83d\udfe1 Soon",
       "due_date": "2026-02-17T00:00:00.000Z"
     },
@@ -37,7 +37,7 @@
       "category": "\ud83d\udcbc Work",
       "status": "Not Started",
       "due_status": "soon",
-      "days_remaining": 3,
+      "days_remaining": 2,
       "urgency": "\ud83d\udfe1 Soon",
       "due_date": "2026-02-17T00:00:00.000Z"
     },
@@ -47,7 +47,7 @@
       "category": "\ud83d\udcbb Laptop Tasks",
       "status": "Not Started",
       "due_status": "soon",
-      "days_remaining": 3,
+      "days_remaining": 2,
       "urgency": "\ud83d\udfe1 Soon",
       "due_date": "2026-02-17T00:00:00.000Z"
     },
@@ -57,7 +57,7 @@
       "category": "\ud83e\udd16 AI Development",
       "status": "Not Started",
       "due_status": "soon",
-      "days_remaining": 3,
+      "days_remaining": 2,
       "urgency": "\ud83d\udfe1 Soon",
       "due_date": "2026-02-17T00:00:00.000Z"
     },
@@ -67,7 +67,7 @@
       "category": "\ud83e\udd16 AI Development",
       "status": "Not Started",
       "due_status": "soon",
-      "days_remaining": 3,
+      "days_remaining": 2,
       "urgency": "\ud83d\udfe1 Soon",
       "due_date": "2026-02-17T00:00:00.000Z"
     },
@@ -77,7 +77,7 @@
       "category": "\ud83e\udd16 AI Development",
       "status": "Not Started",
       "due_status": "soon",
-      "days_remaining": 3,
+      "days_remaining": 2,
       "urgency": "\ud83d\udfe1 Soon",
       "due_date": "2026-02-17T00:00:00.000Z"
     },
@@ -87,7 +87,7 @@
       "category": "\ud83d\udcbb Laptop Tasks",
       "status": "Not Started",
       "due_status": "soon",
-      "days_remaining": 3,
+      "days_remaining": 2,
       "urgency": "\ud83d\udfe1 Soon",
       "due_date": "2026-02-17T00:00:00.000Z"
     },
@@ -97,7 +97,7 @@
       "category": "\ud83e\udd16 AI Development",
       "status": "Not Started",
       "due_status": "soon",
-      "days_remaining": 3,
+      "days_remaining": 2,
       "urgency": "\ud83d\udfe1 Soon",
       "due_date": "2026-02-17T00:00:00.000Z"
     },
@@ -107,7 +107,7 @@
       "category": "\ud83e\udd16 AI Development",
       "status": "Not Started",
       "due_status": "soon",
-      "days_remaining": 3,
+      "days_remaining": 2,
       "urgency": "\ud83d\udfe1 Soon",
       "due_date": "2026-02-17T00:00:00.000Z"
     },
@@ -117,7 +117,7 @@
       "category": "\ud83d\udc68\u200d\ud83d\udc69\u200d\ud83d\udc67\u200d\ud83d\udc66 Family",
       "status": "Not Started",
       "due_status": "soon",
-      "days_remaining": 3,
+      "days_remaining": 2,
       "urgency": "\ud83d\udfe1 Soon",
       "due_date": "2026-02-17T00:00:00.000Z"
     },
@@ -127,7 +127,7 @@
       "category": "\ud83e\udd16 AI Development",
       "status": "Not Started",
       "due_status": "soon",
-      "days_remaining": 3,
+      "days_remaining": 2,
       "urgency": "\ud83d\udfe1 Soon",
       "due_date": "2026-02-17T00:00:00.000Z"
     },
@@ -137,7 +137,7 @@
       "category": "\ud83e\udd16 AI Development",
       "status": "Not Started",
       "due_status": "soon",
-      "days_remaining": 3,
+      "days_remaining": 2,
       "urgency": "\ud83d\udfe1 Soon",
       "due_date": "2026-02-17T00:00:00.000Z"
     },
@@ -147,7 +147,7 @@
       "category": "\ud83e\udd16 AI Development",
       "status": "Not Started",
       "due_status": "soon",
-      "days_remaining": 3,
+      "days_remaining": 2,
       "urgency": "\ud83d\udfe1 Soon",
       "due_date": "2026-02-17T00:00:00.000Z"
     },
@@ -157,7 +157,7 @@
       "category": "\ud83e\udd16 AI Development",
       "status": "Not Started",
       "due_status": "soon",
-      "days_remaining": 3,
+      "days_remaining": 2,
       "urgency": "\ud83d\udfe1 Soon",
       "due_date": "2026-02-17T00:00:00.000Z"
     },
@@ -167,7 +167,7 @@
       "category": "\ud83e\udd16 AI Development",
       "status": "Not Started",
       "due_status": "soon",
-      "days_remaining": 3,
+      "days_remaining": 2,
       "urgency": "\ud83d\udfe1 Soon",
       "due_date": "2026-02-17T00:00:00.000Z"
     },
@@ -177,7 +177,7 @@
       "category": "Productivity",
       "status": "Not Started",
       "due_status": "soon",
-      "days_remaining": 3,
+      "days_remaining": 2,
       "urgency": "\ud83d\udfe1 Soon",
       "due_date": "2026-02-17T00:00:00.000Z"
     },
@@ -186,9 +186,9 @@
       "name": "Set up permanent systemd services for WHOOP webhook and tunnel",
       "category": "\ud83d\udcbb Laptop Tasks",
       "status": "Not Started",
-      "due_status": "later",
-      "days_remaining": 4,
-      "urgency": "\ud83d\udfe2 Normal",
+      "due_status": "soon",
+      "days_remaining": 3,
+      "urgency": "\ud83d\udfe1 Soon",
       "due_date": "2026-02-18T00:00:00.000Z"
     },
     {
@@ -196,9 +196,9 @@
       "name": "Update TAT database schema - numeric categories + due date formula",
       "category": "\ud83d\udcbb Laptop Tasks",
       "status": "Not Started",
-      "due_status": "later",
-      "days_remaining": 4,
-      "urgency": "\ud83d\udfe2 Normal",
+      "due_status": "soon",
+      "days_remaining": 3,
+      "urgency": "\ud83d\udfe1 Soon",
       "due_date": "2026-02-18T00:00:00.000Z"
     },
     {
@@ -206,9 +206,9 @@
       "name": "Update blog - missing days and push to GitHub",
       "category": "\ud83d\udcbb Laptop Tasks",
       "status": "Not Started",
-      "due_status": "later",
-      "days_remaining": 4,
-      "urgency": "\ud83d\udfe2 Normal",
+      "due_status": "soon",
+      "days_remaining": 3,
+      "urgency": "\ud83d\udfe1 Soon",
       "due_date": "2026-02-18T00:00:00.000Z"
     },
     {
@@ -216,9 +216,9 @@
       "name": "Update dashboard with improved layout and 7-day history",
       "category": "\ud83d\udcbb Laptop Tasks",
       "status": "Not Started",
-      "due_status": "later",
-      "days_remaining": 4,
-      "urgency": "\ud83d\udfe2 Normal",
+      "due_status": "soon",
+      "days_remaining": 3,
+      "urgency": "\ud83d\udfe1 Soon",
       "due_date": "2026-02-18T00:00:00.000Z"
     },
     {
@@ -388,8 +388,8 @@
   ],
   "stats": {
     "active": 30,
-    "overdue": 1,
-    "today": 1,
+    "overdue": 2,
+    "today": 0,
     "completed_7d": 0
   }
 }
