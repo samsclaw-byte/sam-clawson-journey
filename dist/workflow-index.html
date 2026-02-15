@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>OpenClaw Workflow Documentation - Index</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #fff;
+            padding: 40px;
+            min-height: 100vh;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 36px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 50px;
+            font-size: 16px;
+        }
+        
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .nav-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 25px;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+            text-decoration: none;
+            color: #fff;
+            display: block;
+        }
+        
+        .nav-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255,255,255,0.1);
+            border-color: #667eea;
+            box-shadow: 0 10px 40px rgba(102, 126, 234, 0.3);
+        }
+        
+        .nav-card.architecture {
+            border-color: #667eea;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.2), rgba(118, 75, 162, 0.2));
+        }
+        
+        .nav-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+        
+        .nav-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #667eea;
+        }
+        
+        .nav-desc {
+            font-size: 14px;
+            color: #aaa;
+            line-height: 1.5;
+        }
+        
+        .nav-meta {
+            margin-top: 15px;
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-right: 8px;
+        }
+        
+        .badge.cron { background: #f59e0b; color: #000; }
+        .badge.manual { background: #3b82f6; color: #fff; }
+        .badge.auto { background: #22c55e; color: #000; }
+        
+        .footer {
+            text-align: center;
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #666;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🦞 OpenClaw Workflow Documentation</h1>
+    <p class="subtitle">Complete System Architecture & Workflow Guides</p>
+    
+    <div class="nav-grid">
+        <!-- SYSTEM ARCHITECTURE -->
+        <a href="workflow-index-page1-architecture.html" class="nav-card architecture">
+            <div class="nav-icon">🗺️</div>
+            <div class="nav-title">Page 1: System Architecture</div>
+            <div class="nav-desc">Complete system overview showing all components, APIs, and data flows. The foundation map all workflows are built upon.</div>
+            <div class="nav-meta">
+                <span class="badge auto">Live System</span>
+                13 Components • 8 APIs • 4 Storage Systems
+            </div>
+        </a>
+        
+        <!-- MORNING BRIEF -->
+        <a href="workflow-index-page2-morning-brief.html" class="nav-card">
+            <div class="nav-icon">🌅</div>
+            <div class="nav-title">Page 2: Morning Brief Workflow</div>
+            <div class="nav-desc">Automated daily briefing combining WHOOP recovery data, personalized workout recommendations, and daily checklists.</div>
+            <div class="nav-meta">
+                <span class="badge cron">6:00 AM</span>
+                WHOOP API • Fitness Program • Telegram
+            </div>
+        </a>
+        
+        <!-- WHOOP INTEGRATION -->
+        <a href="workflow-index-page3-whoop.html" class="nav-card">
+            <div class="nav-icon">💓</div>
+            <div class="nav-title">Page 3: WHOOP Integration</div>
+            <div class="nav-desc">OAuth authentication, token refresh management, and recovery data retrieval for workout zone determination.</div>
+            <div class="nav-meta">
+                <span class="badge cron">5:50 AM</span>
+                OAuth2 • Token Management • Recovery API
+            </div>
+        </a>
+        
+        <!-- SECURITY SENTINEL -->
+        <a href="workflow-index-page4-security.html" class="nav-card">
+            <div class="nav-icon">🛡️</div>
+            <div class="nav-title">Page 4: Security Sentinel</div>
+            <div class="nav-desc">Daily automated security audits checking file permissions, system updates, SSH config, and OpenClaw security posture.</div>
+            <div class="nav-meta">
+                <span class="badge cron">6:00 AM</span>
+                System Audit • File Permissions • Reports
+            </div>
+        </a>
+        
+        <!-- NUTRITION TRACKING -->
+        <a href="workflow-index-page5-nutrition.html" class="nav-card">
+            <div class="nav-icon">🥗</div>
+            <div class="nav-title">Page 5: Nutrition Tracking</div>
+            <div class="nav-desc">Voice/text meal logging with automatic macro estimation (calories, protein, carbs, fat) synced to Notion.</div>
+            <div class="nav-meta">
+                <span class="badge manual">On Demand</span>
+                AI Estimation • Notion Sync • Daily Totals
+            </div>
+        </a>
+        
+        <!-- WORKOUT LOGGING -->
+        <a href="workflow-index-page6-workouts.html" class="nav-card">
+            <div class="nav-icon">🏋️</div>
+            <div class="nav-title">Page 6: Workout Logging</div>
+            <div class="nav-desc">Log workouts by type, categorize intensity (Hard/Active/Rest), and sync to fitness program progress tracking.</div>
+            <div class="nav-meta">
+                <span class="badge manual">On Demand</span>
+                Workout DB • Zone Categorization • Progress
+            </div>
+        </a>
+        
+        <!-- WATER TRACKING -->
+        <a href="workflow-index-page7-water.html" class="nav-card">
+            <div class="nav-icon">💧</div>
+            <div class="nav-title">Page 7: Water Tracking</div>
+            <div class="nav-desc">Daily water intake logging with automated reminder system throughout the day (10am-8pm).</div>
+            <div class="nav-meta">
+                <span class="badge cron">Multiple</span>
+                8 Glass Goal • Smart Reminders • Tracking
+            </div>
+        </a>
+        
+        <!-- TAT TASK SYSTEM -->
+        <a href="workflow-index-page8-tat.html" class="nav-card">
+            <div class="nav-icon">⚡</div>
+            <div class="nav-title">Page 8: TAT Task Management</div>
+            <div class="nav-desc">Time-Action-Task system with 1/3/7/30 day urgency categories, priority levels, and energy requirements.</div>
+            <div class="nav-meta">
+                <span class="badge manual">On Demand</span>
+                Notion DB • Urgency Tracking • Categories
+            </div>
+        </a>
+        
+        <!-- VOICE TRANSCRIPTION -->
+        <a href="workflow-index-page9-voice.html" class="nav-card">
+            <div class="nav-icon">🎙️</div>
+            <div class="nav-title">Page 9: Voice Transcription</div>
+            <div class="nav-desc">Audio message processing using Whisper AI with ffmpeg conversion for hands-free interaction.</div>
+            <div class="nav-meta">
+                <span class="badge auto">Real-time</span>
+                Whisper • ffmpeg • OGG Processing
+            </div>
+        </a>
+        
+        <!-- DAILY SUMMARY -->
+        <a href="workflow-index-page10-summary.html" class="nav-card">
+            <div class="nav-icon">📊</div>
+            <div class="nav-title">Page 10: Daily Summary</div>
+            <div class="nav-desc">Automated end-of-day report aggregating habits, completed tasks, token usage, and system status.</div>
+            <div class="nav-meta">
+                <span class="badge cron">12:00 AM</span>
+                Habit Aggregation • GitHub Push • Reports
+            </div>
+        </a>
+    </div>
+    
+    <div class="footer">
+        <p>🦞 OpenClaw Workflow Documentation System</p>
+        <p style="margin-top: 10px; font-size: 12px;">Click any card to view detailed workflow diagram with numbered sequence flows</p>
+    </div>
+</body>
+</html>

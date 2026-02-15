@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Sam's OpenClaw System Architecture</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #0a0a0f;
+            color: #fff;
+            padding: 20px;
+            min-height: 100vh;
+            overflow-x: auto;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 28px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        
+        /* System Diagram Container */
+        .system-map {
+            position: relative;
+            width: 1400px;
+            height: 900px;
+            margin: 0 auto;
+            background: radial-gradient(circle at center, #1a1a2e 0%, #0a0a0f 100%);
+            border-radius: 20px;
+            border: 1px solid #333;
+        }
+        
+        /* SVG Connections Layer */
+        .connections {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .connection-line {
+            stroke: #667eea;
+            stroke-width: 2;
+            fill: none;
+            stroke-dasharray: 5,5;
+            animation: dash 20s linear infinite;
+        }
+        
+        .connection-line.solid {
+            stroke-dasharray: none;
+        }
+        
+        .connection-line.active {
+            stroke: #22c55e;
+            stroke-width: 3;
+        }
+        
+        @keyframes dash {
+            to { stroke-dashoffset: -100; }
+        }
+        
+        /* Nodes */
+        .node {
+            position: absolute;
+            width: 140px;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 12px;
+            z-index: 10;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .node:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 30px rgba(102, 126, 234, 0.5);
+        }
+        
+        .node-icon {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+        
+        .node-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .node-status {
+            font-size: 10px;
+            opacity: 0.8;
+        }
+        
+        /* Node Types */
+        .node.core { 
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: 2px solid #8b5cf6;
+            width: 160px;
+        }
+        
+        .node.external { 
+            background: linear-gradient(135deg, #1e3a5f, #0d2137);
+            border: 2px solid #3b82f6;
+        }
+        
+        .node.storage { 
+            background: linear-gradient(135deg, #065f46, #064e3b);
+            border: 2px solid #10b981;
+        }
+        
+        .node.user { 
+            background: linear-gradient(135deg, #9a3412, #7c2d12);
+            border: 2px solid #f97316;
+        }
+        
+        .node.automation { 
+            background: linear-gradient(135deg, #854d0e, #713f12);
+            border: 2px solid #f59e0b;
+        }
+        
+        /* Positioning */
+        .node.you { top: 50px; left: 650px; }
+        .node.telegram { top: 180px; left: 650px; }
+        .node.openclaw { top: 320px; left: 650px; }
+        
+        .node.notion { top: 180px; left: 250px; }
+        .node.github { top: 320px; left: 100px; }
+        .node.local-files { top: 460px; left: 250px; }
+        
+        .node.whoop { top: 180px; left: 1050px; }
+        .node.moonshot { top: 320px; left: 1200px; }
+        .node.cron { top: 460px; left: 1050px; }
+        
+        .node.security { top: 550px; left: 450px; }
+        .node.voice { top: 550px; left: 650px; }
+        .node.water { top: 550px; left: 850px; }
+        
+        .node.morning-brief { top: 680px; left: 350px; }
+        .node.workouts { top: 680px; left: 600px; }
+        .node.nutrition { top: 680px; left: 850px; }
+        
+        /* Legend */
+        .legend {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.8);
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 11px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 5px 0;
+        }
+        
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
+        }
+        
+        /* Data Flow Labels */
+        .flow-label {
+            position: absolute;
+            background: rgba(0,0,0,0.8);
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 9px;
+            color: #aaa;
+            z-index: 5;
+        }
+        
+        /* Pulse Animation for Active Nodes */
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.4); }
+            50% { box-shadow: 0 0 0 10px rgba(102, 126, 234, 0); }
+        }
+        
+        .node.active {
+            animation: pulse 2s infinite;
+        }
+        
+        /* API Labels */
+        .api-label {
+            position: absolute;
+            font-size: 9px;
+            color: #667eea;
+            background: rgba(102, 126, 234, 0.2);
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🦞 OpenClaw System Architecture</h1>
+    <p class="subtitle">Real-time Data Flow & API Integration Map</p>
+    
+    <div class="system-map">
+        <!-- SVG Connections -->
+        <svg class="connections" viewBox="0 0 1400 900">
+            <!-- You → Telegram -->
+            <line class="connection-line solid" x1="720" y1="120" x2="720" y2="180"/>
+            
+            <!-- Telegram → OpenClaw Core -->
+            <line class="connection-line active" x1="720" y1="250" x2="720" y2="320"/>
+            
+            <!-- OpenClaw → Notion -->
+            <line class="connection-line" x1="650" y1="360" x2="390" y2="230"/>
+            <text x="480" y="280" fill="#666" font-size="10">REST API</text>
+            
+            <!-- OpenClaw → GitHub -->
+            <line class="connection-line" x1="650" y1="380" x2="240" y2="360"/>
+            <text x="400" y="380" fill="#666" font-size="10">Git Push</text>
+            
+            <!-- OpenClaw → Local Files -->
+            <line class="connection-line solid" x1="650" y1="400" x2="390" y2="460"/>
+            
+            <!-- OpenClaw → WHOOP -->
+            <line class="connection-line" x1="790" y1="360" x2="1050" y2="230"/>
+            <text x="890" y="280" fill="#666" font-size="10">OAuth2 API</text>
+            
+            <!-- OpenClaw → Moonshot -->
+            <line class="connection-line active" x1="810" y1="380" x2="1200" y2="360"/>
+            <text x="950" y="380" fill="#666" font-size="10">AI API</text>
+            
+            <!-- Cron → OpenClaw -->
+            <line class="connection-line" x1="1050" y1="460" x2="810" y2="400"/>
+            <text x="900" y="440" fill="#f59e0b" font-size="10">Triggers</text>
+            
+            <!-- OpenClaw → Security Sentinel -->
+            <line class="connection-line" x1="650" y1="420" x2="520" y2="550"/>
+            
+            <!-- OpenClaw → Voice Transcribe -->
+            <line class="connection-line" x1="720" y1="420" x2="720" y2="550"/>
+            
+            <!-- OpenClaw → Water Tracker -->
+            <line class="connection-line" x1="790" y1="420" x2="920" y2="550"/>
+            
+            <!-- Sub-systems to Storage -->
+            <line class="connection-line solid" x1="420" y1="720" x2="320" y2="500"/>
+            <line class="connection-line solid" x1="670" y1="720" x2="320" y2="500"/>
+            <line class="connection-line solid" x1="920" y1="720" x2="320" y2="500"/>
+        </svg>
+        
+        <!-- USER LAYER -->
+        <div class="node user you active">
+            <div class="node-icon">👤</div>
+            <div class="node-title">YOU</div>
+            <div class="node-status">Input & Commands</div>
+        </div>
+        
+        <!-- INTERFACE LAYER -->
+        <div class="node external telegram active">
+            <div class="node-icon">💬</div>
+            <div class="node-title">Telegram</div>
+            <div class="node-status">Messages & Media</div>
+        </div>
+        
+        <!-- CORE LAYER -->
+        <div class="node core openclaw active">
+            <div class="node-icon">🦞</div>
+            <div class="node-title">OpenClaw Core</div>
+            <div class="node-status">Main Controller</div>
+        </div>
+        
+        <!-- EXTERNAL APIs -->
+        <div class="node external whoop">
+            <div class="node-icon">💓</div>
+            <div class="node-title">WHOOP API</div>
+            <div class="node-status">Recovery & Sleep</div>
+        </div>
+        
+        <div class="node external moonshot active">
+            <div class="node-icon">🧠</div>
+            <div class="node-title">Moonshot AI</div>
+            <div class="node-status">Kimi K2.5</div>
+        </div>
+        
+        <!-- STORAGE LAYER -->
+        <div class="node storage notion">
+            <div class="node-icon">📝</div>
+            <div class="node-title">Notion</div>
+            <div class="node-status">4 Databases</div>
+        </div>
+        
+        <div class="node storage github">
+            <div class="node-icon">📦</div>
+            <div class="node-title">GitHub</div>
+            <div class="node-status">Version Control</div>
+        </div>
+        
+        <div class="node storage local-files">
+            <div class="node-icon">💾</div>
+            <div class="node-title">Local Files</div>
+            <div class="node-status">JSON, Markdown</div>
+        </div>
+        
+        <!-- AUTOMATION LAYER -->
+        <div class="node automation cron">
+            <div class="node-icon">⏰</div>
+            <div class="node-title">Cron Jobs</div>
+            <div class="node-status">6am, Daily, Hourly</div>
+        </div>
+        
+        <!-- SUB-SYSTEMS -->
+        <div class="node automation security">
+            <div class="node-icon">🛡️</div>
+            <div class="node-title">Security Sentinel</div>
+            <div class="node-status">Daily Audit</div>
+        </div>
+        
+        <div class="node automation voice">
+            <div class="node-icon">🎙️</div>
+            <div class="node-title">Voice Transcribe</div>
+            <div class="node-status">Whisper + ffmpeg</div>
+        </div>
+        
+        <div class="node automation water">
+            <div class="node-icon">💧</div>
+            <div class="node-title">Water Tracker</div>
+            <div class="node-status">Reminders</div>
+        </div>
+        
+        <!-- WORKFLOW OUTPUTS -->
+        <div class="node automation morning-brief">
+            <div class="node-icon">🌅</div>
+            <div class="node-title">Morning Brief</div>
+            <div class="node-status">WHOOP + Workout</div>
+        </div>
+        
+        <div class="node automation workouts">
+            <div class="node-icon">🏋️</div>
+            <div class="node-title">Workout Logger</div>
+            <div class="node-status">Notion Sync</div>
+        </div>
+        
+        <div class="node automation nutrition">
+            <div class="node-icon">🥗</div>
+            <div class="node-title">Nutrition Tracker</div>
+            <div class="node-status">Macro Estimation</div>
+        </div>
+        
+        <!-- Legend -->
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-dot" style="background: linear-gradient(135deg, #667eea, #764ba2);"></div>
+                <span>Core System</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-dot" style="background: linear-gradient(135deg, #1e3a5f, #0d2137);"></div>
+                <span>External API</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-dot" style="background: linear-gradient(135deg, #065f46, #064e3b);"></div>
+                <span>Storage</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-dot" style="background: linear-gradient(135deg, #854d0e, #713f12);"></div>
+                <span>Automation</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-dot" style="background: linear-gradient(135deg, #9a3412, #7c2d12);"></div>
+                <span>User</span>
+            </div>
+            <div style="margin-top: 10px; padding-top: 10px; border-top: 1px solid #333;">
+                <div style="color: #22c55e; font-size: 10px;">● Active Connection</div>
+                <div style="color: #667eea; font-size: 10px;">-- Dashed = Periodic</div>
+                <div style="color: #aaa; font-size: 10px;">— Solid = Real-time</div>
+            </div>
+        </div>
+    </div>
+    
+    <div style="text-align: center; margin-top: 20px; color: #666; font-size: 12px;">
+        <p><strong>Active Data Flows:</strong> Telegram ↔ OpenClaw ↔ Moonshot AI | OpenClaw → Notion (REST API)</p>
+        <p><strong>Scheduled:</strong> WHOOP Token Check (5:50am) | Morning Brief (6:00am) | Security Audit (6:00am)</p>
+    </div>
+</body>
+</html>

@@ -19,7 +19,7 @@ def manual_oauth():
     
     # Build authorization URL  
     auth_url = "https://api.prod.whoop.com/oauth/oauth2/auth"
-    redirect_uri = "http://localhost:18789/oauth/callback"  # Must match WHOOP Dashboard registration
+    redirect_uri = "http://localhost:18790/oauth/callback"  # Must match WHOOP Dashboard registration
     scopes = ["read:sleep", "read:recovery", "read:cycles"]  # Removed read:profile
     
     import secrets

@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Daily Summary Workflow | OpenClaw Documentation</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #0a0a0f;
+            color: #fff;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #333;
+        }
+        
+        h1 {
+            font-size: 24px;
+            background: linear-gradient(90deg, #6366f1, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .nav-links a {
+            color: #667eea;
+            text-decoration: none;
+            margin-left: 20px;
+            font-size: 14px;
+        }
+        
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+        
+        .workflow-info {
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid #6366f1;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .workflow-title {
+            font-size: 20px;
+            color: #6366f1;
+            margin-bottom: 10px;
+        }
+        
+        .workflow-meta {
+            display: flex;
+            gap: 20px;
+            font-size: 13px;
+            color: #aaa;
+        }
+        
+        .system-map {
+            position: relative;
+            width: 1400px;
+            height: 900px;
+            margin: 0 auto;
+            background: radial-gradient(circle at center, #1a1a2e 0%, #0a0a0f 100%);
+            border-radius: 20px;
+            border: 1px solid #333;
+        }
+        
+        .connections {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .connection-line {
+            stroke: #333;
+            stroke-width: 1;
+            fill: none;
+        }
+        
+        .connection-line.active {
+            stroke: #6366f1;
+            stroke-width: 3;
+            stroke-dasharray: 5,5;
+            animation: dash 15s linear infinite;
+        }
+        
+        @keyframes dash {
+            to { stroke-dashoffset: -100; }
+        }
+        
+        .sequence-number {
+            fill: #6366f1;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .sequence-circle {
+            fill: #6366f1;
+            stroke: #000;
+            stroke-width: 2;
+        }
+        
+        .node {
+            position: absolute;
+            width: 140px;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 12px;
+            z-index: 10;
+            opacity: 0.3;
+        }
+        
+        .node.highlight {
+            opacity: 1;
+            box-shadow: 0 0 30px rgba(99, 102, 241, 0.5);
+        }
+        
+        .node-icon {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+        
+        .node-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .node-status {
+            font-size: 10px;
+            opacity: 0.8;
+        }
+        
+        .node.automation { 
+            background: linear-gradient(135deg, #854d0e, #713f12);
+            border: 2px solid #f59e0b;
+        }
+        
+        .node.core { 
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: 2px solid #8b5cf6;
+        }
+        
+        .node.storage { 
+            background: linear-gradient(135deg, #065f46, #064e3b);
+            border: 2px solid #10b981;
+        }
+        
+        .node.external { 
+            background: linear-gradient(135deg, #1e3a5f, #0d2137);
+            border: 2px solid #3b82f6;
+        }
+        
+        .node.user { 
+            background: linear-gradient(135deg, #9a3412, #7c2d12);
+            border: 2px solid #f97316;
+        }
+        
+        /* Positions */
+        .node.cron { top: 460px; left: 1050px; }
+        .node.openclaw { top: 320px; left: 650px; }
+        .node.notion { top: 180px; left: 250px; }
+        .node.local-files { top: 460px; left: 250px; }
+        .node.github { top: 320px; left: 100px; }
+        .node.summary { top: 680px; left: 350px; }
+        .node.telegram { top: 180px; left: 650px; }
+        .node.you { top: 50px; left: 650px; }
+        
+        /* Sequence Panel */
+        .sequence-panel {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(0,0,0,0.9);
+            border: 1px solid #6366f1;
+            border-radius: 12px;
+            padding: 20px;
+            width: 400px;
+            z-index: 20;
+        }
+        
+        .sequence-panel h3 {
+            color: #6366f1;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+        
+        .sequence-step {
+            display: flex;
+            align-items: flex-start;
+            margin: 10px 0;
+            font-size: 12px;
+        }
+        
+        .step-num {
+            background: #6366f1;
+            color: #fff;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 11px;
+            margin-right: 10px;
+            flex-shrink: 0;
+        }
+        
+        .step-desc {
+            color: #ccc;
+            line-height: 1.4;
+        }
+        
+        .metrics-box {
+            position: absolute;
+            top: 50px;
+            right: 20px;
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid #6366f1;
+            border-radius: 12px;
+            padding: 20px;
+            width: 280px;
+            z-index: 20;
+        }
+        
+        .metrics-box h4 {
+            color: #6366f1;
+            margin-bottom: 10px;
+        }
+        
+        .metric-item {
+            font-size: 12px;
+            color: #aaa;
+            margin: 8px 0;
+            padding: 8px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 6px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>📊 Page 10: Daily Summary Workflow</h1>
+        <div class="nav-links">
+            <a href="workflow-index.html">← Index</a>
+            <a href="workflow-index-page9-voice.html">Voice</a>
+            <a href="workflow-index.html">Back to Index →</a>
+        </div>
+    </div>
+    
+    <div class="workflow-info">
+        <div class="workflow-title">Automated End-of-Day Report Generation</div>
+        <div class="workflow-meta">
+            <span>⏰ Trigger: 12:00 AM (Midnight)</span>
+            <span>📊 Aggregation: Habits, Tasks, Token Usage</span>
+            <span>📝 Output: Markdown Report</span>
+            <span>☁️ Archive: GitHub Push</span>
+        </div>
+    </div>
+    
+    <div class="system-map">
+        <svg class="connections" viewBox="0 0 1400 900">
+            <!-- Background faint connections -->
+            <line class="connection-line" x1="720" y1="250" x2="720" y2="320"/>
+            
+            <!-- DAILY SUMMARY WORKFLOW -->
+            <!-- 1. Midnight trigger -->
+            <line class="connection-line active" x1="1050" y1="460" x2="810" y2="380"/>
+            <circle class="sequence-circle" cx="930" cy="420" r="12"/>
+            <text class="sequence-number" x="926" y="425">1</text>
+            
+            <!-- 2. Query Notion habits -->
+            <line class="connection-line active" x1="650" y1="360" x2="390" y2="230"/>
+            <circle class="sequence-circle" cx="520" cy="295" r="12"/>
+            <text class="sequence-number" x="516" y="300">2</text>
+            
+            <!-- 3. Count completed tasks -->
+            <line class="connection-line active" x1="390" y1="230" x2="390" y2="230"/>
+            <circle class="sequence-circle" cx="390" cy="230" r="12"/>
+            <text class="sequence-number" x="386" y="235">3</text>
+            
+            <!-- 4. Calculate token usage -->
+            <line class="connection-line active" x1="650" y1="380" x2="390" y2="460"/>
+            <circle class="sequence-circle" cx="520" cy="420" r="12"/>
+            <text class="sequence-number" x="516" y="425">4</text>
+            
+            <!-- 5. Generate report -->
+            <line class="connection-line active" x1="720" y1="420" x2="420" y2="680"/>
+            <circle class="sequence-circle" cx="570" cy="550" r="12"/>
+            <text class="sequence-number" x="566" y="555">5</text>
+            
+            <!-- 6. Save markdown -->
+            <line class="connection-line active" x1="420" y1="680" x2="240" y2="360"/>
+            <circle class="sequence-circle" cx="330" cy="520" r="12"/>
+            <text class="sequence-number" x="326" y="525">6</text>
+            
+            <!-- 7. Push to GitHub -->
+            <line class="connection-line active" x1="170" y1="360" x2="170" y2="360"/>
+            <circle class="sequence-circle" cx="170" cy="360" r="12"/>
+            <text class="sequence-number" x="166" y="365">7</text>
+            
+            <!-- 8. Notify user -->
+            <line class="connection-line active" x1="720" y1="250" x2="720" y2="180"/>
+            <circle class="sequence-circle" cx="720" cy="215" r="12"/>
+            <text class="sequence-number" x="716" y="220">8</text>
+            
+            <!-- 9. Deliver summary -->
+            <line class="connection-line active" x1="720" y1="180" x2="720" y2="120"/>
+            <circle class="sequence-circle" cx="720" cy="150" r="12"/>
+        </svg>
+        
+        <!-- NODES -->
+        <div class="node automation cron highlight">
+            <div class="node-icon">⏰</div>
+            <div class="node-title">Cron Job</div>
+            <div class="node-status">12:00 AM</div>
+        </div>
+        
+        <div class="node core openclaw highlight">
+            <div class="node-icon">🦞</div>
+            <div class="node-title">OpenClaw</div>
+            <div class="node-status">Aggregate Data</div>
+        </div>
+        
+        <div class="node storage notion highlight">
+            <div class="node-icon">📝</div>
+            <div class="node-title">Notion</div>
+            <div class="node-status">Habits & Tasks</div>
+        </div>
+        
+        <div class="node storage local-files highlight">
+            <div class="node-icon">📁</div>
+            <div class="node-title">Local Files</div>
+            <div class="node-status">Token Logs</div>
+        </div>
+        
+        <div class="node storage github highlight">
+            <div class="node-icon">📦</div>
+            <div class="node-title">GitHub</div>
+            <div class="node-status">Archive Reports</div>
+        </div>
+        
+        <div class="node automation summary highlight">
+            <div class="node-icon">📊</div>
+            <div class="node-title">Daily Summary</div>
+            <div class="node-status">Report Generated</div>
+        </div>
+        
+        <div class="node external telegram highlight">
+            <div class="node-icon">💬</div>
+            <div class="node-title">Telegram</div>
+            <div class="node-status">Notification</div>
+        </div>
+        
+        <div class="node user you highlight">
+            <div class="node-icon">👤</div>
+            <div class="node-title">You</div>
+            <div class="node-status">Review Summary</div>
+        </div>
+        
+        <!-- SEQUENCE PANEL -->
+        <div class="sequence-panel">
+            <h3>📋 Daily Summary Sequence</h3>
+            <div class="sequence-step">
+                <div class="step-num">1</div>
+                <div class="step-desc"><strong>Midnight:</strong> Cron triggers daily summary generation</div>
+            </div>
+            <div class="sequence-step">
+                <div class="step-num">2</div>
+                <div class="step-desc"><strong>Query Habits:</strong> Check Notion for completed habits</div>
+            </div>
+            <div class="sequence-step">
+                <div class="step-num">3</div>
+                <div class="step-desc"><strong>Count Tasks:</strong> Tally completed TAT & Work tasks</div>
+            </div>
+            <div class="sequence-step">
+                <div class="step-num">4</div>
+                <div class="step-desc"><strong>Token Usage:</strong> Calculate AI token consumption</div>
+            </div>
+            <div class="sequence-step">
+                <div class="step-num">5</div>
+                <div class="step-desc"><strong>Generate:</strong> Compile markdown report</div>
+            </div>
+            <div class="sequence-step">
+                <div class="step-num">6</div>
+                <div class="step-desc"><strong>Save:</strong> Store to research/daily-summaries/</div>
+            </div>
+            <div class="sequence-step">
+                <div class="step-num">7</div>
+                <div class="step-desc"><strong>Archive:</strong> Git push to GitHub repository</div>
+            </div>
+            <div class="sequence-step">
+                <div class="step-num">8</div>
+                <div class="step-desc"><strong>Notify:</strong> Send summary notification</div>
+            </div>
+            <div class="sequence-step">
+                <div class="step-num">9</div>
+                <div class="step-desc"><strong>Deliver:</strong> You receive daily summary</div>
+            </div>
+        </div>
+        
+        <!-- METRICS BOX -->
+        <div class="metrics-box">
+            <h4>📊 Tracked Metrics</h4>
+            <div class="metric-item">
+                <strong>Habits Completed</strong><br>
+                Fruit, vitamins, exercise, water
+            </div>
+            <div class="metric-item">
+                <strong>Tasks Done</strong><br>
+                TAT tasks, Work tasks completed
+            </div>
+            <div class="metric-item">
+                <strong>Token Usage</strong><br>
+                Input/output tokens, cost estimate
+            </div>
+            <div class="metric-item">
+                <strong>Key Activities</strong><br>
+                Workouts logged, meals tracked
+            </div>
+            <div class="metric-item">
+                <strong>System Status</strong><br>
+                Active workflows, health checks
+            </div>
+        </div>
+    </div>
+</body>
+</html>

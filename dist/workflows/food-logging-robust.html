@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Robust Food Logging - Error Handling Workflow</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0a0a0f; color: #fff; line-height: 1.6; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; }
+        h1 { color: #667eea; margin-bottom: 10px; }
+        h2 { color: #764ba2; margin: 30px 0 15px; border-bottom: 2px solid #333; padding-bottom: 10px; }
+        h3 { color: #a855f7; margin: 20px 0 10px; }
+        .section { background: #1a1a2e; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #333; }
+        .flow { display: flex; align-items: center; margin: 15px 0; flex-wrap: wrap; gap: 10px; }
+        .flow-box { background: #0a0a0f; padding: 15px; border-radius: 8px; border-left: 4px solid #667eea; flex: 1; min-width: 200px; }
+        .flow-arrow { color: #667eea; font-size: 24px; }
+        .success { border-left-color: #22c55e; }
+        .warning { border-left-color: #eab308; }
+        .error { border-left-color: #ef4444; }
+        .cron-box { background: #252542; padding: 15px; border-radius: 8px; margin: 10px 0; display: flex; align-items: center; gap: 15px; }
+        .cron-time { background: #667eea; color: white; padding: 5px 10px; border-radius: 6px; font-weight: bold; min-width: 80px; text-align: center; }
+        .status-badge { display: inline-block; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: bold; }
+        .status-pending { background: #eab30820; color: #eab308; }
+        .status-complete { background: #22c55e20; color: #22c55e; }
+        .status-error { background: #ef444420; color: #ef4444; }
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+        th { background: #667eea; padding: 10px; text-align: left; }
+        td { padding: 10px; border-bottom: 1px solid #333; }
+        code { background: #333; padding: 2px 6px; border-radius: 4px; font-family: monospace; }
+        .note { background: #eab30820; border-left: 4px solid #eab308; padding: 15px; margin: 15px 0; border-radius: 0 8px 8px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🍽️ Robust Food Logging Workflow</h1>
+        <p style="color: #888; margin-bottom: 30px;">Error handling for Edamam API failures with automatic retry system</p>
+
+        <div class="section">
+            <h2>🔄 Complete Flow (Success & Failure)</h2>
+            
+            <h3>Scenario 1: Edamam API Works ✅</h3>
+            <div class="flow">
+                <div class="flow-box">Voice/Text<br>Food Description</div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-box">Edamam API<br>Returns 24 Nutrients</div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-box success">Airtable<br>Status: Complete</div>
+            </div>
+
+            <h3>Scenario 2: Edamam API Fails ⚠️</h3>
+            <div class="flow">
+                <div class="flow-box">Voice/Text<br>Food Description</div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-box error">Edamam API<br>FAILS / Timeout</div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-box warning">Airtable<br>Status: Pending API</div>
+            </div>
+            <div class="flow" style="margin-top: 10px;">
+                <div style="width: 50px;"></div>
+                <div class="flow-arrow">↓</div>
+                <div class="flow-box warning">TAT Task Created<br>"Update nutrition"</div>
+                <div class="flow-arrow">↓</div>
+                <div class="flow-box">Cron Retries<br>12pm / 3pm / 8pm</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>⏰ Automatic Retry Schedule</h2>
+            
+            <div class="cron-box">
+                <div class="cron-time">12:00 PM</div>
+                <div>
+                    <strong>Midday Check</strong><br>
+                    Scan Food Log for "Pending API" meals<br>
+                    Retry Edamam API for each
+                </div>
+            </div>
+
+            <div class="cron-box">
+                <div class="cron-time">3:00 PM</div>
+                <div>
+                    <strong>Afternoon Check</strong><br>
+                    Retry any still-pending meals<br>
+                    Update TAT task status
+                </div>
+            </div>
+
+            <div class="cron-box">
+                <div class="cron-time">8:00 PM</div>
+                <div>
+                    <strong>Evening Check</strong><br>
+                    Final retry for the day<br>
+                    Send summary notification
+                </div>
+            </div>
+
+            <div class="note">
+                <strong>Process:</strong> At each check, the system retries Edamam API for all "Pending API" meals. 
+                If successful, meal is updated with full 24 nutrients and marked "Complete". 
+                If still failing, remains "Pending" for next check.
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>📊 Status Tracking</h2>
+            
+            <table>
+                <tr>
+                    <th>Status</th>
+                    <th>Meaning</th>
+                    <th>Action Needed</th>
+                </tr>
+                <tr>
+                    <td><span class="status-badge status-complete">Complete</span></td>
+                    <td>All 24 nutrients logged via Edamam</td>
+                    <td>None - fully tracked!</td>
+                </tr>
+                <tr>
+                    <td><span class="status-badge status-pending">Pending API</span></td>
+                    <td>Description saved, awaiting nutrition data</td>
+                    <td>Automatic retry at next cron</td>
+                </tr>
+                <tr>
+                    <td><span class="status-badge status-error">Manual Entry</span></td>
+                    <td>API failed, user manually added nutrition</td>
+                    <td>None - complete via manual input</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2>📋 TAT Task Created on API Failure</h2>
+            
+            <p>When Edamam fails, this task is auto-created:</p>
+            
+            <div class="flow-box warning" style="margin: 15px 0;">
+                <strong>Task:</strong> 🍽️ Update nutrition: [Meal Type] - [Food Description]<br>
+                <strong>Category:</strong> 3 days<br>
+                <strong>Due:</strong> 3 days from creation<br>
+                <strong>Status:</strong> Not Started → Complete when nutrition updated<br>
+                <strong>Notes:</strong> Edamam API failed. Food description saved. Need to retry API or manually add nutrition.
+            </div>
+
+            <p>This ensures:</p>
+            <ul style="margin-left: 20px; color: #aaa;">
+                <li>No meal is forgotten</li>
+                <li>You get reminded to complete the data</li>
+                <li>Can manually enter nutrition from other sources if needed</li>
+                <li>Automatic retries happen in background</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>🔧 How to Log Food (3 Methods)</h2>
+            
+            <h3>Method 1: Voice (Fastest)</h3>
+            <p>Send voice note: <em>"Breakfast: 3 eggs, bacon, toast"</em></p>
+            <p>System → Edamam → Airtable (Complete or Pending)</p>
+
+            <h3>Method 2: Text</h3>
+            <p>Type: <code>!food Lunch: chicken salad with avocado</code></p>
+
+            <h3>Method 3: Direct Script</h3>
+            <p><code>python3 log_food_meal_robust.py "2 eggs, toast, coffee" "Breakfast"</code></p>
+        </div>
+
+        <div class="section">
+            <h2>📱 Notifications You'll Receive</h2>
+            
+            <table>
+                <tr>
+                    <th>When</th>
+                    <th>What</th>
+                </tr>
+                <tr>
+                    <td>Meal logged (success)</td>
+                    <td>✅ Breakfast logged: 450 cal, 24 nutrients complete</td>
+                </tr>
+                <tr>
+                    <td>Meal logged (API fail)</td>
+                    <td>⚠️ Breakfast saved. Retrying nutrition at 12pm/3pm/8pm</td>
+                </tr>
+                <tr>
+                    <td>Cron retry success</td>
+                    <td>✅ Updated 2 meals with complete nutrition!</td>
+                </tr>
+                <tr>
+                    <td>End of day (still pending)</td>
+                    <td>⏳ 1 meal still pending nutrition - check TAT tasks</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2>🎯 Summary</h2>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div>
+                    <h3 style="color: #22c55e;">✅ Success Path</h3>
+                    <ul style="color: #aaa; margin-left: 20px;">
+                        <li>Food description logged</li>
+                        <li>Edamam returns 24 nutrients</li>
+                        <li>Airtable: Status = Complete</li>
+                        <li>All data available instantly</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 style="color: #eab308;">⚠️ Recovery Path</h3>
+                    <ul style="color: #aaa; margin-left: 20px;">
+                        <li>Food description saved</li>
+                        <li>TAT task created for follow-up</li>
+                        <li>Airtable: Status = Pending API</li>
+                        <li>Auto-retries at 12/3/8pm</li>
+                        <li>Never lost, always completed</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 40px; padding: 20px; background: #1a1a2e; border-radius: 10px;">
+            <p style="color: #888;">Zero meals lost. Full nutrition guaranteed.</p>
+            <p style="color: #667eea;">Robust error handling with automatic recovery</p>
+        </div>
+    </div>
+</body>
+</html>

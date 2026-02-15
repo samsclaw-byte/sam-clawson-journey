@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sam's System Workflows</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --primary: #667eea;
+            --primary-dark: #5a67d8;
+            --secondary: #764ba2;
+            --bg-dark: #0a0a0f;
+            --bg-card: #1a1a2e;
+            --bg-light: #252542;
+            --text: #ffffff;
+            --text-muted: #a0a0b0;
+            --success: #22c55e;
+            --warning: #eab308;
+            --danger: #ef4444;
+            --info: #3b82f6;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text);
+            line-height: 1.6;
+        }
+        
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(26, 26, 46, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #333;
+            z-index: 1000;
+            padding: 0 20px;
+        }
+        .nav-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 60px;
+        }
+        .nav-logo {
+            font-size: 20px;
+            font-weight: bold;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .nav-links {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+        .nav-links::-webkit-scrollbar { display: none; }
+        .nav-link {
+            padding: 8px 14px;
+            color: var(--text-muted);
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 14px;
+            white-space: nowrap;
+            transition: all 0.2s;
+        }
+        .nav-link:hover, .nav-link.active {
+            background: var(--bg-light);
+            color: var(--text);
+        }
+        
+        /* Header */
+        .header {
+            margin-top: 60px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            padding: 80px 20px;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        .header p {
+            font-size: 20px;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        /* Content */
+        .content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        /* Sections */
+        .section {
+            margin-bottom: 60px;
+            scroll-margin-top: 80px;
+        }
+        .section-title {
+            font-size: 32px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .section-subtitle {
+            color: var(--text-muted);
+            margin-bottom: 30px;
+            font-size: 18px;
+        }
+        
+        /* Cards */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid #333;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+        .card-title {
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+        
+        /* Code blocks */
+        .code-block {
+            background: #0d0d15;
+            border: 1px solid #2a2a3e;
+            border-radius: 8px;
+            padding: 20px;
+            font-family: 'SF Mono', Monaco, monospace;
+            font-size: 13px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+        .code-block .comment { color: #6a737d; }
+        .code-block .string { color: #a5d6ff; }
+        .code-block .keyword { color: #ff7b72; }
+        .code-block .function { color: #d2a8ff; }
+        
+        /* Lists */
+        .workflow-list {
+            list-style: none;
+            counter-reset: step;
+        }
+        .workflow-list li {
+            position: relative;
+            padding-left: 50px;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #2a2a3e;
+        }
+        .workflow-list li:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        .workflow-list li::before {
+            counter-increment: step;
+            content: counter(step);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        
+        /* Tags */
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 15px 0;
+        }
+        .tag {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .tag-primary { background: var(--primary); }
+        .tag-success { background: var(--success); }
+        .tag-warning { background: var(--warning); color: #000; }
+        .tag-info { background: var(--info); }
+        .tag-danger { background: var(--danger); }
+        
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #333;
+        }
+        th {
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        /* Highlight box */
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            border: 1px solid var(--primary);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        /* Tips */
+        .tip {
+            background: rgba(34, 197, 94, 0.1);
+            border-left: 4px solid var(--success);
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .tip::before {
+            content: "💡 Tip: ";
+            font-weight: bold;
+            color: var(--success);
+        }
+        
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-muted);
+            border-top: 1px solid #333;
+            margin-top: 60px;
+        }
+        
+        /* Smooth scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Mobile */
+        @media (max-width: 600px) {
+            .header h1 { font-size: 32px; }
+            .header p { font-size: 16px; }
+            .section-title { font-size: 24px; }
+            .nav-links { padding: 10px 0; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-inner">
+            <div class="nav-logo">🦞 Clawson Workflows</div>
+            <div class="nav-links">
+                <a href="#morning" class="nav-link">Morning</a>
+                <a href="#tat" class="nav-link">TAT</a>
+                <a href="#habits" class="nav-link">Habits</a>
+                <a href="#nutrition" class="nav-link">Nutrition</a>
+                <a href="#workouts" class="nav-link">Workouts</a>
+                <a href="#whoop" class="nav-link">WHOOP</a>
+                <a href="#voice" class="nav-link">Voice</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="header">
+        <h1>🎯 Sam's System Workflows</h1>
+        <p>Complete documentation for all automated workflows, integrations, and daily routines powered by Clawson.</p>
+    </header>
+
+    <!-- Content -->
+    <main class="content">
+
+        <!-- Morning Brief -->
+        <section class="section" id="morning">
+            <h2 class="section-title">🌅 Morning Brief</h2>
+            <p class="section-subtitle">Daily 6:00 AM automated briefing with recovery data, tasks, and recommendations</p>
+            
+            <div class="card">
+                <h3 class="card-title">What It Does</h3>
+                <p>The Morning Brief is your daily automated briefing that runs at 6:00 AM, pulling data from multiple sources to give you a complete picture of your day ahead.</p>
+                
+                <div class="tags">
+                    <span class="tag tag-primary">Automated</span>
+                    <span class="tag tag-success">Daily</span>
+                    <span class="tag tag-info">6:00 AM</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">Workflow Steps</h3>
+                <ol class="workflow-list">
+                    <li>
+                        <strong>Fetch TAT Tasks</strong><br>
+                        Pulls Category 1 (Today) and overdue tasks from Airtable Productivity base
+                    </li>
+                    <li>
+                        <strong>Get WHOOP Recovery</strong><br>
+                        Retrieves recovery score, sleep performance, HRV, and resting heart rate
+                    </li>
+                    <li>
+                        <strong>Analyze Yesterday's Health</strong><br>
+                        Shows calories consumed, habits completed, and workouts logged
+                    </li>
+                    <li>
+                        <strong>Generate Workout Recommendation</strong><br>
+                        Based on recovery zone (Green/Yellow/Red), suggests appropriate workout type
+                    </li>
+                    <li>
+                        <strong>Save Brief to File</strong><br>
+                        Stores markdown summary for historical reference
+                    </li>
+                </ol>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">Recovery Zones</h3>
+                <table>
+                    <tr>
+                        <th>Zone</th>
+                        <th>Score</th>
+                        <th>Recommendation</th>
+                    </tr>
+                    <tr>
+                        <td>🟢 Green</td>
+                        <td>67%+</td>
+                        <td>Full intensity workout (30-45 min)</td>
+                    </tr>
+                    <tr>
+                        <td>🟡 Yellow</td>
+                        <td>50-66%</td>
+                        <td>Active recovery (swim, easy bike, yoga)</td>
+                    </tr>
+                    <tr>
+                        <td>🔴 Red</td>
+                        <td>&lt;50%</td>
+                        <td>Complete rest or mobility only</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">Script Location & Usage</h3>
+                <div class="code-block">
+<span class="comment"># Run manually</span>
+python3 ~/.openclaw/workspace/scripts/generate_morning_brief.py
+
+<span class="comment"># Cron job (runs daily at 6:00 AM)</span>
+0 6 * * * /usr/bin/python3 /home/samsclaw/.openclaw/workspace/scripts/generate_morning_brief.py
+                </div>
+            </div>
+        </section>
+
+        <!-- TAT System -->
+        <section class="section" id="tat">
+            <h2 class="section-title">✅ TAT Task System</h2>
+            <p class="section-subtitle">Time-Activated Task management with smart categorization</p>
+            
+            <div class="card">
+                <h3 class="card-title">Categories</h3>
+                <table>
+                    <tr>
+                        <th>Category</th>
+                        <th>Timeframe</th>
+                        <th>Use For</th>
+                    </tr>
+                    <tr>
+                        <td>🔴 1 (Today)</td>
+                        <td>Same day</td>
+                        <td>Urgent tasks, laptop work</td>
+                    </tr>
+                    <tr>
+                        <td>🟠 3 (3 Days)</td>
+                        <td>3 days</td>
+                        <td>Important but not urgent</td>
+                    </tr>
+                    <tr>
+                        <td>🟡 7 (7 Days)</td>
+                        <td>1 week</td>
+                        <td>General tasks, errands</td>
+                    </tr>
+                    <tr>
+                        <td>🟢 30 (30 Days)</td>
+                        <td>1 month</td>
+                        <td>Long-term projects, ideas</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">Adding Tasks</h3>
+                <div class="code-block">
+<span class="comment"># Via command line</span>
+python3 ~/.openclaw/workspace/scripts/add_tat_task.py <span class="string">"Fix the printer"</span>
+
+<span class="comment"># With explicit category</span>
+python3 ~/.openclaw/workspace/scripts/add_tat_task.py <span class="string">"Research flights category 3"</span>
+
+<span class="comment"># With priority</span>
+python3 ~/.openclaw/workspace/scripts/add_tat_task.py <span class="string">"Critical bug fix priority critical"</span>
+                </div>
+                
+                <div class="tip">Laptop/computer tasks auto-categorize as "Today" (Category 1)</div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">Smart Defaults</h3>
+                <ul style="margin-left: 20px; line-height: 2;">
+                    <li><strong>Auto-Category:</strong> Laptop tasks → Cat 1, Others → Cat 7</li>
+                    <li><strong>Auto-Priority:</strong> Based on keywords (critical, urgent, high)</li>
+                    <li><strong>Auto-Due Date:</strong> Calculated from category (1, 3, 7, or 30 days)</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">Natural Language Examples</h3>
+                <div class="code-block">
+<span class="string">"add tat buy groceries"</span>              <span class="comment">→ Cat 7, Priority Medium</span>
+<span class="string">"new tat: fix server outage critical"</span> <span class="comment">→ Cat 1, Priority Critical</span>
+<span class="string">"tat update website category 3"</span>       <span class="comment">→ Cat 3, Priority Medium</span>
+<span class="string">"tat: deploy app"</span>                      <span class="comment">→ Cat 1 (laptop keyword), High</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Habit Tracking -->
+        <section class="section" id="habits">
+            <h2 class="section-title">📊 Habit Tracking</h2>
+            <p class="section-subtitle">Natural language habit logging via Telegram or voice</p>
+            
+            <div class="card">
+                <h3 class="card-title">Supported Habits</h3>
+                <div class="tags">
+                    <span class="tag tag-success">💊 Creatine</span>
+                    <span class="tag tag-success">💊 Multi</span>
+                    <span class="tag tag-info">💪 Exercise</span>
+                    <span class="tag tag-warning">🍎 Fruit</span>
+                    <span class="tag tag-primary">💧 Water</span>
+                    <span class="tag tag-info">😴 Sleep</span>
+                    <span class="tag tag-success">🥗 Vegetables</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">How to Log</h3>
+                <ol class="workflow-list">
+                    <li>
+                        <strong>Via Telegram</strong><br>
+                        Simply message Clawson: "Took my vitamins" or "Drank 2 glasses of water"
+                    </li>
+                    <li>
+                        <strong>Via Voice Note</strong><br>
+                        Send a voice message describing what you did
+                    </li>
+                    <li>
+                        <strong>Automatic Processing</strong><br>
+                        Clawson parses natural language and logs to Airtable
+                    </li>
+                </ol>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">Examples</h3>
+                <div class="code-block">
+<span class="string">"Took creatine and multivitamin"</span>
+<span class="string">"Just finished a 30 minute run"</span>
+<span class="string">"Drank 3 glasses of water today"</span>
+<span class="string">"Ate an apple and some berries"</span>
+<span class="string">"Got 8 hours of sleep last night"</span>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <strong>Data Storage:</strong> All habits are stored in the <strong>Health & Nutrition</strong> Airtable base under the "Habits" table with timestamps for tracking streaks and patterns.
+            </div>
+        </section>
+
+        <!-- Nutrition -->
+        <section class="section" id="nutrition">
+            <h2 class="section-title">🍽️ Nutrition Tracking</h2>
+            <p class="section-subtitle">Calorie and macronutrient tracking via Edamam API</p>
+            
+            <div class="card">
+                <h3 class="card-title">Workflow</h3>
+                <ol class="workflow-list">
+                    <li>
+                        <strong>Log Food</strong><br>
+                        Tell Clawson what you ate: "2 eggs, toast, and coffee"
+                    </li>
+                    <li>
+                        <strong>API Lookup</strong><br>
+                        Edamam API fetches nutritional information
+                    </li>
+                    <li>
+                        <strong>Airtable Storage</strong><br>
+                        Food name, calories, protein, carbs, fat logged
+                    </li>
+                    <li>
+                        <strong>Dashboard Update</strong><br>
+                        Mission Control shows daily totals
+                    </li>
+                </ol>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">Meal Types</h3>
+                <table>
+                    <tr>
+                        <th>Type</th>
+                        <th>Keywords</th>
+                    </tr>
+                    <tr>
+                        <td>🌅 Breakfast</td>
+                        <td>morning, breakfast, eggs, cereal</td>
+                    </tr>
+                    <tr>
+                        <td>🌞 Lunch</td>
+                        <td>lunch, midday, afternoon</td>
+                    </tr>
+                    <tr>
+                        <td>🌙 Dinner</td>
+                        <td>dinner, evening, night</td>
+                    </tr>
+                    <tr>
+                        <td>🍿 Snack</td>
+                        <td>snack, treat, dessert</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">Examples</h3>
+                <div class="code-block">
+<span class="string">"Lunch: Chicken salad with avocado"</span>
+<span class="string">"Just ate a protein bar"</span>
+<span class="string">"Dinner was salmon, rice, and broccoli"</span>
+<span class="string">"Had 2 scoops of ice cream"</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Workouts -->
+        <section class="section" id="workouts">
+            <h2 class="section-title">💪 Workout Tracking</h2>
+            <p class="section-subtitle">Log workouts with type, duration, and calories burned</p>
+            
+            <div class="card">
+                <h3 class="card-title">Logging Workouts</h3>
+                <div class="code-block">
+<span class="comment"># Natural language via Telegram</span>
+<span class="string">"Just did a 30 minute kettlebell workout"</span>
+<span class="string">"Swam for 45 minutes at the pool"</span>
+<span class="string">"45 min weight training, burned about 300 calories"</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">Workout Types</h3>
+                <div class="tags">
+                    <span class="tag tag-primary">Kettlebell</span>
+                    <span class="tag tag-info">Swimming</span>
+                    <span class="tag tag-success">Weight Training</span>
+                    <span class="tag tag-warning">Cardio</span>
+                    <span class="tag tag-danger">HIIT</span>
+                    <span class="tag tag-primary">Yoga</span>
+                    <span class="tag tag-info">Running</span>
+                    <span class="tag tag-success">Walking</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">Calf Protocol</h3>
+                <div class="highlight-box">
+                    <strong>⚠️ Mandatory on Hard Days:</strong> When recovery is 67% or higher, you MUST complete the 5-minute calf warm-up before any leg exercises:
+                    <ol style="margin-top: 10px; margin-left: 20px;">
+                        <li>Ankle circles (10 each direction per foot)</li>
+                        <li>Calf raises - slow, no weight (2x15)</li>
+                        <li>Foam roll calves (1 min each)</li>
+                        <li>Dynamic leg swings (10 each leg)</li>
+                        <li>Test: 10 bodyweight calf raises - any pain?</li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+        <!-- WHOOP Integration -->
+        <section class="section" id="whoop">
+            <h2 class="section-title">💓 WHOOP Integration</h2>
+            <p class="section-subtitle">Automatic recovery and sleep data via webhooks</p>
+            
+            <div class="card">
+                <h3 class="card-title">How It Works</h3>
+                <ol class="workflow-list">
+                    <li>
+                        <strong>Wear WHOOP</strong><br>
+                        Device continuously monitors heart rate, HRV, sleep, and strain
+                    </li>
+                    <li>
+                        <strong>Data Sync</strong><br>
+                        WHOOP sends webhooks to our server when data updates
+                    </li>
+                    <li>
+                        <strong>Save to Airtable</strong><br>
+                        Recovery scores, sleep performance, and HRV stored in Health base
+                    </li>
+                    <li>
+                        <strong>Morning Brief</strong><br>
+                        Used to generate workout recommendations
+                    </li>
+                </ol>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">Data Collected</h3>
+                <table>
+                    <tr>
+                        <th>Metric</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td>Recovery Score</td>
+                        <td>0-100% based on HRV, RHR, sleep</td>
+                    </tr>
+                    <tr>
+                        <td>Sleep Performance</td>
+                        <td>Actual sleep vs. sleep needed</td>
+                    </tr>
+                    <tr>
+                        <td>HRV</td>
+                        <td>Heart rate variability (ms)</td>
+                    </tr>
+                    <tr>
+                        <td>Resting HR</td>
+                        <td>Resting heart rate (bpm)</td>
+                    </tr>
+                    <tr>
+                        <td>Sleep Duration</td>
+                        <td>Total time in bed (hours)</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">Webhook Server</h3>
+                <div class="code-block">
+<span class="comment"># Start the webhook server</span>
+python3 ~/.openclaw/workspace/skills/whoop-integration/scripts/webhook_server_v2.py
+
+<span class="comment"># Endpoints</span>
+POST /webhook/whoop        <span class="comment">- Receive WHOOP data</span>
+GET  /webhook/whoop/health <span class="comment">- Health check</span>
+GET  /webhook/whoop/data   <span class="comment">- Get latest data</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Voice Transcription -->
+        <section class="section" id="voice">
+            <h2 class="section-title">🎙️ Voice Transcription</h2>
+            <p class="section-subtitle">Process voice notes automatically via Whisper AI</p>
+            
+            <div class="card">
+                <h3 class="card-title">How It Works</h3>
+                <ol class="workflow-list">
+                    <li>
+                        <strong>Send Voice Note</strong><br>
+                        Record and send voice message to Clawson on Telegram
+                    </li>
+                    <li>
+                        <strong>Download & Process</strong><br>
+                        System downloads the audio file
+                    </li>
+                    <li>
+                        <strong>Whisper Transcription</strong><br>
+                        OpenAI Whisper transcribes speech to text
+                    </li>
+                    <li>
+                        <strong>Parse Intent</strong><br>
+                        Clawson determines what you want (log habit, add TAT, etc.)
+                    </li>
+                    <li>
+                        <strong>Execute Action</strong><br>
+                        Performs the requested action and confirms
+                    </li>
+                </ol>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">Supported Actions</h3>
+                <div class="tags">
+                    <span class="tag tag-success">Log Habits</span>
+                    <span class="tag tag-primary">Add TAT Tasks</span>
+                    <span class="tag tag-info">Track Nutrition</span>
+                    <span class="tag tag-warning">Log Workouts</span>
+                    <span class="tag tag-danger">General Chat</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">Auto-Transcription</h3>
+                <p>A cron job runs every 2 minutes to process any pending voice messages:</p>
+                <div class="code-block">
+<span class="comment"># Cron entry</span>
+*/2 * * * * /home/samsclaw/.openclaw/workspace/scripts/auto-transcribe.sh
+                </div>
+            </div>
+        </section>
+
+        <!-- Data Flow -->
+        <section class="section" id="data-flow">
+            <h2 class="section-title">🔄 Data Flow Overview</h2>
+            <p class="section-subtitle">How information moves through the system</p>
+            
+            <div class="card">
+                <h3 class="card-title">Airtable Bases</h3>
+                <table>
+                    <tr>
+                        <th>Base</th>
+                        <th>ID</th>
+                        <th>Tables</th>
+                    </tr>
+                    <tr>
+                        <td>Health & Nutrition</td>
+                        <td><code>appnVeGSjwJgG2snS</code></td>
+                        <td>Food Log, Weight, Workouts, Habits, WHOOP Recovery, WHOOP Sleep</td>
+                    </tr>
+                    <tr>
+                        <td>Productivity</td>
+                        <td><code>appvUbV8IeGhxmcPn</code></td>
+                        <td>TAT Tasks v2</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">Integration Flow</h3>
+                <div class="highlight-box">
+                    <pre style="background: transparent; color: #a0a0b0; line-height: 2;">
+You (Telegram/Voice)
+    ↓
+Clawson (Natural Language Processing)
+    ↓
+Airtable API
+    ↓
+Health Base / Productivity Base
+    ↓
+Mission Control Dashboard
+    ↓
+Daily Reports & Insights
+                    </pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Scripts Reference -->
+        <section class="section" id="scripts">
+            <h2 class="section-title">📁 Script Reference</h2>
+            <p class="section-subtitle">Key scripts and their locations</p>
+            
+            <div class="card">
+                <h3 class="card-title">Core Scripts</h3>
+                <table>
+                    <tr>
+                        <th>Script</th>
+                        <th>Path</th>
+                        <th>Purpose</th>
+                    </tr>
+                    <tr>
+                        <td>Morning Brief</td>
+                        <td><code>scripts/generate_morning_brief.py</code></td>
+                        <td>Daily 6 AM briefing</td>
+                    </tr>
+                    <tr>
+                        <td>Mission Control</td>
+                        <td><code>scripts/generate_mission_control.py</code></td>
+                        <td>Generate dashboard HTML</td>
+                    </tr>
+                    <tr>
+                        <td>Add TAT</td>
+                        <td><code>scripts/add_tat_task.py</code></td>
+                        <td>Add tasks to Airtable</td>
+                    </tr>
+                    <tr>
+                        <td>Airtable Client</td>
+                        <td><code>scripts/airtable_client.py</code></td>
+                        <td>Unified API client</td>
+                    </tr>
+                    <tr>
+                        <td>WHOOP Webhook</td>
+                        <td><code>skills/whoop-integration/scripts/webhook_server_v2.py</code></td>
+                        <td>Receive WHOOP data</td>
+                    </tr>
+                    <tr>
+                        <td>Auto-Transcribe</td>
+                        <td><code>scripts/auto-transcribe.sh</code></td>
+                        <td>Process voice notes</td>
+                    </tr>
+                </table>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>🦞 Powered by Clawson | Last updated: February 2026</p>
+        <p style="margin-top: 10px; font-size: 14px;">Data sources: Airtable, WHOOP, Edamam Nutrition API</p>
+    </footer>
+
+    <!-- Active nav link highlighting -->
+    <script>
+        // Highlight active nav link on scroll
+        const sections = document.querySelectorAll('.section');
+        const navLinks = document.querySelectorAll('.nav-link');
+        
+        function updateActiveLink() {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (window.scrollY >= sectionTop - 100) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active');
+                }
+            });
+        }
+        
+        window.addEventListener('scroll', updateActiveLink);
+        updateActiveLink();
+    </script>
+</body>
+</html>

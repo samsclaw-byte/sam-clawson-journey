@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-02-15T22:02:57.656403",
+  "generated_at": "2026-02-15T23:18:06.770237",
   "today": {
     "health": {
       "today_calories": 1870,
       "today_protein": 73,
       "current_weight": 102,
-      "today_activity": 0
+      "today_activity": 23.1
     },
     "habits": {
       "multivitamin": false,
@@ -140,6 +140,12 @@
         "duration": 33.1,
         "strain": 13.8,
         "name": "Morning Run"
+      },
+      {
+        "date": "2026-02-15",
+        "duration": 23.1,
+        "strain": 9.5,
+        "name": "Swim Session"
       }
     ]
   }

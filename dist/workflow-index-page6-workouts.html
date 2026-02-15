@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Workout Logging Workflow | OpenClaw Documentation</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #0a0a0f;
+            color: #fff;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #333;
+        }
+        
+        h1 {
+            font-size: 24px;
+            background: linear-gradient(90deg, #3b82f6, #06b6d4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .nav-links a {
+            color: #667eea;
+            text-decoration: none;
+            margin-left: 20px;
+            font-size: 14px;
+        }
+        
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+        
+        .workflow-info {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid #3b82f6;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .workflow-title {
+            font-size: 20px;
+            color: #3b82f6;
+            margin-bottom: 10px;
+        }
+        
+        .workflow-meta {
+            display: flex;
+            gap: 20px;
+            font-size: 13px;
+            color: #aaa;
+        }
+        
+        .system-map {
+            position: relative;
+            width: 1400px;
+            height: 900px;
+            margin: 0 auto;
+            background: radial-gradient(circle at center, #1a1a2e 0%, #0a0a0f 100%);
+            border-radius: 20px;
+            border: 1px solid #333;
+        }
+        
+        .connections {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .connection-line {
+            stroke: #333;
+            stroke-width: 1;
+            fill: none;
+        }
+        
+        .connection-line.active {
+            stroke: #3b82f6;
+            stroke-width: 3;
+            stroke-dasharray: 5,5;
+            animation: dash 15s linear infinite;
+        }
+        
+        @keyframes dash {
+            to { stroke-dashoffset: -100; }
+        }
+        
+        .sequence-number {
+            fill: #3b82f6;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .sequence-circle {
+            fill: #3b82f6;
+            stroke: #000;
+            stroke-width: 2;
+        }
+        
+        .node {
+            position: absolute;
+            width: 140px;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 12px;
+            z-index: 10;
+            opacity: 0.3;
+        }
+        
+        .node.highlight {
+            opacity: 1;
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.5);
+        }
+        
+        .node-icon {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+        
+        .node-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .node-status {
+            font-size: 10px;
+            opacity: 0.8;
+        }
+        
+        .node.user { 
+            background: linear-gradient(135deg, #9a3412, #7c2d12);
+            border: 2px solid #f97316;
+        }
+        
+        .node.external { 
+            background: linear-gradient(135deg, #1e3a5f, #0d2137);
+            border: 2px solid #3b82f6;
+        }
+        
+        .node.core { 
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: 2px solid #8b5cf6;
+        }
+        
+        .node.storage { 
+            background: linear-gradient(135deg, #065f46, #064e3b);
+            border: 2px solid #10b981;
+        }
+        
+        .node.automation { 
+            background: linear-gradient(135deg, #854d0e, #713f12);
+            border: 2px solid #f59e0b;
+        }
+        
+        /* Positions */
+        .node.you { top: 50px; left: 650px; }
+        .node.telegram { top: 180px; left: 650px; }
+        .node.openclaw { top: 320px; left: 650px; }
+        .node.notion { top: 180px; left: 250px; }
+        .node.local-files { top: 460px; left: 250px; }
+        .node.workouts { top: 680px; left: 600px; }
+        
+        /* Sequence Panel */
+        .sequence-panel {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(0,0,0,0.9);
+            border: 1px solid #3b82f6;
+            border-radius: 12px;
+            padding: 20px;
+            width: 400px;
+            z-index: 20;
+        }
+        
+        .sequence-panel h3 {
+            color: #3b82f6;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+        
+        .sequence-step {
+            display: flex;
+            align-items: flex-start;
+            margin: 10px 0;
+            font-size: 12px;
+        }
+        
+        .step-num {
+            background: #3b82f6;
+            color: #fff;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 11px;
+            margin-right: 10px;
+            flex-shrink: 0;
+        }
+        
+        .step-desc {
+            color: #ccc;
+            line-height: 1.4;
+        }
+        
+        .zone-box {
+            position: absolute;
+            top: 50px;
+            right: 20px;
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid #3b82f6;
+            border-radius: 12px;
+            padding: 20px;
+            width: 280px;
+            z-index: 20;
+        }
+        
+        .zone-box h4 {
+            color: #3b82f6;
+            margin-bottom: 10px;
+        }
+        
+        .zone-item {
+            font-size: 12px;
+            margin: 8px 0;
+            padding: 8px;
+            border-radius: 6px;
+        }
+        
+        .zone-item.green {
+            background: rgba(34, 197, 94, 0.2);
+            border-left: 3px solid #22c55e;
+        }
+        
+        .zone-item.yellow {
+            background: rgba(245, 158, 11, 0.2);
+            border-left: 3px solid #f59e0b;
+        }
+        
+        .zone-item.red {
+            background: rgba(239, 68, 68, 0.2);
+            border-left: 3px solid #ef4444;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🏋️ Page 6: Workout Logging Workflow</h1>
+        <div class="nav-links">
+            <a href="workflow-index.html">← Index</a>
+            <a href="workflow-index-page5-nutrition.html">Nutrition</a>
+            <a href="workflow-index-page7-water.html">Next: Water →</a>
+        </div>
+    </div>
+    
+    <div class="workflow-info">
+        <div class="workflow-title">Exercise Logging & Zone Categorization</div>
+        <div class="workflow-meta">
+            <span>🎤 Input: "Swim done" / "Completed kettlebell workout"</span>
+            <span>🧠 AI: Categorizes intensity zone</span>
+            <span>📝 Output: Notion Workout DB</span>
+            <span>📊 Tracking: Hard / Active / Rest day progress</span>
+        </div>
+    </div>
+    
+    <div class="system-map">
+        <svg class="connections" viewBox="0 0 1400 900">
+            <!-- Background faint connections -->
+            <line class="connection-line" x1="720" y1="250" x2="720" y2="320"/>
+            
+            <!-- WORKOUT LOGGING WORKFLOW -->
+            <!-- 1. User completes workout -->
+            <line class="connection-line active" x1="720" y1="120" x2="720" y2="180"/>
+            <circle class="sequence-circle" cx="720" cy="150" r="12"/>
+            <text class="sequence-number" x="716" y="155">1</text>
+            
+            <!-- 2. Message workout completion -->
+            <line class="connection-line active" x1="720" y1="250" x2="720" y2="320"/>
+            <circle class="sequence-circle" cx="720" cy="285" r="12"/>
+            <text class="sequence-number" x="716" y="290">2</text>
+            
+            <!-- 3. Parse workout type -->
+            <line class="connection-line active" x1="720" y1="420" x2="670" y2="680"/>
+            <circle class="sequence-circle" cx="695" cy="550" r="12"/>
+            <text class="sequence-number" x="691" y="555">3</text>
+            
+            <!-- 4. Check WHOOP zone -->
+            <line class="connection-line active" x1="670" y1="680" x2="320" y2="500"/>
+            <circle class="sequence-circle" cx="495" cy="590" r="12"/>
+            <text class="sequence-number" x="491" y="595">4</text>
+            
+            <!-- 5. Categorize intensity -->
+            <line class="connection-line active" x1="720" y1="420" x2="720" y2="420"/>
+            <circle class="sequence-circle" cx="720" cy="420" r="12"/>
+            <text class="sequence-number" x="716" y="425">5</text>
+            
+            <!-- 6. Log to Notion -->
+            <line class="connection-line active" x1="650" y1="360" x2="390" y2="230"/>
+            <circle class="sequence-circle" cx="520" cy="295" r="12"/>
+            <text class="sequence-number" x="516" y="300">6</text>
+            
+            <!-- 7. Confirm to user -->
+            <line class="connection-line active" x1="720" y1="250" x2="720" y2="180"/>
+            <circle class="sequence-circle" cx="720" cy="215" r="12"/>
+            <text class="sequence-number" x="716" y="220">7</text>
+            
+            <!-- 8. Deliver confirmation -->
+            <line class="connection-line active" x1="720" y1="180" x2="720" y2="120"/>
+            <circle class="sequence-circle" cx="720" cy="150" r="12"/>
+        </svg>
+        
+        <!-- NODES -->
+        <div class="node user you highlight">
+            <div class="node-icon">👤</div>
+            <div class="node-title">You</div>
+            <div class="node-status">Complete Workout</div>
+        </div>
+        
+        <div class="node external telegram highlight">
+            <div class="node-icon">💬</div>
+            <div class="node-title">Telegram</div>
+            <div class="node-status">Log Message</div>
+        </div>
+        
+        <div class="node core openclaw highlight">
+            <div class="node-icon">🦞</div>
+            <div class="node-title">OpenClaw</div>
+            <div class="node-status">Parse & Categorize</div>
+        </div>
+        
+        <div class="node storage notion highlight">
+            <div class="node-icon">📝</div>
+            <div class="node-title">Notion</div>
+            <div class="node-status">Workout DB</div>
+        </div>
+        
+        <div class="node storage local-files highlight">
+            <div class="node-icon">💾</div>
+            <div class="node-title">WHOOP Data</div>
+            <div class="node-status">Recovery Zone</div>
+        </div>
+        
+        <div class="node automation workouts highlight">
+            <div class="node-icon">🏋️</div>
+            <div class="node-title">Workout Log</div>
+            <div class="node-status">Zone: Green/Yellow/Red</div>
+        </div>
+        
+        <!-- SEQUENCE PANEL -->
+        <div class="sequence-panel">
+            <h3>📋 Workout Logging Sequence</h3>
+            <div class="sequence-step">
+                <div class="step-num">1</div>
+                <div class="step-desc"><strong>Complete:</strong> You finish your workout (swim, kettlebell, etc.)</div>
+            </div>
+            <div class="sequence-step">
+                <div class="step-num">2</div>
+                <div class="step-desc"><strong>Log:</strong> Send message: "Swim done" or "Completed workout"</div>
+            </div>
+            <div class="sequence-step">
+                <div class="step-num">3</div>
+                <div class="step-desc"><strong>Parse:</strong> Identify workout type from your message</div>
+            </div>
+            <div class="sequence-step">
+                <div class="step-num">4</div>
+                <div class="step-desc"><strong>Check Zone:</strong> Compare with WHOOP recovery score</div>
+            </div>
+            <div class="sequence-step">
+                <div class="step-num">5</div>
+                <div class="step-desc"><strong>Categorize:</strong> Hard (67%+), Active (50-66%), or Rest day</div>
+            </div>
+            <div class="sequence-step">
+                <div class="step-num">6</div>
+                <div class="step-desc"><strong>Save:</strong> Log to Notion Workout database</div>
+            </div>
+            <div class="sequence-step">
+                <div class="step-num">7</div>
+                <div class="step-desc"><strong>Confirm:</strong> Format logged workout details</div>
+            </div>
+            <div class="sequence-step">
+                <div class="step-num">8</div>
+                <div class="step-desc"><strong>Deliver:</strong> You receive confirmation with zone</div>
+            </div>
+        </div>
+        
+        <!-- ZONE BOX -->
+        <div class="zone-box">
+            <h4>🎯 Recovery Zones</h4>
+            <div class="zone-item green">
+                <strong>🟢 Green (67%+)</strong><br>
+                Hard workout — Full intensity
+            </div>
+            <div class="zone-item yellow">
+                <strong>🟡 Yellow (50-66%)</strong><br>
+                Active recovery — Easy movement
+            </div>
+            <div class="zone-item red">
+                <strong>🔴 Red (&lt;50%)</strong><br>
+                Rest day — Stretching only
+            </div>
+        </div>
+    </div>
+</body>
+</html>
