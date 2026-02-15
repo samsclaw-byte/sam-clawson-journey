@@ -651,8 +651,11 @@
                 // Sort and render tasks (overdue first, then by days remaining)
                 const taskList = document.getElementById('task-list');
                 if (data.tat_tasks && data.tat_tasks.length > 0) {
+                    // Filter out completed tasks
+                    const activeTasks = data.tat_tasks.filter(t => t.status !== 'Complete');
+                    
                     // Sort: overdue first (negative days), then by days remaining ascending
-                    const sortedTasks = data.tat_tasks.sort((a, b) => {
+                    const sortedTasks = activeTasks.sort((a, b) => {
                         // Handle null/undefined days_remaining
                         const daysA = a.days_remaining === null ? 999 : a.days_remaining;
                         const daysB = b.days_remaining === null ? 999 : b.days_remaining;
@@ -661,7 +664,7 @@
                     taskList.innerHTML = sortedTasks.map(renderTask).join('');
                     allTasks = sortedTasks;
                     
-                    // Calculate and display filter counts
+                    // Calculate and display filter counts (only active tasks)
                     calculateFilterCounts(sortedTasks);
                 } else {
                     taskList.innerHTML = '<div style="text-align: center; padding: 40px; color: #666;">No active tasks! 🎉</div>';
