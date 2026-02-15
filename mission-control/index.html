@@ -627,7 +627,12 @@
                     options: {
                         responsive: true,
                         maintainAspectRatio: false,
-                        plugins: { legend: { display: true } }
+                        plugins: { legend: { display: true } },
+                        scales: {
+                            y: {
+                                min: 0
+                            }
+                        }
                     }
                 });
                 
@@ -709,7 +714,8 @@
                             borderColor: '#FF6B9D',
                             backgroundColor: 'rgba(255, 107, 157, 0.1)',
                             tension: 0.4,
-                            fill: true
+                            fill: true,
+                            yAxisID: 'y'
                         }, {
                             label: 'Duration (min)',
                             data: durationData,
@@ -721,10 +727,20 @@
                         responsive: true,
                         maintainAspectRatio: false,
                         scales: {
+                            y: {
+                                type: 'linear',
+                                display: true,
+                                position: 'left',
+                                min: 0,
+                                max: 21,
+                                title: { display: true, text: 'Strain (0-21)' }
+                            },
                             y1: {
                                 type: 'linear',
                                 display: true,
-                                position: 'right'
+                                position: 'right',
+                                title: { display: true, text: 'Duration (min)' },
+                                grid: { drawOnChartArea: false }
                             }
                         }
                     }
