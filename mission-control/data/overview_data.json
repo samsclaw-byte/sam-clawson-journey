@@ -1,16 +1,16 @@
 {
-  "generated_at": "2026-02-15T23:48:01.474103",
+  "generated_at": "2026-02-16T00:02:58.099569",
   "today": {
     "health": {
-      "today_calories": 1870,
-      "today_protein": 73,
+      "today_calories": 0,
+      "today_protein": 0,
       "current_weight": 102,
-      "today_activity": 23.1
+      "today_activity": 0
     },
     "habits": {
       "multivitamin": false,
-      "fruit": true,
-      "water": 4,
+      "fruit": false,
+      "water": 0,
       "exercise": false,
       "creatine": false
     },
@@ -94,12 +94,6 @@
       }
     ],
     "workouts": [
-      {
-        "date": "2026-02-09",
-        "duration": 30.5,
-        "strain": 10.9,
-        "name": "Swim session"
-      },
       {
         "date": "2026-02-10",
         "duration": 26.32,
