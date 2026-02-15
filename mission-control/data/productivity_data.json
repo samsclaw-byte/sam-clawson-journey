@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-02-15T22:30:06.988398",
+  "generated_at": "2026-02-15T22:45:06.135073",
   "tat_tasks": [
     {
       "id": "recBSDHfWKo4NWTBK",
@@ -35,16 +35,6 @@
       "id": "rec82QLASN6uQUiHu",
       "name": "Complete Google Calendar update",
       "category": "\ud83d\udcbc Work",
-      "status": "Not Started",
-      "due_status": "soon",
-      "days_remaining": 2,
-      "urgency": "\ud83d\udfe1 Soon",
-      "due_date": "2026-02-17T00:00:00.000Z"
-    },
-    {
-      "id": "recFrJWyohd2sNiD2",
-      "name": "Complete GitHub Pages setup for mobile dashboard",
-      "category": "\ud83d\udcbb Laptop Tasks",
       "status": "Not Started",
       "due_status": "soon",
       "days_remaining": 2,
@@ -398,7 +388,7 @@
     }
   ],
   "stats": {
-    "active": 30,
+    "active": 29,
     "overdue": 2,
     "today": 0,
     "completed_7d": 0
