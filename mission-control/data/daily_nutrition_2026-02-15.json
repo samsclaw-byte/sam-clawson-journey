@@ -1,9 +1,20 @@
 {
   "date": "2026-02-15",
-  "meals": [],
-  "total_calories": 0,
+  "meals": [
+    {
+      "type": "Breakfast",
+      "items": "Flat white coffee, 2-egg omelette with cheese and onion, 1/2...",
+      "calories": 740
+    },
+    {
+      "type": "Snack",
+      "items": "Green apple, half small tiramisu",
+      "calories": 280
+    }
+  ],
+  "total_calories": 1020,
   "macros": {
-    "protein": 0,
+    "protein": 28,
     "carbs": 0,
     "fat": 0,
     "fiber": 0
