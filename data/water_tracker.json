@@ -1,42 +1,6 @@
 {
-  "date": "2026-02-12",
-  "today": 8,
+  "date": "2026-02-13",
+  "glasses": 7,
   "goal": 8,
-  "entries": [
-    {
-      "time": "07:28",
-      "amount": 1,
-      "note": "With breakfast"
-    },
-    {
-      "time": "11:32",
-      "amount": 2,
-      "note": "Additional water"
-    },
-    {
-      "time": "17:08",
-      "amount": 1,
-      "note": "Afternoon water"
-    },
-    {
-      "time": "17:10",
-      "amount": 1,
-      "note": "Ginger and lemon tea (with lunch)"
-    },
-    {
-      "time": "19:24",
-      "amount": 1,
-      "note": "Evening water"
-    },
-    {
-      "time": "21:47",
-      "amount": 1,
-      "note": "With dinner"
-    },
-    {
-      "time": "21:50",
-      "amount": 1,
-      "note": "With protein and creatine"
-    }
-  ]
+  "last_updated": "2026-02-13T15:01:11.034076"
 }

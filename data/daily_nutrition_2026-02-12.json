@@ -3,23 +3,13 @@
   "meals": [
     {
       "type": "Breakfast",
-      "items": "2 multigrain bread with butter and ham, cafe au lait",
+      "items": "2 multigrain bread with lurpak butter and ham, cafe au lait",
       "calories": 340
-    },
-    {
-      "type": "Snack",
-      "items": "2 dates",
-      "calories": 133
     },
     {
       "type": "Lunch",
       "items": "Chicken avocado and pesto tortilla, cappuccino",
       "calories": 520
-    },
-    {
-      "type": "Snack",
-      "items": "banana, red apple",
-      "calories": 200
     },
     {
       "type": "Dinner",
@@ -28,15 +18,25 @@
     },
     {
       "type": "Snack",
-      "items": "31g protein powder",
+      "items": "2 dates",
+      "calories": 132.96
+    },
+    {
+      "type": "Snack",
+      "items": "banana, red apple, 1 glass water",
+      "calories": 200.25
+    },
+    {
+      "type": "Snack",
+      "items": "31g protein powder (with water)",
       "calories": 120
     }
   ],
-  "total_calories": 1963,
+  "total_calories": 1963.21,
   "macros": {
     "protein": 108.4,
-    "carbs": 235,
-    "fat": 84,
-    "fiber": 24
+    "carbs": 261.3,
+    "fat": 61.8,
+    "fiber": 27.1
   }
 }

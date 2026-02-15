@@ -14,6 +14,17 @@ from datetime import datetime
 from pathlib import Path
 from flask import Flask, request, jsonify
 
+# Load environment variables from .env file
+env_path = Path(__file__).parent.parent / '.env'
+if env_path.exists():
+    with open(env_path) as f:
+        for line in f:
+            line = line.strip()
+            if line and not line.startswith('#') and '=' in line:
+                key, value = line.split('=', 1)
+                os.environ[key] = value
+    print(f"✅ Loaded environment from {env_path}")
+
 # Add scripts directory to path for airtable_client
 sys.path.insert(0, str(Path(__file__).parent.parent.parent.parent / 'scripts'))
 

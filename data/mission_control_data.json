@@ -1,0 +1,91 @@
+{
+  "today": {
+    "meals": [],
+    "total_calories": 0,
+    "macros": {
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "fiber": 0
+    },
+    "habits": {
+      "multivitamin": false,
+      "fruit": false,
+      "water": 0,
+      "exercise": false,
+      "creatine": false
+    }
+  },
+  "last_7_days": [
+    {
+      "date": "2026-02-14",
+      "calories_burned": 0,
+      "calories_consumed": 0,
+      "strain": 0,
+      "weight": null,
+      "sleep": 0,
+      "net_calories": 0
+    },
+    {
+      "date": "2026-02-13",
+      "calories_burned": 0,
+      "calories_consumed": 0,
+      "strain": 0,
+      "weight": null,
+      "sleep": 0,
+      "net_calories": 0
+    },
+    {
+      "date": "2026-02-12",
+      "calories_burned": 0,
+      "calories_consumed": 0,
+      "strain": 0,
+      "weight": null,
+      "sleep": 0,
+      "net_calories": 0
+    },
+    {
+      "date": "2026-02-11",
+      "calories_burned": 0,
+      "calories_consumed": 0,
+      "strain": 0,
+      "weight": null,
+      "sleep": 0,
+      "net_calories": 0
+    },
+    {
+      "date": "2026-02-10",
+      "calories_burned": 0,
+      "calories_consumed": 0,
+      "strain": 0,
+      "weight": null,
+      "sleep": 0,
+      "net_calories": 0
+    },
+    {
+      "date": "2026-02-09",
+      "calories_burned": 0,
+      "calories_consumed": 0,
+      "strain": 0,
+      "weight": null,
+      "sleep": 0,
+      "net_calories": 0
+    },
+    {
+      "date": "2026-02-08",
+      "calories_burned": 0,
+      "calories_consumed": 0,
+      "strain": 0,
+      "weight": null,
+      "sleep": 0,
+      "net_calories": 0
+    }
+  ],
+  "generated_at": "2026-02-14T06:00:26.956700",
+  "exercise_7_days": {
+    "types": {},
+    "total_minutes": 0,
+    "total_strain": 0,
+    "workout_count": 0
+  }
+}

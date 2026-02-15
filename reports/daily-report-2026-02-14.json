@@ -1,26 +1,33 @@
 {
-  "date": "2026-02-12",
-  "generated_at": "2026-02-12T23:00:03.309657",
+  "date": "2026-02-14",
+  "generated_at": "2026-02-14T23:00:05.279276",
   "health": {
     "food_log": {
-      "count": 4,
-      "total_calories": 1800,
+      "count": 5,
+      "total_calories": 2860,
       "entries": [
         "Unknown",
         "Unknown",
         "Unknown"
       ]
     },
+    "workouts": {
+      "count": 1,
+      "total_minutes": 33.1,
+      "types": [
+        "Unknown"
+      ]
+    },
     "habits": {
-      "count": 14,
+      "count": 1,
       "completed": 0,
       "names": []
     }
   },
   "productivity": {},
   "summary": {
-    "total_entries": 18,
-    "tables_with_data": 2
+    "total_entries": 7,
+    "tables_with_data": 3
   },
   "productivity_error": "'<' not supported between instances of 'dict' and 'str'"
 }

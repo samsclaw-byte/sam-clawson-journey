@@ -1,0 +1,27 @@
+{
+  "date": "2026-02-10",
+  "meals": [
+    {
+      "type": "Breakfast",
+      "items": "3 eggs, protein bread, butter, coffee",
+      "calories": 450
+    },
+    {
+      "type": "Lunch",
+      "items": "Grilled chicken wrap, salad",
+      "calories": 480
+    },
+    {
+      "type": "Dinner",
+      "items": "Pasta with meatballs, parmesan",
+      "calories": 620
+    }
+  ],
+  "total_calories": 1550,
+  "macros": {
+    "protein": 95,
+    "carbs": 160,
+    "fat": 56,
+    "fiber": 16.0
+  }
+}

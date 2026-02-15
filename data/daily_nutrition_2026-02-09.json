@@ -1,0 +1,27 @@
+{
+  "date": "2026-02-09",
+  "meals": [
+    {
+      "type": "Breakfast",
+      "items": "3 eggs, protein bread, butter, coffee",
+      "calories": 450
+    },
+    {
+      "type": "Lunch",
+      "items": "Steak, mashed potatoes, green beans",
+      "calories": 650
+    },
+    {
+      "type": "Dinner",
+      "items": "Greek yogurt, nuts, honey",
+      "calories": 320
+    }
+  ],
+  "total_calories": 1420,
+  "macros": {
+    "protein": 96,
+    "carbs": 118,
+    "fat": 62,
+    "fiber": 11.8
+  }
+}

@@ -1,10 +1,10 @@
 {
-  "date": "2026-02-12",
-  "generated_at": "2026-02-12T23:00:03.309657",
+  "date": "2026-02-15",
+  "generated_at": "2026-02-15T23:00:02.900022",
   "health": {
     "food_log": {
-      "count": 4,
-      "total_calories": 1800,
+      "count": 5,
+      "total_calories": 2750,
       "entries": [
         "Unknown",
         "Unknown",
@@ -12,14 +12,14 @@
       ]
     },
     "habits": {
-      "count": 14,
+      "count": 1,
       "completed": 0,
       "names": []
     }
   },
   "productivity": {},
   "summary": {
-    "total_entries": 18,
+    "total_entries": 6,
     "tables_with_data": 2
   },
   "productivity_error": "'<' not supported between instances of 'dict' and 'str'"
