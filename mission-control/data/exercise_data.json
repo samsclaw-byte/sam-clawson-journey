@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-02-15T23:00:05.365183",
-  "workout_count": 5,
-  "total_minutes": 142.48000000000002,
-  "avg_strain": 11.0,
+  "generated_at": "2026-02-15T23:15:04.321057",
+  "workout_count": 6,
+  "total_minutes": 165.58,
+  "avg_strain": 10.8,
   "exercise_types": {
     "Kettlebell": {
       "minutes": 59.33,
@@ -15,8 +15,8 @@
       "type": "Other"
     },
     "Swimming": {
-      "minutes": 50.05,
-      "count": 2,
+      "minutes": 73.15,
+      "count": 3,
       "type": "Active Recovery"
     }
   },
@@ -48,6 +48,13 @@
       "exercises": "Swimming",
       "duration": 19.55,
       "strain": 10.6
+    },
+    {
+      "date": "2026-02-15",
+      "type": "Active Recovery",
+      "exercises": "Swimming",
+      "duration": 23.1,
+      "strain": 9.5
     },
     {
       "date": "2026-02-09",
