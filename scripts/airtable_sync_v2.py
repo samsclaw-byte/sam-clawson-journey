@@ -186,32 +186,26 @@ class AirtableSync:
         """Sync food log from local memory to Airtable"""
         print("📊 Syncing Food Log...")
         
-        # Local food log (from today's memory)
-        local_meals = [
-            {
-                "meal_type": "Breakfast",
-                "time": "07:28",
-                "food": "2 multigrain bread with lurpak butter and ham, cafe au lait, water, multivitamin",
-                "calories": 450,
-                "protein": 18,
-                "carbs": 55,
-                "fat": 16
-            },
-            {
-                "meal_type": "Snack",
-                "time": "09:03",
-                "food": "2 dates",
-                "calories": 140,
-                "carbs": 37
-            },
-            {
-                "meal_type": "Snack",
-                "time": "10:00",
-                "food": "banana, red apple, 1 glass water",
-                "calories": 150,
-                "carbs": 40
-            }
-        ]
+        # Read from daily nutrition file instead of hardcoded entries
+        local_meals = []
+        daily_nutrition_file = f'/home/samsclaw/.openclaw/workspace/data/daily_nutrition_{get_today()}.json'
+        
+        if os.path.exists(daily_nutrition_file):
+            with open(daily_nutrition_file) as f:
+                nutrition_data = json.load(f)
+                for meal in nutrition_data.get('meals', []):
+                    local_meals.append({
+                        "meal_type": meal.get('type', 'Meal'),
+                        "food": meal.get('items', ''),
+                        "calories": meal.get('calories', 0),
+                        "protein": meal.get('protein', 0),
+                        "carbs": meal.get('carbs', 0),
+                        "fat": meal.get('fat', 0)
+                    })
+        
+        if not local_meals:
+            print("  ℹ️  No local food data to sync")
+            return {'synced': 0, 'error': None}
         
         url = f"https://api.airtable.com/v0/{HEALTH_BASE}/tblsoErCMSBtzBZKB"
         

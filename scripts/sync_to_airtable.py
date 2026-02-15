@@ -117,35 +117,24 @@ def sync_food_log():
     
     print("\n🔄 Syncing Food Log...")
     
-    # Local food log (from memory)
-    local_meals = [
-        {
-            "meal_type": "Breakfast",
-            "time": "07:28",
-            "food": "2 multigrain bread with lurpak butter and ham, cafe au lait, water, multivitamin",
-            "calories": 450,
-            "protein": 18,
-            "carbs": 55,
-            "fat": 16,
-            "status": "Pending API"
-        },
-        {
-            "meal_type": "Snack", 
-            "time": "09:03",
-            "food": "2 dates",
-            "calories": 140,
-            "carbs": 37,
-            "status": "Pending API"
-        },
-        {
-            "meal_type": "Snack",
-            "time": "10:00", 
-            "food": "banana, red apple, 1 glass water",
-            "calories": 150,
-            "carbs": 40,
-            "status": "Pending API"
-        }
-    ]
+    # Read from local data file instead of hardcoded entries
+    local_meals = []
+    daily_nutrition_file = f'/home/samsclaw/.openclaw/workspace/data/daily_nutrition_{get_today()}.json'
+    
+    if os.path.exists(daily_nutrition_file):
+        with open(daily_nutrition_file) as f:
+            nutrition_data = json.load(f)
+            for meal in nutrition_data.get('meals', []):
+                local_meals.append({
+                    "meal_type": meal.get('type', 'Meal'),
+                    "food": meal.get('items', ''),
+                    "calories": meal.get('calories', 0),
+                    "status": "Logged"
+                })
+    
+    if not local_meals:
+        print("  ℹ️  No local food data to sync")
+        return
     
     url = f"https://api.airtable.com/v0/{HEALTH_BASE}/tblsoErCMSBtzBZKB"
     headers = {"Authorization": f"Bearer {AIRTABLE_KEY}"}
