@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-02-15T03:47:58.090181",
+  "generated_at": "2026-02-15T04:17:59.867562",
   "today": {
     "health": {
       "today_calories": 0,
@@ -20,15 +20,15 @@
         "name": "Test task from overnight script update",
         "category": "1",
         "due_status": "overdue",
-        "days_remaining": -1,
+        "days_remaining": -2,
         "status": "Not Started"
       },
       {
         "id": "recS1MZcFhF4vufpI",
         "name": "Set up permanent remote console access",
         "category": "\ud83e\udd16 AI Development",
-        "due_status": "today",
-        "days_remaining": 0,
+        "due_status": "overdue",
+        "days_remaining": -1,
         "status": "Not Started"
       }
     ]
