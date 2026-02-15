@@ -7,9 +7,9 @@
       "calories": 740
     },
     {
-      "type": "Dinner",
+      "type": "Lunch",
       "items": "Latte, 3 small pizza slices (2 BBQ chicken, 1 margherita)",
-      "calories": 1250
+      "calories": 850
     },
     {
       "type": "Snack",
@@ -17,7 +17,7 @@
       "calories": 280
     }
   ],
-  "total_calories": 2270,
+  "total_calories": 1870,
   "macros": {
     "protein": 73,
     "carbs": 0,
