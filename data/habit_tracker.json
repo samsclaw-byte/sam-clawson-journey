@@ -2,5 +2,9 @@
   "date": "2026-02-12",
   "habits": {
     "Fruit": true
+  },
+  "2026-02-15": {
+    "creatine": true,
+    "exercise": true
   }
 }

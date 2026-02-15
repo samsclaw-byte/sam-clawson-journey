@@ -18,6 +18,15 @@
   },
   "last_7_days": [
     {
+      "date": "2026-02-15",
+      "calories_burned": 0,
+      "calories_consumed": 0,
+      "strain": 0,
+      "weight": null,
+      "sleep": 0,
+      "net_calories": 0
+    },
+    {
       "date": "2026-02-14",
       "calories_burned": 0,
       "calories_consumed": 0,
@@ -70,18 +79,9 @@
       "weight": null,
       "sleep": 0,
       "net_calories": 0
-    },
-    {
-      "date": "2026-02-08",
-      "calories_burned": 0,
-      "calories_consumed": 0,
-      "strain": 0,
-      "weight": null,
-      "sleep": 0,
-      "net_calories": 0
     }
   ],
-  "generated_at": "2026-02-14T06:00:26.956700",
+  "generated_at": "2026-02-15T23:39:43.322102",
   "exercise_7_days": {
     "types": {},
     "total_minutes": 0,
