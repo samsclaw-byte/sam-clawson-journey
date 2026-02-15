@@ -4,6 +4,45 @@ All notable changes to the workspace, systems, and data.
 
 ---
 
+## 2026-02-15
+
+### Systems
+- **WHOOP Integration v2.2:** OAuth refresh and data sync improvements
+  - Token refresh automation with SSH tunnel stability
+  - Webhook server v2 with enhanced workout/cycle data handling
+  - Cloudflare Worker deployed for TAT task completion API
+- **Mission Control Fixes:**
+  - Filtered completed tasks from TAT list (bugfix)
+  - Chart scale corrections: Weight y-axis now starts at 0, Strain axis fixed to 0-21
+  - Removed hardcoded food entries from sync scripts - now reads from daily nutrition files dynamically
+- **Data Sync Improvements:** Scripts now use dynamic date reading instead of hardcoded values
+
+### Features
+- **TAT Task Completion API:** Cloudflare Worker endpoint for marking tasks complete
+  - Secure API with Airtable key stored in Cloudflare secrets
+  - Integration with Mission Control productivity page
+- **SSH Tunnel Management:** Automated tunnel restart and monitoring for WHOOP webhook
+
+### Data
+- **Feb 15 Nutrition:** 3 meals logged, 1,870 calories, 73g protein
+  - Breakfast (Resort): Flat white, 2-egg omelette, cheese, baked beans, sausage, pineapple, melon (740 cal)
+  - Lunch: Latte + 3 small pizza slices (2 BBQ, 1 margherita) (850 cal)
+  - Snack: Green apple, half tiramisu (280 cal)
+- **Water Intake:** 4/8 glasses (50% of goal)
+  - Reminder cron jobs running every hour (4 PM - 8 PM)
+- **Daily Habits:** Partially logged
+  - ✅ Fruit (green apple)
+  - ❓ Multivitamin, Exercise, Creatine (unconfirmed)
+- **TAT Status:** 30 active tasks, 2 overdue requiring attention
+
+### Health
+- **No Exercise Logged:** Rest day at resort
+- **Water:** 4/8 glasses - below daily target
+- **Weight:** Not logged
+- **WHOOP:** Token refreshed, SSH tunnel active, webhook ready
+
+---
+
 ## 2026-02-14
 
 ### Systems
