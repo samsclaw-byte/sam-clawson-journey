@@ -1,18 +1,18 @@
 {
-  "generated_at": "2026-02-16T23:33:02.918021",
+  "generated_at": "2026-02-17T00:18:04.368332",
   "today": {
     "health": {
-      "today_calories": 1300,
-      "today_protein": 64,
+      "today_calories": 0,
+      "today_protein": 0,
       "current_weight": 102,
       "today_activity": 0
     },
     "habits": {
-      "multivitamin": true,
-      "fruit": true,
-      "water": 8,
+      "multivitamin": false,
+      "fruit": false,
+      "water": 0,
       "exercise": false,
-      "creatine": true
+      "creatine": false
     },
     "priority_tasks": []
   },
@@ -102,12 +102,6 @@
       }
     ],
     "workouts": [
-      {
-        "date": "2026-02-10",
-        "duration": 26.32,
-        "strain": 7.9,
-        "name": "Hard Workout A"
-      },
       {
         "date": "2026-02-11",
         "duration": 33.01,
