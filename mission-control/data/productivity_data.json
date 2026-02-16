@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-02-16T10:30:08.165462",
+  "generated_at": "2026-02-16T10:45:07.673996",
   "tat_tasks": [
     {
       "id": "rec6KBayN6ZsJCSjk",
@@ -22,39 +22,9 @@
       "due_date": "2026-02-17T00:00:00.000Z"
     },
     {
-      "id": "recIewDx6ZfxoZ0FN",
-      "name": "Set up WHOOP webhooks with Cloudflare Tunnel",
-      "category": "\ud83e\udd16 AI Development",
-      "status": "Not Started",
-      "due_status": "soon",
-      "days_remaining": 1,
-      "urgency": "\ud83d\udfe0 Urgent",
-      "due_date": "2026-02-17T00:00:00.000Z"
-    },
-    {
-      "id": "recIt9GaS0xw2Vs14",
-      "name": "Complete WHOOP workflow",
-      "category": "\ud83e\udd16 AI Development",
-      "status": "Not Started",
-      "due_status": "soon",
-      "days_remaining": 1,
-      "urgency": "\ud83d\udfe0 Urgent",
-      "due_date": "2026-02-17T00:00:00.000Z"
-    },
-    {
-      "id": "recMLCh8Y3mwui7CD",
-      "name": "9pm cron final review of day",
-      "category": "\ud83e\udd16 AI Development",
-      "status": "Not Started",
-      "due_status": "soon",
-      "days_remaining": 1,
-      "urgency": "\ud83d\udfe0 Urgent",
-      "due_date": "2026-02-17T00:00:00.000Z"
-    },
-    {
       "id": "recSXBPa0erXNCHmn",
       "name": "Integrate with web search (Brave)",
-      "category": "\ud83e\udd16 AI Development",
+      "category": "\ud83d\udd27 System Enhancement",
       "status": "Not Started",
       "due_status": "soon",
       "days_remaining": 1,
@@ -64,7 +34,7 @@
     {
       "id": "recTtASONiftQqmDW",
       "name": "Run security updates (35 packages pending)",
-      "category": "\ud83e\udd16 AI Development",
+      "category": "\ud83d\udd27 System Enhancement",
       "status": "Not Started",
       "due_status": "soon",
       "days_remaining": 1,
@@ -84,7 +54,7 @@
     {
       "id": "reciYWtF73kNe3qFP",
       "name": "Give Clawson a voice to respond to voice messages",
-      "category": "\ud83e\udd16 AI Development",
+      "category": "\ud83d\udd27 System Enhancement",
       "status": "Not Started",
       "due_status": "soon",
       "days_remaining": 1,
@@ -94,7 +64,7 @@
     {
       "id": "recl87W1nkafNEROB",
       "name": "Review cron jobs",
-      "category": "\ud83e\udd16 AI Development",
+      "category": "\ud83d\udd27 System Enhancement",
       "status": "Not Started",
       "due_status": "soon",
       "days_remaining": 1,
@@ -104,16 +74,6 @@
     {
       "id": "recsoQZEDAOd2AepZ",
       "name": "Review SOUL.md file",
-      "category": "\ud83e\udd16 AI Development",
-      "status": "Not Started",
-      "due_status": "soon",
-      "days_remaining": 1,
-      "urgency": "\ud83d\udfe0 Urgent",
-      "due_date": "2026-02-17T00:00:00.000Z"
-    },
-    {
-      "id": "recvFbq1U13Q3T63T",
-      "name": "Set up Google Calendar integration",
       "category": "\ud83e\udd16 AI Development",
       "status": "Not Started",
       "due_status": "soon",
@@ -134,7 +94,7 @@
     {
       "id": "rec5TVKrb8KezW8sm",
       "name": "Set up permanent systemd services for WHOOP webhook and tunnel",
-      "category": "\ud83d\udcbb Laptop Tasks",
+      "category": "\ud83d\udd27 System Enhancement",
       "status": "Not Started",
       "due_status": "soon",
       "days_remaining": 2,
@@ -144,7 +104,7 @@
     {
       "id": "recHo1Nl9eJjztBhP",
       "name": "Update TAT database schema - numeric categories + due date formula",
-      "category": "\ud83d\udcbb Laptop Tasks",
+      "category": "\ud83d\udd27 System Enhancement",
       "status": "Not Started",
       "due_status": "soon",
       "days_remaining": 2,
@@ -154,16 +114,6 @@
     {
       "id": "recUmXbaSwflScEzf",
       "name": "Update blog - missing days and push to GitHub",
-      "category": "\ud83d\udcbb Laptop Tasks",
-      "status": "Not Started",
-      "due_status": "soon",
-      "days_remaining": 2,
-      "urgency": "\ud83d\udfe1 Soon",
-      "due_date": "2026-02-18T00:00:00.000Z"
-    },
-    {
-      "id": "recpVeTFxtqFE1xxG",
-      "name": "Update dashboard with improved layout and 7-day history",
       "category": "\ud83d\udcbb Laptop Tasks",
       "status": "Not Started",
       "due_status": "soon",
@@ -196,81 +146,9 @@
       }
     },
     {
-      "id": "recG3O9fEFQuKnjMc",
-      "name": "Complete TAT task Airtable setup with formula fields",
-      "category": "1",
-      "status": "Not Started",
-      "due_status": "later",
-      "days_remaining": 999,
-      "urgency": "\ud83d\udfe2 Normal",
-      "due_date": {
-        "error": "#ERROR"
-      }
-    },
-    {
-      "id": "recKx5fJkrx1Ou7Lc",
-      "name": "Deploy Cloudflare Worker for TAT task completion from Mission Control",
-      "category": "3",
-      "status": "Not Started",
-      "due_status": "later",
-      "days_remaining": 999,
-      "urgency": "\ud83d\udfe2 Normal",
-      "due_date": {
-        "error": "#ERROR"
-      }
-    },
-    {
-      "id": "recQeSArOIzgTkdBC",
-      "name": "Set up Cloudflare Pages for Mission Control dashboard using samsclaw.org domain",
-      "category": "1",
-      "status": "Not Started",
-      "due_status": "later",
-      "days_remaining": 999,
-      "urgency": "\ud83d\udfe2 Normal",
-      "due_date": {
-        "error": "#ERROR"
-      }
-    },
-    {
-      "id": "recWdJk6nBQgyYJwz",
-      "name": "Configure MiniMax 2.5 API key in .env file",
-      "category": "1",
-      "status": "Not Started",
-      "due_status": "later",
-      "days_remaining": 999,
-      "urgency": "\ud83d\udfe2 Normal",
-      "due_date": {
-        "error": "#ERROR"
-      }
-    },
-    {
-      "id": "recXQ21AUbQNxqnpi",
-      "name": "Fix WSL DNS permanently - create wsl.conf and set Google DNS 8.8.8.8",
-      "category": "7",
-      "status": "Not Started",
-      "due_status": "later",
-      "days_remaining": 999,
-      "urgency": "\ud83d\udfe2 Normal",
-      "due_date": {
-        "error": "#ERROR"
-      }
-    },
-    {
       "id": "recm47ii1C8DbnLdX",
       "name": "Call Micasa to fix drainage and overflow issues",
       "category": "7",
-      "status": "Not Started",
-      "due_status": "later",
-      "days_remaining": 999,
-      "urgency": "\ud83d\udfe2 Normal",
-      "due_date": {
-        "error": "#ERROR"
-      }
-    },
-    {
-      "id": "recyD5iTCJ32SZ91G",
-      "name": "Set up SSH remote access for Termius - install OpenSSH server and configure for remote WiFi access",
-      "category": "1",
       "status": "Not Started",
       "due_status": "later",
       "days_remaining": 999,
@@ -360,7 +238,7 @@
     }
   ],
   "stats": {
-    "active": 26,
+    "active": 15,
     "overdue": 0,
     "today": 0,
     "completed_7d": 0
