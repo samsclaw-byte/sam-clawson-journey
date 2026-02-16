@@ -9,9 +9,10 @@
         
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #f8f9ff 0%, #fff5f8 100%);
-            color: #1a1a2e;
+            background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 100%);
+            color: #fff;
             min-height: 100vh;
+            padding: 20px;
         }
         
         .header {
@@ -20,12 +21,18 @@
             text-align: center;
             color: white;
             box-shadow: 0 4px 20px rgba(153, 69, 255, 0.3);
+            margin: -20px -20px 20px -20px;
         }
         
         .header h1 {
             font-size: 28px;
             font-weight: 700;
             margin-bottom: 8px;
+        }
+        
+        .subtitle {
+            font-size: 14px;
+            opacity: 0.9;
         }
         
         .nav {
@@ -38,8 +45,8 @@
         
         .nav a {
             padding: 12px 24px;
-            background: white;
-            border: 1px solid rgba(153, 69, 255, 0.2);
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(153, 69, 255, 0.3);
             border-radius: 25px;
             color: #9945FF;
             text-decoration: none;
@@ -53,182 +60,231 @@
             border-color: transparent;
         }
         
-        .container {
+        /* System Diagram Container */
+        .system-map {
+            position: relative;
             max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
+            height: 800px;
+            margin: 20px auto;
+            background: radial-gradient(circle at center, #1a1a2e 0%, #0a0a0f 100%);
+            border-radius: 20px;
+            border: 1px solid #333;
+            overflow: hidden;
         }
         
-        .card {
-            background: white;
-            border-radius: 16px;
-            padding: 24px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 20px rgba(153, 69, 255, 0.08);
-            border: 1px solid rgba(153, 69, 255, 0.1);
-        }
-        
-        .card h2 {
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            background: linear-gradient(135deg, #9945FF, #FF6B9D);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 16px;
-            font-weight: 600;
-        }
-        
-        .architecture-diagram {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            padding: 20px 0;
-        }
-        
-        .arch-layer {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            justify-content: center;
-            padding: 20px;
-            background: linear-gradient(135deg, #f8f5ff 0%, #fff5f8 100%);
-            border-radius: 16px;
-            border: 1px solid rgba(153, 69, 255, 0.15);
-        }
-        
-        .arch-layer-title {
+        /* SVG Connections Layer */
+        .connections {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
-            text-align: center;
-            font-size: 12px;
-            color: #9945FF;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 12px;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
         }
         
-        .arch-node {
-            background: white;
+        .connection-line {
+            stroke: #9945FF;
+            stroke-width: 2;
+            fill: none;
+            stroke-dasharray: 5,5;
+            animation: dash 20s linear infinite;
+        }
+        
+        .connection-line.solid {
+            stroke-dasharray: none;
+        }
+        
+        .connection-line.active {
+            stroke: #22c55e;
+            stroke-width: 3;
+        }
+        
+        @keyframes dash {
+            to { stroke-dashoffset: -100; }
+        }
+        
+        /* Nodes */
+        .node {
+            position: absolute;
+            width: 130px;
+            padding: 12px;
             border-radius: 12px;
-            padding: 16px;
-            min-width: 120px;
             text-align: center;
-            border: 2px solid rgba(153, 69, 255, 0.2);
-            transition: all 0.2s;
-        }
-        
-        .arch-node:hover {
-            border-color: #9945FF;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 16px rgba(153, 69, 255, 0.2);
-        }
-        
-        .arch-node-icon {
-            font-size: 28px;
-            margin-bottom: 8px;
-        }
-        
-        .arch-node-title {
-            font-weight: 600;
-            font-size: 13px;
-            color: #1a1a2e;
-            margin-bottom: 4px;
-        }
-        
-        .arch-node-desc {
             font-size: 11px;
-            color: #666;
+            z-index: 10;
+            transition: all 0.3s;
+            cursor: pointer;
         }
         
-        .connector {
-            text-align: center;
-            font-size: 20px;
-            color: #9945FF;
-            padding: 8px 0;
+        .node:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 30px rgba(153, 69, 255, 0.5);
         }
         
-        .data-flow-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
+        .node-icon {
+            font-size: 24px;
+            margin-bottom: 6px;
         }
         
-        .flow-item {
+        .node-title {
+            font-weight: 600;
+            margin-bottom: 3px;
+            font-size: 12px;
+        }
+        
+        .node-status {
+            font-size: 9px;
+            opacity: 0.8;
+        }
+        
+        /* Node Types */
+        .node.core { 
+            background: linear-gradient(135deg, #9945FF, #764ba2);
+            border: 2px solid #FF6B9D;
+            width: 150px;
+        }
+        
+        .node.external { 
+            background: linear-gradient(135deg, #1e3a5f, #0d2137);
+            border: 2px solid #3b82f6;
+        }
+        
+        .node.storage { 
+            background: linear-gradient(135deg, #065f46, #064e3b);
+            border: 2px solid #10b981;
+        }
+        
+        .node.user { 
+            background: linear-gradient(135deg, #9a3412, #7c2d12);
+            border: 2px solid #f97316;
+        }
+        
+        .node.automation { 
+            background: linear-gradient(135deg, #854d0e, #713f12);
+            border: 2px solid #f59e0b;
+        }
+        
+        /* Positioning - Scaled for container */
+        .node.you { top: 40px; left: 50%; transform: translateX(-50%); }
+        .node.telegram { top: 140px; left: 50%; transform: translateX(-50%); }
+        .node.openclaw { top: 260px; left: 50%; transform: translateX(-50%); }
+        
+        .node.notion { top: 140px; left: 15%; }
+        .node.github { top: 260px; left: 5%; }
+        .node.airtable { top: 380px; left: 15%; }
+        
+        .node.whoop { top: 140px; left: 75%; }
+        .node.calendar { top: 260px; left: 85%; }
+        .node.cron { top: 380px; left: 75%; }
+        
+        .node.security { top: 480px; left: 20%; }
+        .node.voice { top: 480px; left: 50%; transform: translateX(-50%); }
+        .node.water { top: 480px; left: 70%; }
+        
+        .node.morning { top: 600px; left: 10%; }
+        .node.tat { top: 600px; left: 35%; }
+        .node.nutrition { top: 600px; left: 60%; }
+        .node.edamam { top: 600px; left: 85%; }
+        
+        /* Legend */
+        .legend {
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            background: rgba(0,0,0,0.8);
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 10px;
+            border: 1px solid #333;
+        }
+        
+        .legend-item {
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 12px 16px;
-            background: #f8f5ff;
-            border-radius: 12px;
-            font-size: 14px;
+            gap: 6px;
+            margin: 4px 0;
         }
         
-        .flow-arrow {
-            color: #9945FF;
-            font-size: 18px;
+        .legend-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 3px;
         }
         
-        .workflow-grid {
+        /* Pulse Animation for Active Nodes */
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(153, 69, 255, 0.4); }
+            50% { box-shadow: 0 0 0 10px rgba(153, 69, 255, 0); }
+        }
+        
+        .node.active {
+            animation: pulse 2s infinite;
+        }
+        
+        /* Info Panel */
+        .info-panel {
+            max-width: 1200px;
+            margin: 20px auto;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 16px;
         }
         
-        .workflow-card {
-            background: linear-gradient(135deg, #f8f5ff 0%, #fff5f8 100%);
+        .info-card {
+            background: rgba(255,255,255,0.05);
             border-radius: 12px;
-            padding: 20px;
-            border: 1px solid rgba(153, 69, 255, 0.15);
-            transition: all 0.2s;
+            padding: 16px;
+            border: 1px solid rgba(153, 69, 255, 0.2);
         }
         
-        .workflow-card:hover {
-            border-color: #9945FF;
-            transform: translateY(-2px);
-        }
-        
-        .workflow-icon {
-            font-size: 32px;
-            margin-bottom: 12px;
-        }
-        
-        .workflow-title {
-            font-weight: 600;
-            color: #1a1a2e;
-            margin-bottom: 8px;
-        }
-        
-        .workflow-desc {
-            font-size: 13px;
-            color: #666;
-            line-height: 1.5;
-        }
-        
-        .component-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-        
-        .component-tag {
-            background: linear-gradient(135deg, #9945FF20, #FF6B9D20);
+        .info-card h3 {
+            font-size: 14px;
             color: #9945FF;
-            padding: 6px 12px;
-            border-radius: 20px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .info-card p {
             font-size: 12px;
-            font-weight: 500;
+            color: #aaa;
+            line-height: 1.6;
+        }
+        
+        .flow-list {
+            list-style: none;
+            font-size: 11px;
+        }
+        
+        .flow-list li {
+            padding: 6px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            color: #ccc;
+        }
+        
+        .flow-list li:last-child {
+            border-bottom: none;
         }
         
         @media (max-width: 768px) {
-            .arch-layer {
-                flex-direction: column;
-                align-items: center;
+            .system-map {
+                height: 1000px;
+                overflow-x: auto;
             }
             
-            .arch-node {
-                width: 100%;
-                max-width: 200px;
+            .node {
+                width: 100px;
+                padding: 8px;
+                font-size: 10px;
+            }
+            
+            .node-icon {
+                font-size: 18px;
+            }
+            
+            .node-title {
+                font-size: 10px;
             }
         }
     </style>
@@ -236,7 +292,7 @@
 <body>
     <div class="header">
         <h1>🏗️ System Architecture</h1>
-        <div style="font-size: 14px; opacity: 0.9; margin-top: 5px;">Sam's OpenClaw Setup Overview</div>
+        <div class="subtitle">OpenClaw Data Flow & Integration Map</div>
     </div>
     
     <div class="nav">
@@ -249,199 +305,218 @@
         <a href="calendar.html">Calendar</a>
         <a href="architecture.html" class="active">Architecture</a>
     </div>
+    
+    <div class="system-map">
+        <!-- SVG Connections -->
+        <svg class="connections" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid meet">
+            <!-- You → Telegram -->
+            <line class="connection-line solid" x1="600" y1="90" x2="600" y2="170"/>
+            
+            <!-- Telegram → OpenClaw Core -->
+            <line class="connection-line active" x1="600" y1="210" x2="600" y2="290"/>
+            
+            <!-- OpenClaw → Notion -->
+            <line class="connection-line" x1="550" y1="320" x2="220" y2="190"/>
+            <text x="350" y="240" fill="#9945FF" font-size="9">REST API</text>
+            
+            <!-- OpenClaw → GitHub -->
+            <line class="connection-line" x1="530" y1="340" x2="100" y2="310"/>
+            <text x="280" y="330" fill="#9945FF" font-size="9">Git Push</text>
+            
+            <!-- OpenClaw → Airtable -->
+            <line class="connection-line solid" x1="550" y1="360" x2="220" y2="430"/>
+            <text x="340" y="410" fill="#10b981" font-size="9">API</text>
+            
+            <!-- OpenClaw → WHOOP -->
+            <line class="connection-line" x1="650" y1="320" x2="980" y2="190"/>
+            <text x="780" y="240" fill="#9945FF" font-size="9">OAuth2</text>
+            
+            <!-- OpenClaw → Google Calendar -->
+            <line class="connection-line" x1="670" y1="340" x2="1100" y2="310"/>
+            <text x="850" y="330" fill="#9945FF" font-size="9">Maton API</text>
+            
+            <!-- Cron → OpenClaw -->
+            <line class="connection-line" x1="980" y1="430" x2="670" y2="360"/>
+            <text x="790" y="410" fill="#f59e0b" font-size="9">Triggers</text>
+            
+            <!-- OpenClaw → Sub-systems -->
+            <line class="connection-line" x1="550" y1="380" x2="280" y2="510"/>
+            <line class="connection-line" x1="600" y1="390" x2="600" y2="510"/>
+            <line class="connection-line" x1="650" y1="380" x2="920" y2="510"/>
+            
+            <!-- Sub-systems to Output -->
+            <line class="connection-line solid" x1="150" y1="570" x2="150" y2="630"/>
+            <line class="connection-line solid" x1="450" y1="570" x2="450" y2="630"/>
+            <line class="connection-line solid" x1="720" y1="570" x2="720" y2="630"/>
+            <line class="connection-line solid" x1="1020" y1="570" x2="1020" y2="630"/>
+        </svg>
+        
+        <!-- USER LAYER -->
+        <div class="node user you active">
+            <div class="node-icon">👤</div>
+            <div class="node-title">Sam</div>
+            <div class="node-status">Input & Commands</div>
+        </div>
+        
+        <!-- INTERFACE LAYER -->
+        <div class="node external telegram active">
+            <div class="node-icon">💬</div>
+            <div class="node-title">Telegram</div>
+            <div class="node-status">Primary Interface</div>
+        </div>
+        
+        <!-- CORE LAYER -->
+        <div class="node core openclaw active">
+            <div class="node-icon">🦞</div>
+            <div class="node-title">OpenClaw Core</div>
+            <div class="node-status">Kimi K2.5 AI</div>
+        </div>
+        
+        <!-- EXTERNAL APIs -->
+        <div class="node external whoop active">
+            <div class="node-icon">💓</div>
+            <div class="node-title">WHOOP</div>
+            <div class="node-status">Recovery & Sleep</div>
+        </div>
+        
+        <div class="node external calendar active">
+            <div class="node-icon">📅</div>
+            <div class="node-title">Google Calendar</div>
+            <div class="node-status">Family Schedule</div>
+        </div>
+        
+        <!-- STORAGE LAYER -->
+        <div class="node storage notion">
+            <div class="node-icon">📝</div>
+            <div class="node-title">Notion</div>
+            <div class="node-status">Tasks & Research</div>
+        </div>
+        
+        <div class="node storage github">
+            <div class="node-icon">📦</div>
+            <div class="node-title">GitHub</div>
+            <div class="node-status">Version Control</div>
+        </div>
+        
+        <div class="node storage airtable">
+            <div class="node-icon">🗄️</div>
+            <div class="node-title">Airtable</div>
+            <div class="node-status">Health & Productivity</div>
+        </div>
+        
+        <!-- AUTOMATION LAYER -->
+        <div class="node automation cron active">
+            <div class="node-icon">⏰</div>
+            <div class="node-title">Cron Jobs</div>
+            <div class="node-status">1am-6am Schedule</div>
+        </div>
+        
+        <!-- SUB-SYSTEMS -->
+        <div class="node automation security">
+            <div class="node-icon">🛡️</div>
+            <div class="node-title">Security Sentinel</div>
+            <div class="node-status">Daily Audit</div>
+        </div>
+        
+        <div class="node automation voice">
+            <div class="node-icon">🎙️</div>
+            <div class="node-title">Voice Transcribe</div>
+            <div class="node-status">Whisper AI</div>
+        </div>
+        
+        <div class="node automation water">
+            <div class="node-icon">💧</div>
+            <div class="node-title">Water Tracker</div>
+            <div class="node-status">Hourly Reminders</div>
+        </div>
+        
+        <!-- WORKFLOW OUTPUTS -->
+        <div class="node automation morning active">
+            <div class="node-icon">🌅</div>
+            <div class="node-title">Morning Brief</div>
+            <div class="node-status">6am Daily</div>
+        </div>
+        
+        <div class="node automation tat">
+            <div class="node-icon">📋</div>
+            <div class="node-title">TAT System</div>
+            <div class="node-status">Task Management</div>
+        </div>
+        
+        <div class="node automation nutrition active">
+            <div class="node-icon">🥗</div>
+            <div class="node-title">Nutrition Log</div>
+            <div class="node-status">Edamam API</div>
+        </div>
+        
+        <div class="node automation edamam">
+            <div class="node-icon">🔬</div>
+            <div class="node-title">Edamam</div>
+            <div class="node-status">Macro Analysis</div>
+        </div>
+        
+        <!-- Legend -->
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-dot" style="background: linear-gradient(135deg, #9945FF, #764ba2);"></div>
+                <span>Core System</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-dot" style="background: linear-gradient(135deg, #1e3a5f, #0d2137);"></div>
+                <span>External API</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-dot" style="background: linear-gradient(135deg, #065f46, #064e3b);"></div>
+                <span>Storage</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-dot" style="background: linear-gradient(135deg, #854d0e, #713f12);"></div>
+                <span>Automation</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-dot" style="background: linear-gradient(135deg, #9a3412, #7c2d12);"></div>
+                <span>User</span>
+            </div>
+            <div style="margin-top: 8px; padding-top: 8px; border-top: 1px solid #333; font-size: 9px; color: #888;">
+                <div style="color: #22c55e;">● Active</div>
+                <div>-- Periodic | — Real-time</div>
+            </div>
+        </div>
     </div>
     
-    <div class="container">
-        <!-- Architecture Overview Card -->
-        <div class="card">
-            <h2>System Overview</h2>
-            <div class="architecture-diagram">
-                <!-- User Layer -->
-                <div class="arch-layer">
-                    <div class="arch-layer-title">👤 User Interfaces</div>
-                    <div class="arch-node">
-                        <div class="arch-node-icon">💬</div>
-                        <div class="arch-node-title">Telegram</div>
-                        <div class="arch-node-desc">Primary chat interface</div>
-                    </div>
-                    <div class="arch-node">
-                        <div class="arch-node-icon">📱</div>
-                        <div class="arch-node-title">Mission Control</div>
-                        <div class="arch-node-desc">Dashboard & TAT</div>
-                    </div>
-                    <div class="arch-node">
-                        <div class="arch-node-icon">⌨️</div>
-                        <div class="arch-node-title">Terminal</div>
-                        <div class="arch-node-desc">WSL / CLI access</div>
-                    </div>
-                </div>
-                
-                <div class="connector">⬇</div>
-                
-                <!-- Core Layer -->
-                <div class="arch-layer">
-                    <div class="arch-layer-title">🤖 OpenClaw Core</div>
-                    <div class="arch-node">
-                        <div class="arch-node-icon">🧠</div>
-                        <div class="arch-node-title">Agent System</div>
-                        <div class="arch-node-desc">Kimi K2.5 AI</div>
-                    </div>
-                    <div class="arch-node">
-                        <div class="arch-node-icon">📅</div>
-                        <div class="arch-node-title">Cron Jobs</div>
-                        <div class="arch-node-desc">Scheduled tasks</div>
-                    </div>
-                    <div class="arch-node">
-                        <div class="arch-node-icon">🔔</div>
-                        <div class="arch-node-title">Notifications</div>
-                        <div class="arch-node-desc">Alerts & reminders</div>
-                    </div>
-                </div>
-                
-                <div class="connector">⬇</div>
-                
-                <!-- Integration Layer -->
-                <div class="arch-layer">
-                    <div class="arch-layer-title">🔗 Integrations</div>
-                    <div class="arch-node">
-                        <div class="arch-node-icon">🗄️</div>
-                        <div class="arch-node-title">Airtable</div>
-                        <div class="arch-node-desc">Health & Productivity</div>
-                    </div>
-                    <div class="arch-node">
-                        <div class="arch-node-icon">📊</div>
-                        <div class="arch-node-title">Notion</div>
-                        <div class="arch-node-desc">Research & Tasks</div>
-                    </div>
-                    <div class="arch-node">
-                        <div class="arch-node-icon">💓</div>
-                        <div class="arch-node-title">WHOOP</div>
-                        <div class="arch-node-desc">Fitness data</div>
-                    </div>
-                    <div class="arch-node">
-                        <div class="arch-node-icon">📅</div>
-                        <div class="arch-node-title">Google Calendar</div>
-                        <div class="arch-node-desc">Family schedule</div>
-                    </div>
-                </div>
-                
-                <div class="connector">⬇</div>
-                
-                <!-- Infrastructure Layer -->
-                <div class="arch-layer">
-                    <div class="arch-layer-title">☁️ Infrastructure</div>
-                    <div class="arch-node">
-                        <div class="arch-node-icon">🐧</div>
-                        <div class="arch-node-title">WSL</div>
-                        <div class="arch-node-desc">Ubuntu host</div>
-                    </div>
-                    <div class="arch-node">
-                        <div class="arch-node-icon">🌐</div>
-                        <div class="arch-node-title">Cloudflare</div>
-                        <div class="arch-node-desc">Tunnels & Workers</div>
-                    </div>
-                    <div class="arch-node">
-                        <div class="arch-node-icon">🐙</div>
-                        <div class="arch-node-title">GitHub</div>
-                        <div class="arch-node-desc">Storage & sync</div>
-                    </div>
-                </div>
-            </div>
+    <div class="info-panel">
+        <div class="info-card">
+            <h3>Active Data Flows</h3>
+            <ul class="flow-list">
+                <li>💬 Telegram → 🦞 OpenClaw → 🗄️ Airtable (Food Log)</li>
+                <li>💓 WHOOP → 🌐 Webhook → 🗄️ Airtable (Recovery)</li>
+                <li>📅 Google Calendar → ⏰ Cron → 📱 Mission Control</li>
+                <li>📝 Notion → 🧠 Sub-agent → 📝 Research Files</li>
+                <li>🥗 Food Text → 🔬 Edamam → 🗄️ Nutrition Data</li>
+            </ul>
         </div>
         
-        <!-- Data Flow Card -->
-        <div class="card">
-            <h2>Data Flow Examples</h2>
-            <div class="data-flow-list">
-                <div class="flow-item">
-                    <span>💬 Telegram</span>
-                    <span class="flow-arrow">→</span>
-                    <span>🧠 OpenClaw</span>
-                    <span class="flow-arrow">→</span>
-                    <span>🗄️ Airtable</span>
-                    <span style="margin-left: auto; font-size: 12px; color: #666;">Food logging</span>
-                </div>
-                <div class="flow-item">
-                    <span>💓 WHOOP</span>
-                    <span class="flow-arrow">→</span>
-                    <span>🌐 Webhook</span>
-                    <span class="flow-arrow">→</span>
-                    <span>🗄️ Airtable</span>
-                    <span style="margin-left: auto; font-size: 12px; color: #666;">Recovery data</span>
-                </div>
-                <div class="flow-item">
-                    <span>📅 Google Calendar</span>
-                    <span class="flow-arrow">→</span>
-                    <span>🔄 Cron (15min)</span>
-                    <span class="flow-arrow">→</span>
-                    <span>📱 Mission Control</span>
-                    <span style="margin-left: auto; font-size: 12px; color: #666;">Calendar sync</span>
-                </div>
-                <div class="flow-item">
-                    <span>📊 Notion</span>
-                    <span class="flow-arrow">→</span>
-                    <span>🧠 Sub-agent</span>
-                    <span class="flow-arrow">→</span>
-                    <span>📝 Research File</span>
-                    <span style="margin-left: auto; font-size: 12px; color: #666;">Overnight tasks</span>
-                </div>
-            </div>
+        <div class="info-card">
+            <h3>Cron Schedule</h3>
+            <ul class="flow-list">
+                <li><strong>1am-5am:</strong> Overnight Build/Research Tasks</li>
+                <li><strong>5:50am:</strong> WHOOP Token Health Check</li>
+                <li><strong>6:00am:</strong> Morning Brief, Security Audit</li>
+                <li><strong>10am-8pm:</strong> Water Reminders</li>
+                <li><strong>Every 15min:</strong> Dashboard Refresh</li>
+            </ul>
         </div>
         
-        <!-- Key Components Card -->
-        <div class="card">
-            <h2>Key Components</h2>
-            <div class="component-list">
-                <span class="component-tag">TAT System</span>
-                <span class="component-tag">WHOOP Integration</span>
-                <span class="component-tag">Mission Control</span>
-                <span class="component-tag">Security Sentinel</span>
-                <span class="component-tag">Morning Brief</span>
-                <span class="component-tag">Food Logger</span>
-                <span class="component-tag">Habit Tracker</span>
-                <span class="component-tag">Weight Tracker</span>
-                <span class="component-tag">Calendar Sync</span>
-                <span class="component-tag">Voice Transcription</span>
-                <span class="component-tag">Edamam Nutrition</span>
-                <span class="component-tag">Cloudflare Tunnels</span>
-            </div>
-        </div>
-        
-        <!-- Workflows Card -->
-        <div class="card">
-            <h2>Active Workflows</h2>
-            <div class="workflow-grid">
-                <div class="workflow-card">
-                    <div class="workflow-icon">🌅</div>
-                    <div class="workflow-title">Morning Routine</div>
-                    <div class="workflow-desc">6am: WHOOP check, habit status, TAT review, security audit, daily briefing</div>
-                </div>
-                <div class="workflow-card">
-                    <div class="workflow-icon">💧</div>
-                    <div class="workflow-title">Water Tracking</div>
-                    <div class="workflow-desc">Reminders at 10am, 11am, 12pm, 1-5pm, 6-8pm based on current intake</div>
-                </div>
-                <div class="workflow-card">
-                    <div class="workflow-icon">🔍</div>
-                    <div class="workflow-title">Overnight Tasks</div>
-                    <div class="workflow-desc">1am, 2am, 3am, 5am: Check Notion for pending build/research tasks</div>
-                </div>
-                <div class="workflow-card">
-                    <div class="workflow-icon">📊</div>
-                    <div class="workflow-title">Data Sync</div>
-                    <div class="workflow-desc">Every 15min: Dashboard refresh, overview data, trend updates</div>
-                </div>
-                <div class="workflow-card">
-                    <div class="workflow-icon">🔒</div>
-                    <div class="workflow-title">Security Audit</div>
-                    <div class="workflow-desc">6am daily: Check system updates, SSH status, firewall, pending patches</div>
-                </div>
-                <div class="workflow-card">
-                    <div class="workflow-icon">🍽️</div>
-                    <div class="workflow-title">Nutrition Log</div>
-                    <div class="workflow-desc">Voice-to-text → Telegram → OpenClaw → Airtable → Edamam API enrichment</div>
-                </div>
-            </div>
+        <div class="info-card">
+            <h3>Key Integrations</h3>
+            <p>
+                <strong>Moonshot AI (Kimi K2.5):</strong> Main reasoning engine<br><br>
+                <strong>Airtable:</strong> Health data, habits, TAT tasks<br><br>
+                <strong>Notion:</strong> Research database, overnight tasks<br><br>
+                <strong>GitHub:</strong> Code storage, sync, versioning<br><br>
+                <strong>Cloudflare:</strong> Tunnels (SSH, WHOOP), Workers<br><br>
+                <strong>Google Calendar:</strong> Family schedule via Maton API
+            </p>
         </div>
     </div>
 </body>
