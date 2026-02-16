@@ -1035,6 +1035,142 @@
                 </tr>
             </table>
         </div>
+        
+        <!-- PRD Summary & Discovery -->
+        <div class="card" style="margin-top: 20px; background: linear-gradient(135deg, #fef3c7, #fde68a); border: 2px solid #f59e0b;">
+            <h2 style="color: #92400e;">📋 Product Requirements Document (PRD)</h2>
+            <p style="font-size: 13px; color: #78350f; margin-bottom: 16px;">Complete specification for Health & Nutrition App MVP</p>
+            
+            <div style="background: white; border-radius: 8px; padding: 16px; margin-bottom: 16px;">
+                <h4 style="color: #92400e; margin-bottom: 12px;">🎯 MVP Vision</h4>
+                <p style="font-size: 13px; line-height: 1.6; color: #374151;">
+                    A simple, fast nutrition tracking web app for individuals and families. 
+                    <strong>Core value:</strong> Make meal logging so easy that people actually do it consistently.
+                </p>
+            </div>
+            
+            <div style="background: white; border-radius: 8px; padding: 16px; margin-bottom: 16px;">
+                <h4 style="color: #92400e; margin-bottom: 12px;">✅ In Scope (MVP)</h4>
+                <ul style="font-size: 12px; line-height: 1.8; padding-left: 20px; color: #374151;">
+                    <li>Google OAuth authentication</li>
+                    <li>Single-page nutrition dashboard</li>
+                    <li>Meal logging (text input only)</li>
+                    <li>Daily macro visualization</li>
+                    <li>Multi-user support (3-5 family members)</li>
+                </ul>
+            </div>
+            
+            <div style="background: white; border-radius: 8px; padding: 16px; margin-bottom: 16px;">
+                <h4 style="color: #92400e; margin-bottom: 12px;">❌ Out of Scope (v2)</h4>
+                <ul style="font-size: 12px; line-height: 1.8; padding-left: 20px; color: #666;">
+                    <li>AI chat/natural language</li>
+                    <li>Photo logging</li>
+                    <li>Exercise tracking</li>
+                    <li>Habits</li>
+                    <li>Mobile app</li>
+                </ul>
+            </div>
+            
+            <div style="background: white; border-radius: 8px; padding: 16px; margin-bottom: 16px;">
+                <h4 style="color: #92400e; margin-bottom: 12px;">📊 Success Criteria</h4>
+                <ul style="font-size: 12px; line-height: 1.8; padding-left: 20px; color: #374151;">
+                    <li>3-5 Beta users log meals for 7 consecutive days</li>
+                    <li>Average 3+ meals logged per user per day</li>
+                    <li>Zero critical bugs preventing logging</li>
+                    <li>Users request "more features" (indicates engagement)</li>
+                </ul>
+            </div>
+            
+            <div style="background: #fee2e2; border-radius: 8px; padding: 12px; margin-bottom: 16px;">
+                <h4 style="color: #991b1b; margin-bottom: 8px; font-size: 13px;">⚠️ Key Constraints</h4>
+                <ul style="font-size: 11px; line-height: 1.6; padding-left: 16px; color: #7f1d1d;">
+                    <li><strong>Budget:</strong> $20-30/mo total (AI + hosting)</li>
+                    <li><strong>Timeline:</strong> 17-20 days for MVP</li>
+                    <li><strong>Users:</strong> 3-5 family members max for Beta</li>
+                    <li><strong>Model:</strong> Kimi K2.5 (not Claude - cost constraint)</li>
+                </ul>
+            </div>
+            
+            <div style="display: flex; gap: 12px; margin-top: 16px;">
+                <a href="../docs/health-nutrition-mvp-prd.md" style="display: inline-block; padding: 10px 20px; background: #f59e0b; color: white; text-decoration: none; border-radius: 20px; font-size: 13px; font-weight: 500;">📄 View Full PRD</a>
+                <a href="health-nutrition-mvp-process.html" style="display: inline-block; padding: 10px 20px; background: white; color: #f59e0b; border: 2px solid #f59e0b; text-decoration: none; border-radius: 20px; font-size: 13px; font-weight: 500;">📋 Development Process</a>
+            </div>
+        </div>
+        
+        <!-- Discovery Session -->
+        <div class="card" style="margin-top: 20px; background: linear-gradient(135deg, #ede9fe, #ddd6fe); border: 2px solid #8b5cf6;">
+            <h2 style="color: #5b21b6;">🔍 Discovery Session Concepts</h2>
+            <p style="font-size: 13px; color: #5b21b6; margin-bottom: 16px;">Pre-build exercises to validate assumptions</p>
+            
+            <div style="background: white; border-radius: 8px; padding: 16px; margin-bottom: 16px;">
+                <h4 style="color: #7c3aed; margin-bottom: 12px;">💡 Suggested Discovery Activities</h4>
+                
+                <div style="margin-bottom: 16px;">
+                    <strong style="font-size: 13px; color: #1f2937;">1. User Journey Mapping</strong>
+                    <p style="font-size: 12px; color: #4b5563; margin-top: 4px;">
+                        Map the ideal flow: Open app → Log breakfast → See summary → Log lunch... 
+                        Identify friction points before building.
+                    </p>
+                </div>
+                
+                <div style="margin-bottom: 16px;">
+                    <strong style="font-size: 13px; color: #1f2937;">2. Paper Prototype Test</strong>
+                    <p style="font-size: 12px; color: #4b5563; margin-top: 4px;">
+                        Sketch dashboard on paper, ask family: "Log a meal. What would you tap?"
+                        5-minute test reveals UI issues before code.
+                    </p>
+                </div>
+                
+                <div style="margin-bottom: 16px;">
+                    <strong style="font-size: 13px; color: #1f2937;">3. Assumption Validation</strong>
+                    <p style="font-size: 12px; color: #4b5563; margin-top: 4px;">
+                        List assumptions ("Users want macro charts", "Families will track together").
+                        Ask Beta candidates which matter most to them.
+                    </p>
+                </div>
+                
+                <div>
+                    <strong style="font-size: 13px; color: #1f2937;">4. Competitive Analysis</strong>
+                    <p style="font-size: 12px; color: #4b5563; margin-top: 4px;">
+                        Document: MyFitnessPal (too complex), Cronometer (too detailed), Noom (expensive).
+                        Identify the gap our product fills.
+                    </p>
+                </div>
+            </div>
+            
+            <div style="background: white; border-radius: 8px; padding: 16px;">
+                <h4 style="color: #7c3aed; margin-bottom: 12px;">🎭 Mock User Journey</h4>
+                <div style="font-size: 12px; line-height: 1.8; color: #374151;">
+                    <div style="padding: 12px; background: #f3f4f6; border-radius: 8px; margin-bottom: 8px;">
+                        <strong>Persona:</strong> Sarah, 34, working professional<br>
+                        <strong>Goal:</strong> Track lunch to stay mindful of nutrition<br>
+                        <strong>Context:</strong> Just finished eating at her desk, 2 minutes before next meeting
+                    </div>
+                    <div style="padding: 12px; background: #ede9fe; border-radius: 8px; margin-bottom: 8px;">
+                        <strong>Step 1:</strong> Opens app (already logged in)<br>
+                        <em>Time elapsed: 0 seconds</em>
+                    </div>
+                    <div style="padding: 12px; background: #ede9fe; border-radius: 8px; margin-bottom: 8px;">
+                        <strong>Step 2:</strong> Taps "+ Log Meal" (big button, center screen)<br>
+                        <em>Time elapsed: 2 seconds</em>
+                    </div>
+                    <div style="padding: 12px; background: #ede9fe; border-radius: 8px; margin-bottom: 8px;">
+                        <strong>Step 3:</strong> Selects "Lunch" from dropdown<br>
+                        Types: "Chicken salad sandwich, water"<br>
+                        <em>Time elapsed: 15 seconds</em>
+                    </div>
+                    <div style="padding: 12px; background: #ede9fe; border-radius: 8px; margin-bottom: 8px;">
+                        <strong>Step 4:</strong> Taps "Save" (or auto-saves)<br>
+                        Sees: "✅ Saved! ~450 cal"<br>
+                        <em>Time elapsed: 20 seconds</em>
+                    </div>
+                    <div style="padding: 12px; background: #d1fae5; border-radius: 8px;">
+                        <strong>Success:</strong> Meal logged in under 30 seconds<br>
+                        Sarah closes app, ready for meeting, feels good about tracking
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 </html>
