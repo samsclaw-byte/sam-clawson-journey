@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-02-16T07:30:13.923658",
+  "generated_at": "2026-02-16T07:45:08.829268",
   "tat_tasks": [
     {
       "id": "rec82QLASN6uQUiHu",
@@ -160,6 +160,18 @@
       "days_remaining": 2,
       "urgency": "\ud83d\udfe1 Soon",
       "due_date": "2026-02-18T00:00:00.000Z"
+    },
+    {
+      "id": "rec6KBayN6ZsJCSjk",
+      "name": "Bring home 2 pieces of paper and an envelope",
+      "category": "1",
+      "status": "Not Started",
+      "due_status": "later",
+      "days_remaining": 999,
+      "urgency": "\ud83d\udfe2 Normal",
+      "due_date": {
+        "error": "#ERROR"
+      }
     },
     {
       "id": "recC3qtz1X2t3WcxU",
@@ -327,7 +339,7 @@
     }
   ],
   "stats": {
-    "active": 24,
+    "active": 25,
     "overdue": 0,
     "today": 0,
     "completed_7d": 0

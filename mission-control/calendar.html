@@ -444,15 +444,10 @@
         // Load calendar data
         async function loadCalendarData() {
             try {
-                // For now, use mock data. In production, this would fetch from Google Calendar API
-                // through a secure endpoint or use cached data
-                
-                // Mock events
-                calendarData.events = [
-                    { summary: 'Test Event', start: { dateTime: '2026-02-20T09:00:00' } },
-                    { summary: 'Team Standup', start: { dateTime: '2026-02-17T09:00:00' } },
-                    { summary: 'Lunch', start: { dateTime: '2026-02-17T12:00:00' } }
-                ];
+                // Load Google Calendar events
+                const calendarResponse = await fetch('data/calendar_data.json');
+                const calendarJson = await calendarResponse.json();
+                calendarData.events = calendarJson.events || [];
                 
                 // Load TAT tasks from productivity data
                 const response = await fetch('data/productivity_data.json');

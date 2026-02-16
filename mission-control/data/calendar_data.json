@@ -1,0 +1,20 @@
+{
+  "generated_at": "2026-02-16T07:48:07.190149",
+  "events": [
+    {
+      "id": "efh7b654ucplu2ulqt222ombmk",
+      "summary": "Test Event - Today",
+      "description": "",
+      "start": {
+        "dateTime": "2026-02-16T10:00:00+04:00",
+        "timeZone": "Asia/Dubai"
+      },
+      "end": {
+        "dateTime": "2026-02-16T11:00:00+04:00",
+        "timeZone": "Asia/Dubai"
+      },
+      "location": "",
+      "htmlLink": "https://www.google.com/calendar/event?eid=ZWZoN2I2NTR1Y3BsdTJ1bHF0MjIyb21ibWsgc2Ftc2NsYXdAbQ"
+    }
+  ]
+}
