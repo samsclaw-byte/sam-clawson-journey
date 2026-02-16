@@ -1,86 +1,12 @@
 {
   "tasks": [
     {
-      "name": "Aylin share card campaign invoicing",
-      "type": "Task",
-      "detail": "Process invoice for card campaign",
-      "created": "2026-02-11",
-      "tat": 3,
-      "due_date": "2026-02-14",
-      "category": "Financial",
-      "source": "Email",
-      "project": "N/A",
-      "stakeholder": "Aylin",
-      "assigned": "Me",
-      "status": "In Progress",
-      "priority": "P2",
-      "effort": "Small",
-      "blocked_reason": "N/A",
-      "id": "work_2"
-    },
-    {
-      "name": "Complete my success tasks",
-      "type": "Task",
-      "detail": "Finish assigned success tasks",
-      "created": "2026-02-11",
-      "tat": 3,
-      "due_date": "2026-02-14",
-      "category": "Admin",
-      "source": "Email",
-      "project": "N/A",
-      "stakeholder": "Colin",
-      "assigned": "Me",
-      "status": "Not Started",
-      "priority": "P1",
-      "effort": "Small",
-      "blocked_reason": "N/A",
-      "id": "work_3"
-    },
-    {
-      "name": "Raffy fully loaded marketing spend",
-      "type": "Task",
-      "detail": "Calculate fully loaded marketing spend",
-      "created": "2026-02-11",
-      "tat": 7,
-      "due_date": "2026-02-18",
-      "category": "Financial",
-      "source": "In Person",
-      "project": "N/A",
-      "stakeholder": "Raffy",
-      "assigned": "Me",
-      "status": "Complete",
-      "priority": "P1",
-      "effort": "Medium",
-      "blocked_reason": "N/A",
-      "id": "work_5"
-    },
-    {
-      "name": "Audit queries - capitalization",
-      "type": "Task",
-      "detail": "Respond to Fatma - full working of capitalization",
-      "created": "2026-02-11",
-      "tat": 3,
-      "due_date": "2026-02-14",
-      "category": "Financial",
-      "source": "Teams",
-      "project": "N/A",
-      "stakeholder": "Fatma",
-      "assigned": "Me",
-      "status": "Not Started",
-      "priority": "P0",
-      "effort": "Large",
-      "blocked_reason": "N/A",
-      "id": "work_10"
-    }
-  ],
-  "projects": [
-    {
+      "id": "sample1",
       "name": "MGC fees for digital card",
-      "type": "Project",
-      "detail": "Create unit comparison DGC vs Physical, Scenario table assuming avg card load, variable price scenario table and incrementality assuming 2025 volumes",
-      "created": "2026-02-12",
-      "tat": 7,
-      "due_date": "2026-02-19",
+      "detail": "Create unit comparison DGC vs Physical, Scenario table",
+      "type": "Task",
+      "tat": 3,
+      "due_date": "2026-02-18",
       "category": "Analysis",
       "source": "In Person",
       "project": "Digital Card Strategy",
@@ -89,206 +15,78 @@
       "status": "In Progress",
       "priority": "P1",
       "effort": "Medium",
-      "blocked_reason": "N/A",
-      "id": "work_1",
-      "phases": [
-        {
-          "name": "Planning",
-          "status": "Complete",
-          "due": "2026-02-12"
-        },
-        {
-          "name": "Execution",
-          "status": "In Progress",
-          "due": "2026-02-19"
-        },
-        {
-          "name": "Review",
-          "status": "Not Started",
-          "due": ""
-        }
-      ],
-      "progress": 30
+      "blocked_reason": ""
     },
     {
-      "name": "Umair contract renewal",
-      "type": "Project",
-      "detail": "Contract renewal process with Umair",
-      "created": "2026-02-11",
-      "tat": 7,
-      "due_date": "2026-02-18",
-      "category": "Operations",
-      "source": "In Person",
-      "project": "Umair contract renewal",
-      "stakeholder": "Osman",
+      "id": "sample2",
+      "name": "Aylin card campaign invoicing",
+      "detail": "Process invoice for card campaign",
+      "type": "Task",
+      "tat": 3,
+      "due_date": "2026-02-17",
+      "category": "Financial",
+      "source": "Email",
+      "project": "Card Campaign",
+      "stakeholder": "Aylin",
       "assigned": "Me",
       "status": "In Progress",
       "priority": "P1",
-      "effort": "Medium",
-      "blocked_reason": "Awaiting legal review",
-      "id": "work_4",
-      "phases": [
-        {
-          "name": "Planning",
-          "status": "Complete",
-          "due": "2026-02-11"
-        },
-        {
-          "name": "Execution",
-          "status": "In Progress",
-          "due": "2026-02-18"
-        },
-        {
-          "name": "Review",
-          "status": "Not Started",
-          "due": ""
-        }
-      ],
-      "progress": 30
+      "effort": "Small",
+      "blocked_reason": ""
     },
     {
-      "name": "Connect Money Analysis",
-      "type": "Project",
-      "detail": "Lower subscription fee - what cvp",
-      "created": "2026-02-12",
-      "tat": 3,
-      "due_date": "2026-02-15",
-      "category": "Analysis",
-      "source": "In Person",
-      "project": "Connect Money",
-      "stakeholder": "Dem",
+      "id": "sample3",
+      "name": "No objection certificate",
+      "detail": "Obtain NOC for project approval",
+      "type": "Task",
+      "tat": 7,
+      "due_date": "2026-02-21",
+      "category": "Admin",
+      "source": "Email",
+      "project": "Project X",
+      "stakeholder": "Ahmed",
       "assigned": "Me",
       "status": "Not Started",
       "priority": "P1",
       "effort": "Small",
-      "blocked_reason": "N/A",
-      "id": "work_6",
-      "phases": [
-        {
-          "name": "Planning",
-          "status": "Not Started",
-          "due": "2026-02-12"
-        },
-        {
-          "name": "Execution",
-          "status": "Not Started",
-          "due": "2026-02-15"
-        },
-        {
-          "name": "Review",
-          "status": "Not Started",
-          "due": ""
-        }
-      ],
-      "progress": 0
-    },
+      "blocked_reason": ""
+    }
+  ],
+  "projects": [
     {
-      "name": "Petros Waffarha",
+      "id": "proj1",
+      "name": "Umair contract renewal",
+      "detail": "Contract renewal process with Umair",
       "type": "Project",
-      "detail": "Update model & respond",
-      "created": "2026-02-11",
-      "tat": 3,
-      "due_date": "2026-02-14",
-      "category": "New Product",
-      "source": "In Person",
-      "project": "Waffarha Egypt",
-      "stakeholder": "Petros",
-      "assigned": "Me",
-      "status": "Not Started",
-      "priority": "P1",
-      "effort": "Medium",
-      "blocked_reason": "N/A",
-      "id": "work_7",
-      "phases": [
-        {
-          "name": "Planning",
-          "status": "Not Started",
-          "due": "2026-02-11"
-        },
-        {
-          "name": "Execution",
-          "status": "Not Started",
-          "due": "2026-02-14"
-        },
-        {
-          "name": "Review",
-          "status": "Not Started",
-          "due": ""
-        }
-      ],
-      "progress": 0
-    },
-    {
-      "name": "Petros Valu",
-      "type": "Project",
-      "detail": "Update model & respond",
-      "created": "2026-02-11",
-      "tat": 3,
-      "due_date": "2026-02-14",
-      "category": "New Product",
-      "source": "In Person",
-      "project": "Valu Egypt",
-      "stakeholder": "Petros",
-      "assigned": "Me",
-      "status": "Not Started",
-      "priority": "P1",
-      "effort": "Medium",
-      "blocked_reason": "N/A",
-      "id": "work_8",
-      "phases": [
-        {
-          "name": "Planning",
-          "status": "Not Started",
-          "due": "2026-02-11"
-        },
-        {
-          "name": "Execution",
-          "status": "Not Started",
-          "due": "2026-02-14"
-        },
-        {
-          "name": "Review",
-          "status": "Not Started",
-          "due": ""
-        }
-      ],
-      "progress": 0
-    },
-    {
-      "name": "Guarantee for visa prefund",
-      "type": "Project",
-      "detail": "Create legal ticket - replicate for last year LR-2277 service desk ticket",
-      "created": "2026-02-11",
       "tat": 7,
-      "due_date": "2026-02-18",
-      "category": "Legal",
-      "source": "Teams",
-      "project": "Visa Egypt",
-      "stakeholder": "Mahmoud",
+      "due_date": "2026-02-23",
+      "category": "Operations",
+      "source": "In Person",
+      "project": "Osman Contract",
+      "stakeholder": "Osman",
       "assigned": "Me",
-      "status": "Not Started",
-      "priority": "P1",
-      "effort": "Medium",
-      "blocked_reason": "N/A",
-      "id": "work_9",
+      "status": "In Progress",
+      "priority": "P0",
+      "effort": "Large",
+      "blocked_reason": "Awaiting legal review",
       "phases": [
         {
-          "name": "Planning",
-          "status": "Not Started",
-          "due": "2026-02-11"
+          "name": "Initial Review",
+          "status": "Complete",
+          "due": "2026-02-10"
         },
         {
-          "name": "Execution",
-          "status": "Not Started",
+          "name": "Legal Review",
+          "status": "Blocked",
           "due": "2026-02-18"
         },
         {
-          "name": "Review",
+          "name": "Final Approval",
           "status": "Not Started",
-          "due": ""
+          "due": "2026-02-25"
         }
       ],
-      "progress": 0
+      "progress": 30
     }
   ],
   "recurring": [
@@ -321,11 +119,11 @@
       "template": "1. Collect channel data 2. Calculate ROI 3. Compare to budget"
     }
   ],
-  "last_updated": "2026-02-16T13:42:53.106369",
+  "last_updated": "2026-02-16T14:12:25.944527",
   "summary": {
-    "total_active": 9,
+    "total_active": 4,
     "urgent": 1,
-    "blocked": 0,
-    "due_this_week": 9
+    "blocked": 1,
+    "due_this_week": 3
   }
 }
