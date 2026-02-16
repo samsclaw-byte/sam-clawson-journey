@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mission Control Cloud - Project Dashboard</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #f8f9ff 0%, #fff5f8 100%);
+            color: #1a1a2e;
+            min-height: 100vh;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 30px 20px;
+            text-align: center;
+            color: white;
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .nav {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .nav a {
+            padding: 12px 24px;
+            background: white;
+            border: 1px solid rgba(102, 126, 234, 0.2);
+            border-radius: 25px;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        
+        .nav a:hover, .nav a.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-color: transparent;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .project-header {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 20px rgba(102, 126, 234, 0.08);
+            border: 1px solid rgba(102, 126, 234, 0.1);
+        }
+        
+        .project-title {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+        }
+        
+        .project-meta {
+            display: flex;
+            gap: 20px;
+            color: #666;
+            font-size: 14px;
+            flex-wrap: wrap;
+        }
+        
+        .progress-section {
+            margin-top: 20px;
+        }
+        
+        .progress-bar-container {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .progress-bar {
+            flex: 1;
+            height: 12px;
+            background: #e5e7eb;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 6px;
+            transition: width 0.3s;
+        }
+        
+        .progress-text {
+            font-weight: 600;
+            color: #667eea;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 2px 20px rgba(102, 126, 234, 0.08);
+            border: 1px solid rgba(102, 126, 234, 0.1);
+        }
+        
+        .card h2 {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+        
+        .phase-list {
+            list-style: none;
+        }
+        
+        .phase-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: #fafafa;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            border-left: 3px solid #e5e7eb;
+        }
+        
+        .phase-item.complete {
+            border-left-color: #22c55e;
+        }
+        
+        .phase-item.in-progress {
+            border-left-color: #667eea;
+        }
+        
+        .phase-item.pending {
+            border-left-color: #e5e7eb;
+        }
+        
+        .phase-status {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            flex-shrink: 0;
+        }
+        
+        .phase-status.complete {
+            background: #22c55e;
+            color: white;
+        }
+        
+        .phase-status.in-progress {
+            background: #667eea;
+            color: white;
+        }
+        
+        .phase-status.pending {
+            background: #e5e7eb;
+            color: #666;
+        }
+        
+        .phase-content {
+            flex: 1;
+        }
+        
+        .phase-title {
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+        
+        .phase-meta {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .question-list {
+            list-style: none;
+        }
+        
+        .question-item {
+            padding: 12px;
+            background: #fef3c7;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            border-left: 3px solid #f59e0b;
+        }
+        
+        .question-text {
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+        
+        .question-status {
+            font-size: 11px;
+            color: #92400e;
+        }
+        
+        .timeline {
+            position: relative;
+            padding-left: 24px;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 8px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #e5e7eb;
+        }
+        
+        .timeline-item {
+            position: relative;
+            padding-bottom: 20px;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -20px;
+            top: 4px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #667eea;
+            border: 2px solid white;
+            box-shadow: 0 0 0 2px #667eea;
+        }
+        
+        .timeline-date {
+            font-size: 12px;
+            color: #667eea;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        
+        .timeline-content {
+            background: #fafafa;
+            padding: 12px;
+            border-radius: 8px;
+        }
+        
+        .feature-list {
+            list-style: none;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .feature-item:last-child {
+            border-bottom: none;
+        }
+        
+        .feature-icon {
+            font-size: 16px;
+        }
+        
+        .feature-content {
+            flex: 1;
+        }
+        
+        .feature-title {
+            font-weight: 500;
+        }
+        
+        .feature-desc {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .priority-high { color: #ef4444; }
+        .priority-medium { color: #f59e0b; }
+        .priority-low { color: #3b82f6; }
+        
+        .risk-card {
+            background: #fee2e2;
+            border: 1px solid #fecaca;
+        }
+        
+        .risk-card h2 {
+            background: linear-gradient(135deg, #ef4444, #f87171);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .opportunity-card {
+            background: #d1fae5;
+            border: 1px solid #a7f3d0;
+        }
+        
+        .opportunity-card h2 {
+            background: linear-gradient(135deg, #22c55e, #4ade80);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .chat-concept {
+            background: linear-gradient(135deg, #f8f5ff, #fff5f8);
+            border: 2px dashed rgba(102, 126, 234, 0.3);
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 16px;
+        }
+        
+        .chat-concept h3 {
+            color: #667eea;
+            margin-bottom: 12px;
+        }
+        
+        .pros-cons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-top: 12px;
+        }
+        
+        .pros, .cons {
+            padding: 12px;
+            border-radius: 8px;
+        }
+        
+        .pros {
+            background: #d1fae5;
+        }
+        
+        .cons {
+            background: #fee2e2;
+        }
+        
+        .pros h4, .cons h4 {
+            font-size: 12px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .pros h4 { color: #065f46; }
+        .cons h4 { color: #991b1b; }
+        
+        .pros ul, .cons ul {
+            font-size: 12px;
+            padding-left: 16px;
+        }
+        
+        .pros li { color: #065f46; }
+        .cons li { color: #991b1b; }
+        
+        @media (max-width: 768px) {
+            .grid { grid-template-columns: 1fr; }
+            .pros-cons { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🚀 Mission Control Cloud</h1>
+        <p class="subtitle">Multi-User Personal Dashboard Platform</p>
+    </div>
+    
+    <div class="nav">
+        <a href="index.html">Overview</a>
+        <a href="health-nutrition.html">Health & Nutrition</a>
+        <a href="productivity.html">Productivity</a>
+        <a href="work.html">Work</a>
+        <a href="projects.html" class="active">Projects</a>
+        <a href="blog.html">Blog</a>
+        <a href="fitness-program.html">Fitness</a>
+        <a href="calendar.html">Calendar</a>
+        <a href="architecture.html">Architecture</a>
+        <a href="daily.html">Daily</a>
+    </div>
+    
+    <div class="container">
+        <!-- Project Header -->
+        <div class="project-header">
+            <div class="project-title">Mission Control Cloud v1.0</div>
+            <p style="color: #666; margin-bottom: 12px;">Transform personal dashboard into multi-user platform for family & friends</p>
+            <div class="project-meta">
+                <span>📅 Started: Feb 16, 2026</span>
+                <span>🎯 Target: Q2 2026</span>
+                <span>👥 Users: 1 (Sam) → 10 (pilot)</span>
+                <span>💰 Budget: $0-20/mo</span>
+            </div>
+            <div class="progress-section">
+                <div class="progress-bar-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 5%"></div>
+                    </div>
+                    <span class="progress-text">5% Complete</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="grid">
+            <!-- Phases -->
+            <div class="card">
+                <h2>📋 Project Phases</h2>
+                <ul class="phase-list">
+                    <li class="phase-item in-progress">
+                        <div class="phase-status in-progress">▶</div>
+                        <div class="phase-content">
+                            <div class="phase-title">Phase 1: Foundation</div>
+                            <div class="phase-meta">Domain setup, auth system, database schema • 2-3 weeks</div>
+                        </div>
+                    </li>
+                    <li class="phase-item pending">
+                        <div class="phase-status pending">○</div>
+                        <div class="phase-content">
+                            <div class="phase-title">Phase 2: Backend API</div>
+                            <div class="phase-meta">User isolation, data migration, API endpoints • 2-3 weeks</div>
+                        </div>
+                    </li>
+                    <li class="phase-item pending">
+                        <div class="phase-status pending">○</div>
+                        <div class="phase-content">
+                            <div class="phase-title">Phase 3: Multi-User</div>
+                            <div class="phase-meta">Registration, invites, permissions • 1-2 weeks</div>
+                        </div>
+                    </li>
+                    <li class="phase-item pending">
+                        <div class="phase-status pending">○</div>
+                        <div class="phase-content">
+                            <div class="phase-title">Phase 4: Pilot Launch</div>
+                            <div class="phase-meta">Family & friends onboarding, feedback • Ongoing</div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            
+            <!-- Pending Questions -->
+            <div class="card">
+                <h2>❓ Pending Questions</h2>
+                <ul class="question-list">
+                    <li class="question-item">
+                        <div class="question-text">Budget ceiling for hosting?</div>
+                        <div class="question-status">$0-20/mo vs free-only</div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-text">Data ownership model?</div>
+                        <div class="question-status">Shared Cloudflare vs BYO Airtable</div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-text">Build vs no-code approach?</div>
+                        <div class="question-status">Custom code vs Retool/Budibase</div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-text">Domain strategy?</div>
+                        <div class="question-status">samsclaw.org vs missioncontrol.io</div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-text">Keep Airtable integration?</div>
+                        <div class="question-status">Critical feature vs built-in DB</div>
+                    </li>
+                </ul>
+            </div>
+            
+            <!-- Timeline -->
+            <div class="card">
+                <h2>📅 Key Milestones</h2>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-date">Feb 2026</div>
+                        <div class="timeline-content">
+                            <strong>Project Kickoff</strong>
+                            <p style="font-size: 12px; color: #666;">Architecture decisions, stack selection</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-date">Mar 2026</div>
+                        <div class="timeline-content">
+                            <strong>Phase 1 Complete</strong>
+                            <p style="font-size: 12px; color: #666;">Auth working, Sam's data migrated</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-date">Apr 2026</div>
+                        <div class="timeline-content">
+                            <strong>Phase 2-3 Complete</strong>
+                            <p style="font-size: 12px; color: #666;">Multi-user ready, API complete</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-date">May 2026</div>
+                        <div class="timeline-content">
+                            <strong>Pilot Launch</strong>
+                            <p style="font-size: 12px; color: #666;">10 users, feedback collection</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Chat Interface Feature -->
+            <div class="card">
+                <h2>💬 Embedded Chat Interface</h2>
+                <p style="font-size: 13px; color: #666; margin-bottom: 12px;">Allow users to chat with AI directly from dashboard pages</p>
+                
+                <div class="chat-concept">
+                    <h3>Concept Overview</h3>
+                    <p style="font-size: 12px; color: #666; margin-bottom: 12px;">
+                        Floating chat widget on each page (Health, Work, etc.) where users type natural language like 
+                        "I drank 2 glasses of water" or "Add task: Call John tomorrow"
+                    </p>
+                    
+                    <div class="pros-cons">
+                        <div class="pros">
+                            <h4>✓ Pros</h4>
+                            <ul>
+                                <li>No app switching (Telegram → Web)</li>
+                                <li>Context-aware (on Health page = health context)</li>
+                                <li>Familiar interface</li>
+                                <li>Mobile-friendly</li>
+                                <li>Can guide users with prompts</li>
+                            </ul>
+                        </div>
+                        <div class="cons">
+                            <h4>✗ Challenges</h4>
+                            <ul>
+                                <li>Security: Sandbox user inputs</li>
+                                <li>Cost: Rate limiting per user</li>
+                                <li>Permissions: User vs Admin commands</li>
+                                <li>Auth: Verify user before processing</li>
+                                <li>Scope: Prevent "change password" etc</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 16px; padding: 12px; background: #dbeafe; border-radius: 8px; font-size: 12px;">
+                    <strong>🔧 Technical Approach:</strong><br>
+                    WebSocket → Telegram Bot → OpenClaw → Filtered Response<br>
+                    Only allow: add_[habit|task|food|water], query_[data], help<br>
+                    Block: config_*, delete_*, system_*, admin_*
+                </div>
+            </div>
+            
+            <!-- Key Features -->
+            <div class="card">
+                <h2>✨ Key Features</h2>
+                <ul class="feature-list">
+                    <li class="feature-item">
+                        <span class="feature-icon">🔐</span>
+                        <div class="feature-content">
+                            <div class="feature-title">Google OAuth</div>
+                            <div class="feature-desc">Sign in with existing Google account</div>
+                        </div>
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon">🏠</span>
+                        <div class="feature-content">
+                            <div class="feature-title">Personal Workspace</div>
+                            <div class="feature-desc">Each user gets isolated data</div>
+                        </div>
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon">👥</span>
+                        <div class="feature-content">
+                            <div class="feature-title">Family Sharing</div>
+                            <div class="feature-desc">View-only or shared projects</div>
+                        </div>
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon">💬</span>
+                        <div class="feature-content">
+                            <div class="feature-title">Embedded Chat</div>
+                            <div class="feature-desc">Natural language entry per page</div>
+                        </div>
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon">📱</span>
+                        <div class="feature-content">
+                            <div class="feature-title">Mobile-First</div>
+                            <div class="feature-desc">Works on phone browsers</div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            
+            <!-- Risks -->
+            <div class="card risk-card">
+                <h2>⚠️ Key Risks</h2>
+                <ul style="font-size: 13px; line-height: 1.8;">
+                    <li><strong>Security:</strong> User isolation failures, data leaks between accounts</li>
+                    <li><strong>Costs:</strong> AI API usage scales with users (need rate limits)</li>
+                    <li><strong>Complexity:</strong> More features = more bugs, harder maintenance</li>
+                    <li><strong>Support:</strong> Family/friends need help, you're the only dev</li>
+                    <li><strong>Lock-in:</strong> Once people depend on it, hard to change stack</li>
+                </ul>
+            </div>
+            
+            <!-- Opportunities -->
+            <div class="card opportunity-card">
+                <h2>🚀 Opportunities</h2>
+                <ul style="font-size: 13px; line-height: 1.8;">
+                    <li><strong>Learning:</strong> Real-world auth, scaling, security experience</li>
+                    <li><strong>Portfolio:</strong> Impressive project to show employers</li>
+                    <li><strong>Community:</strong> Could open-source, build following</li>
+                    <li><strong>Monetization:</strong> Later could charge for pro features</li>
+                    <li><strong>Integration:</strong> Connect family data (shared grocery lists, etc)</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Next Actions -->
+        <div class="card" style="margin-top: 20px;">
+            <h2>🎯 Immediate Next Actions</h2>
+            <ol style="line-height: 2; margin-left: 20px;">
+                <li><strong>Decide on budget</strong> - Free tier only or OK with $10-20/mo?</li>
+                <li><strong>Answer pending questions</strong> - See Pending Questions card above</li>
+                <li><strong>Choose stack</strong> - Cloudflare vs Supabase vs other?</li>
+                <li><strong>Start Phase 1</strong> - Move samsclaw.org to Cloudflare</li>
+                <li><strong>Design chat interface</strong> - Wireframes, permission model</li>
+            </ol>
+        </div>
+    </div>
+</body>
+</html>
