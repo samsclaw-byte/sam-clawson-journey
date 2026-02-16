@@ -797,5 +797,65 @@
             </div>
         </div>
     </div>
+    
+    <script>
+        // Fetch and display live System Enhancement tasks from TAT
+        async function loadSystemEnhancements() {
+            try {
+                const response = await fetch('data/system_enhancements.json');
+                const data = await response.json();
+                
+                if (!data.enhancements || data.enhancements.length === 0) {
+                    console.log('No system enhancements found');
+                    return;
+                }
+                
+                // Group enhancements by workflow
+                const byWorkflow = {};
+                data.enhancements.forEach(task => {
+                    const workflow = task.workflow;
+                    if (!byWorkflow[workflow]) {
+                        byWorkflow[workflow] = [];
+                    }
+                    byWorkflow[workflow].push(task);
+                });
+                
+                // Update table cells with live data
+                const rows = document.querySelectorAll('.health-table tbody tr');
+                rows.forEach(row => {
+                    const workflowCell = row.querySelector('.workflow-name');
+                    if (!workflowCell) return;
+                    
+                    const workflowName = workflowCell.textContent.trim();
+                    const enhancementsCell = row.querySelector('td:last-child');
+                    if (!enhancementsCell) return;
+                    
+                    // Find matching workflow
+                    for (const [workflow, tasks] of Object.entries(byWorkflow)) {
+                        if (workflowName.includes(workflow.replace(/[🎙️💓📋📅💧🛡️🌅📊🔧🤖]/g, '').trim())) {
+                            // Build enhancements HTML
+                            const tasksHtml = tasks.map(t => {
+                                const urgencyEmoji = t.urgency.includes('Urgent') ? '🔴' : 
+                                                   t.urgency.includes('Soon') ? '🟡' : '🟢';
+                                return `${urgencyEmoji} ${t.name}`;
+                            }).join('<br>');
+                            
+                            enhancementsCell.innerHTML = tasksHtml;
+                            break;
+                        }
+                    }
+                });
+                
+                console.log(`✅ Loaded ${data.enhancements.length} system enhancements`);
+                console.log(`🕐 Last updated: ${data.last_updated}`);
+                
+            } catch (error) {
+                console.log('Using static enhancements (live data unavailable)');
+            }
+        }
+        
+        // Load on page load
+        document.addEventListener('DOMContentLoaded', loadSystemEnhancements);
+    </script>
 </body>
 </html>
