@@ -245,6 +245,102 @@
             border: 2px solid;
         }
         
+        /* System Health Matrix */
+        .health-matrix {
+            overflow-x: auto;
+        }
+        
+        .health-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+        
+        .health-table th {
+            background: linear-gradient(135deg, #f8f5ff, #fff5f8);
+            color: #9945FF;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid rgba(153, 69, 255, 0.2);
+            white-space: nowrap;
+        }
+        
+        .health-table td {
+            padding: 12px;
+            border-bottom: 1px solid rgba(153, 69, 255, 0.1);
+            vertical-align: top;
+        }
+        
+        .health-table tr:hover {
+            background: rgba(153, 69, 255, 0.05);
+        }
+        
+        .workflow-name {
+            font-weight: 600;
+            color: #1a1a2e;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        
+        .status-healthy {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        
+        .status-warning {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        
+        .status-error {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+        
+        .status-down {
+            background: #e5e7eb;
+            color: #374151;
+        }
+        
+        .data-cell {
+            font-size: 11px;
+            color: #666;
+            line-height: 1.5;
+        }
+        
+        .data-cell strong {
+            color: #1a1a2e;
+        }
+        
+        .cron-list {
+            list-style: none;
+            font-size: 10px;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .cron-list li {
+            padding: 2px 0;
+            color: #666;
+        }
+        
+        .page-link {
+            color: #9945FF;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .page-link:hover {
+            text-decoration: underline;
+        }
+        
         /* Pulse Animation for Active Nodes */
         @keyframes pulse {
             0%, 100% { box-shadow: 0 0 0 0 rgba(153, 69, 255, 0.4); }
@@ -546,6 +642,127 @@
                     <li><strong>Cloudflare:</strong> Tunnels (SSH, WHOOP), Workers</li>
                     <li><strong>Google Calendar:</strong> Family schedule via Maton API</li>
                 </ul>
+            </div>
+        </div>
+        
+        <!-- System Health Matrix Card -->
+        <div class="card">
+            <h2>🔍 System Health Matrix</h2>
+            <div class="health-matrix">
+                <table class="health-table">
+                    <thead>
+                        <tr>
+                            <th>Workflow</th>
+                            <th>Status</th>
+                            <th>Database</th>
+                            <th>Cron Jobs</th>
+                            <th>Mission Control</th>
+                            <th>API/Integration</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="workflow-name">🌅 Morning Brief</span></td>
+                            <td><span class="status-badge status-healthy">Healthy</span></td>
+                            <td class="data-cell"><strong>Health:</strong> WHOOP Data<br><strong>Prod:</strong> Daily Habits</td>
+                            <td class="data-cell">
+                                <ul class="cron-list">
+                                    <li>5:50am - WHOOP Token Check</li>
+                                    <li>6:00am - Morning Brief</li>
+                                </ul>
+                            </td>
+                            <td class="data-cell"><a href="daily.html" class="page-link">Daily</a></td>
+                            <td class="data-cell">WHOOP API<br>Moonshot AI</td>
+                        </tr>
+                        <tr>
+                            <td><span class="workflow-name">🥗 Food Logging</span></td>
+                            <td><span class="status-badge status-healthy">Healthy</span></td>
+                            <td class="data-cell"><strong>Health:</strong> Food Log</td>
+                            <td class="data-cell">—</td>
+                            <td class="data-cell"><a href="health-nutrition.html" class="page-link">Health & Nutrition</a></td>
+                            <td class="data-cell">Edamam API<br>Airtable API</td>
+                        </tr>
+                        <tr>
+                            <td><span class="workflow-name">💓 WHOOP Recovery</span></td>
+                            <td><span class="status-badge status-healthy">Healthy</span></td>
+                            <td class="data-cell"><strong>Health:</strong> WHOOP Data</td>
+                            <td class="data-cell">
+                                <ul class="cron-list">
+                                    <li>5:50am - Token Health Check</li>
+                                </ul>
+                            </td>
+                            <td class="data-cell"><a href="index.html" class="page-link">Overview</a></td>
+                            <td class="data-cell">WHOOP API<br>Cloudflare Webhook</td>
+                        </tr>
+                        <tr>
+                            <td><span class="workflow-name">📋 TAT System</span></td>
+                            <td><span class="status-badge status-healthy">Healthy</span></td>
+                            <td class="data-cell"><strong>Prod:</strong> TAT Tasks v2</td>
+                            <td class="data-cell">—</td>
+                            <td class="data-cell"><a href="productivity.html" class="page-link">Productivity</a></td>
+                            <td class="data-cell">Airtable API<br>Cloudflare Worker</td>
+                        </tr>
+                        <tr>
+                            <td><span class="workflow-name">📅 Calendar Sync</span></td>
+                            <td><span class="status-badge status-healthy">Healthy</span></td>
+                            <td class="data-cell">—</td>
+                            <td class="data-cell">
+                                <ul class="cron-list">
+                                    <li>Every 15min - Calendar Refresh</li>
+                                </ul>
+                            </td>
+                            <td class="data-cell"><a href="calendar.html" class="page-link">Calendar</a></td>
+                            <td class="data-cell">Maton API<br>Google Calendar</td>
+                        </tr>
+                        <tr>
+                            <td><span class="workflow-name">💧 Water Tracker</span></td>
+                            <td><span class="status-badge status-healthy">Healthy</span></td>
+                            <td class="data-cell"><strong>Prod:</strong> Daily Habits</td>
+                            <td class="data-cell">
+                                <ul class="cron-list">
+                                    <li>10am, 11am, 12pm</li>
+                                    <li>1pm-5pm, 6pm-8pm</li>
+                                </ul>
+                            </td>
+                            <td class="data-cell"><a href="index.html" class="page-link">Overview</a></td>
+                            <td class="data-cell">Airtable API</td>
+                        </tr>
+                        <tr>
+                            <td><span class="workflow-name">🛡️ Security Sentinel</span></td>
+                            <td><span class="status-badge status-healthy">Healthy</span></td>
+                            <td class="data-cell">—</td>
+                            <td class="data-cell">
+                                <ul class="cron-list">
+                                    <li>6:00am - Security Audit</li>
+                                </ul>
+                            </td>
+                            <td class="data-cell">—</td>
+                            <td class="data-cell">Local System</td>
+                        </tr>
+                        <tr>
+                            <td><span class="workflow-name">🎙️ Voice Transcribe</span></td>
+                            <td><span class="status-badge status-warning">Setup Required</span></td>
+                            <td class="data-cell">—</td>
+                            <td class="data-cell">—</td>
+                            <td class="data-cell">—</td>
+                            <td class="data-cell">Whisper (local)<br>OpenAI (optional)</td>
+                        </tr>
+                        <tr>
+                            <td><span class="workflow-name">📊 Dashboard Update</span></td>
+                            <td><span class="status-badge status-healthy">Healthy</span></td>
+                            <td class="data-cell"><strong>Health:</strong> All tables<br><strong>Prod:</strong> All tables</td>
+                            <td class="data-cell">
+                                <ul class="cron-list">
+                                    <li>Every 15min - Dashboard</li>
+                                    <li>Every 15min - Overview</li>
+                                    <li>Hourly - Trend Data</li>
+                                </ul>
+                            </td>
+                            <td class="data-cell"><a href="index.html" class="page-link">All Pages</a></td>
+                            <td class="data-cell">Airtable API<br>GitHub API</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
