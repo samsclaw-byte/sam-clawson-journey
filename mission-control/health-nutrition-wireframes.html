@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health & Nutrition App - Wireframes</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #f8f9ff 0%, #fff5f8 100%);
+            color: #1a1a2e;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            padding: 30px;
+            border-radius: 16px;
+            color: white;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(34, 197, 94, 0.3);
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+        
+        .wireframe-section {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+        }
+        
+        .wireframe-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #1a1a2e;
+        }
+        
+        .wireframe-subtitle {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 24px;
+        }
+        
+        .phone-mockup {
+            width: 320px;
+            height: 640px;
+            background: #1a1a2e;
+            border-radius: 40px;
+            padding: 12px;
+            margin: 0 auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            background: white;
+            border-radius: 32px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .screen-content {
+            padding: 24px;
+            height: 100%;
+            overflow-y: auto;
+        }
+        
+        /* Screen 1: Login */
+        .login-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            text-align: center;
+        }
+        
+        .app-logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            margin-bottom: 24px;
+        }
+        
+        .app-name {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .app-tagline {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 48px;
+        }
+        
+        .google-btn {
+            width: 100%;
+            padding: 16px;
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .google-btn:hover {
+            border-color: #22c55e;
+            background: #f0fdf4;
+        }
+        
+        .google-icon {
+            width: 24px;
+            height: 24px;
+            background: #4285f4;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .terms-text {
+            font-size: 12px;
+            color: #9ca3af;
+            margin-top: 24px;
+            line-height: 1.5;
+        }
+        
+        /* Screen 2: Profile Setup */
+        .profile-screen {
+            padding-top: 40px;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: #e5e7eb;
+            border-radius: 2px;
+            margin-bottom: 32px;
+        }
+        
+        .progress-fill {
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            border-radius: 2px;
+        }
+        
+        .screen-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .screen-desc {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 32px;
+        }
+        
+        .form-group {
+            margin-bottom: 24px;
+        }
+        
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #374151;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.2s;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #22c55e;
+        }
+        
+        .unit-toggle {
+            display: flex;
+            background: #f3f4f6;
+            border-radius: 8px;
+            padding: 4px;
+            margin-top: 8px;
+        }
+        
+        .unit-option {
+            flex: 1;
+            padding: 8px;
+            text-align: center;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        
+        .unit-option.active {
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            font-weight: 600;
+        }
+        
+        .gender-options {
+            display: flex;
+            gap: 12px;
+            margin-top: 8px;
+        }
+        
+        .gender-option {
+            flex: 1;
+            padding: 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .gender-option:hover {
+            border-color: #22c55e;
+        }
+        
+        .gender-icon {
+            font-size: 24px;
+            margin-bottom: 4px;
+        }
+        
+        .gender-label {
+            font-size: 14px;
+        }
+        
+        .btn-primary {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 16px;
+        }
+        
+        .btn-secondary {
+            width: 100%;
+            padding: 16px;
+            background: transparent;
+            color: #666;
+            border: none;
+            font-size: 14px;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+        
+        /* Screen 3: Dashboard */
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+        
+        .greeting {
+            font-size: 20px;
+            font-weight: 700;
+        }
+        
+        .profile-pic {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+        
+        .calorie-card {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            border-radius: 16px;
+            padding: 24px;
+            color: white;
+            margin-bottom: 24px;
+        }
+        
+        .calorie-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        
+        .calorie-label {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .calorie-settings {
+            font-size: 20px;
+            cursor: pointer;
+        }
+        
+        .calorie-numbers {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+        }
+        
+        .calorie-current {
+            font-size: 48px;
+            font-weight: 700;
+        }
+        
+        .calorie-divider {
+            font-size: 24px;
+            opacity: 0.7;
+        }
+        
+        .calorie-goal {
+            font-size: 24px;
+            opacity: 0.8;
+        }
+        
+        .calorie-progress {
+            margin-top: 16px;
+        }
+        
+        .progress-bg {
+            height: 8px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress-bar-green {
+            height: 100%;
+            width: 65%;
+            background: white;
+            border-radius: 4px;
+        }
+        
+        .progress-text {
+            font-size: 12px;
+            margin-top: 8px;
+            opacity: 0.9;
+        }
+        
+        .fab-button {
+            position: absolute;
+            bottom: 24px;
+            right: 24px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 32px;
+            box-shadow: 0 4px 20px rgba(34, 197, 94, 0.4);
+            cursor: pointer;
+        }
+        
+        .meals-section {
+            margin-bottom: 80px;
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+        }
+        
+        .section-action {
+            font-size: 14px;
+            color: #22c55e;
+            font-weight: 500;
+        }
+        
+        .meal-card {
+            background: #f9fafb;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            border-left: 4px solid #22c55e;
+        }
+        
+        .meal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 4px;
+        }
+        
+        .meal-type {
+            font-size: 12px;
+            font-weight: 600;
+            color: #22c55e;
+            text-transform: uppercase;
+        }
+        
+        .meal-time {
+            font-size: 12px;
+            color: #9ca3af;
+        }
+        
+        .meal-name {
+            font-size: 16px;
+            font-weight: 500;
+        }
+        
+        .meal-calories {
+            font-size: 14px;
+            color: #666;
+            margin-top: 4px;
+        }
+        
+        .macro-section {
+            background: #f9fafb;
+            border-radius: 12px;
+            padding: 20px;
+        }
+        
+        .macro-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+        
+        .macro-chart {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 16px;
+            background: conic-gradient(
+                #22c55e 0deg 130deg,
+                #3b82f6 130deg 240deg,
+                #f59e0b 240deg 360deg
+            );
+            border-radius: 50%;
+            position: relative;
+        }
+        
+        .macro-chart::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            background: #f9fafb;
+            border-radius: 50%;
+        }
+        
+        .macro-legend {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+        }
+        
+        .macro-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+        }
+        
+        .macro-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+        
+        .wireframe-notes {
+            background: #f0fdf4;
+            border-left: 4px solid #22c55e;
+            padding: 16px 20px;
+            margin-top: 24px;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .wireframe-notes h4 {
+            color: #166534;
+            margin-bottom: 8px;
+        }
+        
+        .wireframe-notes ul {
+            font-size: 13px;
+            color: #166534;
+            padding-left: 20px;
+            line-height: 1.8;
+        }
+        
+        .flow-arrow {
+            text-align: center;
+            font-size: 32px;
+            color: #22c55e;
+            margin: 20px 0;
+        }
+        
+        @media (min-width: 900px) {
+            .wireframes-row {
+                display: flex;
+                gap: 30px;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎨 Health & Nutrition App - Wireframes</h1>
+            <p>Onboarding Flow: Login → Profile → Dashboard</p>
+        </div>
+        
+        <!-- Wireframe 1: Login -->
+        <div class="wireframe-section">
+            <div class="wireframe-title">Screen 1: Login</div>
+            <div class="wireframe-subtitle">First impression - Clean, simple, Google OAuth</div>
+            
+            <div class="phone-mockup">
+                <div class="phone-screen">
+                    <div class="screen-content login-screen">
+                        <div class="app-logo">🥗</div>
+                        <div class="app-name">NutriTrack</div>
+                        <div class="app-tagline">Simple nutrition tracking for busy people</div>
+                        
+                        <button class="google-btn">
+                            <div class="google-icon">G</div>
+                            Continue with Google
+                        </button>
+                        
+                        <p class="terms-text">
+                            By continuing, you agree to our<br>
+                            Terms of Service and Privacy Policy
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="wireframe-notes">
+                <h4>💡 Design Notes:</h4>
+                <ul>
+                    <li>Single action - no email/password forms to reduce friction</li>
+                    <li>Warm, friendly branding (green = health)</li>
+                    <li>Clear value proposition in tagline</li>
+                    <li>Privacy reassurance below button</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="flow-arrow">⬇</div>
+        
+        <!-- Wireframe 2: Profile Setup -->
+        <div class="wireframe-section">
+            <div class="wireframe-title">Screen 2: Profile Setup</div>
+            <div class="wireframe-subtitle">Capture essential data for calorie calculation</div>
+            
+            <div class="phone-mockup">
+                <div class="phone-screen">
+                    <div class="screen-content profile-screen">
+                        <div class="progress-bar">
+                            <div class="progress-fill"></div>
+                        </div>
+                        
+                        <h1 class="screen-title">Your Profile</h1>
+                        <p class="screen-desc">Help us calculate your daily nutrition goals</p>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Name</label>
+                            <input type="text" class="form-input" placeholder="Enter your name" value="Sarah">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Age</label>
+                            <input type="number" class="form-input" placeholder="Years" value="34">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Weight</label>
+                            <input type="number" class="form-input" placeholder="Weight" value="70">
+                            <div class="unit-toggle">
+                                <div class="unit-option active">kg</div>
+                                <div class="unit-option">lbs</div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Height</label>
+                            <input type="number" class="form-input" placeholder="Height" value="170">
+                            <div class="unit-toggle">
+                                <div class="unit-option active">cm</div>
+                                <div class="unit-option">inches</div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Gender</label>
+                            <div class="gender-options">
+                                <div class="gender-option">
+                                    <div class="gender-icon">♀</div>
+                                    <div class="gender-label">Female</div>
+                                </div>
+                                <div class="gender-option">
+                                    <div class="gender-icon">♂</div>
+                                    <div class="gender-label">Male</div>
+                                </div>
+                                <div class="gender-option" style="opacity: 0.6;">
+                                    <div class="gender-icon">⚪</div>
+                                    <div class="gender-label">Prefer not<br>to say</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="btn-primary">Continue to Dashboard</button>
+                        <button class="btn-secondary">Skip for now</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="wireframe-notes">
+                <h4>💡 Design Notes:</h4>
+                <ul>
+                    <li>Progress bar shows this is setup step (can be skipped)</li>
+                    <li>Unit toggles (kg/lbs, cm/inches) for global users</li>
+                    <li>Gender includes "Prefer not to say" for inclusivity</li>
+                    <li>Pre-filled example data shows expected format</li>
+                    <li>"Skip" option for users who want manual calorie setting</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="flow-arrow">⬇</div>
+        
+        <!-- Wireframe 3: Dashboard -->
+        <div class="wireframe-section">
+            <div class="wireframe-title">Screen 3: Dashboard</div>
+            <div class="wireframe-subtitle">Main interface - Today's progress at a glance</div>
+            
+            <div class="phone-mockup">
+                <div class="phone-screen">
+                    <div class="screen-content">
+                        <div class="dashboard-header">
+                            <div class="greeting">Hello, Sarah! 👋</div>
+                            <div class="profile-pic">S</div>
+                        </div>
+                        
+                        <div class="calorie-card">
+                            <div class="calorie-header">
+                                <div class="calorie-label">Today's Calories</div>
+                                <div class="calorie-settings">⚙️</div>
+                            </div>
+                            <div class="calorie-numbers">
+                                <div class="calorie-current">1,450</div>
+                                <div class="calorie-divider">/</div>
+                                <div class="calorie-goal">2,200</div>
+                            </div>
+                            <div class="calorie-progress">
+                                <div class="progress-bg">
+                                    <div class="progress-bar-green"></div>
+                                </div>
+                                <div class="progress-text">65% of daily goal • 750 remaining</div>
+                            </div>
+                        </div>
+                        
+                        <div class="meals-section">
+                            <div class="section-header">
+                                <div class="section-title">Today's Meals</div>
+                                <div class="section-action">See all</div>
+                            </div>
+                            
+                            <div class="meal-card">
+                                <div class="meal-header">
+                                    <div class="meal-type">Breakfast</div>
+                                    <div class="meal-time">8:30 AM</div>
+                                </div>
+                                <div class="meal-name">Eggs, toast & avocado</div>
+                                <div class="meal-calories">450 cal</div>
+                            </div>
+                            
+                            <div class="meal-card">
+                                <div class="meal-header">
+                                    <div class="meal-type">Lunch</div>
+                                    <div class="meal-time">1:00 PM</div>
+                                </div>
+                                <div class="meal-name">Chicken salad sandwich</div>
+                                <div class="meal-calories">650 cal</div>
+                            </div>
+                            
+                            <div class="meal-card">
+                                <div class="meal-header">
+                                    <div class="meal-type">Snack</div>
+                                    <div class="meal-time">4:00 PM</div>
+                                </div>
+                                <div class="meal-name">Mixed nuts</div>
+                                <div class="meal-calories">350 cal</div>
+                            </div>
+                        </div>
+                        
+                        <div class="macro-section">
+                            <div class="macro-title">Macronutrients</div>
+                            <div class="macro-chart"></div>
+                            <div class="macro-legend">
+                                <div class="macro-item">
+                                    <div class="macro-dot" style="background: #22c55e;"></div>
+                                    <span>Carbs 45%</span>
+                                </div>
+                                <div class="macro-item">
+                                    <div class="macro-dot" style="background: #3b82f6;"></div>
+                                    <span>Protein 30%</span>
+                                </div>
+                                <div class="macro-item">
+                                    <div class="macro-dot" style="background: #f59e0b;"></div>
+                                    <span>Fat 25%</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="fab-button">+</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="wireframe-notes">
+                <h4>💡 Design Notes:</h4>
+                <ul>
+                    <li>Personalized greeting creates connection</li>
+                    <li>Calorie card is hero element - large, prominent, visual progress</li>
+                    <li>FAB (Floating Action Button) for quick meal logging</li>
+                    <li>Last 3 meals shown (scroll for more)</li>
+                    <li>Macro chart gives nutritional context</li>
+                    <li>Everything fits on one screen without scrolling (ideal)</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Summary -->
+        <div class="wireframe-section">
+            <div class="wireframe-title">📊 Flow Summary</div>
+            <div class="wireframe-subtitle">User journey from first open to active use</div>
+            
+            <div style="background: #f9fafb; border-radius: 12px; padding: 24px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                    <div style="text-align: center;">
+                        <div style="font-size: 32px; margin-bottom: 8px;">1️⃣</div>
+                        <div style="font-size: 14px; font-weight: 600;">Login</div>
+                        <div style="font-size: 12px; color: #666;">5 seconds</div>
+                    </div>
+                    <div style="font-size: 24px; color: #22c55e;">→</div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 32px; margin-bottom: 8px;">2️⃣</div>
+                        <div style="font-size: 14px; font-weight: 600;">Profile</div>
+                        <div style="font-size: 12px; color: #666;">30-60 seconds</div>
+                    </div>
+                    <div style="font-size: 24px; color: #22c55e;">→</div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 32px; margin-bottom: 8px;">3️⃣</div>
+                        <div style="font-size: 14px; font-weight: 600;">Dashboard</div>
+                        <div style="font-size: 12px; color: #666;">Immediate value</div>
+                    </div>
+                </div>
+                
+                <div style="background: white; border-radius: 8px; padding: 16px; margin-top: 16px;">
+                    <strong>Total onboarding time:</strong> Under 1 minute<br>
+                    <strong>Time to first value:</strong> Immediate (personalized calorie goal)<br>
+                    <strong>Time to first meal log:</strong> 10-15 seconds (tap FAB → type → save)
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
