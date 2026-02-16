@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-02-16T11:48:02.881596",
+  "generated_at": "2026-02-16T12:48:05.477628",
   "today": {
     "health": {
       "today_calories": 650,
@@ -10,7 +10,7 @@
     "habits": {
       "multivitamin": true,
       "fruit": false,
-      "water": 1,
+      "water": 2,
       "exercise": false,
       "creatine": false
     },
@@ -22,7 +22,7 @@
         "date": "2026-02-16",
         "multivitamin": true,
         "fruit": false,
-        "water": 1,
+        "water": 2,
         "exercise": false,
         "creatine": false
       },
