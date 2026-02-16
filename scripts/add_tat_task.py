@@ -18,7 +18,6 @@ from airtable_client import get_productivity_client
 # Laptop-related keywords
 LAPTOP_KEYWORDS = [
     'laptop', 'computer', 'code', 'script', 'github', 'git', 'ssh',
-    'database', 'notion', 'airtable', 'api', 'config', 'setup', 'install',
     'push', 'commit', 'deploy', 'server', 'cron', 'workflow',
     'dashboard', 'update', 'fix code', 'debug', 'terminal', 'python',
     'javascript', 'html', 'css', 'server', 'cloudflare', 'tunnel'

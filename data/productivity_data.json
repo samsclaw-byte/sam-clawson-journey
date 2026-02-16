@@ -1,16 +1,6 @@
 {
-  "generated_at": "2026-02-16T22:15:10.669468",
+  "generated_at": "2026-02-17T02:00:11.255244",
   "tat_tasks": [
-    {
-      "id": "rec6KBayN6ZsJCSjk",
-      "name": "create and print Theo letters",
-      "category": "1",
-      "status": "Not Started",
-      "due_status": "soon",
-      "days_remaining": 1,
-      "urgency": "\ud83d\udfe0 Urgent",
-      "due_date": "2026-02-17T00:00:00.000Z"
-    },
     {
       "id": "rec82QLASN6uQUiHu",
       "name": "Complete Google Calendar update",
@@ -160,17 +150,6 @@
   ],
   "habit_days": [
     {
-      "date": "2026-02-10",
-      "day_name": "Tue",
-      "day_num": "10",
-      "score": 5,
-      "water": 8,
-      "multivitamin": true,
-      "fruit": true,
-      "exercise": true,
-      "creatine": true
-    },
-    {
       "date": "2026-02-11",
       "day_name": "Wed",
       "day_num": "11",
@@ -229,16 +208,16 @@
       "date": "2026-02-16",
       "day_name": "Mon",
       "day_num": "16",
-      "score": 2,
-      "water": 5,
+      "score": 4,
+      "water": 8,
       "multivitamin": true,
       "fruit": true,
       "exercise": false,
-      "creatine": false
+      "creatine": true
     }
   ],
   "stats": {
-    "active": 15,
+    "active": 14,
     "overdue": 0,
     "today": 0,
     "completed_7d": 0
