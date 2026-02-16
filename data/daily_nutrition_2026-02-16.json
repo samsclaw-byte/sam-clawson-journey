@@ -5,13 +5,18 @@
       "type": "Breakfast",
       "items": "One glass of water, three egg omelette with cheese, two piec...",
       "calories": 650
+    },
+    {
+      "type": "Breakfast",
+      "items": "One glass of water, three egg omelette with cheese, two piec...",
+      "calories": 650
     }
   ],
-  "total_calories": 650,
+  "total_calories": 1300,
   "macros": {
-    "protein": 32,
-    "carbs": 15.2,
-    "fat": 1.5,
+    "protein": 64,
+    "carbs": 30.4,
+    "fat": 3.0,
     "fiber": 2.6
   }
 }

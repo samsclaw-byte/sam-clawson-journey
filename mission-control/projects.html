@@ -803,6 +803,78 @@
             </div>
         </div>
         
+        <!-- Database Migration Plan -->
+        <div class="card" style="margin-top: 20px; background: linear-gradient(135deg, #dbeafe, #bfdbfe); border: 2px solid #3b82f6;">
+            <h2>🗄️ Database Migration: Airtable → PostgreSQL</h2>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                <span style="font-size: 14px; color: #1e40af;"><strong>Status:</strong> Planned</span>
+                <span style="font-size: 14px; color: #1e40af;"><strong>Timeline:</strong> 1-2 weeks (pending progress)</span>
+            </div>
+            
+            <div style="background: white; border-radius: 8px; padding: 16px; margin-bottom: 16px;">
+                <h4 style="color: #1e40af; margin-bottom: 12px;">📊 Current Airtable Schema to Migrate</h4>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 12px; font-size: 12px;">
+                    <div style="background: #f0f9ff; padding: 12px; border-radius: 8px;">
+                        <strong>Health Base</strong>
+                        <ul style="margin-top: 8px; padding-left: 16px;">
+                            <li>Food Log</li>
+                            <li>Daily Habits</li>
+                            <li>WHOOP Data</li>
+                            <li>Exercise Data</li>
+                        </ul>
+                    </div>
+                    <div style="background: #f0f9ff; padding: 12px; border-radius: 8px;">
+                        <strong>Productivity Base</strong>
+                        <ul style="margin-top: 8px; padding-left: 16px;">
+                            <li>TAT Tasks</li>
+                            <li>Daily Habits</li>
+                            <li>Work Tasks (new)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="background: white; border-radius: 8px; padding: 16px; margin-bottom: 16px;">
+                <h4 style="color: #1e40af; margin-bottom: 12px;">✅ Migration Checklist</h4>
+                <div style="font-size: 12px;">
+                    <label style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                        <input type="checkbox"> Design PostgreSQL schema (multi-tenant)
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                        <input type="checkbox"> Set up PostgreSQL database (Supabase/Neon)
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                        <input type="checkbox"> Create migration script (Airtable → PostgreSQL)
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                        <input type="checkbox"> Test migration with copy of data
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                        <input type="checkbox"> Update API layer to use PostgreSQL
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                        <input type="checkbox"> Migrate production data
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                        <input type="checkbox"> Verify all features working
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 8px;">
+                        <input type="checkbox"> Update documentation
+                    </label>
+                </div>
+            </div>
+            
+            <div style="background: #fef3c7; border-radius: 8px; padding: 12px; font-size: 12px;">
+                <strong>⚠️ Pre-Migration Requirements:</strong>
+                <ul style="margin-top: 8px; padding-left: 16px;">
+                    <li>Use Airtable for 1-2 more weeks to validate workflows</li>
+                    <li>Document any schema changes needed during usage</li>
+                    <li>Confirm all current features are stable</li>
+                    <li>Schedule migration during low-usage period</li>
+                </ul>
+            </div>
+        </div>
+        
         <!-- MVP vs Full Vision -->
         <div class="card" style="margin-top: 20px; background: linear-gradient(135deg, #fef3c7, #fde68a); border: 2px solid #f59e0b;">
             <h2>⚠️ MVP vs Full Vision</h2>
@@ -842,13 +914,25 @@
         <div class="card" style="margin-top: 20px;">
             <h2>🎯 Immediate Next Actions (v1.0)</h2>
             <ol style="line-height: 2; margin-left: 20px;">
+                <li><strong>Use Airtable for 1-2 weeks</strong> - Validate workflows, document usage patterns</li>
                 <li><strong>Decide on budget</strong> - Free tier only or OK with $10-20/mo?</li>
                 <li><strong>Answer pending questions</strong> - See Pending Questions card above</li>
                 <li><strong>Choose stack</strong> - Cloudflare vs Supabase vs other?</li>
                 <li><strong>Start Phase 1</strong> - Move samsclaw.org to Cloudflare</li>
                 <li><strong>Build web chat widget</strong> - Text + buttons, NO image/voice yet</li>
+                <li><strong>Design PostgreSQL schema</strong> - Multi-tenant, matches Airtable structure</li>
                 <li><strong>Document decisions</strong> - Lock in chat platform, state timeout, button ratio</li>
             </ol>
+            
+            <div style="margin-top: 16px; padding: 12px; background: #f0f9ff; border-radius: 8px; font-size: 12px;">
+                <strong>📝 Airtable Usage Notes:</strong>
+                <ul style="margin-top: 8px; padding-left: 16px;">
+                    <li>Continue normal usage - this informs the product</li>
+                    <li>Document any pain points or missing features</li>
+                    <li>Note which features you use most (these are MVP)</li>
+                    <li>Flag any schema changes you'd want before migration</li>
+                </ul>
+            </div>
         </div>
         
         <!-- Decisions Log -->
@@ -884,6 +968,11 @@
                     <td style="padding: 12px; border-bottom: 1px solid #eee;">Feb 16, 2026</td>
                     <td style="padding: 12px; border-bottom: 1px solid #eee;"><strong>Expanded vision:</strong> Tiered access, multi-modal inputs, AI experts</td>
                     <td style="padding: 12px; border-bottom: 1px solid #eee;">Freemium model, image/voice input, group features, specialized AI coaches</td>
+                </tr>
+                <tr style="background: #f8f5ff;">
+                    <td style="padding: 12px; border-bottom: 1px solid #e8d5f5;">Feb 16, 2026</td>
+                    <td style="padding: 12px; border-bottom: 1px solid #e8d5f5;"><strong>Migrate from Airtable to PostgreSQL</strong></td>
+                    <td style="padding: 12px; border-bottom: 1px solid #e8d5f5;">Timeline: 1-2 weeks. Single schema for multi-tenant architecture. OK to share current data structure.</td>
                 </tr>
             </table>
         </div>
