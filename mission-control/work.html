@@ -28,6 +28,11 @@
             margin-bottom: 8px;
         }
         
+        .subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
         .nav {
             display: flex;
             justify-content: center;
@@ -51,6 +56,37 @@
             background: linear-gradient(135deg, #9945FF, #FF6B9D);
             color: white;
             border-color: transparent;
+        }
+        
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin: 20px;
+            padding: 4px;
+            background: white;
+            border-radius: 25px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            box-shadow: 0 2px 10px rgba(153, 69, 255, 0.1);
+        }
+        
+        .tab {
+            flex: 1;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 20px;
+            background: transparent;
+            color: #666;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .tab.active {
+            background: linear-gradient(135deg, #9945FF, #FF6B9D);
+            color: white;
         }
         
         .container {
@@ -79,7 +115,7 @@
             font-weight: 600;
         }
         
-        .stats-row {
+        .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 16px;
@@ -87,11 +123,11 @@
         }
         
         .stat-box {
-            background: linear-gradient(135deg, #f8f5ff 0%, #fff5f8 100%);
+            background: linear-gradient(135deg, #f8f5ff, #fff5f8);
             padding: 20px;
             border-radius: 12px;
             text-align: center;
-            border: 1px solid rgba(153, 69, 255, 0.15);
+            border: 1px solid rgba(153, 69, 255, 0.1);
         }
         
         .stat-number {
@@ -103,98 +139,249 @@
         }
         
         .stat-label {
-            font-size: 11px;
+            font-size: 12px;
             color: #666;
-            text-transform: uppercase;
-            letter-spacing: 1px;
             margin-top: 4px;
         }
         
+        .alert-box {
+            background: #fee2e2;
+            border: 1px solid #fecaca;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .alert-box.blocked {
+            background: #fef3c7;
+            border-color: #fde68a;
+        }
+        
+        .alert-title {
+            font-weight: 600;
+            color: #991b1b;
+            margin-bottom: 8px;
+        }
+        
+        .alert-box.blocked .alert-title {
+            color: #92400e;
+        }
+        
         .task-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
+            list-style: none;
         }
         
         .task-item {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
+            gap: 12px;
             padding: 16px;
-            background: linear-gradient(135deg, #f8f5ff 0%, #fff5f8 100%);
+            background: #fafafa;
             border-radius: 12px;
+            margin-bottom: 12px;
             border-left: 4px solid #9945FF;
+            transition: all 0.2s;
         }
         
         .task-item:hover {
-            box-shadow: 0 4px 12px rgba(153, 69, 255, 0.1);
+            background: #f5f5f5;
+            transform: translateX(4px);
         }
         
-        .task-status {
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 11px;
-            font-weight: 600;
-            margin-right: 12px;
-            white-space: nowrap;
-        }
+        .task-item.priority-p0 { border-left-color: #ef4444; }
+        .task-item.priority-p1 { border-left-color: #f59e0b; }
+        .task-item.priority-p2 { border-left-color: #3b82f6; }
+        .task-item.priority-p3 { border-left-color: #6b7280; }
         
-        .status-not-started { background: #f0f0f5; color: #666; }
-        .status-in-progress { background: #E7F5FF; color: #1971C2; }
-        .status-blocked { background: #FFE0E0; color: #C92A2A; }
-        .status-complete { background: #D3F9D8; color: #2B8A3E; }
+        .task-item.blocked { border-left-color: #92400e; background: #fef3c7; }
+        
+        .task-checkbox {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #9945FF;
+            border-radius: 4px;
+            cursor: pointer;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
         
         .task-content {
             flex: 1;
         }
         
-        .task-name {
-            font-weight: 500;
+        .task-title {
+            font-weight: 600;
             margin-bottom: 4px;
         }
         
         .task-meta {
             font-size: 12px;
             color: #666;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
         }
         
-        .empty-state {
-            color: #999;
-            text-align: center;
-            padding: 40px;
-            font-style: italic;
+        .task-tag {
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 10px;
+            font-weight: 500;
         }
         
-        .add-task-btn {
-            display: block;
-            width: 100%;
-            padding: 16px;
-            background: linear-gradient(135deg, #9945FF, #FF6B9D);
-            color: white;
-            border: none;
+        .tag-priority-p0 { background: #fee2e2; color: #991b1b; }
+        .tag-priority-p1 { background: #fef3c7; color: #92400e; }
+        .tag-priority-p2 { background: #dbeafe; color: #1e40af; }
+        .tag-priority-p3 { background: #e5e7eb; color: #374151; }
+        .tag-effort-small { background: #d1fae5; color: #065f46; }
+        .tag-effort-medium { background: #fef3c7; color: #92400e; }
+        .tag-effort-large { background: #fee2e2; color: #991b1b; }
+        .tag-blocked { background: #fef3c7; color: #92400e; }
+        
+        .project-card {
+            background: #fafafa;
             border-radius: 12px;
-            font-size: 16px;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+        
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        
+        .project-title {
+            font-size: 18px;
             font-weight: 600;
+        }
+        
+        .project-progress {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .progress-bar {
+            width: 200px;
+            height: 8px;
+            background: #e5e7eb;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #9945FF, #FF6B9D);
+            border-radius: 4px;
+            transition: width 0.3s;
+        }
+        
+        .phases-list {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .phase {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .phase.complete { background: #d1fae5; color: #065f46; }
+        .phase.in-progress { background: #dbeafe; color: #1e40af; }
+        .phase.blocked { background: #fef3c7; color: #92400e; }
+        .phase.not-started { background: #e5e7eb; color: #374151; }
+        
+        .recurring-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            background: #fafafa;
+            border-radius: 12px;
+            margin-bottom: 12px;
+        }
+        
+        .recurring-info h3 {
+            font-size: 16px;
+            margin-bottom: 4px;
+        }
+        
+        .recurring-meta {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .frequency-badge {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 500;
+            background: #f3e8ff;
+            color: #7c3aed;
+        }
+        
+        .filters {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            padding: 8px 16px;
+            border: 1px solid rgba(153, 69, 255, 0.2);
+            border-radius: 20px;
+            background: white;
+            color: #666;
+            font-size: 12px;
             cursor: pointer;
-            margin-top: 16px;
             transition: all 0.2s;
         }
         
-        .add-task-btn:hover {
-            box-shadow: 0 4px 20px rgba(153, 69, 255, 0.3);
+        .filter-btn:hover, .filter-btn.active {
+            background: #9945FF;
+            color: white;
+            border-color: #9945FF;
         }
         
-        .last-updated {
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .empty-state {
             text-align: center;
-            color: #999;
-            font-size: 12px;
-            margin-top: 20px;
+            padding: 40px;
+            color: #666;
+        }
+        
+        .empty-state-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+        
+        @media (max-width: 768px) {
+            .nav { gap: 8px; }
+            .nav a { padding: 10px 16px; font-size: 14px; }
+            .tabs { flex-wrap: wrap; }
+            .tab { padding: 10px 16px; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
         }
     </style>
 </head>
 <body>
     <div class="header">
-        <h1>💼 Work</h1>
-        <p>Work Tasks & Projects</p>
+        <h1>💼 Work Control Center</h1>
+        <p class="subtitle">Tasks • Projects • Recurring Deliverables</p>
     </div>
     
     <div class="nav">
@@ -209,96 +396,311 @@
         <a href="daily.html">Daily</a>
     </div>
     
-    <div class="container">
-        <!-- Work Stats -->
-        <div class="card">
-            <h2>📊 Work Stats</h2>
-            <div class="stats-row">
-                <div class="stat-box">
-                    <div class="stat-number">--</div>
-                    <div class="stat-label">Active Tasks</div>
-                </div>
-                <div class="stat-box">
-                    <div class="stat-number">--</div>
-                    <div class="stat-label">From Steve</div>
-                </div>
-                <div class="stat-box">
-                    <div class="stat-number">--</div>
-                    <div class="stat-label">From Rafi</div>
-                </div>
-                <div class="stat-box">
-                    <div class="stat-number">--</div>
-                    <div class="stat-label">This Week</div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Steve Tasks -->
-        <div class="card">
-            <h2>👔 Steve</h2>
-            <div class="task-list">
-                <div class="empty-state">No active tasks from Steve</div>
-            </div>
-        </div>
-        
-        <!-- Rafi Tasks -->
-        <div class="card">
-            <h2>👔 Rafi</h2>
-            <div class="task-list">
-                <div class="task-item">
-                    <span class="task-status status-complete">Complete</span>
-                    <div class="task-content">
-                        <div class="task-name">Raffy fully loaded marketing spend</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Other / General Tasks -->
-        <div class="card">
-            <h2>👤 Other / General</h2>
-            <div class="task-list">
-                <div class="task-item">
-                    <span class="task-status status-in-progress">In Progress</span>
-                    <div class="task-content">
-                        <div class="task-name">MGC fees for digital card</div>
-                    </div>
-                </div>
-                <div class="task-item">
-                    <span class="task-status status-in-progress">In Progress</span>
-                    <div class="task-content">
-                        <div class="task-name">Aylin share card campaign invoicing</div>
-                    </div>
-                </div>
-                <div class="task-item">
-                    <span class="task-status status-not-started">Not Started</span>
-                    <div class="task-content">
-                        <div class="task-name">Complete my success tasks</div>
-                    </div>
-                </div>
-                <div class="task-item">
-                    <span class="task-status status-not-started">Not Started</span>
-                    <div class="task-content">
-                        <div class="task-name">Colin no objection certificate</div>
-                    </div>
-                </div>
-                <div class="task-item">
-                    <span class="task-status status-in-progress">In Progress</span>
-                    <div class="task-content">
-                        <div class="task-name">Ahmed Osman - Umair contract renewal</div>
-                    </div>
-                </div>
-                <div class="task-item">
-                    <span class="task-status status-in-progress">In Progress</span>
-                    <div class="task-content">
-                        <div class="task-name">Omar studies</div>
-                    </div>
-                </div>
-            </div>
-            <button class="add-task-btn">+ Add Work Task</button>
-        </div>
-        
-        <p class="last-updated">Last updated: Feb 13, 2026 | Data source: Airtable</p>
+    <div class="tabs">
+        <button class="tab active" onclick="switchTab('overview')">📊 Overview</button>
+        <button class="tab" onclick="switchTab('tasks')">📋 Tasks</button>
+        <button class="tab" onclick="switchTab('projects')">📁 Projects</button>
+        <button class="tab" onclick="switchTab('recurring')">🔄 Recurring</button>
     </div>
+    
+    <div class="container">
+        <!-- OVERVIEW TAB -->
+        <div id="overview" class="tab-content active">
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <div class="stat-number" id="stat-total">--</div>
+                    <div class="stat-label">Active Items</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number" id="stat-urgent">--</div>
+                    <div class="stat-label">Urgent (P0)</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number" id="stat-blocked">--</div>
+                    <div class="stat-label">Blocked</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number" id="stat-due">--</div>
+                    <div class="stat-label">Due This Week</div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2>🔥 Priority Actions</h2>
+                <div id="priority-list">
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📋</div>
+                        <p>Loading work items...</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card" id="blocked-card" style="display: none;">
+                <h2>⚠️ Blocked Items</h2>
+                <div id="blocked-list"></div>
+            </div>
+        </div>
+        
+        <!-- TASKS TAB -->
+        <div id="tasks" class="tab-content">
+            <div class="filters">
+                <button class="filter-btn active" onclick="filterTasks('all')">All</button>
+                <button class="filter-btn" onclick="filterTasks('today')">Today</button>
+                <button class="filter-btn" onclick="filterTasks('week')">This Week</button>
+                <button class="filter-btn" onclick="filterTasks('p0')">P0 Only</button>
+                <button class="filter-btn" onclick="filterTasks('blocked')">Blocked</button>
+            </div>
+            
+            <div class="card">
+                <h2>📋 Task List</h2>
+                <ul class="task-list" id="task-list">
+                    <li class="empty-state">
+                        <div class="empty-state-icon">📋</div>
+                        <p>Loading tasks...</p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- PROJECTS TAB -->
+        <div id="projects" class="tab-content">
+            <div class="card">
+                <h2>📁 Active Projects</h2>
+                <div id="project-list">
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📁</div>
+                        <p>Loading projects...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- RECURRING TAB -->
+        <div id="recurring" class="tab-content">
+            <div class="card">
+                <h2>🔄 Recurring Deliverables</h2>
+                <div id="recurring-list">
+                    <div class="empty-state">
+                        <div class="empty-state-icon">🔄</div>
+                        <p>Loading recurring items...</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2>📅 Upcoming Schedule</h2>
+                <div id="recurring-schedule">
+                    <p style="color: #666; text-align: center;">Calendar view coming soon...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let workData = null;
+        let currentFilter = 'all';
+        
+        // Load work data
+        async function loadWorkData() {
+            try {
+                const response = await fetch('data/work_data.json');
+                workData = await response.json();
+                renderOverview();
+                renderTasks();
+                renderProjects();
+                renderRecurring();
+            } catch (error) {
+                console.error('Error loading work data:', error);
+                document.querySelectorAll('.empty-state p').forEach(el => {
+                    el.textContent = 'Error loading data. Please try again later.';
+                });
+            }
+        }
+        
+        // Switch tabs
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            document.getElementById(tabName).classList.add('active');
+        }
+        
+        // Render Overview
+        function renderOverview() {
+            const summary = workData.summary;
+            document.getElementById('stat-total').textContent = summary.total_active;
+            document.getElementById('stat-urgent').textContent = summary.urgent;
+            document.getElementById('stat-blocked').textContent = summary.blocked;
+            document.getElementById('stat-due').textContent = summary.due_this_week;
+            
+            // Priority actions
+            const allItems = [...workData.tasks, ...workData.projects];
+            const urgentItems = allItems.filter(item => item.priority === 'P0' || item.priority === 'P1');
+            
+            const priorityList = document.getElementById('priority-list');
+            if (urgentItems.length === 0) {
+                priorityList.innerHTML = '<div class="empty-state"><div class="empty-state-icon">🎉</div><p>No urgent items! You\'re all caught up.</p></div>';
+            } else {
+                priorityList.innerHTML = urgentItems.slice(0, 5).map(item => `
+                    <div class="task-item priority-${item.priority.toLowerCase()}">
+                        <div class="task-checkbox"></div>
+                        <div class="task-content">
+                            <div class="task-title">${item.name}</div>
+                            <div class="task-meta">
+                                <span class="task-tag tag-priority-${item.priority.toLowerCase()}">${item.priority}</span>
+                                <span>📁 ${item.project || 'No Project'}</span>
+                                <span>👤 ${item.stakeholder}</span>
+                                <span>📅 Due: ${item.due_date || 'N/A'}</span>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+            
+            // Blocked items
+            const blockedItems = allItems.filter(item => item.status === 'Blocked');
+            const blockedCard = document.getElementById('blocked-card');
+            if (blockedItems.length > 0) {
+                blockedCard.style.display = 'block';
+                document.getElementById('blocked-list').innerHTML = blockedItems.map(item => `
+                    <div class="alert-box blocked">
+                        <div class="alert-title">⚠️ ${item.name}</div>
+                        <p><strong>Blocked:</strong> ${item.blocked_reason || 'No reason provided'}</p>
+                        <p style="font-size: 12px; color: #666; margin-top: 8px;">
+                            Project: ${item.project} | Stakeholder: ${item.stakeholder}
+                        </p>
+                    </div>
+                `).join('');
+            }
+        }
+        
+        // Render Tasks
+        function renderTasks() {
+            const taskList = document.getElementById('task-list');
+            let tasks = workData.tasks;
+            
+            // Apply filters
+            if (currentFilter === 'p0') {
+                tasks = tasks.filter(t => t.priority === 'P0');
+            } else if (currentFilter === 'blocked') {
+                tasks = tasks.filter(t => t.status === 'Blocked');
+            } else if (currentFilter === 'today') {
+                const today = new Date().toISOString().split('T')[0];
+                tasks = tasks.filter(t => t.due_date === today);
+            } else if (currentFilter === 'week') {
+                const today = new Date();
+                const weekLater = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
+                tasks = tasks.filter(t => {
+                    if (!t.due_date) return false;
+                    const due = new Date(t.due_date);
+                    return due >= today && due <= weekLater;
+                });
+            }
+            
+            if (tasks.length === 0) {
+                taskList.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📋</div><p>No tasks found.</p></div>';
+                return;
+            }
+            
+            taskList.innerHTML = tasks.map(task => `
+                <li class="task-item priority-${task.priority.toLowerCase()} ${task.status === 'Blocked' ? 'blocked' : ''}">
+                    <div class="task-checkbox"></div>
+                    <div class="task-content">
+                        <div class="task-title">${task.name}</div>
+                        <div style="font-size: 13px; color: #666; margin-bottom: 8px;">${task.detail}</div>
+                        <div class="task-meta">
+                            <span class="task-tag tag-priority-${task.priority.toLowerCase()}">${task.priority}</span>
+                            <span class="task-tag tag-effort-${task.effort.toLowerCase()}">${task.effort}</span>
+                            ${task.status === 'Blocked' ? '<span class="task-tag tag-blocked">⚠️ Blocked</span>' : ''}
+                            <span>📁 ${task.project || 'No Project'}</span>
+                            <span>👤 ${task.stakeholder}</span>
+                            <span>📅 ${task.due_date || 'No due date'}</span>
+                        </div>
+                        ${task.blocked_reason ? `<div style="font-size: 12px; color: #92400e; margin-top: 8px;">⚠️ ${task.blocked_reason}</div>` : ''}
+                    </div>
+                </li>
+            `).join('');
+        }
+        
+        // Filter tasks
+        function filterTasks(filter) {
+            currentFilter = filter;
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            renderTasks();
+        }
+        
+        // Render Projects
+        function renderProjects() {
+            const projectList = document.getElementById('project-list');
+            
+            if (workData.projects.length === 0) {
+                projectList.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📁</div><p>No active projects.</p></div>';
+                return;
+            }
+            
+            projectList.innerHTML = workData.projects.map(project => `
+                <div class="project-card">
+                    <div class="project-header">
+                        <div>
+                            <div class="project-title">${project.name}</div>
+                            <div style="font-size: 13px; color: #666; margin-top: 4px;">${project.detail}</div>
+                        </div>
+                        <div class="project-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: ${project.progress}%"></div>
+                            </div>
+                            <span style="font-weight: 600;">${project.progress}%</span>
+                        </div>
+                    </div>
+                    <div style="font-size: 12px; color: #666; margin-bottom: 12px;">
+                        <span>👤 ${project.stakeholder}</span> • 
+                        <span>📅 Due: ${project.due_date || 'TBD'}</span> • 
+                        <span class="task-tag tag-priority-${project.priority.toLowerCase()}">${project.priority}</span>
+                    </div>
+                    ${project.phases ? `
+                        <div class="phases-list">
+                            ${project.phases.map(phase => `
+                                <div class="phase ${phase.status.toLowerCase().replace(' ', '-')}">
+                                    ${phase.status === 'Complete' ? '✓' : phase.status === 'Blocked' ? '⚠️' : '○'} ${phase.name}
+                                </div>
+                            `).join('')}
+                        </div>
+                    ` : ''}
+                    ${project.blocked_reason ? `<div style="font-size: 12px; color: #92400e; margin-top: 12px; padding: 8px; background: #fef3c7; border-radius: 8px;">⚠️ Blocked: ${project.blocked_reason}</div>` : ''}
+                </div>
+            `).join('');
+        }
+        
+        // Render Recurring
+        function renderRecurring() {
+            const recurringList = document.getElementById('recurring-list');
+            
+            if (workData.recurring.length === 0) {
+                recurringList.innerHTML = '<div class="empty-state"><div class="empty-state-icon">🔄</div><p>No recurring items.</p></div>';
+                return;
+            }
+            
+            recurringList.innerHTML = workData.recurring.map(item => `
+                <div class="recurring-item">
+                    <div class="recurring-info">
+                        <h3>${item.name}</h3>
+                        <div class="recurring-meta">
+                            ${item.detail} • Next: ${item.next_due} • 👤 ${item.stakeholder}
+                        </div>
+                        ${item.template ? `<div style="font-size: 11px; color: #9945FF; margin-top: 4px;">${item.template}</div>` : ''}
+                    </div>
+                    <div style="text-align: right;">
+                        <span class="frequency-badge">${item.frequency}</span>
+                        <div style="font-size: 12px; color: #666; margin-top: 8px;">${item.status}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // Load data on page load
+        document.addEventListener('DOMContentLoaded', loadWorkData);
+    </script>
 </body>
 </html>

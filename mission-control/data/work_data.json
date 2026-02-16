@@ -1,0 +1,129 @@
+{
+  "tasks": [
+    {
+      "id": "sample1",
+      "name": "MGC fees for digital card",
+      "detail": "Create unit comparison DGC vs Physical, Scenario table",
+      "type": "Task",
+      "tat": 3,
+      "due_date": "2026-02-18",
+      "category": "Analysis",
+      "source": "In Person",
+      "project": "Digital Card Strategy",
+      "stakeholder": "Dem",
+      "assigned": "Me",
+      "status": "In Progress",
+      "priority": "P1",
+      "effort": "Medium",
+      "blocked_reason": ""
+    },
+    {
+      "id": "sample2",
+      "name": "Aylin card campaign invoicing",
+      "detail": "Process invoice for card campaign",
+      "type": "Task",
+      "tat": 3,
+      "due_date": "2026-02-17",
+      "category": "Financial",
+      "source": "Email",
+      "project": "Card Campaign",
+      "stakeholder": "Aylin",
+      "assigned": "Me",
+      "status": "In Progress",
+      "priority": "P1",
+      "effort": "Small",
+      "blocked_reason": ""
+    },
+    {
+      "id": "sample3",
+      "name": "No objection certificate",
+      "detail": "Obtain NOC for project approval",
+      "type": "Task",
+      "tat": 7,
+      "due_date": "2026-02-21",
+      "category": "Admin",
+      "source": "Email",
+      "project": "Project X",
+      "stakeholder": "Ahmed",
+      "assigned": "Me",
+      "status": "Not Started",
+      "priority": "P1",
+      "effort": "Small",
+      "blocked_reason": ""
+    }
+  ],
+  "projects": [
+    {
+      "id": "proj1",
+      "name": "Umair contract renewal",
+      "detail": "Contract renewal process with Umair",
+      "type": "Project",
+      "tat": 7,
+      "due_date": "2026-02-23",
+      "category": "Operations",
+      "source": "In Person",
+      "project": "Osman Contract",
+      "stakeholder": "Osman",
+      "assigned": "Me",
+      "status": "In Progress",
+      "priority": "P0",
+      "effort": "Large",
+      "blocked_reason": "Awaiting legal review",
+      "phases": [
+        {
+          "name": "Initial Review",
+          "status": "Complete",
+          "due": "2026-02-10"
+        },
+        {
+          "name": "Legal Review",
+          "status": "Blocked",
+          "due": "2026-02-18"
+        },
+        {
+          "name": "Final Approval",
+          "status": "Not Started",
+          "due": "2026-02-25"
+        }
+      ],
+      "progress": 30
+    }
+  ],
+  "recurring": [
+    {
+      "id": "rec1",
+      "name": "Month-end finance close",
+      "detail": "GL entries, reconciliations, variance analysis",
+      "type": "Recurring",
+      "category": "Financial",
+      "stakeholder": "CFO",
+      "assigned": "Me",
+      "status": "Not Started",
+      "priority": "P0",
+      "frequency": "Monthly",
+      "next_due": "2026-02-28",
+      "template": "1. GL entries 2. Reconciliations 3. Variance analysis 4. Management pack"
+    },
+    {
+      "id": "rec2",
+      "name": "Marketing spend report",
+      "detail": "Calculate fully loaded marketing spend",
+      "type": "Recurring",
+      "category": "Financial",
+      "stakeholder": "Raffy",
+      "assigned": "Me",
+      "status": "Complete",
+      "priority": "P1",
+      "frequency": "Monthly",
+      "next_due": "2026-03-05",
+      "template": "1. Collect channel data 2. Calculate ROI 3. Compare to budget"
+    }
+  ],
+  "last_updated": "2026-02-16T13:10:14.181365",
+  "summary": {
+    "total_active": 4,
+    "urgent": 1,
+    "blocked": 1,
+    "due_this_week": 3
+  }
+}
