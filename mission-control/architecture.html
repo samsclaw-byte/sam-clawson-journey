@@ -347,10 +347,6 @@
                     <!-- OpenClaw → Mission Control -->
                     <line class="connection-line solid" x1="500" y1="290" x2="500" y2="350"/>
                     
-                    <!-- OpenClaw → Notion -->
-                    <line class="connection-line" x1="450" y1="240" x2="150" y2="170"/>
-                    <text x="260" y="190" fill="#9945FF" font-size="9">REST API</text>
-                    
                     <!-- OpenClaw → GitHub -->
                     <line class="connection-line" x1="430" y1="260" x2="80" y2="250"/>
                     <text x="220" y="240" fill="#9945FF" font-size="9">Git Push</text>
@@ -425,12 +421,6 @@
                 </div>
                 
                 <!-- STORAGE LAYER -->
-                <div class="node storage notion">
-                    <div class="node-icon">📝</div>
-                    <div class="node-title">Notion</div>
-                    <div class="node-status">Tasks & Research</div>
-                </div>
-                
                 <div class="node storage github">
                     <div class="node-icon">📦</div>
                     <div class="node-title">GitHub</div>
@@ -532,7 +522,6 @@
                     <li>💬 Telegram → 🦞 OpenClaw → 🗄️ Airtable (Food Log)</li>
                     <li>💓 WHOOP → 🌐 Webhook → 🗄️ Airtable (Recovery)</li>
                     <li>📅 Google Calendar → ⏰ Cron → 📱 Mission Control</li>
-                    <li>📝 Notion → 🧠 Sub-agent → 📝 Research Files</li>
                     <li>🥗 Food Text → 🔬 Edamam → 🗄️ Nutrition Data</li>
                 </ul>
             </div>
@@ -553,7 +542,6 @@
                 <ul class="flow-list">
                     <li><strong>Moonshot AI (Kimi K2.5):</strong> Main reasoning engine</li>
                     <li><strong>Airtable:</strong> Health data, habits, TAT tasks</li>
-                    <li><strong>Notion:</strong> Research database, overnight tasks</li>
                     <li><strong>GitHub:</strong> Code storage, sync, versioning</li>
                     <li><strong>Cloudflare:</strong> Tunnels (SSH, WHOOP), Workers</li>
                     <li><strong>Google Calendar:</strong> Family schedule via Maton API</li>
