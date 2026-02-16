@@ -22,7 +22,9 @@ def fetch_calendar_events():
     time_min = today.strftime("%Y-%m-%dT00:00:00Z")
     time_max = (today + timedelta(days=30)).strftime("%Y-%m-%dT23:59:59Z")
     
-    url = f"{BASE_URL}/calendar/v3/calendars/primary/events"
+    # Use Sam & Sophie Family Calendar
+    family_calendar_id = "5b69bf4aee3985fe14303dc0e733d51cca028bde7dfe73437678829cf52acafe@group.calendar.google.com"
+    url = f"{BASE_URL}/calendar/v3/calendars/{family_calendar_id}/events"
     params = {
         "timeMin": time_min,
         "timeMax": time_max,
