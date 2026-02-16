@@ -341,6 +341,17 @@
             text-decoration: underline;
         }
         
+        .category-tag {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-size: 10px;
+            font-weight: 600;
+            background: rgba(153, 69, 255, 0.1);
+            color: #9945FF;
+            border: 1px solid rgba(153, 69, 255, 0.2);
+        }
+        
         /* Pulse Animation for Active Nodes */
         @keyframes pulse {
             0%, 100% { box-shadow: 0 0 0 0 rgba(153, 69, 255, 0.4); }
@@ -653,6 +664,7 @@
                     <thead>
                         <tr>
                             <th>Workflow</th>
+                            <th>Category</th>
                             <th>Status</th>
                             <th>Database</th>
                             <th>Cron Jobs</th>
@@ -664,6 +676,7 @@
                     <tbody>
                         <tr>
                             <td><span class="workflow-name">🌅 Morning Brief</span></td>
+                            <td class="data-cell"><span class="category-tag">Health</span></td>
                             <td><span class="status-badge status-healthy">Healthy</span></td>
                             <td class="data-cell"><strong>Health:</strong> WHOOP Data<br><strong>Prod:</strong> Daily Habits</td>
                             <td class="data-cell">
@@ -678,6 +691,7 @@
                         </tr>
                         <tr>
                             <td><span class="workflow-name">🥗 Food Logging</span></td>
+                            <td class="data-cell"><span class="category-tag">Health</span></td>
                             <td><span class="status-badge status-healthy">Healthy</span></td>
                             <td class="data-cell"><strong>Health:</strong> Food Log</td>
                             <td class="data-cell">—</td>
@@ -687,6 +701,7 @@
                         </tr>
                         <tr>
                             <td><span class="workflow-name">💓 WHOOP Recovery</span></td>
+                            <td class="data-cell"><span class="category-tag">Health</span></td>
                             <td><span class="status-badge status-healthy">Healthy</span></td>
                             <td class="data-cell"><strong>Health:</strong> WHOOP Data</td>
                             <td class="data-cell">
@@ -700,6 +715,7 @@
                         </tr>
                         <tr>
                             <td><span class="workflow-name">📋 TAT System</span></td>
+                            <td class="data-cell"><span class="category-tag">Productivity</span></td>
                             <td><span class="status-badge status-healthy">Healthy</span></td>
                             <td class="data-cell"><strong>Prod:</strong> TAT Tasks v2</td>
                             <td class="data-cell">—</td>
@@ -709,6 +725,7 @@
                         </tr>
                         <tr>
                             <td><span class="workflow-name">📅 Calendar Sync</span></td>
+                            <td class="data-cell"><span class="category-tag">Productivity</span></td>
                             <td><span class="status-badge status-healthy">Healthy</span></td>
                             <td class="data-cell">—</td>
                             <td class="data-cell">
@@ -722,6 +739,7 @@
                         </tr>
                         <tr>
                             <td><span class="workflow-name">💧 Water Tracker</span></td>
+                            <td class="data-cell"><span class="category-tag">Health</span></td>
                             <td><span class="status-badge status-healthy">Healthy</span></td>
                             <td class="data-cell"><strong>Prod:</strong> Daily Habits</td>
                             <td class="data-cell">
@@ -736,6 +754,7 @@
                         </tr>
                         <tr>
                             <td><span class="workflow-name">🛡️ Security Sentinel</span></td>
+                            <td class="data-cell"><span class="category-tag">System</span></td>
                             <td><span class="status-badge status-healthy">Healthy</span></td>
                             <td class="data-cell">—</td>
                             <td class="data-cell">
@@ -749,6 +768,7 @@
                         </tr>
                         <tr>
                             <td><span class="workflow-name">🎙️ Voice Transcribe</span></td>
+                            <td class="data-cell"><span class="category-tag">System Enhancement</span></td>
                             <td><span class="status-badge status-warning">Setup Required</span></td>
                             <td class="data-cell">—</td>
                             <td class="data-cell">—</td>
@@ -758,6 +778,7 @@
                         </tr>
                         <tr>
                             <td><span class="workflow-name">📊 Dashboard Update</span></td>
+                            <td class="data-cell"><span class="category-tag">System</span></td>
                             <td><span class="status-badge status-healthy">Healthy</span></td>
                             <td class="data-cell"><strong>Health:</strong> All tables<br><strong>Prod:</strong> All tables</td>
                             <td class="data-cell">
