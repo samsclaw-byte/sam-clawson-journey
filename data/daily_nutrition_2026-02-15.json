@@ -12,16 +12,26 @@
       "calories": 850
     },
     {
+      "type": "Dinner",
+      "items": "Beef flank steak with chimichurri sauce, sweet potato fries,...",
+      "calories": 950
+    },
+    {
       "type": "Snack",
       "items": "Green apple, half small tiramisu",
       "calories": 280
+    },
+    {
+      "type": "Snack",
+      "items": "15 cubes Dairy Milk chocolate (birthday treat!), 1/2 portion...",
+      "calories": 450
     }
   ],
-  "total_calories": 1870,
+  "total_calories": 3270,
   "macros": {
     "protein": 73,
-    "carbs": 0,
-    "fat": 0,
-    "fiber": 0
+    "carbs": 9.3,
+    "fat": 53.7,
+    "fiber": 0.1
   }
 }
