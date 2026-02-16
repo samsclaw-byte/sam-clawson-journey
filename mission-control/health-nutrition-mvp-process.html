@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health & Nutrition App - MVP Development Process</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #f8f9ff 0%, #fff5f8 100%);
+            color: #1a1a2e;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            padding: 30px;
+            border-radius: 16px;
+            color: white;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 20px rgba(34, 197, 94, 0.3);
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+        
+        .header p {
+            opacity: 0.9;
+        }
+        
+        .phase {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        
+        .phase-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        
+        .phase-number {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 18px;
+        }
+        
+        .phase-title {
+            flex: 1;
+            margin-left: 16px;
+        }
+        
+        .phase-title h2 {
+            font-size: 20px;
+            color: #1a1a2e;
+        }
+        
+        .phase-status {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .status-pending {
+            background: #f3f4f6;
+            color: #6b7280;
+        }
+        
+        .status-active {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+        
+        .status-complete {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        
+        .phase-duration {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 16px;
+        }
+        
+        .checklist {
+            list-style: none;
+        }
+        
+        .checklist li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .checklist li:last-child {
+            border-bottom: none;
+        }
+        
+        .checkbox {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #d1d5db;
+            border-radius: 4px;
+            flex-shrink: 0;
+            margin-top: 2px;
+            cursor: pointer;
+        }
+        
+        .checkbox.checked {
+            background: #22c55e;
+            border-color: #22c55e;
+        }
+        
+        .task-text {
+            flex: 1;
+            font-size: 14px;
+        }
+        
+        .task-meta {
+            font-size: 12px;
+            color: #666;
+            margin-top: 4px;
+        }
+        
+        .decision-box {
+            background: #fef3c7;
+            border: 1px solid #fde68a;
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 16px;
+        }
+        
+        .decision-box h4 {
+            color: #92400e;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        
+        .decision-box p {
+            font-size: 13px;
+            color: #78350f;
+        }
+        
+        .deliverable {
+            background: #f0fdf4;
+            border: 1px solid #86efac;
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 16px;
+        }
+        
+        .deliverable h4 {
+            color: #166534;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        
+        .deliverable ul {
+            font-size: 13px;
+            color: #166534;
+            padding-left: 20px;
+        }
+        
+        .note {
+            background: #f8f5ff;
+            border-left: 4px solid #9945FF;
+            padding: 12px 16px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            font-size: 13px;
+        }
+        
+        .principles {
+            background: linear-gradient(135deg, #f8f5ff, #fff5f8);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+        
+        .principles h2 {
+            font-size: 18px;
+            margin-bottom: 16px;
+            color: #1a1a2e;
+        }
+        
+        .principles ul {
+            font-size: 14px;
+            line-height: 1.8;
+            padding-left: 20px;
+        }
+        
+        .principles li {
+            margin-bottom: 8px;
+        }
+        
+        @media (max-width: 600px) {
+            .phase-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+            
+            .phase-title {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🥗 Health & Nutrition App</h1>
+            <p>MVP Development Process - Step by Step</p>
+        </div>
+        
+        <div class="principles">
+            <h2>📋 Development Principles</h2>
+            <ul>
+                <li><strong>One phase at a time.</strong> Don't start Phase 2 until Phase 1 is complete and tested.</li>
+                <li><strong>Deploy early, deploy often.</strong> Each phase should be live and working before moving on.</li>
+                <li><strong>No scope creep.</strong> If it's not in the phase checklist, it doesn't get built.</li>
+                <li><strong>Test with yourself first.</strong> You are the first user. If it doesn't work for you, it won't work for others.</li>
+                <li><strong>Document blockers immediately.</strong> If stuck for >2 hours, pause and reassess.</li>
+            </ul>
+        </div>
+        
+        <!-- PHASE 1 -->
+        <div class="phase">
+            <div class="phase-header">
+                <div class="phase-number">1</div>
+                <div class="phase-title">
+                    <h2>Foundation & Auth</h2>
+                </div>
+                <div class="phase-status status-pending">Pending</div>
+            </div>
+            <div class="phase-duration">⏱️ 3-4 days</div>
+            
+            <ul class="checklist">
+                <li>
+                    <div class="checkbox"></div>
+                    <div class="task-text">
+                        Set up Cloudflare Pages project
+                        <div class="task-meta">Create new project, configure build settings</div>
+                    </div>
+                </li>
+                <li>
+                    <div class="checkbox"></div>
+                    <div class="task-text">
+                        Set up D1 database
+                        <div class="task-meta">Create database, design schema for users and meals</div>
+                    </div>
+                </li>
+                <li>
+                    <div class="checkbox"></div>
+                    <div class="task-text">
+                        Configure Google OAuth
+                        <div class="task-meta">Set up Google Cloud project, configure OAuth consent screen</div>
+                    </div>
+                </li>
+                <li>
+                    <div class="checkbox"></div>
+                    <div class="task-text">
+                        Build login page
+                        <div class="task-meta">Simple "Sign in with Google" button</div>
+                    </div>
+                </li>
+                <li>
+                    <div class="checkbox"></div>
+                    <div class="task-text">
+                        Test auth flow
+                        <div class="task-meta">You should be able to log in and see your user_id</div>
+                    </div>
+                </li>
+            </ul>
+            
+            <div class="decision-box">
+                <h4>🤔 Decision Required:</h4>
+                <p>Which domain? samsclaw.org or nutrition.yourdomain.com?</p>
+            </div>
+            
+            <div class="deliverable">
+                <h4>✅ Phase 1 Complete When:</h4>
+                <ul>
+                    <li>You can visit a URL and see a login page</li>
+                    <li>Clicking "Sign in with Google" authenticates you</li>
+                    <li>Your user record exists in D1 database</li>
+                    <li>You see a basic "Logged in as [email]" page</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- PHASE 2 -->
+        <div class="phase">
+            <div class="phase-header">
+                <div class="phase-number">2</div>
+                <div class="phase-title">
+                    <h2>Core UI & Meal Logging</h2>
+                </div>
+                <div class="phase-status status-pending">Pending</div>
+            </div>
+            <div class="phase-duration">⏱️ 4-5 days</div>
+            
+            <ul class="checklist">
+                <li>
+                    <div class="checkbox"></div>
+                    <div class="task-text">
+                        Copy current nutrition page UI
+                        <div class="task-meta">Meals list, macro chart, totals - but simplified</div>
+                    </div>
+                </li>
+                <li>
+                    <div class="checkbox"></div>
+                    <div class="task-text">
+                        Build "Add Meal" form
+                        <div class="task-meta">Meal type dropdown, food name, estimated calories (optional)</div>
+                    </div>
+                </li>
+                <li>
+                    <div class="checkbox"></div>
+                    <div class="task-text">
+                        Connect form to D1 database
+                        <div class="task-meta">Save meals with user_id isolation</div>
+                    </div>
+                </li>
+                <li>
+                    <div class="checkbox"></div>
+                    <div class="task-text">
+                        Display today's meals
+                        <div class="task-meta">Query DB for current user, today's date</div>
+                    </div>
+                </li>
+                <li>
+                    <div class="checkbox"></div>
+                    <div class="task-text">
+                        Basic macro calculation
+                        <div class="task-meta">Simple pie chart (can be hardcoded estimates initially)</div>
+                    </div>
+                </li>
+                <li>
+                    <div class="checkbox"></div>
+                    <div class="task-text">
+                        Test end-to-end
+                        <div class="task-meta">Log a meal → see it appear → check DB</div>
+                    </div>
+                </li>
+            </ul>
+            
+            <div class="deliverable">
+                <h4>✅ Phase 2 Complete When:</h4>
+                <ul>
+                    <li>You can log in and see your dashboard</li>
+                    <li>You can add a meal via form</li>
+                    <li>Meal appears in today's list immediately</li>
+                    <li>Macro chart updates (even if estimated)</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- PHASE 3 -->
+        <div class="phase">
+            <div class="phase-header">
+                <div class="phase-number">3</div>
+                <div class="phase-title">
+                    <h2>Multi-User & Invite</h2>
+                </div>
+                <div class="phase-status status-pending">Pending</div>
+            </div>
+            <div class="phase-duration">⏱️ 3-4 days</div>
+            
+            <ul class="checklist">
+                <li>
+                    <div class="checkbox"></div>
+                    <div class="task-text">
+                        Verify user data isolation
+                        <div class="task-meta">User A cannot see User B's meals</div>
+                    </div>
+                </li>
+                <li>
+                    <div class="checkbox"></div>
+                    <div class="task-text">
+                        Build invite system
+                        <div class="task-meta">Generate invite links, email or share via text</div>
+                    </div>
+                </li>
+                <li>
+                    <div class="checkbox"></div>
+                    <div class="task-text">
+                        Test with 2-3 family members
+                        <div class="task-meta">Send invites, they sign up, log some meals</div>
+                    </div>
+                </li>
+                <li>
+                    <div class="checkbox"></div>
+                    <div class="task-text">
+                        Basic admin view (optional)
+                        <div class="task-meta">See list of users, not their data</div>
+                    </div>
+                </li>
+            </ul>
+            
+            <div class="decision-box">
+                <h4>🤔 Decision Required:</h4>
+                <p>Who are the 2-3 Beta testers? Get their commitment first.</p>
+            </div>
+            
+            <div class="deliverable">
+                <h4>✅ Phase 3 Complete When:</h4>
+                <ul>
+                    <li>2-3 family members have accounts</li>
+                    <li>They can log meals independently</li>
+                    <li>Your data is isolated from theirs</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- PHASE 4 -->
+        <div class="phase">
+            <div class="phase-header">
+                <div class="phase-number">4</div>
+                <div class="phase-title">
+                    <h2>Beta Testing & Feedback</h2>
+                </div>
+                <div class="phase-status status-pending">Pending</div>
+            </div>
+            <div class="phase-duration">⏱️ 7 days (active testing)</div>
+            
+            <ul class="checklist">
+                <li>
+                    <div class="checkbox"></div>
+                    <div class="task-text">
+                        Daily check-ins with Beta users
+                        <div class="task-meta">Ask: Did you log meals today? What was hard?</div>
+                    </div>
+                </li>
+                <li>
+                    <div class="checkbox"></div>
+                    <div class="task-text">
+                        Fix critical bugs
+                        <div class="task-meta">Anything preventing meal logging</div>
+                    </div>
+                </li>
+                <li>
+                    <div class="checkbox"></div>
+                    <div class="task-text">
+                        Collect feature requests
+                        <div class="task-meta">Note what people ask for (but don't build yet)</div>
+                    </div>
+                </li>
+                <li>
+                    <div class="checkbox"></div>
+                    <div class="task-text">
+                        Measure engagement
+                        <div class="task-meta">Are people logging daily? Or dropping off?</div>
+                    </div>
+                </li>
+                <li>
+                    <div class="checkbox"></div>
+                    <div class="task-text">
+                        Decision: Pivot, Persevere, or Kill?
+                        <div class="task-meta">Are people actually using it? Is it valuable?</div>
+                    </div>
+                </li>
+            </ul>
+            
+            <div class="deliverable">
+                <h4>✅ Phase 4 Complete When:</h4>
+                <ul>
+                    <li>7 days of testing complete</li>
+                    <li>You have data: usage, feedback, bugs</li>
+                    <li>Decision made: Build v2 or stop</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="note">
+            <strong>💡 Remember:</strong> The goal of the MVP is to validate that people will actually log their meals consistently. If they don't, no amount of AI or fancy features will fix that. Keep it simple, get it live, test with real users.
+        </div>
+        
+        <div class="phase">
+            <div class="phase-header">
+                <div class="phase-number" style="background: linear-gradient(135deg, #667eea, #764ba2);">?</div>
+                <div class="phase-title">
+                    <h2>Post-MVP: If Beta Succeeds</h2>
+                </div>
+                <div class="phase-status status-pending">Future</div>
+            </div>
+            
+            <p style="font-size: 14px; color: #666; margin-bottom: 16px;">Only if Beta testing shows people actually use it:</p>
+            
+            <ul style="font-size: 13px; line-height: 1.8; padding-left: 20px; color: #666;">
+                <li>AI chat for natural language entry</li>
+                <li>Photo logging with image recognition</li>
+                <li>Exercise tracking</li>
+                <li>Family dashboard & group challenges</li>
+                <li>Mobile app (PWA or native)</li>
+                <li>Nutrition API integration (if needed)</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
