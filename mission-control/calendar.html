@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mission Control - Calendar</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #f8f9ff 0%, #fff5f8 100%);
+            color: #1a1a2e;
+            min-height: 100vh;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #9945FF 0%, #FF6B9D 100%);
+            padding: 30px 20px;
+            text-align: center;
+            color: white;
+            box-shadow: 0 4px 20px rgba(153, 69, 255, 0.3);
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .nav {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .nav a {
+            padding: 12px 24px;
+            background: white;
+            border: 1px solid rgba(153, 69, 255, 0.2);
+            border-radius: 25px;
+            color: #9945FF;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        
+        .nav a:hover, .nav a.active {
+            background: linear-gradient(135deg, #9945FF, #FF6B9D);
+            color: white;
+            border-color: transparent;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 20px rgba(153, 69, 255, 0.08);
+            border: 1px solid rgba(153, 69, 255, 0.1);
+        }
+        
+        .card h2 {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, #9945FF, #FF6B9D);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+        
+        /* Week View Styles */
+        .week-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+            overflow-x: auto;
+        }
+        
+        .week-day {
+            background: #f8f5ff;
+            border-radius: 12px;
+            padding: 12px 8px;
+            text-align: center;
+            min-width: 80px;
+            border: 2px solid transparent;
+            transition: all 0.2s;
+        }
+        
+        .week-day.today {
+            background: linear-gradient(135deg, #9945FF20, #FF6B9D20);
+            border-color: #9945FF;
+        }
+        
+        .week-day-name {
+            font-size: 11px;
+            color: #666;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+        
+        .week-day-number {
+            font-size: 20px;
+            font-weight: 700;
+            margin: 4px 0;
+            color: #1a1a2e;
+        }
+        
+        .week-day.today .week-day-number {
+            color: #9945FF;
+        }
+        
+        .week-events {
+            margin-top: 8px;
+            font-size: 11px;
+            color: #666;
+            line-height: 1.4;
+        }
+        
+        .week-event-item {
+            background: white;
+            border-radius: 4px;
+            padding: 2px 4px;
+            margin: 2px 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .week-tat-count {
+            margin-top: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #FF6B9D;
+        }
+        
+        /* Month View Styles */
+        .month-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        
+        .month-nav {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .month-nav button {
+            background: #f8f5ff;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 12px;
+            cursor: pointer;
+            color: #9945FF;
+            font-weight: 600;
+        }
+        
+        .month-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1a1a2e;
+        }
+        
+        .month-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 4px;
+        }
+        
+        .month-day-header {
+            text-align: center;
+            font-size: 11px;
+            color: #666;
+            text-transform: uppercase;
+            padding: 8px 4px;
+            font-weight: 600;
+        }
+        
+        .month-day {
+            aspect-ratio: 1;
+            background: #f8f5ff;
+            border-radius: 8px;
+            padding: 4px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.2s;
+            min-height: 50px;
+        }
+        
+        .month-day:hover {
+            background: #fff;
+            border-color: #9945FF40;
+        }
+        
+        .month-day.today {
+            background: linear-gradient(135deg, #9945FF20, #FF6B9D20);
+            border-color: #9945FF;
+        }
+        
+        .month-day.other-month {
+            background: transparent;
+            color: #ccc;
+        }
+        
+        .month-day-number {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+        
+        .month-day.today .month-day-number {
+            color: #9945FF;
+        }
+        
+        .month-day-events {
+            display: flex;
+            gap: 2px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .month-event-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #9945FF;
+        }
+        
+        .month-tat-badge {
+            font-size: 9px;
+            background: #FF6B9D;
+            color: white;
+            border-radius: 8px;
+            padding: 1px 4px;
+            margin-top: 2px;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+        
+        @media (max-width: 768px) {
+            .week-grid {
+                grid-template-columns: repeat(7, minmax(60px, 1fr));
+            }
+            
+            .week-day {
+                min-width: 60px;
+                padding: 8px 4px;
+            }
+            
+            .week-day-number {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>📅 Calendar</h1>
+        <div style="font-size: 14px; opacity: 0.9; margin-top: 5px;" id="current-date">Loading...</div>
+    </div>
+    
+    <div class="nav">
+        <a href="index.html">Overview</a>
+        <a href="daily.html">Daily</a>
+        <a href="productivity.html">Productivity</a>
+        <a href="work.html">Work</a>
+        <a href="projects.html">Projects</a>
+        <a href="calendar.html" class="active">Calendar</a>
+    </div>
+    
+    <div class="container">
+        <!-- Week View Card -->
+        <div class="card">
+            <h2>This Week</h2>
+            <div id="week-view" class="week-grid">
+                <div class="loading">Loading week view...</div>
+            </div>
+        </div>
+        
+        <!-- Month View Card -->
+        <div class="card">
+            <div class="month-header">
+                <div class="month-nav">
+                    <button onclick="changeMonth(-1)">‹</button>
+                    <button onclick="changeMonth(1)">›</button>
+                </div>
+                <div class="month-title" id="month-title">February 2026</div>
+                <div style="width: 80px;"></div>
+            </div>
+            <div id="month-view" class="month-grid">
+                <div class="loading">Loading month view...</div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let currentMonth = new Date();
+        let calendarData = {
+            events: [],
+            tatTasks: []
+        };
+        
+        // Update header date
+        function updateHeaderDate() {
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('current-date').textContent = new Date().toLocaleDateString('en-US', options);
+        }
+        
+        // Generate week view
+        function renderWeekView() {
+            const weekContainer = document.getElementById('week-view');
+            const today = new Date();
+            const startOfWeek = new Date(today);
+            startOfWeek.setDate(today.getDate() - today.getDay() + 1); // Monday
+            
+            let html = '';
+            const dayNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+            
+            for (let i = 0; i < 7; i++) {
+                const date = new Date(startOfWeek);
+                date.setDate(startOfWeek.getDate() + i);
+                const isToday = date.toDateString() === today.toDateString();
+                const dateStr = date.toISOString().split('T')[0];
+                
+                // Get events for this day
+                const dayEvents = calendarData.events.filter(e => {
+                    const eventDate = e.start.dateTime ? e.start.dateTime.split('T')[0] : e.start.date;
+                    return eventDate === dateStr;
+                });
+                
+                // Get TAT count for this day
+                const dayTatCount = calendarData.tatTasks.filter(t => {
+                    // Simple matching - in real implementation would check due dates
+                    return t.category === '1' && isToday;
+                }).length;
+                
+                html += `
+                    <div class="week-day ${isToday ? 'today' : ''}">
+                        <div class="week-day-name">${dayNames[i]}</div>
+                        <div class="week-day-number">${date.getDate()}</div>
+                        <div class="week-events">
+                            ${dayEvents.slice(0, 2).map(e => `
+                                <div class="week-event-item">${e.summary}</div>
+                            `).join('')}
+                            ${dayEvents.length > 2 ? `<div style="font-size: 10px; color: #9945FF;">+${dayEvents.length - 2} more</div>` : ''}
+                        </div>
+                        ${dayTatCount > 0 ? `<div class="week-tat-count">${dayTatCount} TAT</div>` : ''}
+                    </div>
+                `;
+            }
+            
+            weekContainer.innerHTML = html;
+        }
+        
+        // Generate month view
+        function renderMonthView() {
+            const monthContainer = document.getElementById('month-view');
+            const year = currentMonth.getFullYear();
+            const month = currentMonth.getMonth();
+            
+            document.getElementById('month-title').textContent = 
+                currentMonth.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+            
+            const firstDay = new Date(year, month, 1);
+            const lastDay = new Date(year, month + 1, 0);
+            const daysInMonth = lastDay.getDate();
+            const startDayOfWeek = firstDay.getDay() || 7; // 1 = Monday
+            
+            const dayHeaders = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+            let html = dayHeaders.map(d => `<div class="month-day-header">${d}</div>`).join('');
+            
+            // Previous month padding
+            const prevMonthDays = new Date(year, month, 0).getDate();
+            for (let i = startDayOfWeek - 2; i >= 0; i--) {
+                html += `
+                    <div class="month-day other-month">
+                        <div class="month-day-number">${prevMonthDays - i}</div>
+                    </div>
+                `;
+            }
+            
+            // Current month days
+            const today = new Date();
+            for (let day = 1; day <= daysInMonth; day++) {
+                const date = new Date(year, month, day);
+                const isToday = date.toDateString() === today.toDateString();
+                const dateStr = date.toISOString().split('T')[0];
+                
+                const dayEvents = calendarData.events.filter(e => {
+                    const eventDate = e.start.dateTime ? e.start.dateTime.split('T')[0] : e.start.date;
+                    return eventDate === dateStr;
+                });
+                
+                html += `
+                    <div class="month-day ${isToday ? 'today' : ''}">
+                        <div class="month-day-number">${day}</div>
+                        <div class="month-day-events">
+                            ${dayEvents.slice(0, 3).map(() => `<div class="month-event-dot"></div>`).join('')}
+                        </div>
+                        ${dayEvents.length > 3 ? `<div style="font-size: 8px; color: #9945FF;">+</div>` : ''}
+                    </div>
+                `;
+            }
+            
+            // Next month padding
+            const remainingCells = 42 - (startDayOfWeek - 1) - daysInMonth;
+            for (let i = 1; i <= remainingCells; i++) {
+                html += `
+                    <div class="month-day other-month">
+                        <div class="month-day-number">${i}</div>
+                    </div>
+                `;
+            }
+            
+            monthContainer.innerHTML = html;
+        }
+        
+        // Change month
+        function changeMonth(direction) {
+            currentMonth.setMonth(currentMonth.getMonth() + direction);
+            renderMonthView();
+        }
+        
+        // Load calendar data
+        async function loadCalendarData() {
+            try {
+                // For now, use mock data. In production, this would fetch from Google Calendar API
+                // through a secure endpoint or use cached data
+                
+                // Mock events
+                calendarData.events = [
+                    { summary: 'Test Event', start: { dateTime: '2026-02-20T09:00:00' } },
+                    { summary: 'Team Standup', start: { dateTime: '2026-02-17T09:00:00' } },
+                    { summary: 'Lunch', start: { dateTime: '2026-02-17T12:00:00' } }
+                ];
+                
+                // Load TAT tasks from productivity data
+                const response = await fetch('data/productivity_data.json');
+                const data = await response.json();
+                calendarData.tatTasks = data.tat_tasks || [];
+                
+                renderWeekView();
+                renderMonthView();
+            } catch (error) {
+                console.error('Error loading calendar data:', error);
+                document.getElementById('week-view').innerHTML = '<div class="loading">Error loading data. Please refresh.</div>';
+                document.getElementById('month-view').innerHTML = '<div class="loading">Error loading data. Please refresh.</div>';
+            }
+        }
+        
+        // Initialize
+        updateHeaderDate();
+        loadCalendarData();
+    </script>
+</body>
+</html>
