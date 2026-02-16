@@ -9,10 +9,9 @@
         
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 100%);
-            color: #fff;
+            background: linear-gradient(135deg, #f8f9ff 0%, #fff5f8 100%);
+            color: #1a1a2e;
             min-height: 100vh;
-            padding: 20px;
         }
         
         .header {
@@ -21,7 +20,6 @@
             text-align: center;
             color: white;
             box-shadow: 0 4px 20px rgba(153, 69, 255, 0.3);
-            margin: -20px -20px 20px -20px;
         }
         
         .header h1 {
@@ -45,8 +43,8 @@
         
         .nav a {
             padding: 12px 24px;
-            background: rgba(255,255,255,0.1);
-            border: 1px solid rgba(153, 69, 255, 0.3);
+            background: white;
+            border: 1px solid rgba(153, 69, 255, 0.2);
             border-radius: 25px;
             color: #9945FF;
             text-decoration: none;
@@ -60,15 +58,40 @@
             border-color: transparent;
         }
         
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 20px rgba(153, 69, 255, 0.08);
+            border: 1px solid rgba(153, 69, 255, 0.1);
+        }
+        
+        .card h2 {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, #9945FF, #FF6B9D);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        
         /* System Diagram Container */
         .system-map {
             position: relative;
-            max-width: 1200px;
-            height: 800px;
-            margin: 20px auto;
-            background: radial-gradient(circle at center, #1a1a2e 0%, #0a0a0f 100%);
-            border-radius: 20px;
-            border: 1px solid #333;
+            width: 100%;
+            height: 700px;
+            background: linear-gradient(135deg, #f8f5ff 0%, #fff5f8 100%);
+            border-radius: 16px;
+            border: 1px solid rgba(153, 69, 255, 0.15);
             overflow: hidden;
         }
         
@@ -89,6 +112,7 @@
             fill: none;
             stroke-dasharray: 5,5;
             animation: dash 20s linear infinite;
+            opacity: 0.6;
         }
         
         .connection-line.solid {
@@ -96,8 +120,9 @@
         }
         
         .connection-line.active {
-            stroke: #22c55e;
+            stroke: #FF6B9D;
             stroke-width: 3;
+            opacity: 1;
         }
         
         @keyframes dash {
@@ -107,7 +132,7 @@
         /* Nodes */
         .node {
             position: absolute;
-            width: 130px;
+            width: 120px;
             padding: 12px;
             border-radius: 12px;
             text-align: center;
@@ -115,11 +140,15 @@
             z-index: 10;
             transition: all 0.3s;
             cursor: pointer;
+            background: white;
+            border: 2px solid rgba(153, 69, 255, 0.3);
+            box-shadow: 0 2px 10px rgba(153, 69, 255, 0.1);
         }
         
         .node:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 30px rgba(153, 69, 255, 0.5);
+            transform: scale(1.05);
+            box-shadow: 0 4px 20px rgba(153, 69, 255, 0.2);
+            border-color: #9945FF;
         }
         
         .node-icon {
@@ -131,72 +160,74 @@
             font-weight: 600;
             margin-bottom: 3px;
             font-size: 12px;
+            color: #1a1a2e;
         }
         
         .node-status {
             font-size: 9px;
-            opacity: 0.8;
+            color: #666;
         }
         
-        /* Node Types */
+        /* Node Types - Color accents */
         .node.core { 
-            background: linear-gradient(135deg, #9945FF, #764ba2);
-            border: 2px solid #FF6B9D;
-            width: 150px;
+            border-color: #9945FF;
+            background: linear-gradient(135deg, #fff, #f8f5ff);
         }
         
-        .node.external { 
-            background: linear-gradient(135deg, #1e3a5f, #0d2137);
-            border: 2px solid #3b82f6;
+        .node.interface { 
+            border-color: #3b82f6;
+            background: linear-gradient(135deg, #fff, #eff6ff);
         }
         
         .node.storage { 
-            background: linear-gradient(135deg, #065f46, #064e3b);
-            border: 2px solid #10b981;
+            border-color: #10b981;
+            background: linear-gradient(135deg, #fff, #f0fdf4);
         }
         
         .node.user { 
-            background: linear-gradient(135deg, #9a3412, #7c2d12);
-            border: 2px solid #f97316;
+            border-color: #f97316;
+            background: linear-gradient(135deg, #fff, #fff7ed);
         }
         
         .node.automation { 
-            background: linear-gradient(135deg, #854d0e, #713f12);
-            border: 2px solid #f59e0b;
+            border-color: #f59e0b;
+            background: linear-gradient(135deg, #fff, #fffbeb);
         }
         
-        /* Positioning - Scaled for container */
-        .node.you { top: 40px; left: 50%; transform: translateX(-50%); }
-        .node.telegram { top: 140px; left: 50%; transform: translateX(-50%); }
-        .node.openclaw { top: 260px; left: 50%; transform: translateX(-50%); }
+        /* Positioning */
+        .node.you { top: 30px; left: 50%; transform: translateX(-50%); }
+        .node.telegram { top: 120px; left: 50%; transform: translateX(-50%); }
+        .node.openclaw { top: 210px; left: 50%; transform: translateX(-50%); }
+        .node.mission { top: 300px; left: 50%; transform: translateX(-50%); }
         
-        .node.notion { top: 140px; left: 15%; }
-        .node.github { top: 260px; left: 5%; }
-        .node.airtable { top: 380px; left: 15%; }
+        .node.notion { top: 120px; left: 8%; }
+        .node.github { top: 210px; left: 3%; }
+        .node.airtable { top: 300px; left: 8%; }
         
-        .node.whoop { top: 140px; left: 75%; }
-        .node.calendar { top: 260px; left: 85%; }
-        .node.cron { top: 380px; left: 75%; }
+        .node.whoop { top: 120px; left: 78%; }
+        .node.calendar { top: 210px; left: 83%; }
+        .node.cron { top: 300px; left: 78%; }
         
-        .node.security { top: 480px; left: 20%; }
-        .node.voice { top: 480px; left: 50%; transform: translateX(-50%); }
-        .node.water { top: 480px; left: 70%; }
+        .node.security { top: 420px; left: 15%; }
+        .node.voice { top: 420px; left: 50%; transform: translateX(-50%); }
+        .node.water { top: 420px; left: 73%; }
         
-        .node.morning { top: 600px; left: 10%; }
-        .node.tat { top: 600px; left: 35%; }
-        .node.nutrition { top: 600px; left: 60%; }
-        .node.edamam { top: 600px; left: 85%; }
+        .node.morning { top: 540px; left: 5%; }
+        .node.tat { top: 540px; left: 30%; }
+        .node.nutrition { top: 540px; left: 55%; }
+        .node.edamam { top: 540px; left: 80%; }
         
         /* Legend */
         .legend {
             position: absolute;
             bottom: 15px;
             right: 15px;
-            background: rgba(0,0,0,0.8);
+            background: white;
             padding: 12px;
             border-radius: 10px;
             font-size: 10px;
-            border: 1px solid #333;
+            border: 1px solid rgba(153, 69, 255, 0.2);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
         
         .legend-item {
@@ -204,12 +235,14 @@
             align-items: center;
             gap: 6px;
             margin: 4px 0;
+            color: #1a1a2e;
         }
         
         .legend-dot {
             width: 10px;
             height: 10px;
             border-radius: 3px;
+            border: 2px solid;
         }
         
         /* Pulse Animation for Active Nodes */
@@ -223,44 +256,37 @@
         }
         
         /* Info Panel */
-        .info-panel {
-            max-width: 1200px;
-            margin: 20px auto;
+        .info-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 16px;
         }
         
         .info-card {
-            background: rgba(255,255,255,0.05);
+            background: linear-gradient(135deg, #f8f5ff 0%, #fff5f8 100%);
             border-radius: 12px;
             padding: 16px;
-            border: 1px solid rgba(153, 69, 255, 0.2);
+            border: 1px solid rgba(153, 69, 255, 0.15);
         }
         
         .info-card h3 {
-            font-size: 14px;
+            font-size: 13px;
             color: #9945FF;
             margin-bottom: 10px;
             text-transform: uppercase;
             letter-spacing: 1px;
-        }
-        
-        .info-card p {
-            font-size: 12px;
-            color: #aaa;
-            line-height: 1.6;
+            font-weight: 600;
         }
         
         .flow-list {
             list-style: none;
-            font-size: 11px;
+            font-size: 12px;
         }
         
         .flow-list li {
             padding: 6px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            color: #ccc;
+            border-bottom: 1px solid rgba(153, 69, 255, 0.1);
+            color: #1a1a2e;
         }
         
         .flow-list li:last-child {
@@ -269,14 +295,13 @@
         
         @media (max-width: 768px) {
             .system-map {
-                height: 1000px;
-                overflow-x: auto;
+                height: 900px;
             }
             
             .node {
-                width: 100px;
+                width: 90px;
                 padding: 8px;
-                font-size: 10px;
+                font-size: 9px;
             }
             
             .node-icon {
@@ -306,217 +331,234 @@
         <a href="architecture.html" class="active">Architecture</a>
     </div>
     
-    <div class="system-map">
-        <!-- SVG Connections -->
-        <svg class="connections" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid meet">
-            <!-- You → Telegram -->
-            <line class="connection-line solid" x1="600" y1="90" x2="600" y2="170"/>
-            
-            <!-- Telegram → OpenClaw Core -->
-            <line class="connection-line active" x1="600" y1="210" x2="600" y2="290"/>
-            
-            <!-- OpenClaw → Notion -->
-            <line class="connection-line" x1="550" y1="320" x2="220" y2="190"/>
-            <text x="350" y="240" fill="#9945FF" font-size="9">REST API</text>
-            
-            <!-- OpenClaw → GitHub -->
-            <line class="connection-line" x1="530" y1="340" x2="100" y2="310"/>
-            <text x="280" y="330" fill="#9945FF" font-size="9">Git Push</text>
-            
-            <!-- OpenClaw → Airtable -->
-            <line class="connection-line solid" x1="550" y1="360" x2="220" y2="430"/>
-            <text x="340" y="410" fill="#10b981" font-size="9">API</text>
-            
-            <!-- OpenClaw → WHOOP -->
-            <line class="connection-line" x1="650" y1="320" x2="980" y2="190"/>
-            <text x="780" y="240" fill="#9945FF" font-size="9">OAuth2</text>
-            
-            <!-- OpenClaw → Google Calendar -->
-            <line class="connection-line" x1="670" y1="340" x2="1100" y2="310"/>
-            <text x="850" y="330" fill="#9945FF" font-size="9">Maton API</text>
-            
-            <!-- Cron → OpenClaw -->
-            <line class="connection-line" x1="980" y1="430" x2="670" y2="360"/>
-            <text x="790" y="410" fill="#f59e0b" font-size="9">Triggers</text>
-            
-            <!-- OpenClaw → Sub-systems -->
-            <line class="connection-line" x1="550" y1="380" x2="280" y2="510"/>
-            <line class="connection-line" x1="600" y1="390" x2="600" y2="510"/>
-            <line class="connection-line" x1="650" y1="380" x2="920" y2="510"/>
-            
-            <!-- Sub-systems to Output -->
-            <line class="connection-line solid" x1="150" y1="570" x2="150" y2="630"/>
-            <line class="connection-line solid" x1="450" y1="570" x2="450" y2="630"/>
-            <line class="connection-line solid" x1="720" y1="570" x2="720" y2="630"/>
-            <line class="connection-line solid" x1="1020" y1="570" x2="1020" y2="630"/>
-        </svg>
-        
-        <!-- USER LAYER -->
-        <div class="node user you active">
-            <div class="node-icon">👤</div>
-            <div class="node-title">Sam</div>
-            <div class="node-status">Input & Commands</div>
-        </div>
-        
-        <!-- INTERFACE LAYER -->
-        <div class="node external telegram active">
-            <div class="node-icon">💬</div>
-            <div class="node-title">Telegram</div>
-            <div class="node-status">Primary Interface</div>
-        </div>
-        
-        <!-- CORE LAYER -->
-        <div class="node core openclaw active">
-            <div class="node-icon">🦞</div>
-            <div class="node-title">OpenClaw Core</div>
-            <div class="node-status">Kimi K2.5 AI</div>
-        </div>
-        
-        <!-- EXTERNAL APIs -->
-        <div class="node external whoop active">
-            <div class="node-icon">💓</div>
-            <div class="node-title">WHOOP</div>
-            <div class="node-status">Recovery & Sleep</div>
-        </div>
-        
-        <div class="node external calendar active">
-            <div class="node-icon">📅</div>
-            <div class="node-title">Google Calendar</div>
-            <div class="node-status">Family Schedule</div>
-        </div>
-        
-        <!-- STORAGE LAYER -->
-        <div class="node storage notion">
-            <div class="node-icon">📝</div>
-            <div class="node-title">Notion</div>
-            <div class="node-status">Tasks & Research</div>
-        </div>
-        
-        <div class="node storage github">
-            <div class="node-icon">📦</div>
-            <div class="node-title">GitHub</div>
-            <div class="node-status">Version Control</div>
-        </div>
-        
-        <div class="node storage airtable">
-            <div class="node-icon">🗄️</div>
-            <div class="node-title">Airtable</div>
-            <div class="node-status">Health & Productivity</div>
-        </div>
-        
-        <!-- AUTOMATION LAYER -->
-        <div class="node automation cron active">
-            <div class="node-icon">⏰</div>
-            <div class="node-title">Cron Jobs</div>
-            <div class="node-status">1am-6am Schedule</div>
-        </div>
-        
-        <!-- SUB-SYSTEMS -->
-        <div class="node automation security">
-            <div class="node-icon">🛡️</div>
-            <div class="node-title">Security Sentinel</div>
-            <div class="node-status">Daily Audit</div>
-        </div>
-        
-        <div class="node automation voice">
-            <div class="node-icon">🎙️</div>
-            <div class="node-title">Voice Transcribe</div>
-            <div class="node-status">Whisper AI</div>
-        </div>
-        
-        <div class="node automation water">
-            <div class="node-icon">💧</div>
-            <div class="node-title">Water Tracker</div>
-            <div class="node-status">Hourly Reminders</div>
-        </div>
-        
-        <!-- WORKFLOW OUTPUTS -->
-        <div class="node automation morning active">
-            <div class="node-icon">🌅</div>
-            <div class="node-title">Morning Brief</div>
-            <div class="node-status">6am Daily</div>
-        </div>
-        
-        <div class="node automation tat">
-            <div class="node-icon">📋</div>
-            <div class="node-title">TAT System</div>
-            <div class="node-status">Task Management</div>
-        </div>
-        
-        <div class="node automation nutrition active">
-            <div class="node-icon">🥗</div>
-            <div class="node-title">Nutrition Log</div>
-            <div class="node-status">Edamam API</div>
-        </div>
-        
-        <div class="node automation edamam">
-            <div class="node-icon">🔬</div>
-            <div class="node-title">Edamam</div>
-            <div class="node-status">Macro Analysis</div>
-        </div>
-        
-        <!-- Legend -->
-        <div class="legend">
-            <div class="legend-item">
-                <div class="legend-dot" style="background: linear-gradient(135deg, #9945FF, #764ba2);"></div>
-                <span>Core System</span>
+    <div class="container">
+        <!-- Architecture Diagram Card -->
+        <div class="card">
+            <h2>System Overview</h2>
+            <div class="system-map">
+                <!-- SVG Connections -->
+                <svg class="connections" viewBox="0 0 1000 700" preserveAspectRatio="xMidYMid meet">
+                    <!-- You → Telegram -->
+                    <line class="connection-line solid" x1="500" y1="80" x2="500" y2="150"/>
+                    
+                    <!-- Telegram → OpenClaw Core -->
+                    <line class="connection-line active" x1="500" y1="190" x2="500" y2="260"/>
+                    
+                    <!-- OpenClaw → Mission Control -->
+                    <line class="connection-line solid" x1="500" y1="290" x2="500" y2="350"/>
+                    
+                    <!-- OpenClaw → Notion -->
+                    <line class="connection-line" x1="450" y1="240" x2="150" y2="170"/>
+                    <text x="260" y="190" fill="#9945FF" font-size="9">REST API</text>
+                    
+                    <!-- OpenClaw → GitHub -->
+                    <line class="connection-line" x1="430" y1="260" x2="80" y2="250"/>
+                    <text x="220" y="240" fill="#9945FF" font-size="9">Git Push</text>
+                    
+                    <!-- OpenClaw → Airtable -->
+                    <line class="connection-line solid" x1="450" y1="280" x2="150" y2="340"/>
+                    <text x="260" y="320" fill="#10b981" font-size="9">API</text>
+                    
+                    <!-- OpenClaw → WHOOP -->
+                    <line class="connection-line" x1="550" y1="240" x2="850" y2="170"/>
+                    <text x="660" y="190" fill="#9945FF" font-size="9">OAuth2</text>
+                    
+                    <!-- OpenClaw → Google Calendar -->
+                    <line class="connection-line" x1="570" y1="260" x2="920" y2="250"/>
+                    <text x="710" y="240" fill="#9945FF" font-size="9">Maton API</text>
+                    
+                    <!-- Cron → OpenClaw -->
+                    <line class="connection-line" x1="850" y1="350" x2="570" y2="290"/>
+                    <text x="680" y="330" fill="#f59e0b" font-size="9">Triggers</text>
+                    
+                    <!-- Mission Control → Sub-systems -->
+                    <line class="connection-line" x1="450" y1="380" x2="200" y2="470"/>
+                    <line class="connection-line" x1="500" y1="380" x2="500" y2="470"/>
+                    <line class="connection-line" x1="550" y1="380" x2="830" y2="470"/>
+                    
+                    <!-- Sub-systems to Output -->
+                    <line class="connection-line solid" x1="100" y1="530" x2="100" y2="590"/>
+                    <line class="connection-line solid" x1="350" y1="530" x2="350" y2="590"/>
+                    <line class="connection-line solid" x1="600" y1="530" x2="600" y2="590"/>
+                    <line class="connection-line solid" x1="850" y1="530" x2="850" y2="590"/>
+                </svg>
+                
+                <!-- USER LAYER -->
+                <div class="node user you active">
+                    <div class="node-icon">👤</div>
+                    <div class="node-title">Sam</div>
+                    <div class="node-status">Input & Commands</div>
+                </div>
+                
+                <!-- INTERFACE LAYER -->
+                <div class="node interface telegram active">
+                    <div class="node-icon">💬</div>
+                    <div class="node-title">Telegram</div>
+                    <div class="node-status">Primary Interface</div>
+                </div>
+                
+                <!-- CORE LAYER -->
+                <div class="node core openclaw active">
+                    <div class="node-icon">🦞</div>
+                    <div class="node-title">OpenClaw Core</div>
+                    <div class="node-status">Kimi K2.5 AI</div>
+                </div>
+                
+                <!-- MISSION CONTROL -->
+                <div class="node core mission active">
+                    <div class="node-icon">📱</div>
+                    <div class="node-title">Mission Control</div>
+                    <div class="node-status">Dashboard & TAT</div>
+                </div>
+                
+                <!-- EXTERNAL APIs -->
+                <div class="node interface whoop active">
+                    <div class="node-icon">💓</div>
+                    <div class="node-title">WHOOP</div>
+                    <div class="node-status">Recovery & Sleep</div>
+                </div>
+                
+                <div class="node interface calendar active">
+                    <div class="node-icon">📅</div>
+                    <div class="node-title">Google Calendar</div>
+                    <div class="node-status">Family Schedule</div>
+                </div>
+                
+                <!-- STORAGE LAYER -->
+                <div class="node storage notion">
+                    <div class="node-icon">📝</div>
+                    <div class="node-title">Notion</div>
+                    <div class="node-status">Tasks & Research</div>
+                </div>
+                
+                <div class="node storage github">
+                    <div class="node-icon">📦</div>
+                    <div class="node-title">GitHub</div>
+                    <div class="node-status">Version Control</div>
+                </div>
+                
+                <div class="node storage airtable">
+                    <div class="node-icon">🗄️</div>
+                    <div class="node-title">Airtable</div>
+                    <div class="node-status">Health & Productivity</div>
+                </div>
+                
+                <!-- AUTOMATION LAYER -->
+                <div class="node automation cron active">
+                    <div class="node-icon">⏰</div>
+                    <div class="node-title">Cron Jobs</div>
+                    <div class="node-status">1am-6am Schedule</div>
+                </div>
+                
+                <!-- SUB-SYSTEMS -->
+                <div class="node automation security">
+                    <div class="node-icon">🛡️</div>
+                    <div class="node-title">Security Sentinel</div>
+                    <div class="node-status">Daily Audit</div>
+                </div>
+                
+                <div class="node automation voice">
+                    <div class="node-icon">🎙️</div>
+                    <div class="node-title">Voice Transcribe</div>
+                    <div class="node-status">Whisper AI</div>
+                </div>
+                
+                <div class="node automation water">
+                    <div class="node-icon">💧</div>
+                    <div class="node-title">Water Tracker</div>
+                    <div class="node-status">Hourly Reminders</div>
+                </div>
+                
+                <!-- WORKFLOW OUTPUTS -->
+                <div class="node automation morning active">
+                    <div class="node-icon">🌅</div>
+                    <div class="node-title">Morning Brief</div>
+                    <div class="node-status">6am Daily</div>
+                </div>
+                
+                <div class="node automation tat">
+                    <div class="node-icon">📋</div>
+                    <div class="node-title">TAT System</div>
+                    <div class="node-status">Task Management</div>
+                </div>
+                
+                <div class="node automation nutrition active">
+                    <div class="node-icon">🥗</div>
+                    <div class="node-title">Nutrition Log</div>
+                    <div class="node-status">Edamam API</div>
+                </div>
+                
+                <div class="node automation edamam">
+                    <div class="node-icon">🔬</div>
+                    <div class="node-title">Edamam</div>
+                    <div class="node-status">Macro Analysis</div>
+                </div>
+                
+                <!-- Legend -->
+                <div class="legend">
+                    <div class="legend-item">
+                        <div class="legend-dot" style="border-color: #9945FF; background: #f8f5ff;"></div>
+                        <span>Core System</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-dot" style="border-color: #3b82f6; background: #eff6ff;"></div>
+                        <span>External API</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-dot" style="border-color: #10b981; background: #f0fdf4;"></div>
+                        <span>Storage</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-dot" style="border-color: #f59e0b; background: #fffbeb;"></div>
+                        <span>Automation</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-dot" style="border-color: #f97316; background: #fff7ed;"></div>
+                        <span>User</span>
+                    </div>
+                    <div style="margin-top: 8px; padding-top: 8px; border-top: 1px solid rgba(153, 69, 255, 0.2); font-size: 9px; color: #666;">
+                        <div style="color: #FF6B9D;">● Active Connection</div>
+                        <div>-- Periodic | — Real-time</div>
+                    </div>
+                </div>
             </div>
-            <div class="legend-item">
-                <div class="legend-dot" style="background: linear-gradient(135deg, #1e3a5f, #0d2137);"></div>
-                <span>External API</span>
-            </div>
-            <div class="legend-item">
-                <div class="legend-dot" style="background: linear-gradient(135deg, #065f46, #064e3b);"></div>
-                <span>Storage</span>
-            </div>
-            <div class="legend-item">
-                <div class="legend-dot" style="background: linear-gradient(135deg, #854d0e, #713f12);"></div>
-                <span>Automation</span>
-            </div>
-            <div class="legend-item">
-                <div class="legend-dot" style="background: linear-gradient(135deg, #9a3412, #7c2d12);"></div>
-                <span>User</span>
-            </div>
-            <div style="margin-top: 8px; padding-top: 8px; border-top: 1px solid #333; font-size: 9px; color: #888;">
-                <div style="color: #22c55e;">● Active</div>
-                <div>-- Periodic | — Real-time</div>
-            </div>
-        </div>
-    </div>
-    
-    <div class="info-panel">
-        <div class="info-card">
-            <h3>Active Data Flows</h3>
-            <ul class="flow-list">
-                <li>💬 Telegram → 🦞 OpenClaw → 🗄️ Airtable (Food Log)</li>
-                <li>💓 WHOOP → 🌐 Webhook → 🗄️ Airtable (Recovery)</li>
-                <li>📅 Google Calendar → ⏰ Cron → 📱 Mission Control</li>
-                <li>📝 Notion → 🧠 Sub-agent → 📝 Research Files</li>
-                <li>🥗 Food Text → 🔬 Edamam → 🗄️ Nutrition Data</li>
-            </ul>
         </div>
         
-        <div class="info-card">
-            <h3>Cron Schedule</h3>
-            <ul class="flow-list">
-                <li><strong>1am-5am:</strong> Overnight Build/Research Tasks</li>
-                <li><strong>5:50am:</strong> WHOOP Token Health Check</li>
-                <li><strong>6:00am:</strong> Morning Brief, Security Audit</li>
-                <li><strong>10am-8pm:</strong> Water Reminders</li>
-                <li><strong>Every 15min:</strong> Dashboard Refresh</li>
-            </ul>
-        </div>
-        
-        <div class="info-card">
-            <h3>Key Integrations</h3>
-            <p>
-                <strong>Moonshot AI (Kimi K2.5):</strong> Main reasoning engine<br><br>
-                <strong>Airtable:</strong> Health data, habits, TAT tasks<br><br>
-                <strong>Notion:</strong> Research database, overnight tasks<br><br>
-                <strong>GitHub:</strong> Code storage, sync, versioning<br><br>
-                <strong>Cloudflare:</strong> Tunnels (SSH, WHOOP), Workers<br><br>
-                <strong>Google Calendar:</strong> Family schedule via Maton API
-            </p>
+        <!-- Info Panel -->
+        <div class="info-grid">
+            <div class="card">
+                <h2>Active Data Flows</h2>
+                <ul class="flow-list">
+                    <li>💬 Telegram → 🦞 OpenClaw → 🗄️ Airtable (Food Log)</li>
+                    <li>💓 WHOOP → 🌐 Webhook → 🗄️ Airtable (Recovery)</li>
+                    <li>📅 Google Calendar → ⏰ Cron → 📱 Mission Control</li>
+                    <li>📝 Notion → 🧠 Sub-agent → 📝 Research Files</li>
+                    <li>🥗 Food Text → 🔬 Edamam → 🗄️ Nutrition Data</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h2>Cron Schedule</h2>
+                <ul class="flow-list">
+                    <li><strong>1am-5am:</strong> Overnight Build/Research Tasks</li>
+                    <li><strong>5:50am:</strong> WHOOP Token Health Check</li>
+                    <li><strong>6:00am:</strong> Morning Brief, Security Audit</li>
+                    <li><strong>10am-8pm:</strong> Water Reminders</li>
+                    <li><strong>Every 15min:</strong> Dashboard Refresh</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h2>Key Integrations</h2>
+                <ul class="flow-list">
+                    <li><strong>Moonshot AI (Kimi K2.5):</strong> Main reasoning engine</li>
+                    <li><strong>Airtable:</strong> Health data, habits, TAT tasks</li>
+                    <li><strong>Notion:</strong> Research database, overnight tasks</li>
+                    <li><strong>GitHub:</strong> Code storage, sync, versioning</li>
+                    <li><strong>Cloudflare:</strong> Tunnels (SSH, WHOOP), Workers</li>
+                    <li><strong>Google Calendar:</strong> Family schedule via Maton API</li>
+                </ul>
+            </div>
         </div>
     </div>
 </body>
