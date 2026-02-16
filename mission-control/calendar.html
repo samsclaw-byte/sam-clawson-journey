@@ -144,6 +144,85 @@
             color: #FF6B9D;
         }
         
+        .week-day {
+            cursor: pointer;
+        }
+        
+        .week-day:hover {
+            background: #fff;
+            border-color: #9945FF40;
+        }
+        
+        .week-day.selected {
+            background: linear-gradient(135deg, #9945FF30, #FF6B9D30);
+            border: 2px solid #9945FF;
+        }
+        
+        /* Day Detail View */
+        .day-detail {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(153, 69, 255, 0.2);
+        }
+        
+        .day-detail h3 {
+            font-size: 16px;
+            color: #9945FF;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .day-detail h3 .date-label {
+            font-weight: 600;
+        }
+        
+        .event-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .event-item {
+            background: #f8f5ff;
+            border-radius: 12px;
+            padding: 16px;
+            border-left: 4px solid #9945FF;
+            transition: all 0.2s;
+        }
+        
+        .event-item:hover {
+            background: #fff;
+            box-shadow: 0 2px 12px rgba(153, 69, 255, 0.15);
+        }
+        
+        .event-time {
+            font-size: 12px;
+            color: #9945FF;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        
+        .event-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 4px;
+        }
+        
+        .event-location {
+            font-size: 13px;
+            color: #666;
+        }
+        
+        .no-events {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+            font-style: italic;
+        }
+        
         /* Month View Styles */
         .month-header {
             display: flex;
@@ -295,6 +374,9 @@
             <div id="week-view" class="week-grid">
                 <div class="loading">Loading week view...</div>
             </div>
+            <div id="day-detail" class="day-detail" style="display: none;">
+                <!-- Day events will be shown here when a day is clicked -->
+            </div>
         </div>
         
         <!-- Month View Card -->
@@ -326,6 +408,68 @@
             document.getElementById('current-date').textContent = new Date().toLocaleDateString('en-US', options);
         }
         
+        // Store selected date
+        let selectedDate = null;
+        
+        // Show day detail view
+        function showDayDetail(dateStr, dateObj) {
+            selectedDate = dateStr;
+            const detailContainer = document.getElementById('day-detail');
+            
+            // Get events for this day
+            const dayEvents = calendarData.events.filter(e => {
+                const eventDate = e.start.dateTime ? e.start.dateTime.split('T')[0] : e.start.date;
+                return eventDate === dateStr;
+            });
+            
+            // Update selection styling
+            document.querySelectorAll('.week-day').forEach((el, index) => {
+                el.classList.remove('selected');
+                const dayDate = new Date(dateObj);
+                dayDate.setDate(dateObj.getDate() + index - dateObj.getDay() + 1);
+                if (dayDate.toISOString().split('T')[0] === dateStr) {
+                    el.classList.add('selected');
+                }
+            });
+            
+            // Format date for display
+            const displayDate = dateObj.toLocaleDateString('en-US', { 
+                weekday: 'long', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+            
+            let html = `
+                <h3>
+                    <span>📅</span>
+                    <span class="date-label">${displayDate}</span>
+                </h3>
+                <div class="event-list">
+            `;
+            
+            if (dayEvents.length === 0) {
+                html += '<div class="no-events">No events scheduled for this day</div>';
+            } else {
+                html += dayEvents.map(e => {
+                    const startTime = e.start.dateTime 
+                        ? new Date(e.start.dateTime).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })
+                        : 'All day';
+                    const location = e.location ? `<div class="event-location">📍 ${e.location}</div>` : '';
+                    return `
+                        <div class="event-item">
+                            <div class="event-time">${startTime}</div>
+                            <div class="event-title">${e.summary}</div>
+                            ${location}
+                        </div>
+                    `;
+                }).join('');
+            }
+            
+            html += '</div>';
+            detailContainer.innerHTML = html;
+            detailContainer.style.display = 'block';
+        }
+        
         // Generate week view
         function renderWeekView() {
             const weekContainer = document.getElementById('week-view');
@@ -350,12 +494,11 @@
                 
                 // Get TAT count for this day
                 const dayTatCount = calendarData.tatTasks.filter(t => {
-                    // Simple matching - in real implementation would check due dates
                     return t.category === '1' && isToday;
                 }).length;
                 
                 html += `
-                    <div class="week-day ${isToday ? 'today' : ''}">
+                    <div class="week-day ${isToday ? 'today' : ''}" onclick="showDayDetail('${dateStr}', new Date('${dateStr}'))">
                         <div class="week-day-name">${dayNames[i]}</div>
                         <div class="week-day-number">${date.getDate()}</div>
                         <div class="week-events">
