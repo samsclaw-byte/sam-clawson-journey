@@ -2273,5 +2273,155 @@
             }
         });
     </script>
+    
+    <!-- Clawson Chat Widget -->
+    <div id="clawson-chat-widget" class="clawson-chat-collapsed">
+        <div class="clawson-chat-header" onclick="toggleClawsonChat()">
+            <span class="clawson-chat-title">🦞 Ask Clawson</span>
+            <span class="clawson-chat-toggle">+</span>
+        </div>
+        <div class="clawson-chat-body" id="clawson-chat-body">
+            <div class="clawson-chat-messages" id="clawson-chat-messages">
+                <div class="clawson-message clawson-bot">
+                    <div class="clawson-message-content">
+                        Hey! I'm Clawson. Ask me about your tasks, projects, or anything else!
+                    </div>
+                    <div class="clawson-message-time">Now</div>
+                </div>
+            </div>
+            <div class="clawson-chat-input-area">
+                <input type="text" 
+                       id="clawson-chat-input" 
+                       class="clawson-chat-input" 
+                       placeholder="Type a message..."
+                       onkeypress="handleClawsonKeyPress(event)">
+                <button class="clawson-chat-send" onclick="sendClawsonMessage()">Send</button>
+            </div>
+        </div>
+    </div>
+    
+    <style>
+        #clawson-chat-widget {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 350px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(153, 69, 255, 0.2);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(153, 69, 255, 0.2);
+        }
+        .clawson-chat-collapsed { height: 56px; overflow: hidden; }
+        .clawson-chat-expanded { height: 500px; }
+        .clawson-chat-header {
+            background: linear-gradient(135deg, #9945FF, #FF6B9D);
+            color: white;
+            padding: 16px 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 16px 16px 0 0;
+        }
+        .clawson-chat-title { font-weight: 600; font-size: 14px; }
+        .clawson-chat-toggle { font-size: 20px; font-weight: 300; }
+        .clawson-chat-body { display: flex; flex-direction: column; height: calc(100% - 56px); }
+        .clawson-chat-messages {
+            flex: 1; overflow-y: auto; padding: 16px; background: #fafafa;
+        }
+        .clawson-message { margin-bottom: 12px; max-width: 85%; }
+        .clawson-message.clawson-user { margin-left: auto; text-align: right; }
+        .clawson-message.clawson-bot { margin-right: auto; }
+        .clawson-message-content {
+            padding: 10px 14px; border-radius: 16px; font-size: 13px; line-height: 1.4;
+            display: inline-block; text-align: left;
+        }
+        .clawson-message.clawson-user .clawson-message-content {
+            background: linear-gradient(135deg, #9945FF, #FF6B9D);
+            color: white; border-bottom-right-radius: 4px;
+        }
+        .clawson-message.clawson-bot .clawson-message-content {
+            background: white; color: #1a1a2e; border-bottom-left-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .clawson-message-time { font-size: 10px; color: #999; margin-top: 4px; }
+        .clawson-chat-input-area {
+            padding: 12px 16px; background: white; border-top: 1px solid #eee;
+            display: flex; gap: 8px;
+        }
+        .clawson-chat-input {
+            flex: 1; padding: 10px 14px; border: 1px solid #ddd;
+            border-radius: 20px; font-size: 13px; outline: none;
+        }
+        .clawson-chat-input:focus { border-color: #9945FF; }
+        .clawson-chat-send {
+            background: linear-gradient(135deg, #9945FF, #FF6B9D);
+            color: white; border: none; padding: 10px 18px;
+            border-radius: 20px; font-size: 13px; font-weight: 600; cursor: pointer;
+        }
+        .clawson-chat-send:hover { transform: scale(1.05); }
+        .clawson-chat-typing { font-size: 12px; color: #999; font-style: italic; padding: 8px 16px; }
+    </style>
+    
+    <script>
+        let clawsonChatExpanded = false;
+        function toggleClawsonChat() {
+            const widget = document.getElementById('clawson-chat-widget');
+            const toggle = document.querySelector('.clawson-chat-toggle');
+            clawsonChatExpanded = !clawsonChatExpanded;
+            if (clawsonChatExpanded) {
+                widget.classList.remove('clawson-chat-collapsed');
+                widget.classList.add('clawson-chat-expanded');
+                toggle.textContent = '−';
+                document.getElementById('clawson-chat-input').focus();
+            } else {
+                widget.classList.remove('clawson-chat-expanded');
+                widget.classList.add('clawson-chat-collapsed');
+                toggle.textContent = '+';
+            }
+        }
+        function handleClawsonKeyPress(event) {
+            if (event.key === 'Enter') sendClawsonMessage();
+        }
+        function sendClawsonMessage() {
+            const input = document.getElementById('clawson-chat-input');
+            const message = input.value.trim();
+            if (!message) return;
+            addClawsonMessage(message, 'user');
+            input.value = '';
+            showClawsonTyping();
+            setTimeout(() => {
+                hideClawsonTyping();
+                addClawsonMessage("I'm running locally in your browser. Connect me to OpenClaw Gateway for full functionality!", 'bot');
+            }, 1000);
+        }
+        function addClawsonMessage(text, sender) {
+            const messagesDiv = document.getElementById('clawson-chat-messages');
+            const time = new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `clawson-message clawson-${sender}`;
+            messageDiv.innerHTML = `<div class="clawson-message-content">${text.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</div><div class="clawson-message-time">${time}</div>`;
+            messagesDiv.appendChild(messageDiv);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+        function showClawsonTyping() {
+            const messagesDiv = document.getElementById('clawson-chat-messages');
+            const existing = document.querySelector('.clawson-chat-typing');
+            if (existing) existing.remove();
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'clawson-chat-typing';
+            typingDiv.textContent = 'Clawson is thinking...';
+            typingDiv.id = 'clawson-typing-indicator';
+            messagesDiv.appendChild(typingDiv);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+        function hideClawsonTyping() {
+            const typing = document.getElementById('clawson-typing-indicator');
+            if (typing) typing.remove();
+        }
+    </script>
 </body>
 </html>
