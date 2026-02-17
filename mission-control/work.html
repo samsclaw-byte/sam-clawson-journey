@@ -698,6 +698,200 @@
             border-bottom: none;
         }
         
+        /* Project Actions Header */
+        .project-actions-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .project-actions-header h2 {
+            margin: 0;
+        }
+        
+        /* Add Deliverable Button */
+        .add-deliverable-btn {
+            background: linear-gradient(135deg, #9945FF, #FF6B9D);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .add-deliverable-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(153, 69, 255, 0.3);
+        }
+        
+        /* Modal Styles */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+        
+        .modal-header {
+            background: linear-gradient(135deg, #9945FF, #FF6B9D);
+            color: white;
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-header h3 {
+            margin: 0;
+            font-size: 16px;
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 0;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background 0.2s;
+        }
+        
+        .modal-close:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        #deliverable-form {
+            padding: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 16px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: #666;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: border-color 0.2s;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #9945FF;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        
+        .form-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+            margin-top: 20px;
+            padding-top: 16px;
+            border-top: 1px solid #eee;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #9945FF, #FF6B9D);
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(153, 69, 255, 0.3);
+        }
+        
+        .btn-secondary {
+            background: #f3f4f6;
+            color: #666;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .btn-secondary:hover {
+            background: #e5e7eb;
+        }
+        
+        /* Deliverable status update buttons */
+        .deliverable-actions {
+            display: flex;
+            gap: 4px;
+            margin-left: 8px;
+        }
+        
+        .deliv-action-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            padding: 2px 4px;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+        
+        .deliv-action-btn:hover {
+            background: rgba(153, 69, 255, 0.1);
+        }
+        
         /* GANTT Grouping Buttons */
         .gantt-grouping {
             display: flex;
@@ -847,8 +1041,72 @@
         
         <!-- PROJECTS TAB -->
         <div id="projects" class="tab-content">
-            <div id="project-list">
-                <!-- Projects will be rendered here -->
+            <div class="card">
+                <div class="project-actions-header">
+                    <h2>📁 Active Projects</h2>
+                    <button class="btn-primary" onclick="showAddProjectModal()">+ New Project</button>
+                </div>
+                <div id="project-list">
+                    <!-- Projects will be rendered here -->
+                </div>
+            </div>
+        </div>
+        
+        <!-- Add Deliverable Modal -->
+        <div id="deliverable-modal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>📋 Add Deliverable</h3>
+                    <button class="modal-close" onclick="closeDeliverableModal()">×</button>
+                </div>
+                <form id="deliverable-form" onsubmit="submitDeliverable(event)">
+                    <input type="hidden" id="deliverable-project-id">
+                    
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input type="text" id="deliverable-name" required placeholder="e.g., Legal Approval">
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Status</label>
+                            <select id="deliverable-status">
+                                <option value="Not Started">Not Started</option>
+                                <option value="In Progress">In Progress</option>
+                                <option value="Review">Review</option>
+                                <option value="Complete">Complete</option>
+                                <option value="Blocked">Blocked</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Owner</label>
+                            <input type="text" id="deliverable-owner" placeholder="e.g., Sam">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Due Date</label>
+                            <input type="date" id="deliverable-due-date">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Weight (%)</label>
+                            <input type="number" id="deliverable-weight" min="1" max="100" value="10">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Notes</label>
+                        <textarea id="deliverable-notes" rows="3" placeholder="Any context or details..."></textarea>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary" onclick="closeDeliverableModal()">Cancel</button>
+                        <button type="submit" class="btn-primary">Add Deliverable</button>
+                    </div>
+                </form>
             </div>
         </div>
         
@@ -1212,9 +1470,11 @@
                         <div class="project-progress-text">${project.progress || 0}% Complete</div>
                     </div>
                     
-                    ${deliverables.length > 0 ? `
                     <div class="deliverables-section">
-                        <h3>📋 Deliverables (${deliverables.length})</h3>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                            <h3>📋 Deliverables (${deliverables.length})</h3>
+                            <button class="add-deliverable-btn" onclick="showAddDeliverableModal('${project.id}')">+ Add Deliverable</button>
+                        </div>
                         ${deliverables.map(d => {
                             const delivStatus = d.status ? d.status.toLowerCase().replace(' ', '-') : 'not-started';
                             const isComplete = d.status === 'Complete';
@@ -1291,6 +1551,57 @@
                 </div>
             `).join('');
         }
+        
+        // Deliverable Modal Functions
+        function showAddDeliverableModal(projectId) {
+            document.getElementById('deliverable-project-id').value = projectId;
+            document.getElementById('deliverable-form').reset();
+            document.getElementById('deliverable-modal').style.display = 'flex';
+        }
+        
+        function closeDeliverableModal() {
+            document.getElementById('deliverable-modal').style.display = 'none';
+        }
+        
+        async function submitDeliverable(event) {
+            event.preventDefault();
+            
+            const projectId = document.getElementById('deliverable-project-id').value;
+            const data = {
+                name: document.getElementById('deliverable-name').value,
+                status: document.getElementById('deliverable-status').value,
+                owner: document.getElementById('deliverable-owner').value,
+                dueDate: document.getElementById('deliverable-due-date').value,
+                weight: parseInt(document.getElementById('deliverable-weight').value),
+                notes: document.getElementById('deliverable-notes').value
+            };
+            
+            // For now, show an alert since we need the Cloudflare Worker deployed
+            // In production, this would call the Worker
+            alert(`Deliverable "${data.name}" added!\n\nNote: To save to Airtable, you need to deploy the Cloudflare Worker.\n\nSee: workers/work-data-updater.js`);
+            
+            closeDeliverableModal();
+            
+            // Add to local data for immediate feedback
+            const project = workData.projects.find(p => p.id === projectId);
+            if (project) {
+                project.deliverables.push({
+                    name: data.name,
+                    status: data.status,
+                    owner: data.owner,
+                    due_date: data.dueDate,
+                    weight: data.weight,
+                    progress: 0,
+                    notes: data.notes
+                });
+                renderProjects();
+            }
+        }
+        
+        // Close modal when clicking outside
+        document.getElementById('deliverable-modal').addEventListener('click', function(e) {
+            if (e.target === this) closeDeliverableModal();
+        });
         
         // Load data on page load
         document.addEventListener('DOMContentLoaded', loadWorkData);
