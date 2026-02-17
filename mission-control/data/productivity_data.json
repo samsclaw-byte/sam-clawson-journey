@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-02-17T23:45:12.396362",
+  "generated_at": "2026-02-18T00:00:12.034806",
   "tat_tasks": [
     {
       "id": "rec82QLASN6uQUiHu",
@@ -126,17 +126,6 @@
   ],
   "habit_days": [
     {
-      "date": "2026-02-11",
-      "day_name": "Wed",
-      "day_num": "11",
-      "score": 5,
-      "water": 8,
-      "multivitamin": true,
-      "fruit": true,
-      "exercise": true,
-      "creatine": true
-    },
-    {
       "date": "2026-02-12",
       "day_name": "Thu",
       "day_num": "12",
@@ -206,8 +195,41 @@
       "date": "2026-02-17",
       "day_name": "Tue",
       "day_num": "17",
+      "score": 1,
+      "water": 8,
+      "multivitamin": false,
+      "fruit": false,
+      "exercise": false,
+      "creatine": false
+    },
+    {
+      "date": "2026-02-17",
+      "day_name": "Tue",
+      "day_num": "17",
+      "score": 1,
+      "water": 0,
+      "multivitamin": false,
+      "fruit": false,
+      "exercise": false,
+      "creatine": true
+    },
+    {
+      "date": "2026-02-17",
+      "day_name": "Tue",
+      "day_num": "17",
       "score": 0,
       "water": 4,
+      "multivitamin": false,
+      "fruit": false,
+      "exercise": false,
+      "creatine": false
+    },
+    {
+      "date": "2026-02-17",
+      "day_name": "Tue",
+      "day_num": "17",
+      "score": 0,
+      "water": 0,
       "multivitamin": false,
       "fruit": false,
       "exercise": false,
