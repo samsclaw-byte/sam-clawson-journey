@@ -491,6 +491,40 @@
         .gantt-urgency-badge.soon { background: #FFA500; color: #1a1a2e; }
         .gantt-urgency-badge.normal { background: #51CF66; }
         
+        .gantt-complete-btn {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 2px solid #28a745;
+            background: white;
+            color: #28a745;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            flex-shrink: 0;
+            padding: 0;
+            line-height: 1;
+        }
+        
+        .gantt-complete-btn:hover {
+            background: #28a745;
+            color: white;
+            transform: scale(1.1);
+        }
+        
+        .gantt-task-status.status-complete {
+            background: #D3F9D8;
+            color: #2B8A3E;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 9px;
+            font-weight: 600;
+        }
+        
         .gantt-task-meta {
             display: flex;
             justify-content: space-between;
@@ -1222,6 +1256,8 @@
                                 urgencyBadge = `<div class="gantt-urgency-badge ${urgencyClass}">${urgencyText}</div>`;
                             }
                             
+                            const canComplete = task.status !== 'Complete';
+                            
                             html += `
                                 <div class="gantt-task-card ${priorityClass} ${isPending ? 'dragging' : ''}" 
                                      draggable="true" 
@@ -1231,6 +1267,7 @@
                                     <div class="gantt-task-name">${escapeHtml(task.name)}</div>
                                     <div class="gantt-task-meta">
                                         <span>${displayDays < 0 ? Math.abs(displayDays) + 'd overdue' : displayDays + 'd left'}${isPending ? ' (moved)' : ''}</span>
+                                        ${canComplete ? `<button class="gantt-complete-btn" onclick="completeTask('${task.id}', '${escapeHtml(task.name).replace(/'/g, "\\'")}')">✓</button>` : '<span class="gantt-task-status status-complete">Complete</span>'}
                                     </div>
                                     ${urgencyBadge}
                                 </div>
