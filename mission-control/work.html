@@ -1006,6 +1006,227 @@
             color: #6b7280;
         }
         
+        /* Deliverables Date GANTT */
+        .deliverables-gantt-container {
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 16px;
+        }
+        
+        .deliverables-gantt-header {
+            display: flex;
+            background: linear-gradient(135deg, #9945FF, #FF6B9D);
+            color: white;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        
+        .deliverables-gantt-header-cell {
+            flex: 1;
+            padding: 8px 4px;
+            text-align: center;
+            border-right: 1px solid rgba(255,255,255,0.2);
+            min-width: 50px;
+        }
+        
+        .deliverables-gantt-header-cell:first-child {
+            flex: 0 0 150px;
+            text-align: left;
+            padding-left: 12px;
+        }
+        
+        .deliverables-gantt-row {
+            display: flex;
+            border-bottom: 1px solid #e5e7eb;
+            min-height: 50px;
+        }
+        
+        .deliverables-gantt-row:last-child {
+            border-bottom: none;
+        }
+        
+        .deliverables-gantt-row:hover {
+            background: #f9fafb;
+        }
+        
+        .deliverables-gantt-name-cell {
+            flex: 0 0 150px;
+            padding: 10px 12px;
+            border-right: 1px solid #e5e7eb;
+            cursor: pointer;
+        }
+        
+        .deliverable-gantt-title {
+            font-weight: 600;
+            font-size: 13px;
+            margin-bottom: 2px;
+        }
+        
+        .deliverable-gantt-subtitle {
+            font-size: 11px;
+            color: #6b7280;
+        }
+        
+        .deliverables-gantt-cell {
+            flex: 1;
+            padding: 4px;
+            border-right: 1px solid #f3f4f6;
+            min-width: 50px;
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .deliverables-gantt-cell.has-due-date {
+            background: #fef3c7;
+        }
+        
+        .deliverable-gantt-marker {
+            width: 100%;
+            height: 24px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            color: white;
+            font-weight: 600;
+        }
+        
+        .deliverable-gantt-marker.not-started { background: #9ca3af; }
+        .deliverable-gantt-marker.in-progress { background: #f59e0b; }
+        .deliverable-gantt-marker.review { background: #3b82f6; }
+        .deliverable-gantt-marker.complete { background: #10b981; }
+        .deliverable-gantt-marker.blocked { background: #ef4444; }
+        
+        /* Deliverable Detail View */
+        .deliverable-detail-view {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 16px;
+            animation: slideDown 0.2s ease;
+        }
+        
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .deliverable-detail-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        
+        .deliverable-detail-header h4 {
+            margin: 0;
+            font-size: 16px;
+        }
+        
+        .deliverable-detail-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #6b7280;
+            padding: 0;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+        
+        .deliverable-detail-close:hover {
+            background: #e5e7eb;
+        }
+        
+        .deliverable-detail-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+        
+        .deliverable-detail-field label {
+            display: block;
+            font-size: 11px;
+            color: #6b7280;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+        
+        .deliverable-detail-field span {
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .status-badge.not-started { background: #f3f4f6; color: #6b7280; }
+        .status-badge.in-progress { background: #fef3c7; color: #92400e; }
+        .status-badge.review { background: #dbeafe; color: #1e40af; }
+        .status-badge.complete { background: #d1fae5; color: #065f46; }
+        .status-badge.blocked { background: #fee2e2; color: #991b1b; }
+        
+        .detail-progress-bar {
+            height: 6px;
+            background: #e5e7eb;
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: 4px;
+        }
+        
+        .detail-progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #9945FF, #FF6B9D);
+            border-radius: 3px;
+        }
+        
+        .deliverable-detail-notes, .deliverable-detail-blocked {
+            margin-top: 12px;
+            padding: 12px;
+            background: white;
+            border-radius: 6px;
+        }
+        
+        .deliverable-detail-blocked {
+            background: #fef2f2;
+            border-left: 3px solid #ef4444;
+        }
+        
+        .deliverable-detail-notes label, .deliverable-detail-blocked label {
+            display: block;
+            font-size: 11px;
+            font-weight: 600;
+            color: #6b7280;
+            margin-bottom: 4px;
+        }
+        
+        .deliverable-detail-notes p, .deliverable-detail-blocked p {
+            margin: 0;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+        
+        .deliverable-detail-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid #e5e7eb;
+        }
+        
         /* GANTT Grouping Buttons */
         .gantt-grouping {
             display: flex;
@@ -1596,64 +1817,22 @@
                             <button class="add-deliverable-btn" onclick="showAddDeliverableModal('${project.id}')">+ Add Deliverable</button>
                         </div>
                         
-                        <!-- Deliverables Status GANTT -->
-                        <div class="deliverables-gantt">
-                            ${['Not Started', 'In Progress', 'Review', 'Complete', 'Blocked'].map(status => {
-                                const statusDeliverables = deliverables.filter(d => d.status === status);
-                                if (statusDeliverables.length === 0) return '';
-                                const statusClass = status.toLowerCase().replace(' ', '-');
-                                const statusEmoji = status === 'Complete' ? '✅' : status === 'In Progress' ? '🔄' : status === 'Review' ? '👀' : status === 'Blocked' ? '🚫' : '⏳';
-                                return `
-                                <div class="deliverables-gantt-row ${statusClass}">
-                                    <div class="deliverables-gantt-label">${statusEmoji} ${status}</div>
-                                    <div class="deliverables-gantt-lane">
-                                        ${statusDeliverables.map(d => `
-                                            <div class="deliverable-gantt-card ${statusClass}" onclick="showEditDeliverableModal('${project.id}', '${d.name}', '${d.status}', '${d.owner || ''}', '${d.due_date || ''}', ${d.progress || 0}, '${(d.notes || '').replace(/'/g, "\\'")}')">
-                                                <div class="deliverable-gantt-name">${d.name}</div>
-                                                <div class="deliverable-gantt-meta">
-                                                    👤 ${d.owner || 'TBD'}
-                                                    ${d.due_date ? `• 📅 ${new Date(d.due_date).toLocaleDateString('en-GB', {day: 'numeric', month: 'short'})}` : ''}
-                                                    ${d.progress ? `• ${d.progress}%` : ''}
-                                                </div>
-                                            </div>
-                                        `).join('')}
-                                    </div>
-                                </div>
-                                `;
-                            }).join('')}
+                        <!-- Deliverables Date GANTT -->
+                        <div class="deliverables-date-gantt" id="deliverables-gantt-${project.id}">
+                            ${generateDeliverablesGantt(deliverables, project.target_end_date, project.id)}
                         </div>
                         
-                        ${deliverables.map(d => {
-                            const delivStatus = d.status ? d.status.toLowerCase().replace(' ', '-') : 'not-started';
-                            const isComplete = d.status === 'Complete';
-                            const isBlocked = d.status === 'Blocked';
-                            const daysLeft = d.due_date ? Math.floor((new Date(d.due_date) - new Date()) / (1000 * 60 * 60 * 24)) : null;
-                            
-                            return `
-                            <div class="deliverable-item ${delivStatus}">
-                                <div class="deliverable-checkbox ${isComplete ? 'checked' : ''}">
-                                    ${isComplete ? '✓' : ''}
-                                </div>
-                                <div class="deliverable-info">
-                                    <div class="deliverable-name">${d.name}</div>
-                                    <div class="deliverable-meta">
-                                        👤 ${d.owner || 'TBD'} 
-                                        ${d.due_date ? `• 📅 ${d.due_date}` : ''}
-                                        ${daysLeft !== null ? `• ${daysLeft < 0 ? Math.abs(daysLeft) + 'd overdue' : daysLeft + 'd left'}` : ''}
-                                        ${isBlocked && d.blocked_reason ? `• ⚠️ ${d.blocked_reason}` : ''}
-                                    </div>
-                                </div>
-                                <div class="deliverable-progress">
-                                    <div class="deliverable-progress-bar">
-                                        <div class="deliverable-progress-fill" style="width: ${d.progress || 0}%"></div>
-                                    </div>
-                                    <div class="deliverable-progress-text">${d.progress || 0}%</div>
-                                </div>
+                        <!-- Selected Deliverable Detail View -->
+                        <div id="deliverable-detail-${project.id}" class="deliverable-detail-view" style="display: none;">
+                            <div class="deliverable-detail-header">
+                                <h4>📄 Deliverable Details</h4>
+                                <button class="deliverable-detail-close" onclick="closeDeliverableDetail('${project.id}')">×</button>
                             </div>
-                            `;
-                        }).join('')}
-                    </div>
-                    ` : ''}
+                            <div id="deliverable-detail-content-${project.id}">
+                                <!-- Content populated by JS -->
+                            </div>
+                        </div>
+                        ` : ''}
                     
                     ${cramLines.length > 0 ? `
                     <div class="cram-section">
@@ -1702,6 +1881,142 @@
                     </div>
                 </div>
             `).join('');
+        }
+        
+        // Generate Deliverables Date GANTT
+        function generateDeliverablesGantt(deliverables, projectDueDate, projectId) {
+            if (!deliverables || deliverables.length === 0) {
+                return '<div style="text-align: center; padding: 20px; color: #999;">No deliverables yet</div>';
+            }
+            
+            // Generate date columns from today until project due date (or +30 days)
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            
+            const endDate = projectDueDate ? new Date(projectDueDate) : new Date(today);
+            if (!projectDueDate) {
+                endDate.setDate(endDate.getDate() + 30); // Default 30 days
+            }
+            
+            // Generate weekly columns
+            const columns = [];
+            let current = new Date(today);
+            let colIndex = 0;
+            
+            while (current <= endDate && colIndex < 12) {
+                const weekStart = new Date(current);
+                const weekEnd = new Date(current);
+                weekEnd.setDate(weekEnd.getDate() + 6);
+                
+                columns.push({
+                    key: `week-${colIndex}`,
+                    label: `${weekStart.getDate()}/${weekStart.getMonth() + 1}`,
+                    start: weekStart,
+                    end: weekEnd
+                });
+                
+                current.setDate(current.getDate() + 7);
+                colIndex++;
+            }
+            
+            // Build GANTT HTML
+            let html = '<div class="deliverables-gantt-container">';
+            
+            // Header row with dates
+            html += '<div class="deliverables-gantt-header">';
+            html += '<div class="deliverables-gantt-header-cell" style="width: 150px;">Deliverable</div>';
+            columns.forEach(col => {
+                html += `<div class="deliverables-gantt-header-cell">${col.label}</div>`;
+            });
+            html += '</div>';
+            
+            // Sort deliverables by due date
+            const sortedDelivs = [...deliverables].sort((a, b) => {
+                if (!a.due_date) return 1;
+                if (!b.due_date) return -1;
+                return new Date(a.due_date) - new Date(b.due_date);
+            });
+            
+            // Deliverable rows
+            sortedDelivs.forEach((d, index) => {
+                const statusClass = d.status ? d.status.toLowerCase().replace(' ', '-') : 'not-started';
+                const dueDate = d.due_date ? new Date(d.due_date) : null;
+                
+                html += `<div class="deliverables-gantt-row ${statusClass}">`;
+                
+                // Name cell
+                html += `<div class="deliverables-gantt-name-cell" onclick="showDeliverableDetail('${projectId}', ${index})">`;
+                html += `<div class="deliverable-gantt-title">${d.name}</div>`;
+                html += `<div class="deliverable-gantt-subtitle">${d.status} • ${d.progress || 0}%</div>`;
+                html += '</div>';
+                
+                // Date columns
+                columns.forEach(col => {
+                    let cellContent = '';
+                    let cellClass = '';
+                    
+                    if (dueDate && dueDate >= col.start && dueDate <= col.end) {
+                        // Due date falls in this week
+                        cellContent = `<div class="deliverable-gantt-marker ${statusClass}"></div>`;
+                        cellClass = 'has-due-date';
+                    }
+                    
+                    html += `<div class="deliverables-gantt-cell ${cellClass}" onclick="showDeliverableDetail('${projectId}', ${index})">${cellContent}</div>`;
+                });
+                
+                html += '</div>';
+            });
+            
+            html += '</div>';
+            return html;
+        }
+        
+        // Show deliverable detail view
+        function showDeliverableDetail(projectId, deliverableIndex) {
+            const project = workData.projects.find(p => p.id === projectId);
+            if (!project || !project.deliverables[deliverableIndex]) return;
+            
+            const d = project.deliverables[deliverableIndex];
+            const detailDiv = document.getElementById(`deliverable-detail-${projectId}`);
+            const contentDiv = document.getElementById(`deliverable-detail-content-${projectId}`);
+            
+            contentDiv.innerHTML = `
+                <div class="deliverable-detail-grid">
+                    <div class="deliverable-detail-field">
+                        <label>Status</label>
+                        <span class="status-badge ${d.status ? d.status.toLowerCase().replace(' ', '-') : 'not-started'}">${d.status || 'Not Started'}</span>
+                    </div>
+                    <div class="deliverable-detail-field">
+                        <label>Owner</label>
+                        <span>${d.owner || 'TBD'}</span>
+                    </div>
+                    <div class="deliverable-detail-field">
+                        <label>Due Date</label>
+                        <span>${d.due_date || 'Not set'}</span>
+                    </div>
+                    <div class="deliverable-detail-field">
+                        <label>Progress</label>
+                        <div class="detail-progress-bar">
+                            <div class="detail-progress-fill" style="width: ${d.progress || 0}%"></div>
+                        </div>
+                        <span>${d.progress || 0}%</span>
+                    </div>
+                </div>
+                ${d.notes ? `<div class="deliverable-detail-notes"><label>Notes</label><p>${d.notes}</p></div>` : ''}
+                ${d.blocked_reason ? `<div class="deliverable-detail-blocked"><label>⚠️ Blocked</label><p>${d.blocked_reason}</p></div>` : ''}
+                <div class="deliverable-detail-actions">
+                    <button class="btn-primary" onclick="showEditDeliverableModal('${projectId}', '${d.name.replace(/'/g, "\\'")}', '${d.status}', '${(d.owner || '').replace(/'/g, "\\'")}', '${d.due_date || ''}', ${d.progress || 0}, '${(d.notes || '').replace(/'/g, "\\'")}')">✏️ Edit</button>
+                    <button class="btn-secondary" onclick="closeDeliverableDetail('${projectId}')">Close</button>
+                </div>
+            `;
+            
+            detailDiv.style.display = 'block';
+            detailDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+        
+        function closeDeliverableDetail(projectId) {
+            const detailDiv = document.getElementById(`deliverable-detail-${projectId}`);
+            if (detailDiv) detailDiv.style.display = 'none';
         }
         
         // Deliverable Modal Functions
