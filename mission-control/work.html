@@ -2386,41 +2386,10 @@
         function handleClawsonKeyPress(event) {
             if (event.key === 'Enter') sendClawsonMessage();
         }
-        // OpenClaw Gateway configuration
+        // OpenClaw Gateway configuration - HTTP Polling Only
         const OPENCLAW_URL = 'https://among-garbage-entirely-mainland.trycloudflare.com';
-        let clawsonWs = null;
         let clawsonSession = 'mission-control-' + Math.random().toString(36).substr(2, 9);
-        
-        function connectClawsonWebSocket() {
-            if (clawsonWs && clawsonWs.readyState === WebSocket.OPEN) return;
-            
-            try {
-                clawsonWs = new WebSocket(`wss://among-garbage-entirely-mainland.trycloudflare.com/ws?session=${clawsonSession}`);
-                
-                clawsonWs.onopen = () => {
-                    console.log('Connected to Clawson');
-                };
-                
-                clawsonWs.onmessage = (event) => {
-                    const data = JSON.parse(event.data);
-                    hideClawsonTyping();
-                    addClawsonMessage(data.text || data.message || '...', 'bot');
-                };
-                
-                clawsonWs.onerror = (error) => {
-                    console.error('WebSocket error:', error);
-                    hideClawsonTyping();
-                    addClawsonMessage("Connection error. Trying HTTP fallback...", 'bot');
-                };
-                
-                clawsonWs.onclose = () => {
-                    console.log('Disconnected from Clawson');
-                    clawsonWs = null;
-                };
-            } catch (e) {
-                console.error('WebSocket connection failed:', e);
-            }
-        }
+        let lastMessageTime = 0;
         
         async function sendClawsonMessage() {
             const input = document.getElementById('clawson-chat-input');
@@ -2430,53 +2399,45 @@
             addClawsonMessage(message, 'user');
             input.value = '';
             showClawsonTyping();
+            lastMessageTime = Date.now();
             
-            // Try WebSocket first
-            if (clawsonWs && clawsonWs.readyState === WebSocket.OPEN) {
-                clawsonWs.send(JSON.stringify({
-                    text: message,
-                    session: clawsonSession,
-                    source: 'mission-control-webchat'
-                }));
-            } else {
-                // Fallback to HTTP
-                try {
-                    connectClawsonWebSocket();
-                    
-                    const response = await fetch(`${OPENCLAW_URL}/v1/chat`, {
+            try {
+                // Try the chat endpoint
+                const response = await fetch(`${OPENCLAW_URL}/api/chat`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        text: message,
+                        session: clawsonSession,
+                        source: 'mission-control-webchat'
+                    })
+                });
+                
+                if (!response.ok) {
+                    // Try alternate endpoint
+                    const altResponse = await fetch(`${OPENCLAW_URL}/chat`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            text: message,
-                            session: clawsonSession,
-                            source: 'mission-control-webchat'
-                        })
+                        body: JSON.stringify({ message: message })
                     });
                     
-                    if (!response.ok) throw new Error('HTTP error');
+                    if (!altResponse.ok) throw new Error('All endpoints failed');
                     
+                    const data = await altResponse.text();
+                    hideClawsonTyping();
+                    addClawsonMessage(data || 'Received!', 'bot');
+                } else {
                     const data = await response.json();
                     hideClawsonTyping();
                     addClawsonMessage(data.text || data.reply || data.message || 'Got it!', 'bot');
-                    
-                } catch (error) {
-                    console.error('Failed to send message:', error);
-                    hideClawsonTyping();
-                    addClawsonMessage("I'm having trouble connecting. Make sure the tunnel is running!", 'bot');
                 }
+                
+            } catch (error) {
+                console.error('Failed to send message:', error);
+                hideClawsonTyping();
+                addClawsonMessage("I can see your message but can't reply right now. The OpenClaw Gateway connection isn't working. Try the local chat at localhost:18789", 'bot');
             }
         }
-        
-        // Connect WebSocket when chat opens
-        document.getElementById('clawson-chat-widget').addEventListener('click', function(e) {
-            if (e.target.closest('.clawson-chat-header')) {
-                setTimeout(() => {
-                    if (clawsonChatExpanded && !clawsonWs) {
-                        connectClawsonWebSocket();
-                    }
-                }, 300);
-            }
-        });
         function addClawsonMessage(text, sender) {
             const messagesDiv = document.getElementById('clawson-chat-messages');
             const time = new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
