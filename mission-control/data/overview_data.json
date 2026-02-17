@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-02-17T12:03:03.741066",
+  "generated_at": "2026-02-17T13:48:03.133129",
   "today": {
     "health": {
       "today_calories": 545,
@@ -9,7 +9,7 @@
     },
     "habits": {
       "multivitamin": true,
-      "fruit": false,
+      "fruit": true,
       "water": 1,
       "exercise": false,
       "creatine": false
@@ -68,12 +68,28 @@
         "creatine": false
       },
       {
+        "date": "2026-02-17",
+        "multivitamin": true,
+        "fruit": true,
+        "water": 1,
+        "exercise": false,
+        "creatine": false
+      },
+      {
         "date": "2026-02-16",
         "multivitamin": true,
         "fruit": true,
         "water": 8,
         "exercise": false,
         "creatine": true
+      },
+      {
+        "date": "2026-02-16",
+        "multivitamin": false,
+        "fruit": false,
+        "water": 0,
+        "exercise": true,
+        "creatine": false
       },
       {
         "date": "2026-02-15",
@@ -98,22 +114,6 @@
         "water": 8,
         "exercise": false,
         "creatine": false
-      },
-      {
-        "date": "2026-02-12",
-        "multivitamin": true,
-        "fruit": true,
-        "water": 8,
-        "exercise": true,
-        "creatine": true
-      },
-      {
-        "date": "2026-02-11",
-        "multivitamin": true,
-        "fruit": true,
-        "water": 8,
-        "exercise": true,
-        "creatine": true
       }
     ],
     "weight_history": [
