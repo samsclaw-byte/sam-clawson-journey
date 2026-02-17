@@ -652,24 +652,6 @@
             </div>
         </div>
         
-        <!-- TAT Tasks -->
-        <div class="card">
-            <h2>📋 TAT Tasks</h2>
-            
-            <div class="filter-tabs">
-                <button class="filter-tab active" data-filter="all">All <span class="filter-count" id="count-all">--</span></button>
-                <button class="filter-tab" data-filter="overdue">🔴 Overdue <span class="filter-count" id="count-overdue">--</span></button>
-                <button class="filter-tab" data-filter="today">Due Today <span class="filter-count" id="count-today">--</span></button>
-                <button class="filter-tab" data-filter="3days">3 Days <span class="filter-count" id="count-3days">--</span></button>
-                <button class="filter-tab" data-filter="7days">7 Days <span class="filter-count" id="count-7days">--</span></button>
-                <button class="filter-tab" data-filter="30days">30 Days <span class="filter-count" id="count-30days">--</span></button>
-            </div>
-            
-            <div class="task-list" id="task-list">
-                <div class="loading">Loading tasks...</div>
-            </div>
-        </div>
-        
         <!-- GANTT Chart View -->
         <div class="card">
             <h2>📊 GANTT Chart View (By Category & Due Date)</h2>
@@ -685,6 +667,29 @@
             <button class="save-changes-btn" id="save-changes-btn" onclick="saveGanttChanges()" disabled>
                 💾 Save Changes to Airtable
             </button>
+        </div>
+        
+        <!-- TAT Tasks (Expandable - Hidden by default) -->
+        <div class="card">
+            <h2 style="cursor: pointer; display: flex; justify-content: space-between; align-items: center;" onclick="toggleTatTasks()">
+                <span>📋 TAT Tasks (List View)</span>
+                <span id="tat-toggle-icon" style="font-size: 20px;">▶</span>
+            </h2>
+            
+            <div id="tat-tasks-content" style="display: none;">
+                <div class="filter-tabs">
+                    <button class="filter-tab active" data-filter="all">All <span class="filter-count" id="count-all">--</span></button>
+                    <button class="filter-tab" data-filter="overdue">🔴 Overdue <span class="filter-count" id="count-overdue">--</span></button>
+                    <button class="filter-tab" data-filter="today">Due Today <span class="filter-count" id="count-today">--</span></button>
+                    <button class="filter-tab" data-filter="3days">3 Days <span class="filter-count" id="count-3days">--</span></button>
+                    <button class="filter-tab" data-filter="7days">7 Days <span class="filter-count" id="count-7days">--</span></button>
+                    <button class="filter-tab" data-filter="30days">30 Days <span class="filter-count" id="count-30days">--</span></button>
+                </div>
+                
+                <div class="task-list" id="task-list">
+                    <div class="loading">Loading tasks...</div>
+                </div>
+            </div>
         </div>
         
         <p class="last-updated">Last updated: <span id="last-updated">--</span> | Data source: Airtable (auto-sync every 15 min)</p>
@@ -1393,7 +1398,21 @@
             
             saveBtn.textContent = '💾 Save Changes to Airtable';
         }
-        
+
+        // Toggle TAT Tasks visibility
+        function toggleTatTasks() {
+            const content = document.getElementById('tat-tasks-content');
+            const icon = document.getElementById('tat-toggle-icon');
+
+            if (content.style.display === 'none') {
+                content.style.display = 'block';
+                icon.textContent = '▼';
+            } else {
+                content.style.display = 'none';
+                icon.textContent = '▶';
+            }
+        }
+
         async function updateTaskDueDate(taskId, newDueDate) {
             // Use Cloudflare Worker to securely update Airtable
             const WORKER_URL = 'https://tat-update-due-date.samsclaw-498.workers.dev';
