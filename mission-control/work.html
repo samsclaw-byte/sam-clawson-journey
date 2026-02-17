@@ -1227,6 +1227,34 @@
             border-top: 1px solid #e5e7eb;
         }
         
+        /* Task Complete Button */
+        .task-complete-btn {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+        
+        .task-complete-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+        }
+        
+        .task-item.completing {
+            opacity: 0.5;
+            transform: translateX(20px);
+            transition: all 0.3s;
+        }
+        
         /* GANTT Grouping Buttons */
         .gantt-grouping {
             display: flex;
@@ -1580,8 +1608,8 @@
             }
             
             taskList.innerHTML = tasks.map(task => `
-                <li class="task-item priority-${task.priority.toLowerCase()} ${task.status === 'Blocked' ? 'blocked' : ''}">
-                    <div class="task-checkbox"></div>
+                <li class="task-item priority-${task.priority.toLowerCase()} ${task.status === 'Blocked' ? 'blocked' : ''}" data-task-id="${task.id}">
+                    <div class="task-checkbox" onclick="markTaskComplete('${task.id}')" title="Mark Complete"></div>
                     <div class="task-content">
                         <div class="task-title">${task.name}</div>
                         <div style="font-size: 13px; color: #666; margin-bottom: 8px;">${task.detail}</div>
@@ -1595,6 +1623,7 @@
                         </div>
                         ${task.blocked_reason ? `<div style="font-size: 12px; color: #92400e; margin-top: 8px;">⚠️ ${task.blocked_reason}</div>` : ''}
                     </div>
+                    <button class="task-complete-btn" onclick="markTaskComplete('${task.id}')" title="Mark Complete">✓</button>
                 </li>
             `).join('');
         }
@@ -2049,6 +2078,46 @@
             document.getElementById('deliverable-modal').style.display = 'none';
         }
         
+        // Worker API configuration
+        const WORKER_URL = 'https://work-data-updater.samsclaw-498.workers.dev';
+        
+        // Mark TAT Task as Complete
+        async function markTaskComplete(taskId) {
+            if (!confirm('Mark this task as Complete?')) return;
+            
+            // Find task element and add completing animation
+            const taskItem = document.querySelector(`li[data-task-id="${taskId}"]`);
+            if (taskItem) taskItem.classList.add('completing');
+            
+            try {
+                const response = await fetch(WORKER_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        action: 'markTaskComplete',
+                        data: { taskId: taskId }
+                    })
+                });
+                
+                if (!response.ok) throw new Error('Failed to update');
+                
+                // Remove from local data
+                workData.tasks = workData.tasks.filter(t => t.id !== taskId);
+                
+                // Re-render
+                renderTasks();
+                renderOverview();
+                renderWorkGantt();
+                
+                console.log('✅ Task marked complete');
+                
+            } catch (error) {
+                console.error('Error marking task complete:', error);
+                alert('Error saving to Airtable. Please try again.');
+                if (taskItem) taskItem.classList.remove('completing');
+            }
+        }
+        
         async function submitDeliverable(event) {
             event.preventDefault();
             
@@ -2065,18 +2134,38 @@
                 notes: document.getElementById('deliverable-notes').value
             };
             
-            const action = isEdit ? 'updated' : 'added';
-            alert(`Deliverable "${data.name}" ${action}!\n\nNote: To save to Airtable, deploy the Cloudflare Worker.\n\nSee: workers/work-data-updater.js`);
-            
             closeDeliverableModal();
             
-            // Update local data
-            const project = workData.projects.find(p => p.id === projectId);
-            if (project) {
+            try {
+                const project = workData.projects.find(p => p.id === projectId);
+                
                 if (isEdit) {
-                    // Update existing
+                    // Update existing deliverable
                     const deliv = project.deliverables.find(d => d.name === originalName);
                     if (deliv) {
+                        // Call Worker to update in Airtable
+                        const response = await fetch(WORKER_URL, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                action: 'updateDeliverable',
+                                data: {
+                                    id: deliv.id, // Note: We need the Airtable record ID
+                                    updates: {
+                                        name: data.name,
+                                        status: data.status,
+                                        owner: data.owner,
+                                        dueDate: data.dueDate,
+                                        progress: data.progress,
+                                        notes: data.notes
+                                    }
+                                }
+                            })
+                        });
+                        
+                        if (!response.ok) throw new Error('Failed to update');
+                        
+                        // Update local
                         deliv.name = data.name;
                         deliv.status = data.status;
                         deliv.owner = data.owner;
@@ -2085,8 +2174,30 @@
                         deliv.notes = data.notes;
                     }
                 } else {
-                    // Add new
+                    // Add new deliverable via Worker
+                    const response = await fetch(WORKER_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            action: 'addDeliverable',
+                            data: {
+                                name: data.name,
+                                status: data.status,
+                                owner: data.owner,
+                                dueDate: data.dueDate,
+                                weight: 10,
+                                notes: data.notes
+                            }
+                        })
+                    });
+                    
+                    if (!response.ok) throw new Error('Failed to add');
+                    
+                    const result = await response.json();
+                    
+                    // Add to local with Airtable ID
                     project.deliverables.push({
+                        id: result.deliverable.id,
                         name: data.name,
                         status: data.status,
                         owner: data.owner,
@@ -2101,9 +2212,30 @@
                 if (project.deliverables.length > 0) {
                     const avgProgress = project.deliverables.reduce((sum, d) => sum + (d.progress || 0), 0) / project.deliverables.length;
                     project.progress = Math.round(avgProgress);
+                    
+                    // Update project progress in Airtable
+                    await fetch(WORKER_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            action: 'updateProjectProgress',
+                            data: {
+                                projectId: projectId,
+                                progress: project.progress
+                            }
+                        })
+                    });
                 }
                 
                 renderProjects();
+                
+                const action = isEdit ? 'updated' : 'added';
+                console.log(`✅ Deliverable "${data.name}" ${action} successfully!`);
+                
+            } catch (error) {
+                console.error('Error saving deliverable:', error);
+                alert('Error saving to Airtable. Changes saved locally only.');
+                renderProjects(); // Still render with local changes
             }
         }
         

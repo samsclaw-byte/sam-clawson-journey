@@ -28,6 +28,8 @@ export default {
         return await updateDeliverable(data, env, corsHeaders);
       } else if (action === 'updateProjectProgress') {
         return await updateProjectProgress(data, env, corsHeaders);
+      } else if (action === 'markTaskComplete') {
+        return await markTaskComplete(data, env, corsHeaders);
       }
       
       return new Response('Unknown action', { status: 400, headers: corsHeaders });
@@ -136,6 +138,32 @@ async function updateProjectProgress(data, env, corsHeaders) {
     },
     body: JSON.stringify({
       fields: { Progress: progress }
+    })
+  });
+  
+  if (!response.ok) {
+    const error = await response.text();
+    throw new Error(`Airtable error: ${error}`);
+  }
+  
+  return new Response(JSON.stringify({ success: true }), {
+    headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+  });
+}
+
+async function markTaskComplete(data, env, corsHeaders) {
+  const { taskId } = data;
+  
+  const airtableUrl = `https://api.airtable.com/v0/${env.AIRTABLE_BASE_ID}/${env.WORK_TASKS_TABLE_ID}/${taskId}`;
+  
+  const response = await fetch(airtableUrl, {
+    method: 'PATCH',
+    headers: {
+      'Authorization': `Bearer ${env.AIRTABLE_API_KEY}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      fields: { Status: 'Complete' }
     })
   });
   
