@@ -2387,7 +2387,7 @@
             if (event.key === 'Enter') sendClawsonMessage();
         }
         // OpenClaw Gateway configuration
-        const OPENCLAW_URL = 'https://charlie-apr-exclude-subscriber.trycloudflare.com';
+        const OPENCLAW_URL = 'https://among-garbage-entirely-mainland.trycloudflare.com';
         let clawsonWs = null;
         let clawsonSession = 'mission-control-' + Math.random().toString(36).substr(2, 9);
         
@@ -2395,7 +2395,7 @@
             if (clawsonWs && clawsonWs.readyState === WebSocket.OPEN) return;
             
             try {
-                clawsonWs = new WebSocket(`wss://charlie-apr-exclude-subscriber.trycloudflare.com/ws?session=${clawsonSession}`);
+                clawsonWs = new WebSocket(`wss://among-garbage-entirely-mainland.trycloudflare.com/ws?session=${clawsonSession}`);
                 
                 clawsonWs.onopen = () => {
                     console.log('Connected to Clawson');
