@@ -91,6 +91,24 @@
       "created": ""
     },
     {
+      "id": "recxCsubCN5V6MwFR",
+      "name": "Fix Cloudflare Worker API token - add access to Work base",
+      "detail": "Update Airtable API token to include access to both bases (Productivity and Work). Current token only has access to one base, causing Worker failures. Go to airtable.com/create/tokens, edit token, add Work base with data.records:read and data.records:write scopes. Then update Cloudflare Worker environment variable.",
+      "type": "Task",
+      "tat": 3,
+      "due_date": "2026-02-20",
+      "category": "Operations",
+      "source": "In Person",
+      "project": "Mission Control Infrastructure",
+      "stakeholder": "Sam",
+      "assigned": "Me",
+      "status": "Todo",
+      "priority": "P1 - High",
+      "effort": "Small",
+      "blocked_reason": "",
+      "created": ""
+    },
+    {
       "id": "recyAHgF71TzToKjm",
       "name": "Audit queries - capitalization",
       "detail": "Respond to Fatma",
@@ -392,11 +410,11 @@
     }
   ],
   "recurring": [],
-  "last_updated": "2026-02-17T22:42:33.699124",
+  "last_updated": "2026-02-17T23:12:32.705001",
   "summary": {
-    "total_active": 24,
+    "total_active": 25,
     "urgent": 0,
     "blocked": 0,
-    "due_this_week": 4
+    "due_this_week": 5
   }
 }
