@@ -1112,22 +1112,33 @@
                 { key: 'plus6', label: '+6 Days', days: 6 }
             ];
             
-            // Group tasks by category
-            const categories = {
-                '1': { name: '⚡ Quick (1 day)', tasks: [], class: 'quick' },
-                '3': { name: '⚡ Short (3 days)', tasks: [], class: 'short' },
-                '7': { name: '📅 Medium (7 days)', tasks: [], class: 'medium' },
-                '30': { name: '📊 Large (30 days)', tasks: [], class: 'large' }
+            // Define category display info
+            const categoryInfo = {
+                '1': { icon: '⚡', label: 'Quick', color: 'quick' },
+                '3': { icon: '⚡', label: 'Short', color: 'short' },
+                '7': { icon: '📅', label: 'Medium', color: 'medium' },
+                '30': { icon: '📊', label: 'Large', color: 'large' },
+                'AI Development': { icon: '🤖', label: 'AI Development', color: 'medium' },
+                'Personal': { icon: '👤', label: 'Personal', color: 'short' },
+                'Projects': { icon: '📁', label: 'Projects', color: 'medium' },
+                'System Enhancement': { icon: '🔧', label: 'System Enhancement', color: 'medium' }
             };
+            
+            // Group tasks by category dynamically
+            const categories = {};
             
             // Filter out completed tasks and group by category
             tasks.filter(t => t.status !== 'Complete').forEach(task => {
                 const cat = task.category || '3';
-                if (categories[cat]) {
-                    categories[cat].tasks.push(task);
-                } else {
-                    categories['3'].tasks.push(task); // Default to Short
+                if (!categories[cat]) {
+                    const info = categoryInfo[cat] || { icon: '📋', label: cat, color: 'medium' };
+                    categories[cat] = { 
+                        name: `${info.icon} ${info.label}`, 
+                        tasks: [], 
+                        class: info.color 
+                    };
                 }
+                categories[cat].tasks.push(task);
             });
             
             // Sort tasks within each category by due date
