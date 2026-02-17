@@ -499,6 +499,59 @@
             color: #ccc;
             font-size: 11px;
         }
+        
+        .gantt-task-card.dragging {
+            opacity: 0.5;
+            transform: rotate(2deg);
+        }
+        
+        .gantt-cell.drag-over {
+            background: #E7F5FF !important;
+            border: 2px dashed #339AF0;
+        }
+        
+        .gantt-cell.moved-task {
+            background: #FFF9E6 !important;
+        }
+        
+        .save-changes-btn {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #339AF0, #1971C2);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 16px;
+            transition: all 0.2s;
+        }
+        
+        .save-changes-btn:hover {
+            box-shadow: 0 4px 20px rgba(51, 154, 240, 0.3);
+        }
+        
+        .save-changes-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+        
+        .pending-changes {
+            background: #FFF9E6;
+            border: 1px solid #FFD700;
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin-bottom: 16px;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .pending-changes strong {
+            color: #E67700;
+        }
     </style>
 </head>
 <body>
@@ -571,9 +624,18 @@
         <!-- GANTT Chart View -->
         <div class="card">
             <h2>📊 GANTT Chart View (By Category & Due Date)</h2>
+            <div id="pending-changes-container" style="display: none;">
+                <div class="pending-changes">
+                    <strong>⚠️ Pending Changes:</strong> <span id="pending-count">0</span> task(s) moved. 
+                    <button onclick="clearPendingChanges()" style="margin-left: 10px; padding: 4px 12px; background: #f0f0f5; border: none; border-radius: 4px; cursor: pointer;">Clear</button>
+                </div>
+            </div>
             <div class="gantt-container" id="gantt-container">
                 <div class="loading">Loading GANTT chart...</div>
             </div>
+            <button class="save-changes-btn" id="save-changes-btn" onclick="saveGanttChanges()" disabled>
+                💾 Save Changes to Airtable
+            </button>
         </div>
         
         <p class="last-updated">Last updated: <span id="last-updated">--</span> | Data source: Airtable (auto-sync every 15 min)</p>
@@ -840,6 +902,7 @@
         // Store habit data for filtering
         let habitData = [];
         let currentTaskFilter = 'all';
+        let pendingChanges = {}; // Store moved tasks: { taskId: { newDaysOffset, originalDays, taskName } }
         
         // Filter tasks based on stat box clicked
         function filterTasksFromStats(filter) {
@@ -1063,7 +1126,7 @@
             // Header row
             html += '<div class="gantt-header">Category</div>';
             dateColumns.forEach(col => {
-                html += `<div class="gantt-header">${col.label}</div>`;
+                html += `<div class="gantt-header" data-days="${col.days}">${col.label}</div>`;
             });
             
             // Category rows
@@ -1076,10 +1139,21 @@
                 // Date cells
                 dateColumns.forEach(col => {
                     const cellClass = col.key;
-                    html += `<div class="gantt-cell ${cellClass}">`;
+                    const isPendingMove = Object.values(pendingChanges).some(change => change.targetColumn === col.key);
+                    const cellBgClass = isPendingMove ? 'moved-task' : '';
+                    html += `<div class="gantt-cell ${cellClass} ${cellBgClass}" data-column="${col.key}" data-days="${col.days}" ondrop="drop(event)" ondragover="allowDrop(event)" ondragleave="dragLeave(event)">`;
                     
                     // Find tasks for this date column
                     const cellTasks = cat.tasks.filter(task => {
+                        // Check if task has been moved to this column
+                        if (pendingChanges[task.id] && pendingChanges[task.id].targetColumn === col.key) {
+                            return true;
+                        }
+                        // Check if task was moved away from its original position
+                        if (pendingChanges[task.id]) {
+                            return false;
+                        }
+                        // Original position
                         const daysRemaining = task.days_remaining === null ? 999 : task.days_remaining;
                         
                         if (col.key === 'overdue') return daysRemaining < 0;
@@ -1099,11 +1173,18 @@
                         cellTasks.forEach(task => {
                             const priorityClass = getPriorityClass(task.category);
                             const statusClass = task.status.toLowerCase().replace(' ', '-');
+                            const isPending = pendingChanges[task.id];
+                            const displayDays = isPending ? pendingChanges[task.id].newDaysOffset : task.days_remaining;
+                            
                             html += `
-                                <div class="gantt-task-card ${priorityClass}">
+                                <div class="gantt-task-card ${priorityClass} ${isPending ? 'dragging' : ''}" 
+                                     draggable="true" 
+                                     ondragstart="drag(event)" 
+                                     data-task-id="${task.id}"
+                                     data-task-name="${escapeHtml(task.name)}">
                                     <div class="gantt-task-name">${escapeHtml(task.name)}</div>
                                     <div class="gantt-task-meta">
-                                        <span>${task.days_remaining < 0 ? Math.abs(task.days_remaining) + 'd overdue' : task.days_remaining + 'd left'}</span>
+                                        <span>${displayDays < 0 ? Math.abs(displayDays) + 'd overdue' : displayDays + 'd left'}${isPending ? ' (moved)' : ''}</span>
                                         <span class="gantt-task-status ${statusClass}">${task.status}</span>
                                     </div>
                                 </div>
@@ -1117,6 +1198,145 @@
             
             html += '</div>';
             container.innerHTML = html;
+        }
+        
+        // Drag and Drop Functions
+        function allowDrop(ev) {
+            ev.preventDefault();
+            ev.currentTarget.classList.add('drag-over');
+        }
+        
+        function dragLeave(ev) {
+            ev.currentTarget.classList.remove('drag-over');
+        }
+        
+        function drag(ev) {
+            ev.dataTransfer.setData("taskId", ev.target.getAttribute('data-task-id'));
+            ev.dataTransfer.setData("taskName", ev.target.getAttribute('data-task-name'));
+            ev.target.classList.add('dragging');
+        }
+        
+        function drop(ev) {
+            ev.preventDefault();
+            ev.currentTarget.classList.remove('drag-over');
+            
+            const taskId = ev.dataTransfer.getData("taskId");
+            const taskName = ev.dataTransfer.getData("taskName");
+            const targetColumn = ev.currentTarget.getAttribute('data-column');
+            const newDaysOffset = parseInt(ev.currentTarget.getAttribute('data-days'));
+            
+            // Find the original task to get its current days_remaining
+            const originalTask = allTasks.find(t => t.id === taskId);
+            const originalDays = originalTask ? originalTask.days_remaining : null;
+            
+            // Store the pending change
+            pendingChanges[taskId] = {
+                taskId: taskId,
+                taskName: taskName,
+                originalDays: originalDays,
+                newDaysOffset: newDaysOffset,
+                targetColumn: targetColumn
+            };
+            
+            // Update UI
+            updatePendingChangesUI();
+            
+            // Re-render the chart to show the moved task
+            renderGanttChart(allTasks);
+        }
+        
+        function updatePendingChangesUI() {
+            const pendingCount = Object.keys(pendingChanges).length;
+            const pendingContainer = document.getElementById('pending-changes-container');
+            const pendingCountEl = document.getElementById('pending-count');
+            const saveBtn = document.getElementById('save-changes-btn');
+            
+            if (pendingCount > 0) {
+                pendingContainer.style.display = 'block';
+                pendingCountEl.textContent = pendingCount;
+                saveBtn.disabled = false;
+            } else {
+                pendingContainer.style.display = 'none';
+                saveBtn.disabled = true;
+            }
+        }
+        
+        function clearPendingChanges() {
+            pendingChanges = {};
+            updatePendingChangesUI();
+            renderGanttChart(allTasks);
+        }
+        
+        async function saveGanttChanges() {
+            const saveBtn = document.getElementById('save-changes-btn');
+            saveBtn.disabled = true;
+            saveBtn.textContent = '💾 Saving...';
+            
+            const changes = Object.values(pendingChanges);
+            let successCount = 0;
+            let failCount = 0;
+            
+            for (const change of changes) {
+                try {
+                    // Calculate new due date
+                    const today = new Date();
+                    today.setHours(0, 0, 0, 0);
+                    const newDueDate = new Date(today);
+                    newDueDate.setDate(today.getDate() + change.newDaysOffset);
+                    
+                    // Update Airtable via API
+                    const result = await updateTaskDueDate(change.taskId, newDueDate.toISOString().split('T')[0]);
+                    
+                    if (result) {
+                        successCount++;
+                    } else {
+                        failCount++;
+                    }
+                } catch (error) {
+                    console.error('Error saving change:', error);
+                    failCount++;
+                }
+            }
+            
+            // Clear pending changes
+            pendingChanges = {};
+            updatePendingChangesUI();
+            
+            // Reload data to show updated dates
+            await loadData();
+            
+            // Show result
+            if (failCount === 0) {
+                alert(`✅ Successfully updated ${successCount} task(s)!`);
+            } else {
+                alert(`⚠️ Updated ${successCount} task(s), ${failCount} failed. Please try again.`);
+            }
+            
+            saveBtn.textContent = '💾 Save Changes to Airtable';
+        }
+        
+        async function updateTaskDueDate(taskId, newDueDate) {
+            // Use Cloudflare Worker to securely update Airtable
+            const WORKER_URL = 'https://tat-update-due-date.samsclaw-498.workers.dev';
+            
+            try {
+                const response = await fetch(WORKER_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        taskId: taskId,
+                        newDueDate: newDueDate
+                    })
+                });
+                
+                const result = await response.json();
+                return result.success === true;
+            } catch (error) {
+                console.error('API Error:', error);
+                return false;
+            }
         }
         
         // Load data when page loads
