@@ -489,6 +489,81 @@
             font-size: 11px;
         }
         
+        /* GANTT Grouping Buttons */
+        .gantt-grouping {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            padding: 12px;
+            background: #f8f8fa;
+            border-radius: 8px;
+        }
+        
+        .gantt-grouping-label {
+            font-size: 13px;
+            font-weight: 500;
+            color: #666;
+        }
+        
+        .gantt-group-btn {
+            padding: 8px 16px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            background: white;
+            color: #666;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .gantt-group-btn:hover {
+            border-color: #9945FF;
+            color: #9945FF;
+        }
+        
+        .gantt-group-btn.active {
+            background: linear-gradient(135deg, #9945FF, #FF6B9D);
+            color: white;
+            border-color: transparent;
+        }
+        
+        /* GANTT Tramlines */
+        .gantt-row-tramline {
+            display: contents;
+        }
+        
+        .gantt-row-tramline .gantt-cell {
+            border-bottom: 3px solid #e0e0e5;
+        }
+        
+        .gantt-row-tramline:last-child .gantt-cell {
+            border-bottom: 2px solid #e0e0e5;
+        }
+        
+        .gantt-lane-label {
+            background: #f0f0f5;
+            padding: 16px;
+            font-weight: 600;
+            font-size: 13px;
+            border-bottom: 3px solid #e0e0e5;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .gantt-lane-label.priority-p0 { border-left: 4px solid #ef4444; background: #fef2f2; }
+        .gantt-lane-label.priority-p1 { border-left: 4px solid #f59e0b; background: #fffbeb; }
+        .gantt-lane-label.priority-p2 { border-left: 4px solid #3b82f6; background: #eff6ff; }
+        .gantt-lane-label.priority-p3 { border-left: 4px solid #6b7280; background: #f9fafb; }
+        
+        .gantt-lane-label.category-analysis { border-left: 4px solid #8b5cf6; background: #faf5ff; }
+        .gantt-lane-label.category-financial { border-left: 4px solid #10b981; background: #f0fdf4; }
+        .gantt-lane-label.category-admin { border-left: 4px solid #64748b; background: #f8fafc; }
+        .gantt-lane-label.category-operations { border-left: 4px solid #f97316; background: #fff7ed; }
+        .gantt-lane-label.category-legal { border-left: 4px solid #ef4444; background: #fef2f2; }
+        
         @media (max-width: 768px) {
             .nav { gap: 8px; }
             .nav a { padding: 10px 16px; font-size: 14px; }
@@ -571,7 +646,13 @@
             
             <!-- GANTT Chart View -->
             <div class="card">
-                <h2>📊 GANTT Chart View (By Priority & Due Date)</h2>
+                <h2>📊 GANTT Chart View</h2>
+                <div class="gantt-grouping">
+                    <span class="gantt-grouping-label">Group by:</span>
+                    <button class="gantt-group-btn active" data-group="priority" onclick="setGanttGrouping('priority')">Priority</button>
+                    <button class="gantt-group-btn" data-group="category" onclick="setGanttGrouping('category')">Category</button>
+                    <button class="gantt-group-btn" data-group="stakeholder" onclick="setGanttGrouping('stakeholder')">Stakeholder</button>
+                </div>
                 <div class="gantt-container" id="work-gantt-container">
                     <div class="loading" style="text-align: center; padding: 40px; color: #9945FF;">Loading GANTT chart...</div>
                 </div>
@@ -625,6 +706,7 @@
     <script>
         let workData = null;
         let currentFilter = 'all';
+        let currentGanttGrouping = 'priority';
         
         // Load work data
         async function loadWorkData() {
@@ -758,6 +840,14 @@
             renderTasks();
         }
         
+        // Set GANTT grouping
+        function setGanttGrouping(groupBy) {
+            currentGanttGrouping = groupBy;
+            document.querySelectorAll('.gantt-group-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`.gantt-group-btn[data-group="${groupBy}"]`).classList.add('active');
+            renderWorkGantt();
+        }
+        
         // Render Work GANTT Chart
         function renderWorkGantt() {
             const container = document.getElementById('work-gantt-container');
@@ -778,27 +868,59 @@
                 { key: 'plus6', label: '+6 Days', days: 6 }
             ];
             
-            // Group tasks by priority
-            const priorities = {
-                'P0': { name: '🔴 P0 - Critical', tasks: [], class: 'p0' },
-                'P1': { name: '🟠 P1 - High', tasks: [], class: 'p1' },
-                'P2': { name: '🔵 P2 - Medium', tasks: [], class: 'p2' },
-                'P3': { name: '⚪ P3 - Low', tasks: [], class: 'p3' }
-            };
+            // Get grouping configuration
+            let groups = {};
+            const groupBy = currentGanttGrouping;
+            
+            if (groupBy === 'priority') {
+                groups = {
+                    'P0': { name: '🔴 P0 - Critical', tasks: [], labelClass: 'priority-p0' },
+                    'P1': { name: '🟠 P1 - High', tasks: [], labelClass: 'priority-p1' },
+                    'P2': { name: '🔵 P2 - Medium', tasks: [], labelClass: 'priority-p2' },
+                    'P3': { name: '⚪ P3 - Low', tasks: [], labelClass: 'priority-p3' }
+                };
+            } else if (groupBy === 'category') {
+                groups = {
+                    'Analysis': { name: '📊 Analysis', tasks: [], labelClass: 'category-analysis' },
+                    'Financial': { name: '💰 Financial', tasks: [], labelClass: 'category-financial' },
+                    'Admin': { name: '📝 Admin', tasks: [], labelClass: 'category-admin' },
+                    'Operations': { name: '⚙️ Operations', tasks: [], labelClass: 'category-operations' },
+                    'Legal': { name: '⚖️ Legal', tasks: [], labelClass: 'category-legal' }
+                };
+            } else if (groupBy === 'stakeholder') {
+                // Dynamic stakeholder grouping
+                const stakeholders = [...new Set(workData.tasks.map(t => t.stakeholder).filter(s => s))].sort();
+                stakeholders.forEach(s => {
+                    groups[s] = { name: `👤 ${s}`, tasks: [], labelClass: 'priority-p2' };
+                });
+                if (Object.keys(groups).length === 0) {
+                    groups['Unknown'] = { name: '👤 Unknown', tasks: [], labelClass: 'priority-p3' };
+                }
+            }
             
             // Filter active tasks and group
             workData.tasks.filter(t => t.status !== 'Complete').forEach(task => {
-                const p = task.priority || 'P2';
-                if (priorities[p]) {
-                    priorities[p].tasks.push(task);
+                let groupKey;
+                if (groupBy === 'priority') {
+                    groupKey = task.priority || 'P2';
+                } else if (groupBy === 'category') {
+                    groupKey = task.category || 'Admin';
                 } else {
-                    priorities['P2'].tasks.push(task);
+                    groupKey = task.stakeholder || 'Unknown';
+                }
+                
+                if (groups[groupKey]) {
+                    groups[groupKey].tasks.push(task);
+                } else {
+                    // For unknown categories/stakeholders, add to first group or create "Other"
+                    const firstKey = Object.keys(groups)[0];
+                    if (firstKey) groups[firstKey].tasks.push(task);
                 }
             });
             
-            // Sort by due date
-            Object.values(priorities).forEach(p => {
-                p.tasks.sort((a, b) => {
+            // Sort by due date within each group
+            Object.values(groups).forEach(g => {
+                g.tasks.sort((a, b) => {
                     const daysA = a.due_date ? Math.floor((new Date(a.due_date) - new Date()) / (1000 * 60 * 60 * 24)) : 999;
                     const daysB = b.due_date ? Math.floor((new Date(b.due_date) - new Date()) / (1000 * 60 * 60 * 24)) : 999;
                     return daysA - daysB;
@@ -809,22 +931,26 @@
             let html = '<div class="gantt-chart">';
             
             // Header
-            html += '<div class="gantt-header">Priority</div>';
+            const headerLabel = groupBy === 'priority' ? 'Priority' : groupBy === 'category' ? 'Category' : 'Stakeholder';
+            html += `<div class="gantt-header">${headerLabel}</div>`;
             dateColumns.forEach(col => {
                 html += `<div class="gantt-header">${col.label}</div>`;
             });
             
-            // Priority rows
-            Object.entries(priorities).forEach(([pKey, p]) => {
-                if (p.tasks.length === 0) return;
+            // Group rows with tramlines
+            const groupEntries = Object.entries(groups).filter(([_, g]) => g.tasks.length > 0);
+            
+            groupEntries.forEach(([groupKey, group], index) => {
+                const isLast = index === groupEntries.length - 1;
+                const tramlineClass = isLast ? '' : 'gantt-row-tramline';
                 
-                html += `<div class="gantt-priority-label ${p.class}">${p.name}</div>`;
+                html += `<div class="gantt-lane-label ${group.labelClass}">${group.name} (${group.tasks.length})</div>`;
                 
                 dateColumns.forEach(col => {
                     const cellClass = col.key;
-                    html += `<div class="gantt-cell ${cellClass}">`;
+                    html += `<div class="gantt-cell ${cellClass} ${tramlineClass ? tramlineClass + ' ' : ''}">`;
                     
-                    const cellTasks = p.tasks.filter(task => {
+                    const cellTasks = group.tasks.filter(task => {
                         if (!task.due_date) return false;
                         const daysRemaining = Math.floor((new Date(task.due_date) - new Date()) / (1000 * 60 * 60 * 24));
                         
