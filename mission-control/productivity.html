@@ -475,9 +475,6 @@
         }
         
         .gantt-urgency-badge {
-            position: absolute;
-            bottom: 8px;
-            right: 8px;
             font-size: 9px;
             font-weight: 700;
             padding: 2px 5px;
@@ -1266,10 +1263,9 @@
                                      data-task-name="${escapeHtml(task.name)}">
                                     <div class="gantt-task-name">${escapeHtml(task.name)}</div>
                                     <div class="gantt-task-meta">
-                                        <span>${displayDays < 0 ? Math.abs(displayDays) + 'd overdue' : displayDays + 'd left'}${isPending ? ' (moved)' : ''}</span>
+                                        ${urgencyBadge}
                                         ${canComplete ? `<button class="gantt-complete-btn" onclick="completeTask('${task.id}', '${escapeHtml(task.name).replace(/'/g, "\\'")}')">✓</button>` : '<span class="gantt-task-status status-complete">Complete</span>'}
                                     </div>
-                                    ${urgencyBadge}
                                 </div>
                             `;
                         });
