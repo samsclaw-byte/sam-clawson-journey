@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-02-17T20:00:18.809203",
+  "generated_at": "2026-02-17T20:15:11.469470",
   "tat_tasks": [
     {
       "id": "rec82QLASN6uQUiHu",
@@ -199,6 +199,17 @@
       "water": 4,
       "multivitamin": true,
       "fruit": true,
+      "exercise": false,
+      "creatine": false
+    },
+    {
+      "date": "2026-02-17",
+      "day_name": "Tue",
+      "day_num": "17",
+      "score": 0,
+      "water": 4,
+      "multivitamin": false,
+      "fruit": false,
       "exercise": false,
       "creatine": false
     }
