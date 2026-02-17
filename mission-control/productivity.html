@@ -451,6 +451,7 @@
             font-size: 12px;
             cursor: pointer;
             transition: all 0.2s;
+            position: relative;
         }
         
         .gantt-task-card:hover {
@@ -471,7 +472,25 @@
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
             overflow: hidden;
+            padding-right: 55px;
         }
+        
+        .gantt-urgency-badge {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            font-size: 9px;
+            font-weight: 700;
+            padding: 2px 5px;
+            border-radius: 4px;
+            background: #FF6B6B;
+            color: white;
+            white-space: nowrap;
+        }
+        
+        .gantt-urgency-badge.urgent { background: #FF6B6B; }
+        .gantt-urgency-badge.soon { background: #FFA500; color: #1a1a2e; }
+        .gantt-urgency-badge.normal { background: #51CF66; }
         
         .gantt-task-meta {
             display: flex;
@@ -1176,12 +1195,30 @@
                             const isPending = pendingChanges[task.id];
                             const displayDays = isPending ? pendingChanges[task.id].newDaysOffset : task.days_remaining;
                             
+                            // Extract urgency from task.urgency field
+                            let urgencyBadge = '';
+                            if (task.urgency) {
+                                let urgencyClass = 'normal';
+                                let urgencyText = task.urgency;
+                                if (task.urgency.includes('Urgent') || task.due_status === 'overdue') {
+                                    urgencyClass = 'urgent';
+                                    urgencyText = '🔴 Urgent';
+                                } else if (task.urgency.includes('Soon') || task.due_status === 'today' || task.due_status === 'soon') {
+                                    urgencyClass = 'soon';
+                                    urgencyText = '🟡 Soon';
+                                } else {
+                                    urgencyText = '🟢 Normal';
+                                }
+                                urgencyBadge = `<div class="gantt-urgency-badge ${urgencyClass}">${urgencyText}</div>`;
+                            }
+                            
                             html += `
                                 <div class="gantt-task-card ${priorityClass} ${isPending ? 'dragging' : ''}" 
                                      draggable="true" 
                                      ondragstart="drag(event)" 
                                      data-task-id="${task.id}"
                                      data-task-name="${escapeHtml(task.name)}">
+                                    ${urgencyBadge}
                                     <div class="gantt-task-name">${escapeHtml(task.name)}</div>
                                     <div class="gantt-task-meta">
                                         <span>${displayDays < 0 ? Math.abs(displayDays) + 'd overdue' : displayDays + 'd left'}${isPending ? ' (moved)' : ''}</span>
