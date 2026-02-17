@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-02-17T05:00:42.381083",
+  "generated_at": "2026-02-17T05:16:47.010866",
   "days": [
     {
       "date": "2026-02-11",
       "calories_burned": 2771,
       "calories_consumed": 1800,
       "strain": 13.7,
-      "weight": 103,
+      "weight": null,
       "sleep": 60
     },
     {
@@ -22,7 +22,7 @@
       "calories_burned": 3717,
       "calories_consumed": 2860,
       "strain": 18.009338,
-      "weight": 102,
+      "weight": null,
       "sleep": 0
     },
     {
