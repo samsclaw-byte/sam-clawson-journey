@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-02-17T10:15:10.501450",
+  "generated_at": "2026-02-17T10:30:13.854571",
   "tat_tasks": [
     {
       "id": "rec82QLASN6uQUiHu",
@@ -110,6 +110,18 @@
       "days_remaining": 3,
       "urgency": "\ud83d\udfe1 Soon",
       "due_date": "2026-02-20T00:00:00.000Z"
+    },
+    {
+      "id": "recWApOPGiBHyd4os",
+      "name": "Create Cloudflare Worker for GANTT chart due date updates",
+      "category": "3",
+      "status": "Not Started",
+      "due_status": "later",
+      "days_remaining": 999,
+      "urgency": "\ud83d\udfe2 Normal",
+      "due_date": {
+        "error": "#ERROR"
+      }
     }
   ],
   "habit_days": [
@@ -192,7 +204,7 @@
     }
   ],
   "stats": {
-    "active": 11,
+    "active": 12,
     "overdue": 0,
     "today": 8,
     "completed_7d": 0

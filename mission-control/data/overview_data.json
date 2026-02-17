@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-02-17T10:03:03.095044",
+  "generated_at": "2026-02-17T10:17:57.518673",
   "today": {
     "health": {
       "today_calories": 450,
@@ -18,7 +18,7 @@
       {
         "id": "recxIjbjIk2R4IL2E",
         "name": "Renew CIMA membership",
-        "category": "3",
+        "category": "Personal",
         "due_status": "today",
         "days_remaining": 0,
         "status": "Not Started"
@@ -26,7 +26,7 @@
       {
         "id": "recZOSWGvUtJn4Y8S",
         "name": "Link to Gmail and forward nursery dates and times",
-        "category": "3",
+        "category": "AI Development",
         "due_status": "today",
         "days_remaining": 0,
         "status": "Not Started"
@@ -34,7 +34,7 @@
       {
         "id": "rec82QLASN6uQUiHu",
         "name": "Complete Google Calendar update",
-        "category": "7",
+        "category": "Personal",
         "due_status": "today",
         "days_remaining": 0,
         "status": "Not Started"
@@ -42,7 +42,7 @@
       {
         "id": "reciYWtF73kNe3qFP",
         "name": "Give Clawson a voice to respond to voice messages",
-        "category": "3",
+        "category": "AI Development",
         "due_status": "today",
         "days_remaining": 0,
         "status": "Not Started"
@@ -50,7 +50,7 @@
       {
         "id": "recl87W1nkafNEROB",
         "name": "Review cron jobs",
-        "category": "3",
+        "category": "System Enhancement",
         "due_status": "today",
         "days_remaining": 0,
         "status": "Not Started"
