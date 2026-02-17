@@ -2175,6 +2175,8 @@
                     }
                 } else {
                     // Add new deliverable via Worker
+                    console.log('Sending to Worker:', { action: 'addDeliverable', data });
+                    
                     const response = await fetch(WORKER_URL, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
@@ -2191,13 +2193,20 @@
                         })
                     });
                     
-                    if (!response.ok) throw new Error('Failed to add');
+                    console.log('Worker response status:', response.status);
+                    
+                    if (!response.ok) {
+                        const errorText = await response.text();
+                        console.error('Worker error:', errorText);
+                        throw new Error(`Worker error: ${response.status} - ${errorText}`);
+                    }
                     
                     const result = await response.json();
+                    console.log('Worker result:', result);
                     
                     // Add to local with Airtable ID
                     project.deliverables.push({
-                        id: result.deliverable.id,
+                        id: result.deliverable?.id,
                         name: data.name,
                         status: data.status,
                         owner: data.owner,
@@ -2234,8 +2243,20 @@
                 
             } catch (error) {
                 console.error('Error saving deliverable:', error);
-                alert('Error saving to Airtable. Changes saved locally only.');
-                renderProjects(); // Still render with local changes
+                alert('Error: ' + error.message + '\n\nChanges saved locally only.');
+                // Still add to local data for UI feedback
+                if (!isEdit) {
+                    project.deliverables.push({
+                        name: data.name,
+                        status: data.status,
+                        owner: data.owner,
+                        due_date: data.dueDate,
+                        progress: data.progress,
+                        weight: 10,
+                        notes: data.notes
+                    });
+                }
+                renderProjects();
             }
         }
         
