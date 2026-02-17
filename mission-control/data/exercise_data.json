@@ -1,14 +1,9 @@
 {
-  "generated_at": "2026-02-17T23:45:08.465811",
-  "workout_count": 5,
-  "total_minutes": 137.76,
-  "avg_strain": 10.8,
+  "generated_at": "2026-02-18T00:00:09.752755",
+  "workout_count": 4,
+  "total_minutes": 104.75,
+  "avg_strain": 10.5,
   "exercise_types": {
-    "Kettlebell": {
-      "minutes": 62.01,
-      "count": 2,
-      "type": "Hard"
-    },
     "Running": {
       "minutes": 33.1,
       "count": 1,
@@ -18,16 +13,14 @@
       "minutes": 42.650000000000006,
       "count": 2,
       "type": "Active Recovery"
+    },
+    "Kettlebell": {
+      "minutes": 29,
+      "count": 1,
+      "type": "Hard"
     }
   },
   "workouts": [
-    {
-      "date": "2026-02-11",
-      "type": "Hard",
-      "exercises": "Kettlebell",
-      "duration": 33.01,
-      "strain": 12
-    },
     {
       "date": "2026-02-14",
       "type": "Other",
