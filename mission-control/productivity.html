@@ -376,6 +376,129 @@
             font-size: 12px;
             margin-top: 20px;
         }
+        
+        /* GANTT Chart Styles */
+        .gantt-container {
+            overflow-x: auto;
+            margin-top: 20px;
+            border: 1px solid rgba(153, 69, 255, 0.2);
+            border-radius: 12px;
+            background: #fafafa;
+        }
+        
+        .gantt-chart {
+            display: grid;
+            grid-template-columns: 150px repeat(8, 140px);
+            min-width: 900px;
+        }
+        
+        .gantt-header {
+            background: linear-gradient(135deg, #9945FF 0%, #FF6B9D 100%);
+            color: white;
+            padding: 12px;
+            font-weight: 600;
+            font-size: 13px;
+            text-align: center;
+            border-right: 1px solid rgba(255,255,255,0.3);
+        }
+        
+        .gantt-header:first-child {
+            text-align: left;
+            padding-left: 16px;
+        }
+        
+        .gantt-category-row {
+            display: contents;
+        }
+        
+        .gantt-category-label {
+            background: #f0f0f5;
+            padding: 16px;
+            font-weight: 600;
+            font-size: 13px;
+            border-bottom: 2px solid #e0e0e5;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .gantt-category-label.quick { border-left: 4px solid #FF6B6B; }
+        .gantt-category-label.short { border-left: 4px solid #FFA500; }
+        .gantt-category-label.medium { border-left: 4px solid #339AF0; }
+        .gantt-category-label.large { border-left: 4px solid #51CF66; }
+        
+        .gantt-cell {
+            border-right: 1px solid #e0e0e5;
+            border-bottom: 2px solid #e0e0e5;
+            padding: 8px;
+            min-height: 80px;
+            background: white;
+            position: relative;
+        }
+        
+        .gantt-cell.overdue { background: #FFF5F5; }
+        .gantt-cell.today { background: #FFF9E6; }
+        .gantt-cell.tomorrow { background: #F0F9FF; }
+        .gantt-cell.future { background: white; }
+        
+        .gantt-task-card {
+            background: white;
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-left: 3px solid #9945FF;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .gantt-task-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        
+        .gantt-task-card.priority-1 { border-left-color: #FF6B6B; }
+        .gantt-task-card.priority-3 { border-left-color: #FFA500; }
+        .gantt-task-card.priority-7 { border-left-color: #339AF0; }
+        .gantt-task-card.priority-30 { border-left-color: #51CF66; }
+        
+        .gantt-task-name {
+            font-weight: 600;
+            margin-bottom: 4px;
+            line-height: 1.3;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .gantt-task-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 10px;
+            color: #666;
+        }
+        
+        .gantt-task-status {
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 9px;
+            font-weight: 600;
+        }
+        
+        .gantt-task-status.not-started { background: #f0f0f5; color: #666; }
+        .gantt-task-status.in-progress { background: #E7F5FF; color: #1971C2; }
+        .gantt-task-status.blocked { background: #FFE0E0; color: #C92A2A; }
+        
+        .gantt-empty-cell {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ccc;
+            font-size: 11px;
+        }
     </style>
 </head>
 <body>
@@ -442,6 +565,14 @@
             
             <div class="task-list" id="task-list">
                 <div class="loading">Loading tasks...</div>
+            </div>
+        </div>
+        
+        <!-- GANTT Chart View -->
+        <div class="card">
+            <h2>📊 GANTT Chart View (By Category & Due Date)</h2>
+            <div class="gantt-container" id="gantt-container">
+                <div class="loading">Loading GANTT chart...</div>
             </div>
         </div>
         
@@ -670,6 +801,9 @@
                     
                     // Calculate and display filter counts (only active tasks)
                     calculateFilterCounts(sortedTasks);
+                    
+                    // Render GANTT chart
+                    renderGanttChart(sortedTasks);
                 } else {
                     taskList.innerHTML = '<div style="text-align: center; padding: 40px; color: #666;">No active tasks! 🎉</div>';
                 }
@@ -872,6 +1006,118 @@
                 filterTasks(button.getAttribute('data-filter'));
             });
         });
+        
+        // Render GANTT Chart
+        function renderGanttChart(tasks) {
+            const container = document.getElementById('gantt-container');
+            if (!tasks || tasks.length === 0) {
+                container.innerHTML = '<div style="text-align: center; padding: 40px; color: #666;">No tasks to display</div>';
+                return;
+            }
+            
+            // Define date columns: Overdue, Today, +1, +2, +3, +4, +5, +6
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            
+            const dateColumns = [
+                { key: 'overdue', label: '🔴 Overdue', days: -1 },
+                { key: 'today', label: '📅 Today', days: 0 },
+                { key: 'plus1', label: '+1 Day', days: 1 },
+                { key: 'plus2', label: '+2 Days', days: 2 },
+                { key: 'plus3', label: '+3 Days', days: 3 },
+                { key: 'plus4', label: '+4 Days', days: 4 },
+                { key: 'plus5', label: '+5 Days', days: 5 },
+                { key: 'plus6', label: '+6 Days', days: 6 }
+            ];
+            
+            // Group tasks by category
+            const categories = {
+                '1': { name: '⚡ Quick (1 day)', tasks: [], class: 'quick' },
+                '3': { name: '⚡ Short (3 days)', tasks: [], class: 'short' },
+                '7': { name: '📅 Medium (7 days)', tasks: [], class: 'medium' },
+                '30': { name: '📊 Large (30 days)', tasks: [], class: 'large' }
+            };
+            
+            // Filter out completed tasks and group by category
+            tasks.filter(t => t.status !== 'Complete').forEach(task => {
+                const cat = task.category || '3';
+                if (categories[cat]) {
+                    categories[cat].tasks.push(task);
+                } else {
+                    categories['3'].tasks.push(task); // Default to Short
+                }
+            });
+            
+            // Sort tasks within each category by due date
+            Object.values(categories).forEach(cat => {
+                cat.tasks.sort((a, b) => {
+                    const daysA = a.days_remaining === null ? 999 : a.days_remaining;
+                    const daysB = b.days_remaining === null ? 999 : b.days_remaining;
+                    return daysA - daysB;
+                });
+            });
+            
+            // Build GANTT HTML
+            let html = '<div class="gantt-chart">';
+            
+            // Header row
+            html += '<div class="gantt-header">Category</div>';
+            dateColumns.forEach(col => {
+                html += `<div class="gantt-header">${col.label}</div>`;
+            });
+            
+            // Category rows
+            Object.entries(categories).forEach(([catKey, cat]) => {
+                if (cat.tasks.length === 0) return; // Skip empty categories
+                
+                // Category label cell
+                html += `<div class="gantt-category-label ${cat.class}">${cat.name}</div>`;
+                
+                // Date cells
+                dateColumns.forEach(col => {
+                    const cellClass = col.key;
+                    html += `<div class="gantt-cell ${cellClass}">`;
+                    
+                    // Find tasks for this date column
+                    const cellTasks = cat.tasks.filter(task => {
+                        const daysRemaining = task.days_remaining === null ? 999 : task.days_remaining;
+                        
+                        if (col.key === 'overdue') return daysRemaining < 0;
+                        if (col.key === 'today') return daysRemaining === 0;
+                        if (col.key === 'plus1') return daysRemaining === 1;
+                        if (col.key === 'plus2') return daysRemaining === 2;
+                        if (col.key === 'plus3') return daysRemaining === 3;
+                        if (col.key === 'plus4') return daysRemaining === 4;
+                        if (col.key === 'plus5') return daysRemaining === 5;
+                        if (col.key === 'plus6') return daysRemaining === 6;
+                        return false;
+                    });
+                    
+                    if (cellTasks.length === 0) {
+                        html += '<div class="gantt-empty-cell">-</div>';
+                    } else {
+                        cellTasks.forEach(task => {
+                            const priorityClass = getPriorityClass(task.category);
+                            const statusClass = task.status.toLowerCase().replace(' ', '-');
+                            html += `
+                                <div class="gantt-task-card ${priorityClass}">
+                                    <div class="gantt-task-name">${escapeHtml(task.name)}</div>
+                                    <div class="gantt-task-meta">
+                                        <span>${task.days_remaining < 0 ? Math.abs(task.days_remaining) + 'd overdue' : task.days_remaining + 'd left'}</span>
+                                        <span class="gantt-task-status ${statusClass}">${task.status}</span>
+                                    </div>
+                                </div>
+                            `;
+                        });
+                    }
+                    
+                    html += '</div>';
+                });
+            });
+            
+            html += '</div>';
+            container.innerHTML = html;
+        }
         
         // Load data when page loads
         document.addEventListener('DOMContentLoaded', loadData);
