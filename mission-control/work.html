@@ -1098,7 +1098,220 @@
         .deliverable-gantt-marker.review { background: #3b82f6; }
         .deliverable-gantt-marker.complete { background: #10b981; }
         .deliverable-gantt-marker.blocked { background: #ef4444; }
-        
+
+        /* Trak Beta GANTT Styles */
+        .trak-gantt-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 20px rgba(153, 69, 255, 0.08);
+            border: 1px solid rgba(153, 69, 255, 0.1);
+        }
+
+        .trak-gantt-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .trak-gantt-header h2 {
+            margin: 0;
+            font-size: 20px;
+            background: linear-gradient(135deg, #9945FF, #FF6B9D);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .trak-gantt-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .trak-btn-primary {
+            background: linear-gradient(135deg, #9945FF, #FF6B9D);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .trak-btn-secondary {
+            background: #f3f4f6;
+            color: #666;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .trak-gantt-container {
+            overflow-x: auto;
+            margin-bottom: 16px;
+        }
+
+        .trak-gantt-chart {
+            display: grid;
+            grid-template-columns: 200px repeat(10, 60px);
+            min-width: 800px;
+        }
+
+        .trak-gantt-row:first-child .trak-gantt-task-col,
+        .trak-gantt-row:first-child .trak-gantt-day-col {
+            background: #f9fafb;
+            font-weight: 600;
+            border-bottom: 2px solid #e5e7eb;
+        }
+
+        .trak-gantt-task-col {
+            padding: 12px;
+            font-size: 13px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .trak-gantt-day-col {
+            padding: 12px 4px;
+            text-align: center;
+            font-size: 12px;
+            border-bottom: 1px solid #e5e7eb;
+            border-right: 1px solid #f3f4f6;
+        }
+
+        .trak-gantt-day-col:nth-child(odd) {
+            background: #fafafa;
+        }
+
+        .trak-gantt-row:hover .trak-gantt-task-col {
+            background: #fef3c7;
+            cursor: pointer;
+        }
+
+        .trak-gantt-day-col.active {
+            position: relative;
+        }
+
+        .trak-gantt-day-col.active.not-started { background: #e5e7eb; }
+        .trak-gantt-day-col.active.in-progress { background: #fef3c7; }
+        .trak-gantt-day-col.active.complete { background: #d1fae5; }
+        .trak-gantt-day-col.active.blocked { background: #fee2e2; }
+
+        .trak-gantt-legend {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+        }
+
+        .trak-legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .trak-status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .trak-status-dot.not-started { background: #9ca3af; }
+        .trak-status-dot.in-progress { background: #f59e0b; }
+        .trak-status-dot.complete { background: #10b981; }
+        .trak-status-dot.blocked { background: #ef4444; }
+
+        /* Trak Modal */
+        .trak-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .trak-modal-content {
+            background: white;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 450px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .trak-modal-header {
+            background: linear-gradient(135deg, #9945FF, #FF6B9D);
+            color: white;
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 16px 16px 0 0;
+        }
+
+        .trak-modal-header h3 {
+            margin: 0;
+            font-size: 16px;
+        }
+
+        .trak-modal-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        #trak-task-form {
+            padding: 20px;
+        }
+
+        .trak-form-group {
+            margin-bottom: 16px;
+        }
+
+        .trak-form-group label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: #666;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+        }
+
+        .trak-form-group input,
+        .trak-form-group select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .trak-form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .trak-form-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+            margin-top: 20px;
+            padding-top: 16px;
+            border-top: 1px solid #eee;
+        }
+
         /* Deliverable Detail View */
         .deliverable-detail-view {
             background: #f9fafb;
@@ -1404,6 +1617,78 @@
         
         <!-- PROJECTS TAB -->
         <div id="projects" class="tab-content">
+            <!-- Trak Beta Launch GANTT -->
+            <div class="trak-gantt-card">
+                <div class="trak-gantt-header">
+                    <h2>🚀 Trak Beta Launch GANTT</h2>
+                    <div class="trak-gantt-actions">
+                        <button class="trak-btn-primary" onclick="addTrakTask()">+ Add Task</button>
+                        <button class="trak-btn-secondary" onclick="resetTrakGantt()">Reset</button>
+                    </div>
+                </div>
+                
+                <div class="trak-gantt-container" id="trak-gantt-container">
+                    <div style="text-align: center; padding: 40px; color: #9945FF;">Loading Trak GANTT...</div>
+                </div>
+                
+                <div class="trak-gantt-legend">
+                    <span class="trak-legend-item"><span class="trak-status-dot not-started"></span> Not Started</span>
+                    <span class="trak-legend-item"><span class="trak-status-dot in-progress"></span> In Progress</span>
+                    <span class="trak-legend-item"><span class="trak-status-dot complete"></span> Complete</span>
+                    <span class="trak-legend-item"><span class="trak-status-dot blocked"></span> Blocked</span>
+                </div>
+            </div>
+
+            <!-- Edit Task Modal -->
+            <div id="trak-task-modal" class="trak-modal" style="display: none;">
+                <div class="trak-modal-content">
+                    <div class="trak-modal-header">
+                        <h3>✏️ Edit Task</h3>
+                        <button class="trak-modal-close" onclick="closeTrakModal()">×</button>
+                    </div>
+                    <form id="trak-task-form" onsubmit="saveTrakTask(event)">
+                        <input type="hidden" id="trak-task-index">
+                        
+                        <div class="trak-form-group">
+                            <label>Task Name</label>
+                            <input type="text" id="trak-task-name" required>
+                        </div>
+                        
+                        <div class="trak-form-row">
+                            <div class="trak-form-group">
+                                <label>Start Day</label>
+                                <input type="number" id="trak-task-start" min="1" max="10" required>
+                            </div>
+                            <div class="trak-form-group">
+                                <label>Duration (days)</label>
+                                <input type="number" id="trak-task-duration" min="1" max="10" required>
+                            </div>
+                        </div>
+                        
+                        <div class="trak-form-row">
+                            <div class="trak-form-group">
+                                <label>Status</label>
+                                <select id="trak-task-status">
+                                    <option value="not-started">Not Started</option>
+                                    <option value="in-progress">In Progress</option>
+                                    <option value="complete">Complete</option>
+                                    <option value="blocked">Blocked</option>
+                                </select>
+                            </div>
+                            <div class="trak-form-group">
+                                <label>Owner</label>
+                                <input type="text" id="trak-task-owner" value="Sam">
+                            </div>
+                        </div>
+                        
+                        <div class="trak-form-actions">
+                            <button type="button" class="trak-btn-secondary" onclick="closeTrakModal()">Cancel</button>
+                            <button type="submit" class="trak-btn-primary">Save Task</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
             <div class="card">
                 <div class="project-actions-header">
                     <h2>📁 Active Projects</h2>
@@ -2271,6 +2556,128 @@
                     if (e.target === this) closeDeliverableModal();
                 });
             }
+
+            // Initialize Trak GANTT
+            renderTrakGantt();
+        });
+
+        // Trak Beta GANTT Functions
+        const defaultTrakTasks = [
+            { id: 1, name: 'Cloudflare Setup (Pages, D1, Workers)', start: 1, duration: 1, status: 'not-started', owner: 'Sam' },
+            { id: 2, name: 'D1 Database Schema', start: 2, duration: 1, status: 'not-started', owner: 'Sam' },
+            { id: 3, name: 'Google OAuth Authentication', start: 2, duration: 1, status: 'not-started', owner: 'Sam' },
+            { id: 4, name: 'Food Logging UI', start: 4, duration: 2, status: 'not-started', owner: 'Sam' },
+            { id: 5, name: 'Daily Habits Tracker', start: 5, duration: 1, status: 'not-started', owner: 'Sam' },
+            { id: 6, name: 'Macro Estimation Engine', start: 6, duration: 1, status: 'not-started', owner: 'Sam' },
+            { id: 7, name: 'Dashboard & Analytics', start: 8, duration: 1, status: 'not-started', owner: 'Sam' },
+            { id: 8, name: 'Settings & Profile', start: 8, duration: 1, status: 'not-started', owner: 'Sam' },
+            { id: 9, name: 'Testing & QA', start: 9, duration: 1, status: 'not-started', owner: 'Sam' },
+            { id: 10, name: 'Beta Launch', start: 10, duration: 1, status: 'not-started', owner: 'Sam' }
+        ];
+
+        function loadTrakTasks() {
+            const saved = localStorage.getItem('trak-beta-tasks');
+            return saved ? JSON.parse(saved) : [...defaultTrakTasks];
+        }
+
+        function saveTrakTasksToStorage(tasks) {
+            localStorage.setItem('trak-beta-tasks', JSON.stringify(tasks));
+        }
+
+        function renderTrakGantt() {
+            const tasks = loadTrakTasks();
+            const container = document.getElementById('trak-gantt-container');
+            
+            let html = '<div class="trak-gantt-chart">';
+            
+            // Header row
+            html += '<div class="trak-gantt-row">';
+            html += '<div class="trak-gantt-task-col">Task</div>';
+            for (let i = 1; i <= 10; i++) {
+                html += `<div class="trak-gantt-day-col">Day ${i}</div>`;
+            }
+            html += '</div>';
+            
+            // Task rows
+            tasks.forEach((task, index) => {
+                html += `<div class="trak-gantt-row" onclick="editTrakTask(${index})">`;
+                html += `<div class="trak-gantt-task-col">${task.name}</div>`;
+                
+                for (let day = 1; day <= 10; day++) {
+                    const isActive = day >= task.start && day < task.start + task.duration;
+                    const cellClass = isActive ? `active ${task.status}` : '';
+                    html += `<div class="trak-gantt-day-col ${cellClass}"></div>`;
+                }
+                
+                html += '</div>';
+            });
+            
+            html += '</div>';
+            container.innerHTML = html;
+        }
+
+        function addTrakTask() {
+            const tasks = loadTrakTasks();
+            tasks.push({
+                id: Date.now(),
+                name: 'New Task',
+                start: 1,
+                duration: 1,
+                status: 'not-started',
+                owner: 'Sam'
+            });
+            saveTrakTasksToStorage(tasks);
+            renderTrakGantt();
+            editTrakTask(tasks.length - 1);
+        }
+
+        function editTrakTask(index) {
+            const tasks = loadTrakTasks();
+            const task = tasks[index];
+            
+            document.getElementById('trak-task-index').value = index;
+            document.getElementById('trak-task-name').value = task.name;
+            document.getElementById('trak-task-start').value = task.start;
+            document.getElementById('trak-task-duration').value = task.duration;
+            document.getElementById('trak-task-status').value = task.status;
+            document.getElementById('trak-task-owner').value = task.owner;
+            
+            document.getElementById('trak-task-modal').style.display = 'flex';
+        }
+
+        function saveTrakTask(event) {
+            event.preventDefault();
+            
+            const index = document.getElementById('trak-task-index').value;
+            const tasks = loadTrakTasks();
+            
+            tasks[index] = {
+                ...tasks[index],
+                name: document.getElementById('trak-task-name').value,
+                start: parseInt(document.getElementById('trak-task-start').value),
+                duration: parseInt(document.getElementById('trak-task-duration').value),
+                status: document.getElementById('trak-task-status').value,
+                owner: document.getElementById('trak-task-owner').value
+            };
+            
+            saveTrakTasksToStorage(tasks);
+            closeTrakModal();
+            renderTrakGantt();
+        }
+
+        function closeTrakModal() {
+            document.getElementById('trak-task-modal').style.display = 'none';
+        }
+
+        function resetTrakGantt() {
+            if (confirm('Reset to default 10 tasks?')) {
+                localStorage.removeItem('trak-beta-tasks');
+                renderTrakGantt();
+            }
+        }
+
+        document.getElementById('trak-task-modal').addEventListener('click', function(e) {
+            if (e.target === this) closeTrakModal();
         });
     </script>
     
