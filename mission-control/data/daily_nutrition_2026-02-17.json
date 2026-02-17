@@ -1,7 +1,13 @@
 {
   "date": "2026-02-17",
-  "meals": [],
-  "total_calories": 0,
+  "meals": [
+    {
+      "type": "Breakfast",
+      "items": "Two pieces multigrain toast with Lurpak and ham, cafe au lai...",
+      "calories": 450
+    }
+  ],
+  "total_calories": 450,
   "macros": {
     "protein": 0,
     "carbs": 0,

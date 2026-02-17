@@ -1,16 +1,16 @@
 {
-  "generated_at": "2026-02-17T09:48:04.879593",
+  "generated_at": "2026-02-17T10:03:03.095044",
   "today": {
     "health": {
-      "today_calories": 0,
+      "today_calories": 450,
       "today_protein": 0,
       "current_weight": 102,
       "today_activity": 0
     },
     "habits": {
-      "multivitamin": false,
+      "multivitamin": true,
       "fruit": false,
-      "water": 0,
+      "water": 1,
       "exercise": false,
       "creatine": false
     },
@@ -60,6 +60,14 @@
   "trends": {
     "habit_days": [
       {
+        "date": "2026-02-17",
+        "multivitamin": true,
+        "fruit": false,
+        "water": 1,
+        "exercise": false,
+        "creatine": false
+      },
+      {
         "date": "2026-02-16",
         "multivitamin": true,
         "fruit": true,
@@ -101,14 +109,6 @@
       },
       {
         "date": "2026-02-11",
-        "multivitamin": true,
-        "fruit": true,
-        "water": 8,
-        "exercise": true,
-        "creatine": true
-      },
-      {
-        "date": "2026-02-10",
         "multivitamin": true,
         "fruit": true,
         "water": 8,
@@ -166,6 +166,12 @@
         "duration": 23.1,
         "strain": 9.5,
         "name": "Swim Session"
+      },
+      {
+        "date": "2026-02-16",
+        "duration": 29,
+        "strain": 8.1,
+        "name": "HIIT + Kettlebell Upper Body"
       }
     ]
   }

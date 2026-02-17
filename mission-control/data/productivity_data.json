@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-02-17T10:00:07.399233",
+  "generated_at": "2026-02-17T10:15:10.501450",
   "tat_tasks": [
     {
       "id": "rec82QLASN6uQUiHu",
       "name": "Complete Google Calendar update",
-      "category": "7",
+      "category": "Personal",
       "status": "Not Started",
       "due_status": "today",
       "days_remaining": 0,
@@ -14,7 +14,7 @@
     {
       "id": "recSXBPa0erXNCHmn",
       "name": "Integrate with web search (Brave)",
-      "category": "3",
+      "category": "System Enhancement",
       "status": "Not Started",
       "due_status": "today",
       "days_remaining": 0,
@@ -24,7 +24,7 @@
     {
       "id": "recTtASONiftQqmDW",
       "name": "Run security updates (35 packages pending)",
-      "category": "3",
+      "category": "System Enhancement",
       "status": "Not Started",
       "due_status": "today",
       "days_remaining": 0,
@@ -34,7 +34,7 @@
     {
       "id": "recZOSWGvUtJn4Y8S",
       "name": "Link to Gmail and forward nursery dates and times",
-      "category": "3",
+      "category": "AI Development",
       "status": "Not Started",
       "due_status": "today",
       "days_remaining": 0,
@@ -44,7 +44,7 @@
     {
       "id": "reciYWtF73kNe3qFP",
       "name": "Give Clawson a voice to respond to voice messages",
-      "category": "3",
+      "category": "AI Development",
       "status": "Not Started",
       "due_status": "today",
       "days_remaining": 0,
@@ -54,7 +54,7 @@
     {
       "id": "recl87W1nkafNEROB",
       "name": "Review cron jobs",
-      "category": "3",
+      "category": "System Enhancement",
       "status": "Not Started",
       "due_status": "today",
       "days_remaining": 0,
@@ -64,7 +64,7 @@
     {
       "id": "recsoQZEDAOd2AepZ",
       "name": "Review SOUL.md file",
-      "category": "3",
+      "category": "AI Development",
       "status": "Not Started",
       "due_status": "today",
       "days_remaining": 0,
@@ -74,7 +74,7 @@
     {
       "id": "recxIjbjIk2R4IL2E",
       "name": "Renew CIMA membership",
-      "category": "3",
+      "category": "Personal",
       "status": "Not Started",
       "due_status": "today",
       "days_remaining": 0,
@@ -84,7 +84,7 @@
     {
       "id": "rec5TVKrb8KezW8sm",
       "name": "Set up permanent systemd services for WHOOP webhook and tunnel",
-      "category": "3",
+      "category": "System Enhancement",
       "status": "Not Started",
       "due_status": "soon",
       "days_remaining": 1,
@@ -94,70 +94,22 @@
     {
       "id": "recHo1Nl9eJjztBhP",
       "name": "Update TAT database schema - numeric categories + due date formula",
-      "category": "3",
+      "category": "System Enhancement",
       "status": "Not Started",
       "due_status": "soon",
       "days_remaining": 1,
       "urgency": "\ud83d\udfe0 Urgent",
       "due_date": "2026-02-18T00:00:00.000Z"
-    },
-    {
-      "id": "recUmXbaSwflScEzf",
-      "name": "Update blog - missing days and push to GitHub",
-      "category": "3",
-      "status": "Not Started",
-      "due_status": "soon",
-      "days_remaining": 1,
-      "urgency": "\ud83d\udfe0 Urgent",
-      "due_date": "2026-02-18T00:00:00.000Z"
-    },
-    {
-      "id": "recAzdnVsyvFu3xyI",
-      "name": "--list",
-      "category": "7",
-      "status": "Not Started",
-      "due_status": "later",
-      "days_remaining": 999,
-      "urgency": "\ud83d\udfe2 Normal",
-      "due_date": {
-        "error": "#ERROR"
-      }
-    },
-    {
-      "id": "recC3qtz1X2t3WcxU",
-      "name": "Handwritten letter for Theo",
-      "category": "3",
-      "status": "Not Started",
-      "due_status": "later",
-      "days_remaining": 999,
-      "urgency": "\ud83d\udfe2 Normal",
-      "due_date": {
-        "error": "#ERROR"
-      }
     },
     {
       "id": "recdblOKBXyxXVprE",
       "name": "Research and set up wireframing tools for Trak (Figma/Whimsical) and image analysis model",
-      "category": "3",
+      "category": "Projects",
       "status": "Not Started",
-      "due_status": "later",
-      "days_remaining": 999,
-      "urgency": "\ud83d\udfe2 Normal",
-      "due_date": {
-        "error": "#ERROR"
-      }
-    },
-    {
-      "id": "recm47ii1C8DbnLdX",
-      "name": "Call Micasa to fix drainage and overflow issues",
-      "category": "7",
-      "status": "Not Started",
-      "due_status": "later",
-      "days_remaining": 999,
-      "urgency": "\ud83d\udfe2 Normal",
-      "due_date": {
-        "error": "#ERROR"
-      }
+      "due_status": "soon",
+      "days_remaining": 3,
+      "urgency": "\ud83d\udfe1 Soon",
+      "due_date": "2026-02-20T00:00:00.000Z"
     }
   ],
   "habit_days": [
@@ -226,10 +178,21 @@
       "fruit": true,
       "exercise": false,
       "creatine": true
+    },
+    {
+      "date": "2026-02-17",
+      "day_name": "Tue",
+      "day_num": "17",
+      "score": 1,
+      "water": 1,
+      "multivitamin": true,
+      "fruit": false,
+      "exercise": false,
+      "creatine": false
     }
   ],
   "stats": {
-    "active": 15,
+    "active": 11,
     "overdue": 0,
     "today": 8,
     "completed_7d": 0
