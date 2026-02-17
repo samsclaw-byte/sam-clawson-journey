@@ -2386,9 +2386,8 @@
         function handleClawsonKeyPress(event) {
             if (event.key === 'Enter') sendClawsonMessage();
         }
-        // OpenClaw Gateway - Iframe Mode
-        // The Gateway serves a web UI at the root path
-        const TUNNEL_URL = 'https://among-garbage-entirely-mainland.trycloudflare.com';
+        // OpenClaw Gateway - Iframe Mode (Permanent Tunnel)
+        const TUNNEL_URL = 'https://openclaw.samsclaw.org';
         
         function loadClawsonIframe() {
             const container = document.getElementById('clawson-chat-messages');
