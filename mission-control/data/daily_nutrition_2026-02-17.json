@@ -7,16 +7,21 @@
       "calories": 450
     },
     {
+      "type": "Lunch",
+      "items": "Chicken, avocado and pesto tortilla with cappuccino",
+      "calories": 250
+    },
+    {
       "type": "Snack",
       "items": "Red apple",
       "calories": 95
     }
   ],
-  "total_calories": 545,
+  "total_calories": 795,
   "macros": {
-    "protein": 0,
-    "carbs": 0,
-    "fat": 0,
-    "fiber": 0
+    "protein": 30,
+    "carbs": 37,
+    "fat": 32,
+    "fiber": 4.0
   }
 }
