@@ -2386,23 +2386,13 @@
         function handleClawsonKeyPress(event) {
             if (event.key === 'Enter') sendClawsonMessage();
         }
-        // OpenClaw Gateway - Iframe Mode (Permanent Tunnel)
-        const TUNNEL_URL = 'https://openclaw.samsclaw.org';
+        // OpenClaw Gateway - Simple Link Mode (avoids auth issues)
+        const OPENCLAW_LOCAL = 'http://localhost:18789';
+        const OPENCLAW_TUNNEL = 'https://openclaw.samsclaw.org';
         
-        function loadClawsonIframe() {
-            const container = document.getElementById('clawson-chat-messages');
-            container.innerHTML = `
-                <div style="height: 100%; display: flex; flex-direction: column;">
-                    <div style="background: #f0f0f5; padding: 8px; font-size: 12px; text-align: center; color: #666;">
-                        Connected to Clawson via tunnel
-                    </div>
-                    <iframe 
-                        src="${TUNNEL_URL}/?session=mission-control-webchat" 
-                        style="flex: 1; border: none; width: 100%;"
-                        sandbox="allow-same-origin allow-scripts allow-forms"
-                    ></iframe>
-                </div>
-            `;
+        function openClawsonChat() {
+            // Try local first, fallback to tunnel
+            window.open(OPENCLAW_LOCAL + '/chat', '_blank', 'width=800,height=600');
         }
         
         async function sendClawsonMessage() {
@@ -2410,26 +2400,26 @@
             const message = input.value.trim();
             if (!message) return;
             
-            // Add message locally for immediate feedback
+            // Add message locally
             addClawsonMessage(message, 'user');
             input.value = '';
             
-            // Show info about iframe mode
-            addClawsonMessage("I'm showing the OpenClaw chat interface above. If you don't see it, click the header to expand!", 'bot');
+            // Show button to open full chat
+            const messagesDiv = document.getElementById('clawson-chat-messages');
+            const btnDiv = document.createElement('div');
+            btnDiv.className = 'clawson-message clawson-bot';
+            btnDiv.innerHTML = `
+                <div class="clawson-message-content" style="background: #f0f0f5; border: 1px dashed #9945FF;">
+                    <div style="margin-bottom: 8px;">💬 Message recorded locally</div>
+                    <button onclick="openClawsonChat()" style="background: linear-gradient(135deg, #9945FF, #FF6B9D); color: white; border: none; padding: 8px 16px; border-radius: 16px; cursor: pointer; font-size: 12px;">
+                        🦞 Open Full Chat
+                    </button>
+                </div>
+                <div class="clawson-message-time">${new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}</div>
+            `;
+            messagesDiv.appendChild(btnDiv);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
         }
-        
-        // Load iframe when chat opens
-        let iframeLoaded = false;
-        document.getElementById('clawson-chat-widget').addEventListener('click', function(e) {
-            if (e.target.closest('.clawson-chat-header') && !iframeLoaded) {
-                setTimeout(() => {
-                    if (clawsonChatExpanded) {
-                        loadClawsonIframe();
-                        iframeLoaded = true;
-                    }
-                }, 300);
-            }
-        });
         function addClawsonMessage(text, sender) {
             const messagesDiv = document.getElementById('clawson-chat-messages');
             const time = new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
