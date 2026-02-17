@@ -530,16 +530,30 @@
         }
         
         /* GANTT Tramlines */
-        .gantt-row-tramline {
+        .gantt-chart {
+            display: grid;
+            grid-template-columns: 150px repeat(8, 140px);
+            min-width: 900px;
+            background: white;
+        }
+        
+        .gantt-chart-row {
             display: contents;
         }
         
-        .gantt-row-tramline .gantt-cell {
-            border-bottom: 3px solid #e0e0e5;
+        .gantt-chart-row {
+            display: contents;
         }
         
-        .gantt-row-tramline:last-child .gantt-cell {
-            border-bottom: 2px solid #e0e0e5;
+        .gantt-chart-row:not(.header-row):not(.last-row) .gantt-lane-label,
+        .gantt-chart-row:not(.header-row):not(.last-row) .gantt-cell {
+            border-bottom: 3px solid #c0c0c5;
+        }
+        
+        .gantt-chart-row.header-row .gantt-header {
+            position: sticky;
+            top: 0;
+            z-index: 10;
         }
         
         .gantt-lane-label {
@@ -547,10 +561,12 @@
             padding: 16px;
             font-weight: 600;
             font-size: 13px;
-            border-bottom: 3px solid #e0e0e5;
+            border-bottom: 2px solid #e0e0e5;
+            border-right: 2px solid #e0e0e5;
             display: flex;
             align-items: center;
             gap: 8px;
+            min-height: 80px;
         }
         
         .gantt-lane-label.priority-p0 { border-left: 4px solid #ef4444; background: #fef2f2; }
@@ -930,25 +946,28 @@
             // Build HTML
             let html = '<div class="gantt-chart">';
             
-            // Header
+            // Header row
+            html += '<div class="gantt-chart-row header-row">';
             const headerLabel = groupBy === 'priority' ? 'Priority' : groupBy === 'category' ? 'Category' : 'Stakeholder';
             html += `<div class="gantt-header">${headerLabel}</div>`;
             dateColumns.forEach(col => {
                 html += `<div class="gantt-header">${col.label}</div>`;
             });
+            html += '</div>';
             
-            // Group rows with tramlines
+            // Group rows with tramlines - wrap each row in display:contents container
             const groupEntries = Object.entries(groups).filter(([_, g]) => g.tasks.length > 0);
             
             groupEntries.forEach(([groupKey, group], index) => {
                 const isLast = index === groupEntries.length - 1;
-                const tramlineClass = isLast ? '' : 'gantt-row-tramline';
+                const rowClass = isLast ? 'gantt-chart-row last-row' : 'gantt-chart-row';
                 
+                html += `<div class="${rowClass}">`;
                 html += `<div class="gantt-lane-label ${group.labelClass}">${group.name} (${group.tasks.length})</div>`;
                 
                 dateColumns.forEach(col => {
                     const cellClass = col.key;
-                    html += `<div class="gantt-cell ${cellClass} ${tramlineClass ? tramlineClass + ' ' : ''}">`;
+                    html += `<div class="gantt-cell ${cellClass}">`;
                     
                     const cellTasks = group.tasks.filter(task => {
                         if (!task.due_date) return false;
@@ -986,6 +1005,8 @@
                     
                     html += '</div>';
                 });
+                
+                html += '</div>'; // Close gantt-chart-row
             });
             
             html += '</div>';
