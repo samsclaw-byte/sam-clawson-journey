@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-02-17T09:45:08.136621",
-  "workout_count": 4,
-  "total_minutes": 108.75999999999999,
-  "avg_strain": 11.5,
+  "generated_at": "2026-02-17T09:51:08.665430",
+  "workout_count": 5,
+  "total_minutes": 137.76,
+  "avg_strain": 10.8,
   "exercise_types": {
     "Kettlebell": {
       "minutes": 33.01,
@@ -18,6 +18,11 @@
       "minutes": 42.650000000000006,
       "count": 2,
       "type": "Active Recovery"
+    },
+    "Kettlebell upper body workout (Zones: 0=11:15, 1=16:15, 2=1:13)": {
+      "minutes": 29,
+      "count": 1,
+      "type": "Hard"
     }
   },
   "workouts": [
@@ -41,6 +46,13 @@
       "exercises": "Swimming",
       "duration": 19.55,
       "strain": 10.6
+    },
+    {
+      "date": "2026-02-16",
+      "type": "Hard",
+      "exercises": "Kettlebell upper body workout (Zones: 0=11:15, 1=16:15, 2=1:13)",
+      "duration": 29,
+      "strain": 8.1
     },
     {
       "date": "2026-02-15",
