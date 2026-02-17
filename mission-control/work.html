@@ -2386,58 +2386,51 @@
         function handleClawsonKeyPress(event) {
             if (event.key === 'Enter') sendClawsonMessage();
         }
-        // OpenClaw Gateway configuration - HTTP Polling Only
-        const OPENCLAW_URL = 'https://among-garbage-entirely-mainland.trycloudflare.com';
-        let clawsonSession = 'mission-control-' + Math.random().toString(36).substr(2, 9);
-        let lastMessageTime = 0;
+        // OpenClaw Gateway - Iframe Mode
+        // The Gateway serves a web UI, so we iframe it
+        const TUNNEL_URL = 'https://among-garbage-entirely-mainland.trycloudflare.com';
+        
+        function loadClawsonIframe() {
+            const container = document.getElementById('clawson-chat-messages');
+            container.innerHTML = `
+                <div style="height: 100%; display: flex; flex-direction: column;">
+                    <div style="background: #f0f0f5; padding: 8px; font-size: 12px; text-align: center; color: #666;">
+                        Connected to Clawson via tunnel
+                    </div>
+                    <iframe 
+                        src="${TUNNEL_URL}/chat?session=mission-control-webchat" 
+                        style="flex: 1; border: none; width: 100%;"
+                        sandbox="allow-same-origin allow-scripts allow-forms"
+                    ></iframe>
+                </div>
+            `;
+        }
         
         async function sendClawsonMessage() {
             const input = document.getElementById('clawson-chat-input');
             const message = input.value.trim();
             if (!message) return;
             
+            // Add message locally for immediate feedback
             addClawsonMessage(message, 'user');
             input.value = '';
-            showClawsonTyping();
-            lastMessageTime = Date.now();
             
-            try {
-                // Try the chat endpoint
-                const response = await fetch(`${OPENCLAW_URL}/api/chat`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        text: message,
-                        session: clawsonSession,
-                        source: 'mission-control-webchat'
-                    })
-                });
-                
-                if (!response.ok) {
-                    // Try alternate endpoint
-                    const altResponse = await fetch(`${OPENCLAW_URL}/chat`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ message: message })
-                    });
-                    
-                    if (!altResponse.ok) throw new Error('All endpoints failed');
-                    
-                    const data = await altResponse.text();
-                    hideClawsonTyping();
-                    addClawsonMessage(data || 'Received!', 'bot');
-                } else {
-                    const data = await response.json();
-                    hideClawsonTyping();
-                    addClawsonMessage(data.text || data.reply || data.message || 'Got it!', 'bot');
-                }
-                
-            } catch (error) {
-                console.error('Failed to send message:', error);
-                hideClawsonTyping();
-                addClawsonMessage("I can see your message but can't reply right now. The OpenClaw Gateway connection isn't working. Try the local chat at localhost:18789", 'bot');
-            }
+            // Show info about iframe mode
+            addClawsonMessage("I'm showing the OpenClaw chat interface above. If you don't see it, click the header to expand!", 'bot');
         }
+        
+        // Load iframe when chat opens
+        let iframeLoaded = false;
+        document.getElementById('clawson-chat-widget').addEventListener('click', function(e) {
+            if (e.target.closest('.clawson-chat-header') && !iframeLoaded) {
+                setTimeout(() => {
+                    if (clawsonChatExpanded) {
+                        loadClawsonIframe();
+                        iframeLoaded = true;
+                    }
+                }, 300);
+            }
+        });
         function addClawsonMessage(text, sender) {
             const messagesDiv = document.getElementById('clawson-chat-messages');
             const time = new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
