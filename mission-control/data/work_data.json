@@ -55,6 +55,24 @@
       "created": ""
     },
     {
+      "id": "recEtZ6cKp0hROJ4b",
+      "name": "Configure OpenClaw Gateway for seamless Mission Control integration",
+      "detail": "Set up OpenClaw Gateway to allow seamless chat integration from Mission Control widget. Options: 1) Configure gateway auth to allow localhost bypass, 2) Set up allowed origins for clawson-mission-control.pages.dev, 3) Create API endpoint for widget communication, 4) Document authentication flow. Currently blocked by gateway token requirement. See config in ~/.openclaw/ or gateway settings.",
+      "type": "Task",
+      "tat": 7,
+      "due_date": "2026-02-24",
+      "category": "Operations",
+      "source": "In Person",
+      "project": "Mission Control Infrastructure",
+      "stakeholder": "Sam",
+      "assigned": "Me",
+      "status": "Todo",
+      "priority": "P2 - Medium",
+      "effort": "Medium",
+      "blocked_reason": "Needs OpenClaw Gateway configuration review",
+      "created": ""
+    },
+    {
       "id": "reccz2XJDlZrylyZj",
       "name": "Complete my success tasks",
       "detail": "Finish assigned success tasks",
@@ -410,9 +428,9 @@
     }
   ],
   "recurring": [],
-  "last_updated": "2026-02-17T23:42:32.421294",
+  "last_updated": "2026-02-18T00:12:31.662382",
   "summary": {
-    "total_active": 25,
+    "total_active": 26,
     "urgent": 0,
     "blocked": 0,
     "due_this_week": 5
