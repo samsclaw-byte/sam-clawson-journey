@@ -369,23 +369,53 @@
             margin-bottom: 16px;
         }
         
-        /* GANTT Chart Styles */
+        /* GANTT Chart Styles - Fixed Column Layout */
         .gantt-container {
-            overflow-x: auto;
             margin-top: 20px;
             border: 1px solid rgba(153, 69, 255, 0.2);
             border-radius: 12px;
             background: #fafafa;
+            overflow: hidden;
         }
         
-        .gantt-chart {
-            display: grid;
-            grid-template-columns: 150px repeat(8, 140px);
-            min-width: 900px;
+        .gantt-wrapper {
+            display: flex;
+            width: 100%;
         }
         
-        .gantt-header {
+        .gantt-labels-col {
+            width: 150px;
+            flex-shrink: 0;
+            background: #f5f5f7;
+            border-right: 2px solid #d0d0d5;
+            z-index: 5;
+        }
+        
+        .gantt-dates-col {
+            flex: 1;
+            overflow-x: auto;
+        }
+        
+        .gantt-labels-header {
             background: linear-gradient(135deg, #9945FF 0%, #FF6B9D 100%);
+            color: white;
+            padding: 12px 16px;
+            font-weight: 600;
+            font-size: 13px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .gantt-dates-header {
+            display: flex;
+            background: linear-gradient(135deg, #9945FF 0%, #FF6B9D 100%);
+            height: 42px;
+        }
+        
+        .gantt-date-header-cell {
+            width: 140px;
+            flex-shrink: 0;
             color: white;
             padding: 12px;
             font-weight: 600;
@@ -394,43 +424,56 @@
             border-right: 1px solid rgba(255,255,255,0.3);
         }
         
-        .gantt-header:first-child {
-            text-align: left;
-            padding-left: 16px;
+        .gantt-row {
+            display: flex;
         }
         
-        .gantt-priority-row {
-            display: contents;
+        .gantt-row:not(:last-child) .gantt-label-cell,
+        .gantt-row:not(:last-child) .gantt-date-cell {
+            border-bottom: 3px solid #c0c0c5;
         }
         
-        .gantt-priority-label {
-            background: #f0f0f5;
+        .gantt-label-cell {
+            width: 150px;
+            flex-shrink: 0;
             padding: 16px;
             font-weight: 600;
             font-size: 13px;
-            border-bottom: 2px solid #e0e0e5;
             display: flex;
             align-items: center;
             gap: 8px;
+            min-height: 80px;
+            border-right: 2px solid #e0e0e5;
         }
         
-        .gantt-priority-label.p0 { border-left: 4px solid #ef4444; }
-        .gantt-priority-label.p1 { border-left: 4px solid #f59e0b; }
-        .gantt-priority-label.p2 { border-left: 4px solid #3b82f6; }
-        .gantt-priority-label.p3 { border-left: 4px solid #6b7280; }
+        .gantt-dates-row {
+            display: flex;
+        }
         
-        .gantt-cell {
+        .gantt-date-cell {
+            width: 140px;
+            flex-shrink: 0;
             border-right: 1px solid #e0e0e5;
-            border-bottom: 2px solid #e0e0e5;
             padding: 8px;
             min-height: 80px;
             background: white;
-            position: relative;
         }
         
-        .gantt-cell.overdue { background: #FFF5F5; }
-        .gantt-cell.today { background: #FFF9E6; }
-        .gantt-cell.tomorrow { background: #F0F9FF; }
+        .gantt-date-cell.overdue { background: #FFF5F5; }
+        .gantt-date-cell.today { background: #FFF9E6; }
+        .gantt-date-cell.tomorrow { background: #F0F9FF; }
+        
+        /* Lane label colors */
+        .gantt-label-cell.priority-p0 { border-left: 4px solid #ef4444; background: #fef2f2; }
+        .gantt-label-cell.priority-p1 { border-left: 4px solid #f59e0b; background: #fffbeb; }
+        .gantt-label-cell.priority-p2 { border-left: 4px solid #3b82f6; background: #eff6ff; }
+        .gantt-label-cell.priority-p3 { border-left: 4px solid #6b7280; background: #f9fafb; }
+        
+        .gantt-label-cell.category-analysis { border-left: 4px solid #8b5cf6; background: #faf5ff; }
+        .gantt-label-cell.category-financial { border-left: 4px solid #10b981; background: #f0fdf4; }
+        .gantt-label-cell.category-admin { border-left: 4px solid #64748b; background: #f8fafc; }
+        .gantt-label-cell.category-operations { border-left: 4px solid #f97316; background: #fff7ed; }
+        .gantt-label-cell.category-legal { border-left: 4px solid #ef4444; background: #fef2f2; }
         
         .gantt-task-card {
             background: white;
@@ -442,7 +485,6 @@
             font-size: 12px;
             cursor: pointer;
             transition: all 0.2s;
-            position: relative;
         }
         
         .gantt-task-card:hover {
@@ -487,6 +529,7 @@
             justify-content: center;
             color: #ccc;
             font-size: 11px;
+            height: 100%;
         }
         
         /* GANTT Grouping Buttons */
@@ -529,56 +572,7 @@
             border-color: transparent;
         }
         
-        /* GANTT Tramlines */
-        .gantt-chart {
-            display: grid;
-            grid-template-columns: 150px repeat(8, 140px);
-            min-width: 900px;
-            background: white;
-        }
-        
-        .gantt-chart-row {
-            display: contents;
-        }
-        
-        .gantt-chart-row {
-            display: contents;
-        }
-        
-        .gantt-chart-row:not(.header-row):not(.last-row) .gantt-lane-label,
-        .gantt-chart-row:not(.header-row):not(.last-row) .gantt-cell {
-            border-bottom: 3px solid #c0c0c5;
-        }
-        
-        .gantt-chart-row.header-row .gantt-header {
-            position: sticky;
-            top: 0;
-            z-index: 10;
-        }
-        
-        .gantt-lane-label {
-            background: #f0f0f5;
-            padding: 16px;
-            font-weight: 600;
-            font-size: 13px;
-            border-bottom: 2px solid #e0e0e5;
-            border-right: 2px solid #e0e0e5;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            min-height: 80px;
-        }
-        
-        .gantt-lane-label.priority-p0 { border-left: 4px solid #ef4444; background: #fef2f2; }
-        .gantt-lane-label.priority-p1 { border-left: 4px solid #f59e0b; background: #fffbeb; }
-        .gantt-lane-label.priority-p2 { border-left: 4px solid #3b82f6; background: #eff6ff; }
-        .gantt-lane-label.priority-p3 { border-left: 4px solid #6b7280; background: #f9fafb; }
-        
-        .gantt-lane-label.category-analysis { border-left: 4px solid #8b5cf6; background: #faf5ff; }
-        .gantt-lane-label.category-financial { border-left: 4px solid #10b981; background: #f0fdf4; }
-        .gantt-lane-label.category-admin { border-left: 4px solid #64748b; background: #f8fafc; }
-        .gantt-lane-label.category-operations { border-left: 4px solid #f97316; background: #fff7ed; }
-        .gantt-lane-label.category-legal { border-left: 4px solid #ef4444; background: #fef2f2; }
+        /* Old grid-based GANTT styles removed - using flex layout instead */
         
         @media (max-width: 768px) {
             .nav { gap: 8px; }
@@ -943,31 +937,34 @@
                 });
             });
             
-            // Build HTML
-            let html = '<div class="gantt-chart">';
-            
-            // Header row
-            html += '<div class="gantt-chart-row header-row">';
+            // Build HTML - Two column layout with fixed left column
             const headerLabel = groupBy === 'priority' ? 'Priority' : groupBy === 'category' ? 'Category' : 'Stakeholder';
-            html += `<div class="gantt-header">${headerLabel}</div>`;
-            dateColumns.forEach(col => {
-                html += `<div class="gantt-header">${col.label}</div>`;
-            });
-            html += '</div>';
-            
-            // Group rows with tramlines - wrap each row in display:contents container
             const groupEntries = Object.entries(groups).filter(([_, g]) => g.tasks.length > 0);
+            
+            // Build labels column (fixed)
+            let labelsHtml = '<div class="gantt-labels-header">' + headerLabel + '</div>';
+            
+            // Build dates column (scrollable)
+            let datesHeaderHtml = '<div class="gantt-dates-header">';
+            dateColumns.forEach(col => {
+                datesHeaderHtml += `<div class="gantt-date-header-cell">${col.label}</div>`;
+            });
+            datesHeaderHtml += '</div>';
+            
+            let datesRowsHtml = '';
             
             groupEntries.forEach(([groupKey, group], index) => {
                 const isLast = index === groupEntries.length - 1;
-                const rowClass = isLast ? 'gantt-chart-row last-row' : 'gantt-chart-row';
+                const rowBorderClass = isLast ? '' : 'style="border-bottom: 3px solid #c0c0c5;"';
                 
-                html += `<div class="${rowClass}">`;
-                html += `<div class="gantt-lane-label ${group.labelClass}">${group.name} (${group.tasks.length})</div>`;
+                // Label cell
+                labelsHtml += `<div class="gantt-label-cell ${group.labelClass}" ${rowBorderClass}>${group.name} (${group.tasks.length})</div>`;
+                
+                // Dates row
+                datesRowsHtml += `<div class="gantt-dates-row" ${rowBorderClass}>`;
                 
                 dateColumns.forEach(col => {
                     const cellClass = col.key;
-                    html += `<div class="gantt-cell ${cellClass}">`;
                     
                     const cellTasks = group.tasks.filter(task => {
                         if (!task.due_date) return false;
@@ -984,14 +981,16 @@
                         return false;
                     });
                     
+                    datesRowsHtml += `<div class="gantt-date-cell ${cellClass}">`;
+                    
                     if (cellTasks.length === 0) {
-                        html += '<div class="gantt-empty-cell">-</div>';
+                        datesRowsHtml += '<div class="gantt-empty-cell">-</div>';
                     } else {
                         cellTasks.forEach(task => {
                             const priorityClass = task.priority ? task.priority.toLowerCase() : 'p2';
                             const daysRemaining = task.due_date ? Math.floor((new Date(task.due_date) - new Date()) / (1000 * 60 * 60 * 24)) : 999;
                             
-                            html += `
+                            datesRowsHtml += `
                                 <div class="gantt-task-card ${priorityClass}">
                                     <div class="gantt-task-name">${task.name}</div>
                                     <div class="gantt-task-meta">
@@ -1003,13 +1002,25 @@
                         });
                     }
                     
-                    html += '</div>';
+                    datesRowsHtml += '</div>';
                 });
                 
-                html += '</div>'; // Close gantt-chart-row
+                datesRowsHtml += '</div>'; // Close gantt-dates-row
             });
             
-            html += '</div>';
+            // Assemble final HTML
+            const html = `
+                <div class="gantt-wrapper">
+                    <div class="gantt-labels-col">
+                        ${labelsHtml}
+                    </div>
+                    <div class="gantt-dates-col">
+                        ${datesHeaderHtml}
+                        ${datesRowsHtml}
+                    </div>
+                </div>
+            `;
+            
             container.innerHTML = html;
         }
         
