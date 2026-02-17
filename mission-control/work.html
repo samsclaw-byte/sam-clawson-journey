@@ -892,6 +892,120 @@
             background: rgba(153, 69, 255, 0.1);
         }
         
+        /* Deliverables GANTT */
+        .deliverables-gantt {
+            margin: 16px 0;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .deliverables-gantt-row {
+            display: flex;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .deliverables-gantt-row:last-child {
+            border-bottom: none;
+        }
+        
+        .deliverables-gantt-label {
+            width: 120px;
+            padding: 12px;
+            background: #f9fafb;
+            font-size: 12px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-shrink: 0;
+        }
+        
+        .deliverables-gantt-row.not-started .deliverables-gantt-label {
+            background: #f3f4f6;
+            color: #6b7280;
+        }
+        
+        .deliverables-gantt-row.in-progress .deliverables-gantt-label {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        
+        .deliverables-gantt-row.review .deliverables-gantt-label {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+        
+        .deliverables-gantt-row.complete .deliverables-gantt-label {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        
+        .deliverables-gantt-row.blocked .deliverables-gantt-label {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+        
+        .deliverables-gantt-lane {
+            flex: 1;
+            padding: 8px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            background: white;
+            min-height: 50px;
+        }
+        
+        .deliverable-gantt-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            padding: 8px 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            min-width: 150px;
+            max-width: 200px;
+        }
+        
+        .deliverable-gantt-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-color: #9945FF;
+        }
+        
+        .deliverable-gantt-card.not-started {
+            border-left: 3px solid #9ca3af;
+        }
+        
+        .deliverable-gantt-card.in-progress {
+            border-left: 3px solid #f59e0b;
+        }
+        
+        .deliverable-gantt-card.review {
+            border-left: 3px solid #3b82f6;
+        }
+        
+        .deliverable-gantt-card.complete {
+            border-left: 3px solid #10b981;
+            opacity: 0.8;
+        }
+        
+        .deliverable-gantt-card.blocked {
+            border-left: 3px solid #ef4444;
+            background: #fef2f2;
+        }
+        
+        .deliverable-gantt-name {
+            font-weight: 600;
+            font-size: 13px;
+            margin-bottom: 4px;
+        }
+        
+        .deliverable-gantt-meta {
+            font-size: 11px;
+            color: #6b7280;
+        }
+        
         /* GANTT Grouping Buttons */
         .gantt-grouping {
             display: flex;
@@ -1061,6 +1175,8 @@
                 </div>
                 <form id="deliverable-form" onsubmit="submitDeliverable(event)">
                     <input type="hidden" id="deliverable-project-id">
+                    <input type="hidden" id="deliverable-is-edit" value="false">
+                    <input type="hidden" id="deliverable-original-name">
                     
                     <div class="form-group">
                         <label>Name</label>
@@ -1092,8 +1208,8 @@
                         </div>
                         
                         <div class="form-group">
-                            <label>Weight (%)</label>
-                            <input type="number" id="deliverable-weight" min="1" max="100" value="10">
+                            <label>Progress (%)</label>
+                            <input type="number" id="deliverable-progress" min="0" max="100" value="0">
                         </div>
                     </div>
                     
@@ -1104,7 +1220,7 @@
                     
                     <div class="form-actions">
                         <button type="button" class="btn-secondary" onclick="closeDeliverableModal()">Cancel</button>
-                        <button type="submit" class="btn-primary">Add Deliverable</button>
+                        <button type="submit" class="btn-primary" id="deliverable-submit-btn">Add Deliverable</button>
                     </div>
                 </form>
             </div>
@@ -1479,6 +1595,34 @@
                             <h3>📋 Deliverables (${deliverables.length})</h3>
                             <button class="add-deliverable-btn" onclick="showAddDeliverableModal('${project.id}')">+ Add Deliverable</button>
                         </div>
+                        
+                        <!-- Deliverables Status GANTT -->
+                        <div class="deliverables-gantt">
+                            ${['Not Started', 'In Progress', 'Review', 'Complete', 'Blocked'].map(status => {
+                                const statusDeliverables = deliverables.filter(d => d.status === status);
+                                if (statusDeliverables.length === 0) return '';
+                                const statusClass = status.toLowerCase().replace(' ', '-');
+                                const statusEmoji = status === 'Complete' ? '✅' : status === 'In Progress' ? '🔄' : status === 'Review' ? '👀' : status === 'Blocked' ? '🚫' : '⏳';
+                                return `
+                                <div class="deliverables-gantt-row ${statusClass}">
+                                    <div class="deliverables-gantt-label">${statusEmoji} ${status}</div>
+                                    <div class="deliverables-gantt-lane">
+                                        ${statusDeliverables.map(d => `
+                                            <div class="deliverable-gantt-card ${statusClass}" onclick="showEditDeliverableModal('${project.id}', '${d.name}', '${d.status}', '${d.owner || ''}', '${d.due_date || ''}', ${d.progress || 0}, '${(d.notes || '').replace(/'/g, "\\'")}')">
+                                                <div class="deliverable-gantt-name">${d.name}</div>
+                                                <div class="deliverable-gantt-meta">
+                                                    👤 ${d.owner || 'TBD'}
+                                                    ${d.due_date ? `• 📅 ${new Date(d.due_date).toLocaleDateString('en-GB', {day: 'numeric', month: 'short'})}` : ''}
+                                                    ${d.progress ? `• ${d.progress}%` : ''}
+                                                </div>
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                </div>
+                                `;
+                            }).join('')}
+                        </div>
+                        
                         ${deliverables.map(d => {
                             const delivStatus = d.status ? d.status.toLowerCase().replace(' ', '-') : 'not-started';
                             const isComplete = d.status === 'Complete';
@@ -1563,7 +1707,26 @@
         // Deliverable Modal Functions
         function showAddDeliverableModal(projectId) {
             document.getElementById('deliverable-project-id').value = projectId;
+            document.getElementById('deliverable-is-edit').value = 'false';
+            document.getElementById('deliverable-original-name').value = '';
             document.getElementById('deliverable-form').reset();
+            document.querySelector('#deliverable-modal h3').textContent = '📋 Add Deliverable';
+            document.getElementById('deliverable-submit-btn').textContent = 'Add Deliverable';
+            document.getElementById('deliverable-modal').style.display = 'flex';
+        }
+        
+        function showEditDeliverableModal(projectId, name, status, owner, dueDate, progress, notes) {
+            document.getElementById('deliverable-project-id').value = projectId;
+            document.getElementById('deliverable-is-edit').value = 'true';
+            document.getElementById('deliverable-original-name').value = name;
+            document.getElementById('deliverable-name').value = name;
+            document.getElementById('deliverable-status').value = status;
+            document.getElementById('deliverable-owner').value = owner || '';
+            document.getElementById('deliverable-due-date').value = dueDate || '';
+            document.getElementById('deliverable-progress').value = progress || 0;
+            document.getElementById('deliverable-notes').value = notes || '';
+            document.querySelector('#deliverable-modal h3').textContent = '✏️ Edit Deliverable';
+            document.getElementById('deliverable-submit-btn').textContent = 'Update Deliverable';
             document.getElementById('deliverable-modal').style.display = 'flex';
         }
         
@@ -1575,33 +1738,56 @@
             event.preventDefault();
             
             const projectId = document.getElementById('deliverable-project-id').value;
+            const isEdit = document.getElementById('deliverable-is-edit').value === 'true';
+            const originalName = document.getElementById('deliverable-original-name').value;
+            
             const data = {
                 name: document.getElementById('deliverable-name').value,
                 status: document.getElementById('deliverable-status').value,
                 owner: document.getElementById('deliverable-owner').value,
                 dueDate: document.getElementById('deliverable-due-date').value,
-                weight: parseInt(document.getElementById('deliverable-weight').value),
+                progress: parseInt(document.getElementById('deliverable-progress').value),
                 notes: document.getElementById('deliverable-notes').value
             };
             
-            // For now, show an alert since we need the Cloudflare Worker deployed
-            // In production, this would call the Worker
-            alert(`Deliverable "${data.name}" added!\n\nNote: To save to Airtable, you need to deploy the Cloudflare Worker.\n\nSee: workers/work-data-updater.js`);
+            const action = isEdit ? 'updated' : 'added';
+            alert(`Deliverable "${data.name}" ${action}!\n\nNote: To save to Airtable, deploy the Cloudflare Worker.\n\nSee: workers/work-data-updater.js`);
             
             closeDeliverableModal();
             
-            // Add to local data for immediate feedback
+            // Update local data
             const project = workData.projects.find(p => p.id === projectId);
             if (project) {
-                project.deliverables.push({
-                    name: data.name,
-                    status: data.status,
-                    owner: data.owner,
-                    due_date: data.dueDate,
-                    weight: data.weight,
-                    progress: 0,
-                    notes: data.notes
-                });
+                if (isEdit) {
+                    // Update existing
+                    const deliv = project.deliverables.find(d => d.name === originalName);
+                    if (deliv) {
+                        deliv.name = data.name;
+                        deliv.status = data.status;
+                        deliv.owner = data.owner;
+                        deliv.due_date = data.dueDate;
+                        deliv.progress = data.progress;
+                        deliv.notes = data.notes;
+                    }
+                } else {
+                    // Add new
+                    project.deliverables.push({
+                        name: data.name,
+                        status: data.status,
+                        owner: data.owner,
+                        due_date: data.dueDate,
+                        progress: data.progress,
+                        weight: 10,
+                        notes: data.notes
+                    });
+                }
+                
+                // Recalculate project progress
+                if (project.deliverables.length > 0) {
+                    const avgProgress = project.deliverables.reduce((sum, d) => sum + (d.progress || 0), 0) / project.deliverables.length;
+                    project.progress = Math.round(avgProgress);
+                }
+                
                 renderProjects();
             }
         }
