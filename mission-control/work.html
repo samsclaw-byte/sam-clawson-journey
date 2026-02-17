@@ -1141,6 +1141,7 @@
             try {
                 const response = await fetch('data/work_data.json');
                 workData = await response.json();
+                console.log('Work data loaded:', workData);
                 renderOverview();
                 renderTasks();
                 renderProjects();
@@ -1149,8 +1150,9 @@
             } catch (error) {
                 console.error('Error loading work data:', error);
                 document.querySelectorAll('.empty-state p').forEach(el => {
-                    el.textContent = 'Error loading data. Please try again later.';
+                    el.textContent = 'Error: ' + error.message;
                 });
+                document.getElementById('project-list').innerHTML = '<div class="empty-state"><div class="empty-state-icon">⚠️</div><p>Error: ' + error.message + '</p></div>';
             }
         }
         
@@ -1436,6 +1438,7 @@
                 return;
             }
             
+            try {
             projectList.innerHTML = workData.projects.map(project => {
                 const statusClass = project.status ? project.status.toLowerCase().replace(' ', '-') : 'planning';
                 const deliverables = project.deliverables || [];
@@ -1470,6 +1473,7 @@
                         <div class="project-progress-text">${project.progress || 0}% Complete</div>
                     </div>
                     
+                    ${deliverables.length >= 0 ? `
                     <div class="deliverables-section">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
                             <h3>📋 Deliverables (${deliverables.length})</h3>
@@ -1524,6 +1528,10 @@
                 </div>
                 `;
             }).join('');
+            } catch (err) {
+                console.error('Error in renderProjects:', err);
+                projectList.innerHTML = '<div class="empty-state"><div class="empty-state-icon">⚠️</div><p>Error rendering projects: ' + err.message + '</p></div>';
+            }
         }
         
         // Render Recurring
