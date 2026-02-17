@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-02-17T03:03:05.809839",
+  "generated_at": "2026-02-17T04:18:02.602999",
   "today": {
     "health": {
       "today_calories": 0,
@@ -14,7 +14,48 @@
       "exercise": false,
       "creatine": false
     },
-    "priority_tasks": []
+    "priority_tasks": [
+      {
+        "id": "recxIjbjIk2R4IL2E",
+        "name": "Renew CIMA membership",
+        "category": "Productivity",
+        "due_status": "today",
+        "days_remaining": 0,
+        "status": "Not Started"
+      },
+      {
+        "id": "recZOSWGvUtJn4Y8S",
+        "name": "Link to Gmail and forward nursery dates and times",
+        "category": "\ud83d\udc68\u200d\ud83d\udc69\u200d\ud83d\udc67\u200d\ud83d\udc66 Family",
+        "due_status": "today",
+        "days_remaining": 0,
+        "status": "Not Started"
+      },
+      {
+        "id": "rec82QLASN6uQUiHu",
+        "name": "Complete Google Calendar update",
+        "category": "\ud83d\udcbc Work",
+        "due_status": "today",
+        "days_remaining": 0,
+        "status": "Not Started"
+      },
+      {
+        "id": "reciYWtF73kNe3qFP",
+        "name": "Give Clawson a voice to respond to voice messages",
+        "category": "\ud83d\udd27 System Enhancement",
+        "due_status": "today",
+        "days_remaining": 0,
+        "status": "Not Started"
+      },
+      {
+        "id": "recl87W1nkafNEROB",
+        "name": "Review cron jobs",
+        "category": "\ud83d\udd27 System Enhancement",
+        "due_status": "today",
+        "days_remaining": 0,
+        "status": "Not Started"
+      }
+    ]
   },
   "trends": {
     "habit_days": [
