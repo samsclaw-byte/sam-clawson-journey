@@ -10,9 +10,9 @@ from datetime import datetime, timedelta
 def fetch_work_data():
     AIRTABLE_KEY = open('/home/samsclaw/.config/airtable/api_key').read().strip()
     
-    # Using Productivity base - creating new table for Work Tasks
-    PRODUCTIVITY_BASE = 'appvUbV8IeGhxmcPn'
-    WORK_TABLE = 'tblWorkTasks'  # We'll need to create this
+    # TAT Work Tasks table
+    PRODUCTIVITY_BASE = 'appuWxergK3HUJd8i'  # Your new Work base
+    WORK_TABLE = 'tblqM03kLHq9VjoCd'  # TAT Work Tasks table
     
     url = f'https://api.airtable.com/v0/{PRODUCTIVITY_BASE}/{WORK_TABLE}'
     headers = {'Authorization': f'Bearer {AIRTABLE_KEY}'}
@@ -40,7 +40,7 @@ def fetch_work_data():
             
             item = {
                 'id': record['id'],
-                'name': fields.get('Item Name', ''),
+                'name': fields.get('Name', ''),
                 'detail': fields.get('Detail', ''),
                 'type': item_type,
                 'tat': fields.get('TAT Days', 3),
