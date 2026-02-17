@@ -7,11 +7,6 @@
       "calories": 650
     },
     {
-      "type": "Breakfast",
-      "items": "One glass of water, three egg omelette with cheese, two piec...",
-      "calories": 650
-    },
-    {
       "type": "Lunch",
       "items": "Lamb biryani (estimated)",
       "calories": 650
@@ -37,11 +32,11 @@
       "calories": 150
     }
   ],
-  "total_calories": 3130,
+  "total_calories": 2480,
   "macros": {
-    "protein": 115,
-    "carbs": 364.4,
-    "fat": 117.0,
+    "protein": 83,
+    "carbs": 349.2,
+    "fat": 115.5,
     "fiber": 15.1
   }
 }
