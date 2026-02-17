@@ -509,6 +509,195 @@
             height: 100%;
         }
         
+        /* Project Card Styles */
+        .project-full-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 20px rgba(153, 69, 255, 0.08);
+            border: 1px solid rgba(153, 69, 255, 0.1);
+        }
+        
+        .project-full-card h2 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #1a1a2e;
+        }
+        
+        .project-meta-bar {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+        
+        .project-status-badge {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .project-status-badge.planning { background: #e5e7eb; color: #374151; }
+        .project-status-badge.active { background: #d1fae5; color: #065f46; }
+        .project-status-badge.on-hold { background: #fef3c7; color: #92400e; }
+        .project-status-badge.complete { background: #dbeafe; color: #1e40af; }
+        
+        .project-lead {
+            font-size: 13px;
+            color: #666;
+        }
+        
+        .project-progress-section {
+            margin-bottom: 20px;
+        }
+        
+        .project-progress-bar {
+            height: 8px;
+            background: #e5e7eb;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+        
+        .project-progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #9945FF, #FF6B9D);
+            border-radius: 4px;
+            transition: width 0.3s;
+        }
+        
+        .project-progress-text {
+            font-size: 12px;
+            color: #666;
+            font-weight: 500;
+        }
+        
+        /* Deliverables Mini-GANTT */
+        .deliverables-section {
+            margin: 20px 0;
+            padding: 16px;
+            background: #fafafa;
+            border-radius: 12px;
+        }
+        
+        .deliverables-section h3 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #1a1a2e;
+        }
+        
+        .deliverable-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: white;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            border-left: 3px solid #9945FF;
+        }
+        
+        .deliverable-item.complete { border-left-color: #10b981; }
+        .deliverable-item.in-progress { border-left-color: #f59e0b; }
+        .deliverable-item.blocked { border-left-color: #ef4444; background: #fef2f2; }
+        
+        .deliverable-checkbox {
+            width: 18px;
+            height: 18px;
+            border: 2px solid #9945FF;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            flex-shrink: 0;
+        }
+        
+        .deliverable-checkbox.checked {
+            background: #10b981;
+            border-color: #10b981;
+            color: white;
+        }
+        
+        .deliverable-info {
+            flex: 1;
+        }
+        
+        .deliverable-name {
+            font-weight: 600;
+            font-size: 13px;
+            margin-bottom: 2px;
+        }
+        
+        .deliverable-meta {
+            font-size: 11px;
+            color: #666;
+        }
+        
+        .deliverable-progress {
+            width: 60px;
+        }
+        
+        .deliverable-progress-bar {
+            height: 4px;
+            background: #e5e7eb;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        
+        .deliverable-progress-fill {
+            height: 100%;
+            background: #9945FF;
+            border-radius: 2px;
+        }
+        
+        .deliverable-progress-text {
+            font-size: 10px;
+            color: #666;
+            text-align: right;
+            margin-top: 2px;
+        }
+        
+        /* CRAM Notes Section */
+        .cram-section {
+            margin-top: 20px;
+            padding: 16px;
+            background: linear-gradient(135deg, #fefce8, #fef9c3);
+            border-radius: 12px;
+            border: 1px solid #fde047;
+        }
+        
+        .cram-section h3 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #854d0e;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .cram-notes-display {
+            font-size: 13px;
+            line-height: 1.6;
+            color: #713f12;
+            white-space: pre-wrap;
+        }
+        
+        .cram-note-line {
+            padding: 4px 0;
+            border-bottom: 1px dashed rgba(0,0,0,0.1);
+        }
+        
+        .cram-note-line:last-child {
+            border-bottom: none;
+        }
+        
         /* GANTT Grouping Buttons */
         .gantt-grouping {
             display: flex;
@@ -658,14 +847,8 @@
         
         <!-- PROJECTS TAB -->
         <div id="projects" class="tab-content">
-            <div class="card">
-                <h2>📁 Active Projects</h2>
-                <div id="project-list">
-                    <div class="empty-state">
-                        <div class="empty-state-icon">📁</div>
-                        <p>Loading projects...</p>
-                    </div>
-                </div>
+            <div id="project-list">
+                <!-- Projects will be rendered here -->
             </div>
         </div>
         
@@ -986,7 +1169,7 @@
             container.innerHTML = html;
         }
         
-        // Render Projects
+        // Render Projects with Deliverables and CRAM Notes
         function renderProjects() {
             const projectList = document.getElementById('project-list');
             
@@ -995,37 +1178,92 @@
                 return;
             }
             
-            projectList.innerHTML = workData.projects.map(project => `
-                <div class="project-card">
-                    <div class="project-header">
-                        <div>
-                            <div class="project-title">${project.name}</div>
-                            <div style="font-size: 13px; color: #666; margin-top: 4px;">${project.detail}</div>
-                        </div>
-                        <div class="project-progress">
-                            <div class="progress-bar">
-                                <div class="progress-fill" style="width: ${project.progress}%"></div>
-                            </div>
-                            <span style="font-weight: 600;">${project.progress}%</span>
-                        </div>
+            projectList.innerHTML = workData.projects.map(project => {
+                const statusClass = project.status ? project.status.toLowerCase().replace(' ', '-') : 'planning';
+                const deliverables = project.deliverables || [];
+                
+                // Sort deliverables by due date
+                deliverables.sort((a, b) => {
+                    if (!a.due_date) return 1;
+                    if (!b.due_date) return -1;
+                    return new Date(a.due_date) - new Date(b.due_date);
+                });
+                
+                // Format CRAM notes (split by newlines)
+                const cramLines = project.cram_notes ? project.cram_notes.split('\n').filter(line => line.trim()) : [];
+                
+                return `
+                <div class="project-full-card">
+                    <h2>📁 ${project.name}</h2>
+                    
+                    <div class="project-meta-bar">
+                        <span class="project-status-badge ${statusClass}">${project.status || 'Planning'}</span>
+                        <span class="project-lead">👤 Lead: ${project.project_lead || 'TBD'}</span>
+                        <span class="project-lead">🎯 Stakeholder: ${project.stakeholder || 'TBD'}</span>
+                        ${project.target_end_date ? `<span class="project-lead">📅 Due: ${project.target_end_date}</span>` : ''}
                     </div>
-                    <div style="font-size: 12px; color: #666; margin-bottom: 12px;">
-                        <span>👤 ${project.stakeholder}</span> • 
-                        <span>📅 Due: ${project.due_date || 'TBD'}</span> • 
-                        <span class="task-tag tag-priority-${project.priority.toLowerCase()}">${project.priority}</span>
+                    
+                    ${project.description ? `<p style="font-size: 13px; color: #666; margin-bottom: 16px;">${project.description}</p>` : ''}
+                    
+                    <div class="project-progress-section">
+                        <div class="project-progress-bar">
+                            <div class="project-progress-fill" style="width: ${project.progress || 0}%"></div>
+                        </div>
+                        <div class="project-progress-text">${project.progress || 0}% Complete</div>
                     </div>
-                    ${project.phases ? `
-                        <div class="phases-list">
-                            ${project.phases.map(phase => `
-                                <div class="phase ${phase.status.toLowerCase().replace(' ', '-')}">
-                                    ${phase.status === 'Complete' ? '✓' : phase.status === 'Blocked' ? '⚠️' : '○'} ${phase.name}
+                    
+                    ${deliverables.length > 0 ? `
+                    <div class="deliverables-section">
+                        <h3>📋 Deliverables (${deliverables.length})</h3>
+                        ${deliverables.map(d => {
+                            const delivStatus = d.status ? d.status.toLowerCase().replace(' ', '-') : 'not-started';
+                            const isComplete = d.status === 'Complete';
+                            const isBlocked = d.status === 'Blocked';
+                            const daysLeft = d.due_date ? Math.floor((new Date(d.due_date) - new Date()) / (1000 * 60 * 60 * 24)) : null;
+                            
+                            return `
+                            <div class="deliverable-item ${delivStatus}">
+                                <div class="deliverable-checkbox ${isComplete ? 'checked' : ''}">
+                                    ${isComplete ? '✓' : ''}
                                 </div>
-                            `).join('')}
-                        </div>
+                                <div class="deliverable-info">
+                                    <div class="deliverable-name">${d.name}</div>
+                                    <div class="deliverable-meta">
+                                        👤 ${d.owner || 'TBD'} 
+                                        ${d.due_date ? `• 📅 ${d.due_date}` : ''}
+                                        ${daysLeft !== null ? `• ${daysLeft < 0 ? Math.abs(daysLeft) + 'd overdue' : daysLeft + 'd left'}` : ''}
+                                        ${isBlocked && d.blocked_reason ? `• ⚠️ ${d.blocked_reason}` : ''}
+                                    </div>
+                                </div>
+                                <div class="deliverable-progress">
+                                    <div class="deliverable-progress-bar">
+                                        <div class="deliverable-progress-fill" style="width: ${d.progress || 0}%"></div>
+                                    </div>
+                                    <div class="deliverable-progress-text">${d.progress || 0}%</div>
+                                </div>
+                            </div>
+                            `;
+                        }).join('')}
+                    </div>
                     ` : ''}
-                    ${project.blocked_reason ? `<div style="font-size: 12px; color: #92400e; margin-top: 12px; padding: 8px; background: #fef3c7; border-radius: 8px;">⚠️ Blocked: ${project.blocked_reason}</div>` : ''}
+                    
+                    ${cramLines.length > 0 ? `
+                    <div class="cram-section">
+                        <h3>📝 CRAM Notes</h3>
+                        <div class="cram-notes-display">
+                            ${cramLines.map(line => `<div class="cram-note-line">• ${line}</div>`).join('')}
+                        </div>
+                    </div>
+                    ` : ''}
+                    
+                    ${project.notes_context ? `
+                    <div style="margin-top: 16px; padding: 12px; background: #f8f9ff; border-radius: 8px; font-size: 12px; color: #666;">
+                        <strong>Context:</strong> ${project.notes_context}
+                    </div>
+                    ` : ''}
                 </div>
-            `).join('');
+                `;
+            }).join('');
         }
         
         // Render Recurring

@@ -13,11 +13,14 @@ def fetch_work_data():
     # TAT Work Tasks table
     PRODUCTIVITY_BASE = 'appuWxergK3HUJd8i'  # Your new Work base
     WORK_TABLE = 'tblqM03kLHq9VjoCd'  # TAT Work Tasks table
+    PROJECTS_TABLE = 'tblUzMNkbcfnwCeYz'  # TAT Work Projects table
+    DELIVERABLES_TABLE = 'tbl5KhVCQC2iKRucz'  # TAT Project Deliverables table
     
-    url = f'https://api.airtable.com/v0/{PRODUCTIVITY_BASE}/{WORK_TABLE}'
     headers = {'Authorization': f'Bearer {AIRTABLE_KEY}'}
     
     try:
+        # Fetch Tasks
+        url = f'https://api.airtable.com/v0/{PRODUCTIVITY_BASE}/{WORK_TABLE}'
         response = requests.get(
             f'{url}?filterByFormula=Status!="Complete"&maxRecords=100&sort[0][field]=Priority&sort[0][direction]=desc',
             headers=headers,
@@ -31,7 +34,6 @@ def fetch_work_data():
         data = response.json()
         
         tasks = []
-        projects = []
         recurring = []
         
         for record in data.get('records', []):
@@ -59,16 +61,14 @@ def fetch_work_data():
             
             if item_type == 'Task':
                 tasks.append(item)
-            elif item_type == 'Project':
-                # Add project-specific fields
-                item['phases'] = fields.get('Phases', [])
-                item['progress'] = fields.get('Progress %', 0)
-                projects.append(item)
             elif item_type == 'Recurring':
                 item['frequency'] = fields.get('Frequency', 'Monthly')
                 item['next_due'] = fields.get('Next Due', '')
                 item['template'] = fields.get('Template', '')
                 recurring.append(item)
+        
+        # Fetch Projects with Deliverables
+        projects = fetch_projects_with_deliverables(PRODUCTIVITY_BASE, PROJECTS_TABLE, DELIVERABLES_TABLE, headers)
         
         return {
             'tasks': tasks,
@@ -86,6 +86,87 @@ def fetch_work_data():
     except Exception as e:
         print(f"Using sample data: {e}")
         return get_sample_work_data()
+
+def fetch_projects_with_deliverables(base_id, projects_table, deliverables_table, headers):
+    """Fetch projects with their deliverables from Airtable"""
+    projects = []
+    
+    try:
+        # Fetch deliverables first
+        deliv_url = f'https://api.airtable.com/v0/{base_id}/{deliverables_table}'
+        deliv_response = requests.get(
+            f'{deliv_url}?maxRecords=100',
+            headers=headers,
+            timeout=30
+        )
+        
+        deliverables_map = {}
+        if deliv_response.status_code == 200:
+            for record in deliv_response.json().get('records', []):
+                fields = record.get('fields', {})
+                # Get linked project IDs
+                project_links = fields.get('Project', [])
+                
+                deliv = {
+                    'id': record['id'],
+                    'name': fields.get('Name', ''),
+                    'status': fields.get('Status', 'Not Started'),
+                    'owner': fields.get('Owner', ''),
+                    'due_date': fields.get('Due Date', ''),
+                    'weight': fields.get('Weight', 0),
+                    'progress': fields.get('Progress', 0),
+                    'blocked_reason': fields.get('Blocked Reason', ''),
+                    'notes': fields.get('Notes', '')
+                }
+                
+                # Map deliverables to projects
+                for proj_id in project_links:
+                    if proj_id not in deliverables_map:
+                        deliverables_map[proj_id] = []
+                    deliverables_map[proj_id].append(deliv)
+        
+        # Fetch projects
+        proj_url = f'https://api.airtable.com/v0/{base_id}/{projects_table}'
+        proj_response = requests.get(
+            f'{proj_url}?filterByFormula=Status!="Complete"&maxRecords=50',
+            headers=headers,
+            timeout=30
+        )
+        
+        if proj_response.status_code == 200:
+            for record in proj_response.json().get('records', []):
+                fields = record.get('fields', {})
+                proj_id = record['id']
+                
+                project = {
+                    'id': proj_id,
+                    'name': fields.get('Name', ''),
+                    'description': fields.get('Description', ''),
+                    'status': fields.get('Status', 'Planning'),
+                    'progress': fields.get('Progress', 0),
+                    'start_date': fields.get('Start Date', ''),
+                    'target_end_date': fields.get('Target End Date', ''),
+                    'project_lead': fields.get('Project Lead', ''),
+                    'stakeholder': fields.get('Stakeholder', ''),
+                    'notes_context': fields.get('Notes/Context', ''),
+                    'cram_notes': fields.get('CRAM Notes', ''),
+                    'deliverables': deliverables_map.get(proj_id, [])
+                }
+                
+                # Calculate overall progress from deliverables if available
+                if project['deliverables']:
+                    total_weight = sum(d['weight'] for d in project['deliverables'])
+                    if total_weight > 0:
+                        weighted_progress = sum(d['progress'] * d['weight'] for d in project['deliverables']) / total_weight
+                        project['progress'] = round(weighted_progress)
+                
+                projects.append(project)
+        
+        return projects
+        
+    except Exception as e:
+        print(f"Error fetching projects: {e}")
+        return []
 
 def is_due_this_week(due_date_str):
     if not due_date_str:
