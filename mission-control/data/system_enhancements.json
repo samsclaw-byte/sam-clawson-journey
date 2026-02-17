@@ -29,6 +29,15 @@
       "workflow": "\ud83d\udee1\ufe0f Security Sentinel"
     },
     {
+      "name": "Create Cloudflare Worker for GANTT chart due date updates",
+      "urgency": "\ud83d\udfe2 Normal",
+      "status": "Not Started",
+      "days_remaining": {
+        "specialValue": "NaN"
+      },
+      "workflow": "\ud83d\udee1\ufe0f Security Sentinel"
+    },
+    {
       "name": "Review cron jobs",
       "urgency": "\ud83d\udfe0 Urgent",
       "status": "Not Started",
@@ -36,5 +45,5 @@
       "workflow": "\ud83c\udf05 Morning Brief"
     }
   ],
-  "last_updated": "2026-02-17T14:55:46+04:00"
+  "last_updated": "2026-02-17T15:55:48+04:00"
 }
