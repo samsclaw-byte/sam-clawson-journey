@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-02-17T14:00:18.462884",
+  "generated_at": "2026-02-17T14:15:09.985525",
   "tat_tasks": [
     {
       "id": "rec82QLASN6uQUiHu",
@@ -184,22 +184,11 @@
       "date": "2026-02-16",
       "day_name": "Mon",
       "day_num": "16",
-      "score": 1,
-      "water": 0,
-      "multivitamin": false,
-      "fruit": false,
-      "exercise": true,
-      "creatine": false
-    },
-    {
-      "date": "2026-02-16",
-      "day_name": "Mon",
-      "day_num": "16",
-      "score": 4,
+      "score": 5,
       "water": 8,
       "multivitamin": true,
       "fruit": true,
-      "exercise": false,
+      "exercise": true,
       "creatine": true
     },
     {
