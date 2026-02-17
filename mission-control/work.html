@@ -2387,7 +2387,7 @@
             if (event.key === 'Enter') sendClawsonMessage();
         }
         // OpenClaw Gateway - Iframe Mode
-        // The Gateway serves a web UI, so we iframe it
+        // The Gateway serves a web UI at the root path
         const TUNNEL_URL = 'https://among-garbage-entirely-mainland.trycloudflare.com';
         
         function loadClawsonIframe() {
@@ -2398,7 +2398,7 @@
                         Connected to Clawson via tunnel
                     </div>
                     <iframe 
-                        src="${TUNNEL_URL}/chat?session=mission-control-webchat" 
+                        src="${TUNNEL_URL}/?session=mission-control-webchat" 
                         style="flex: 1; border: none; width: 100%;"
                         sandbox="allow-same-origin allow-scripts allow-forms"
                     ></iframe>
