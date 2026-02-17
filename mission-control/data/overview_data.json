@@ -1,16 +1,16 @@
 {
-  "generated_at": "2026-02-17T23:33:02.951642",
+  "generated_at": "2026-02-18T00:03:06.339392",
   "today": {
     "health": {
-      "today_calories": 795,
-      "today_protein": 30,
+      "today_calories": 0,
+      "today_protein": 0,
       "current_weight": 102,
       "today_activity": 0
     },
     "habits": {
-      "multivitamin": true,
-      "fruit": true,
-      "water": 4,
+      "multivitamin": false,
+      "fruit": false,
+      "water": 0,
       "exercise": false,
       "creatine": false
     },
@@ -76,39 +76,39 @@
         "creatine": false
       },
       {
-        "date": "2026-02-16",
-        "multivitamin": true,
-        "fruit": true,
-        "water": 8,
-        "exercise": true,
-        "creatine": true
-      },
-      {
-        "date": "2026-02-15",
-        "multivitamin": true,
-        "fruit": true,
-        "water": 9,
-        "exercise": true,
-        "creatine": true
-      },
-      {
-        "date": "2026-02-14",
+        "date": "2026-02-17",
         "multivitamin": false,
-        "fruit": true,
-        "water": 8,
-        "exercise": true,
-        "creatine": true
-      },
-      {
-        "date": "2026-02-13",
-        "multivitamin": true,
-        "fruit": true,
+        "fruit": false,
         "water": 8,
         "exercise": false,
         "creatine": false
       },
       {
-        "date": "2026-02-12",
+        "date": "2026-02-17",
+        "multivitamin": false,
+        "fruit": false,
+        "water": 0,
+        "exercise": false,
+        "creatine": true
+      },
+      {
+        "date": "2026-02-17",
+        "multivitamin": false,
+        "fruit": false,
+        "water": 0,
+        "exercise": false,
+        "creatine": false
+      },
+      {
+        "date": "2026-02-17",
+        "multivitamin": true,
+        "fruit": true,
+        "water": 8,
+        "exercise": false,
+        "creatine": true
+      },
+      {
+        "date": "2026-02-16",
         "multivitamin": true,
         "fruit": true,
         "water": 8,
@@ -143,12 +143,6 @@
       }
     ],
     "workouts": [
-      {
-        "date": "2026-02-11",
-        "duration": 33.01,
-        "strain": 12,
-        "name": "Kettlebell Full Body"
-      },
       {
         "date": "2026-02-12",
         "duration": 19.55,
