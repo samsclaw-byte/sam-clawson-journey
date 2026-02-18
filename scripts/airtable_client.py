@@ -326,7 +326,7 @@ class HealthAirtableClient(AirtableClient):
                       date: Optional[str] = None) -> Dict:
         """Add a food entry"""
         fields = {
-            "Food Name": food_name,
+            "Food Items": food_name,
             "Meal Type": meal_type,
             "Date": date or datetime.now().strftime('%Y-%m-%d')
         }
