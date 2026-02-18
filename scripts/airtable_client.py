@@ -391,18 +391,25 @@ class HealthAirtableClient(AirtableClient):
     
     def save_workout(self, date: str, workout_type: str, duration: int,
                     strain: Optional[float] = None, calories: Optional[int] = None,
-                    source: str = "WHOOP") -> Dict:
-        """Save workout data from WHOOP webhook"""
+                    source: str = "WHOOP", hr_zones: Optional[Dict] = None) -> Dict:
+        """Save workout data from WHOOP webhook including HR zones"""
         fields = {
             "Date": date,
-            "Workout Type": workout_type,
+            "Workout Name": workout_type,
             "Duration (min)": duration,
-            "Source": source
+            "Notes": f"Source: {source}"
         }
         if strain is not None:
             fields["Strain"] = strain
-        if calories is not None:
-            fields["Calories Burned"] = calories
+        
+        # Add HR zone data if provided
+        if hr_zones:
+            fields["Zone 0 (min)"] = hr_zones.get('zone_0_min', 0)
+            fields["Zone 1 (min)"] = hr_zones.get('zone_1_min', 0)
+            fields["Zone 2 (min)"] = hr_zones.get('zone_2_min', 0)
+            fields["Zone 3 (min)"] = hr_zones.get('zone_3_min', 0)
+            fields["Zone 4 (min)"] = hr_zones.get('zone_4_min', 0)
+            fields["Zone 5 (min)"] = hr_zones.get('zone_5_min', 0)
         
         return self.create_record(self.base_id, "Workouts", fields)
     
