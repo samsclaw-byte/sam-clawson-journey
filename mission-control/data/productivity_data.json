@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-02-18T12:30:08.241157",
+  "generated_at": "2026-02-18T12:45:08.202402",
   "tat_tasks": [
     {
       "id": "rec82QLASN6uQUiHu",
@@ -122,6 +122,18 @@
       "due_date": {
         "error": "#ERROR"
       }
+    },
+    {
+      "id": "rechKgvkTi3UmSZA0",
+      "name": "Debug Tunneling Infrastructure Issues - Token Pattern Analysis",
+      "category": "1",
+      "status": "Not Started",
+      "due_status": "later",
+      "days_remaining": 999,
+      "urgency": "\ud83d\udfe2 Normal",
+      "due_date": {
+        "error": "#ERROR"
+      }
     }
   ],
   "habit_days": [
@@ -237,7 +249,7 @@
     }
   ],
   "stats": {
-    "active": 12,
+    "active": 13,
     "overdue": 8,
     "today": 2,
     "completed_7d": 0
