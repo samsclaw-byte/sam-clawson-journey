@@ -9,7 +9,7 @@ from datetime import datetime
 
 AIRTABLE_KEY = open('/home/samsclaw/.config/airtable/api_key').read().strip()
 BASE_ID = 'appvUbV8IeGhxmcPn'
-HABITS_TABLE = 'tblZSHA0bOZGNaRUm'
+HABITS_TABLE = 'Daily Habits'  # Use table name instead of ID
 
 def update_daily_habit(field_name, value, date=None):
     """
