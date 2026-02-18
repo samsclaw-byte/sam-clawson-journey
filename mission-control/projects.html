@@ -493,6 +493,78 @@
                 If Beta works → expand to full Mission Control Cloud. If not → pivot or kill with minimal sunk cost.
             </div>
         </div>
+
+        <!-- Trak Beta Launch GANTT -->
+        <div class="card" style="margin-top: 24px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2 style="background: linear-gradient(135deg, #22c55e, #16a34a); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 0;">📊 Trak Beta Launch GANTT</h2>
+                <div style="display: flex; gap: 12px;">
+                    <button onclick="addTrakTask()" style="background: linear-gradient(135deg, #22c55e, #16a34a); color: white; border: none; padding: 10px 20px; border-radius: 20px; font-size: 13px; font-weight: 600; cursor: pointer;">+ Add Task</button>
+                    <button onclick="resetTrakGantt()" style="background: #f3f4f6; color: #666; border: none; padding: 10px 20px; border-radius: 20px; font-size: 13px; font-weight: 600; cursor: pointer;">Reset</button>
+                </div>
+            </div>
+            
+            <div id="trak-gantt-container" style="overflow-x: auto; margin-bottom: 16px;">
+                <div style="text-align: center; padding: 40px; color: #22c55e;">Loading Trak Beta GANTT...</div>
+            </div>
+            
+            <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+                <span style="display: flex; align-items: center; gap: 6px; font-size: 12px; color: #666;"><span style="width: 10px; height: 10px; border-radius: 50%; background: #9ca3af;"></span> Not Started</span>
+                <span style="display: flex; align-items: center; gap: 6px; font-size: 12px; color: #666;"><span style="width: 10px; height: 10px; border-radius: 50%; background: #f59e0b;"></span> In Progress</span>
+                <span style="display: flex; align-items: center; gap: 6px; font-size: 12px; color: #666;"><span style="width: 10px; height: 10px; border-radius: 50%; background: #10b981;"></span> Complete</span>
+                <span style="display: flex; align-items: center; gap: 6px; font-size: 12px; color: #666;"><span style="width: 10px; height: 10px; border-radius: 50%; background: #ef4444;"></span> Blocked</span>
+            </div>
+        </div>
+
+        <!-- Edit Task Modal -->
+        <div id="trak-task-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 1000; align-items: center; justify-content: center;">
+            <div style="background: white; border-radius: 16px; width: 90%; max-width: 450px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);">
+                <div style="background: linear-gradient(135deg, #22c55e, #16a34a); color: white; padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; border-radius: 16px 16px 0 0;">
+                    <h3 style="margin: 0; font-size: 16px;">✏️ Edit Task</h3>
+                    <button onclick="closeTrakModal()" style="background: none; border: none; color: white; font-size: 24px; cursor: pointer;">×</button>
+                </div>
+                <form id="trak-task-form" onsubmit="saveTrakTask(event)" style="padding: 20px;">
+                    <input type="hidden" id="trak-task-index">
+                    
+                    <div style="margin-bottom: 16px;">
+                        <label style="display: block; font-size: 12px; font-weight: 600; color: #666; margin-bottom: 6px; text-transform: uppercase;">Task Name</label>
+                        <input type="text" id="trak-task-name" required style="width: 100%; padding: 10px 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px;">
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px;">
+                        <div>
+                            <label style="display: block; font-size: 12px; font-weight: 600; color: #666; margin-bottom: 6px; text-transform: uppercase;">Start Day</label>
+                            <input type="number" id="trak-task-start" min="1" max="14" required style="width: 100%; padding: 10px 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px;">
+                        </div>
+                        <div>
+                            <label style="display: block; font-size: 12px; font-weight: 600; color: #666; margin-bottom: 6px; text-transform: uppercase;">Duration (days)</label>
+                            <input type="number" id="trak-task-duration" min="1" max="14" required style="width: 100%; padding: 10px 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px;">
+                        </div>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px;">
+                        <div>
+                            <label style="display: block; font-size: 12px; font-weight: 600; color: #666; margin-bottom: 6px; text-transform: uppercase;">Status</label>
+                            <select id="trak-task-status" style="width: 100%; padding: 10px 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px;">
+                                <option value="not-started">Not Started</option>
+                                <option value="in-progress">In Progress</option>
+                                <option value="complete">Complete</option>
+                                <option value="blocked">Blocked</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label style="display: block; font-size: 12px; font-weight: 600; color: #666; margin-bottom: 6px; text-transform: uppercase;">Owner</label>
+                            <input type="text" id="trak-task-owner" value="Sam" style="width: 100%; padding: 10px 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px;">
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; gap: 12px; justify-content: flex-end; margin-top: 20px; padding-top: 16px; border-top: 1px solid #eee;">
+                        <button type="button" onclick="closeTrakModal()" style="background: #f3f4f6; color: #666; border: none; padding: 10px 20px; border-radius: 20px; font-size: 13px; font-weight: 600; cursor: pointer;">Cancel</button>
+                        <button type="submit" style="background: linear-gradient(135deg, #22c55e, #16a34a); color: white; border: none; padding: 10px 20px; border-radius: 20px; font-size: 13px; font-weight: 600; cursor: pointer;">Save Task</button>
+                    </div>
+                </form>
+            </div>
+        </div>
         
         <div class="grid">
             <!-- Phases -->
@@ -1220,5 +1292,136 @@
             </div>
         </div>
     </div>
+
+    <script>
+        // Trak Beta GANTT Functions
+        const defaultTrakTasks = [
+            { id: 1, name: 'Cloudflare Setup (Pages, D1, Workers)', start: 1, duration: 2, status: 'not-started', owner: 'Sam' },
+            { id: 2, name: 'Google OAuth Authentication', start: 2, duration: 2, status: 'not-started', owner: 'Sam' },
+            { id: 3, name: 'PostgreSQL Database Schema', start: 3, duration: 2, status: 'not-started', owner: 'Sam' },
+            { id: 4, name: 'Food Logging UI & Form', start: 5, duration: 3, status: 'not-started', owner: 'Sam' },
+            { id: 5, name: 'Macro Estimation Engine', start: 7, duration: 2, status: 'not-started', owner: 'Sam' },
+            { id: 6, name: 'Daily Dashboard View', start: 8, duration: 2, status: 'not-started', owner: 'Sam' },
+            { id: 7, name: 'Settings & Profile', start: 9, duration: 2, status: 'not-started', owner: 'Sam' },
+            { id: 8, name: 'Testing & QA', start: 11, duration: 2, status: 'not-started', owner: 'Sam' },
+            { id: 9, name: 'Beta User Onboarding', start: 12, duration: 2, status: 'not-started', owner: 'Sam' },
+            { id: 10, name: 'Beta Launch', start: 14, duration: 1, status: 'not-started', owner: 'Sam' }
+        ];
+
+        function loadTrakTasks() {
+            const saved = localStorage.getItem('trak-beta-gantt-v2');
+            return saved ? JSON.parse(saved) : [...defaultTrakTasks];
+        }
+
+        function saveTrakTasksToStorage(tasks) {
+            localStorage.setItem('trak-beta-gantt-v2', JSON.stringify(tasks));
+        }
+
+        function renderTrakGantt() {
+            const tasks = loadTrakTasks();
+            const container = document.getElementById('trak-gantt-container');
+            
+            let html = '<div style="display: grid; grid-template-columns: 200px repeat(14, 50px); min-width: 900px;">';
+            
+            // Header row
+            html += '<div style="padding: 12px; font-weight: 600; font-size: 13px; background: #f9fafb; border-bottom: 2px solid #e5e7eb;">Task</div>';
+            for (let i = 1; i <= 14; i++) {
+                html += `<div style="padding: 12px 4px; text-align: center; font-size: 11px; background: #f9fafb; border-bottom: 2px solid #e5e7eb; border-right: 1px solid #f3f4f6;">Day ${i}</div>`;
+            }
+            
+            // Task rows
+            tasks.forEach((task, index) => {
+                const statusColors = {
+                    'not-started': '#e5e7eb',
+                    'in-progress': '#fef3c7',
+                    'complete': '#d1fae5',
+                    'blocked': '#fee2e2'
+                };
+                
+                html += `<div style="display: contents;" onclick="editTrakTask(${index})">`;
+                html += `<div style="padding: 12px; font-size: 12px; border-bottom: 1px solid #e5e7eb; cursor: pointer;" onmouseover="this.style.background='#fef3c7'" onmouseout="this.style.background='transparent'">${task.name}</div>`;
+                
+                for (let day = 1; day <= 14; day++) {
+                    const isActive = day >= task.start && day < task.start + task.duration;
+                    const bgColor = isActive ? statusColors[task.status] : 'transparent';
+                    const borderStyle = isActive ? '2px solid #22c55e' : '1px solid #f3f4f6';
+                    html += `<div style="padding: 8px 4px; text-align: center; font-size: 10px; background: ${bgColor}; border-bottom: 1px solid #e5e7eb; border-right: ${borderStyle}; cursor: pointer;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'"></div>`;
+                }
+                
+                html += '</div>';
+            });
+            
+            html += '</div>';
+            container.innerHTML = html;
+        }
+
+        function addTrakTask() {
+            const tasks = loadTrakTasks();
+            tasks.push({
+                id: Date.now(),
+                name: 'New Task',
+                start: 1,
+                duration: 1,
+                status: 'not-started',
+                owner: 'Sam'
+            });
+            saveTrakTasksToStorage(tasks);
+            renderTrakGantt();
+            editTrakTask(tasks.length - 1);
+        }
+
+        function editTrakTask(index) {
+            const tasks = loadTrakTasks();
+            const task = tasks[index];
+            
+            document.getElementById('trak-task-index').value = index;
+            document.getElementById('trak-task-name').value = task.name;
+            document.getElementById('trak-task-start').value = task.start;
+            document.getElementById('trak-task-duration').value = task.duration;
+            document.getElementById('trak-task-status').value = task.status;
+            document.getElementById('trak-task-owner').value = task.owner;
+            
+            document.getElementById('trak-task-modal').style.display = 'flex';
+        }
+
+        function saveTrakTask(event) {
+            event.preventDefault();
+            
+            const index = document.getElementById('trak-task-index').value;
+            const tasks = loadTrakTasks();
+            
+            tasks[index] = {
+                ...tasks[index],
+                name: document.getElementById('trak-task-name').value,
+                start: parseInt(document.getElementById('trak-task-start').value),
+                duration: parseInt(document.getElementById('trak-task-duration').value),
+                status: document.getElementById('trak-task-status').value,
+                owner: document.getElementById('trak-task-owner').value
+            };
+            
+            saveTrakTasksToStorage(tasks);
+            closeTrakModal();
+            renderTrakGantt();
+        }
+
+        function closeTrakModal() {
+            document.getElementById('trak-task-modal').style.display = 'none';
+        }
+
+        function resetTrakGantt() {
+            if (confirm('Reset to default 10 tasks?')) {
+                localStorage.removeItem('trak-beta-gantt-v2');
+                renderTrakGantt();
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', renderTrakGantt);
+
+        // Close modal on outside click
+        document.getElementById('trak-task-modal').addEventListener('click', function(e) {
+            if (e.target === this) closeTrakModal();
+        });
+    </script>
 </body>
 </html>
