@@ -621,9 +621,18 @@
     </div>
     
     <div class="container">
+        <!-- Date Selector -->
+        <div class="card" style="background: linear-gradient(135deg, #f8f5ff 0%, #fff5f8 100%);">
+            <div style="display: flex; align-items: center; gap: 16px; flex-wrap: wrap;">
+                <label style="font-weight: 600; color: #9945FF; font-size: 14px;">📅 Select Date:</label>
+                <input type="date" id="date-selector" style="padding: 10px 16px; border: 2px solid #9945FF; border-radius: 8px; font-size: 14px; font-family: inherit; background: white; cursor: pointer;" onchange="updateHabitViews()">
+                <span id="selected-date-display" style="color: #666; font-size: 13px;">Showing: Today</span>
+            </div>
+        </div>
+
         <!-- Weekly Habit Tracker -->
         <div class="card">
-            <h2>✅ Weekly Habit Tracker (Last 7 Days)</h2>
+            <h2>✅ Weekly Habit Tracker</h2>
             
             <!-- Today's Progress -->
             <div style="margin-bottom: 24px; padding-bottom: 20px; border-bottom: 1px solid rgba(153, 69, 255, 0.1);">
@@ -647,6 +656,14 @@
                 <div class="habit-tracker" id="habit-tracker">
                     <div class="loading">Loading habits...</div>
                 </div>
+            </div>
+        </div>
+
+        <!-- Current Streaks -->
+        <div class="card">
+            <h2>🔥 Current Streaks</h2>
+            <div id="streaks-container">
+                <div class="loading">Loading streaks...</div>
             </div>
         </div>
         
@@ -1434,6 +1451,181 @@
                 return false;
             }
         }
+        
+        // ========== DATE SELECTOR & HABIT TRACKER FUNCTIONS ==========
+        
+        // Initialize date picker with today's date
+        function initializeDateSelector() {
+            const dateInput = document.getElementById('date-selector');
+            const today = new Date().toISOString().split('T')[0];
+            dateInput.value = today;
+            dateInput.max = today; // Can't select future dates
+        }
+        
+        // Update habit views based on selected date
+        async function updateHabitViews() {
+            const dateInput = document.getElementById('date-selector');
+            const selectedDate = dateInput.value;
+            const displayEl = document.getElementById('selected-date-display');
+            
+            // Update display text
+            const today = new Date().toISOString().split('T')[0];
+            if (selectedDate === today) {
+                displayEl.textContent = 'Showing: Today';
+            } else {
+                const dateObj = new Date(selectedDate);
+                displayEl.textContent = `Showing: ${dateObj.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}`;
+            }
+            
+            // Reload habit data for selected date
+            await loadHabitDataForDate(selectedDate);
+        }
+        
+        // Load habit data for a specific date
+        async function loadHabitDataForDate(date) {
+            try {
+                // Fetch habits from Airtable for the selected date and previous 6 days
+                const habits = await fetchHabitsForDateRange(date);
+                
+                // Update weekly tracker
+                renderWeeklyHabitTracker(habits, date);
+                
+                // Update streaks
+                renderStreaks(habits);
+                
+            } catch (error) {
+                console.error('Error loading habit data:', error);
+            }
+        }
+        
+        // Fetch habits from Airtable for date range
+        async function fetchHabitsForDateRange(endDate) {
+            // Calculate start date (6 days before end date)
+            const end = new Date(endDate);
+            const start = new Date(end);
+            start.setDate(end.getDate() - 6);
+            
+            const startStr = start.toISOString().split('T')[0];
+            const endStr = end.toISOString().split('T')[0];
+            
+            // This is a mock function - replace with actual Airtable API call
+            // For now, return sample data structure
+            return {
+                dates: generateDateRange(startStr, endStr),
+                habits: {
+                    'Water': [8, 8, 6, 8, 8, 4, 6], // Last 7 days
+                    'Multivitamin': [true, true, true, true, true, true, true],
+                    'Creatine': [true, true, true, true, true, true, false],
+                    'Fruit': [true, true, false, true, true, false, false]
+                }
+            };
+        }
+        
+        // Generate date range array
+        function generateDateRange(start, end) {
+            const dates = [];
+            const startDate = new Date(start);
+            const endDate = new Date(end);
+            
+            for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
+                dates.push(d.toISOString().split('T')[0]);
+            }
+            return dates;
+        }
+        
+        // Render weekly habit tracker
+        function renderWeeklyHabitTracker(data, selectedDate) {
+            const container = document.getElementById('habit-tracker');
+            if (!container) return;
+            
+            let html = '';
+            
+            data.dates.forEach((date, index) => {
+                const isSelected = date === selectedDate;
+                const dayName = new Date(date).toLocaleDateString('en-US', { weekday: 'short' });
+                const dayNum = new Date(date).getDate();
+                
+                // Calculate completion score for the day
+                let completed = 0;
+                let total = 0;
+                
+                Object.entries(data.habits).forEach(([habit, values]) => {
+                    total++;
+                    const value = values[index];
+                    if (habit === 'Water') {
+                        if (value >= 8) completed++;
+                    } else {
+                        if (value) completed++;
+                    }
+                });
+                
+                const isComplete = completed === total;
+                const score = Math.round((completed / total) * 100);
+                
+                html += `
+                    <div class="habit-day ${isComplete ? 'complete' : ''} ${isSelected ? 'active' : ''}" 
+                         style="${isSelected ? 'border: 2px solid #9945FF; transform: scale(1.05);' : ''}">
+                        <div class="habit-day-label">${dayName}</div>
+                        <div class="habit-day-date">${dayNum}</div>
+                        <div class="habit-day-score">${completed}/${total}</div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+        
+        // Render streaks
+        function renderStreaks(data) {
+            const container = document.getElementById('streaks-container');
+            if (!container) return;
+            
+            let html = '<div style="display: grid; gap: 16px;">';
+            
+            Object.entries(data.habits).forEach(([habit, values]) => {
+                // Calculate current streak
+                let streak = 0;
+                for (let i = values.length - 1; i >= 0; i--) {
+                    const value = values[i];
+                    if (habit === 'Water') {
+                        if (value >= 8) streak++;
+                        else break;
+                    } else {
+                        if (value) streak++;
+                        else break;
+                    }
+                }
+                
+                // Get appropriate icon and color
+                const icon = habit === 'Water' ? '💧' : habit === 'Multivitamin' ? '💊' : habit === 'Creatine' ? '💪' : '🍎';
+                const color = habit === 'Water' ? '#339AF0' : habit === 'Multivitamin' ? '#FF6B6B' : habit === 'Creatine' ? '#51CF66' : '#FFA500';
+                
+                html += `
+                    <div style="display: flex; align-items: center; gap: 16px; padding: 16px; background: linear-gradient(135deg, #f8f5ff 0%, #fff5f8 100%); border-radius: 12px; border: 1px solid rgba(153, 69, 255, 0.15);">
+                        <div style="font-size: 32px;">${icon}</div>
+                        <div style="flex: 1;">
+                            <div style="font-weight: 600; font-size: 16px; color: #1a1a2e;">${habit}</div>
+                            <div style="font-size: 13px; color: #666; margin-top: 2px;">
+                                ${streak > 0 ? `🔥 ${streak} day streak` : '❌ No active streak'}
+                            </div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div style="font-size: 24px; font-weight: 700; color: ${color};">${streak}</div>
+                            <div style="font-size: 11px; color: #999; text-transform: uppercase;">days</div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            html += '</div>';
+            container.innerHTML = html;
+        }
+        
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeDateSelector();
+            updateHabitViews(); // Load initial data
+        });
         
         // Load data when page loads
         document.addEventListener('DOMContentLoaded', loadData);
