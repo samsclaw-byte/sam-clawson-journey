@@ -1,18 +1,18 @@
 {
-  "generated_at": "2026-02-18T21:48:00.246829",
+  "generated_at": "2026-02-18T22:02:57.459555",
   "today": {
     "health": {
       "today_calories": 2400,
       "today_protein": 59,
       "current_weight": 102,
-      "today_activity": 0
+      "today_activity": 33
     },
     "habits": {
-      "multivitamin": false,
+      "multivitamin": true,
       "fruit": false,
-      "water": 4,
+      "water": 6,
       "exercise": false,
-      "creatine": false
+      "creatine": true
     },
     "priority_tasks": [
       {
@@ -63,57 +63,57 @@
         "date": "2026-02-18",
         "multivitamin": true,
         "fruit": false,
-        "water": 2,
-        "exercise": false,
-        "creatine": false
-      },
-      {
-        "date": "2026-02-18",
-        "multivitamin": true,
-        "fruit": false,
-        "water": 0,
-        "exercise": false,
-        "creatine": false
-      },
-      {
-        "date": "2026-02-18",
-        "multivitamin": false,
-        "fruit": false,
-        "water": 4,
-        "exercise": false,
-        "creatine": false
-      },
-      {
-        "date": "2026-02-18",
-        "multivitamin": true,
-        "fruit": false,
-        "water": 0,
-        "exercise": false,
-        "creatine": false
-      },
-      {
-        "date": "2026-02-18",
-        "multivitamin": false,
-        "fruit": false,
-        "water": 4,
-        "exercise": false,
-        "creatine": false
-      },
-      {
-        "date": "2026-02-18",
-        "multivitamin": false,
-        "fruit": false,
         "water": 6,
         "exercise": false,
-        "creatine": false
+        "creatine": true
       },
       {
         "date": "2026-02-17",
         "multivitamin": true,
+        "fruit": false,
+        "water": 8,
+        "exercise": false,
+        "creatine": true
+      },
+      {
+        "date": "2026-02-16",
+        "multivitamin": true,
         "fruit": true,
-        "water": 4,
+        "water": 8,
+        "exercise": true,
+        "creatine": true
+      },
+      {
+        "date": "2026-02-15",
+        "multivitamin": true,
+        "fruit": true,
+        "water": 9,
+        "exercise": true,
+        "creatine": true
+      },
+      {
+        "date": "2026-02-14",
+        "multivitamin": false,
+        "fruit": true,
+        "water": 8,
+        "exercise": true,
+        "creatine": true
+      },
+      {
+        "date": "2026-02-13",
+        "multivitamin": true,
+        "fruit": true,
+        "water": 8,
         "exercise": false,
         "creatine": false
+      },
+      {
+        "date": "2026-02-12",
+        "multivitamin": true,
+        "fruit": true,
+        "water": 8,
+        "exercise": true,
+        "creatine": true
       }
     ],
     "weight_history": [
@@ -166,6 +166,12 @@
         "duration": 29,
         "strain": 8.1,
         "name": "HIIT + Kettlebell Upper Body"
+      },
+      {
+        "date": "2026-02-18",
+        "duration": 33,
+        "strain": 11.6,
+        "name": "Kettlebell - Full Body"
       }
     ]
   }
