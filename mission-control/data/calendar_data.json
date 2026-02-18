@@ -1,38 +1,152 @@
 {
-  "generated_at": "2026-02-18T14:33:44.094912",
+  "metadata": {
+    "fetched_at": "2026-02-18T12:49:30.363604+00:00",
+    "time_range": {
+      "start": "2026-02-18T12:49:30.363604+00:00",
+      "end": "2026-03-20T12:49:30.363604+00:00"
+    }
+  },
+  "calendars": [
+    {
+      "kind": "calendar#calendarListEntry",
+      "etag": "\"1770217188168051\"",
+      "id": "samsclaw@gmail.com",
+      "summary": "samsclaw@gmail.com",
+      "timeZone": "Asia/Dubai",
+      "colorId": "14",
+      "backgroundColor": "#9fe1e7",
+      "foregroundColor": "#000000",
+      "selected": true,
+      "accessRole": "owner",
+      "defaultReminders": [
+        {
+          "method": "popup",
+          "minutes": 30
+        }
+      ],
+      "notificationSettings": {
+        "notifications": [
+          {
+            "type": "eventCreation",
+            "method": "email"
+          },
+          {
+            "type": "eventChange",
+            "method": "email"
+          },
+          {
+            "type": "eventCancellation",
+            "method": "email"
+          },
+          {
+            "type": "eventResponse",
+            "method": "email"
+          }
+        ]
+      },
+      "primary": true,
+      "conferenceProperties": {
+        "allowedConferenceSolutionTypes": [
+          "hangoutsMeet"
+        ]
+      }
+    },
+    {
+      "kind": "calendar#calendarListEntry",
+      "etag": "\"1770217188392367\"",
+      "id": "en.ae#holiday@group.v.calendar.google.com",
+      "summary": "Holidays in United Arab Emirates",
+      "description": "Holidays and Observances in United Arab Emirates",
+      "timeZone": "Asia/Dubai",
+      "colorId": "8",
+      "backgroundColor": "#16a765",
+      "foregroundColor": "#000000",
+      "selected": true,
+      "accessRole": "reader",
+      "defaultReminders": [],
+      "conferenceProperties": {
+        "allowedConferenceSolutionTypes": [
+          "hangoutsMeet"
+        ]
+      }
+    },
+    {
+      "kind": "calendar#calendarListEntry",
+      "etag": "\"1770268476755807\"",
+      "id": "5b69bf4aee3985fe14303dc0e733d51cca028bde7dfe73437678829cf52acafe@group.calendar.google.com",
+      "summary": "Sam & Sophie Family Calendar",
+      "description": "Shared calendar for the raphel-curtis household",
+      "timeZone": "Asia/Dubai",
+      "dataOwner": "samsclaw@gmail.com",
+      "colorId": "17",
+      "backgroundColor": "#9a9cff",
+      "foregroundColor": "#000000",
+      "selected": true,
+      "accessRole": "owner",
+      "defaultReminders": [],
+      "conferenceProperties": {
+        "allowedConferenceSolutionTypes": [
+          "hangoutsMeet"
+        ]
+      }
+    }
+  ],
   "events": [
     {
+      "kind": "calendar#event",
+      "etag": "\"3540536948223390\"",
       "id": "lo1hd15n35toqpjfan0p3t20pk",
+      "status": "confirmed",
+      "htmlLink": "https://www.google.com/calendar/event?eid=bG8xaGQxNW4zNXRvcXBqZmFuMHAzdDIwcGsgNWI2OWJmNGFlZTM5ODVmZTE0MzAzZGMwZTczM2Q1MWNjYTAyOGJkZTdkZmU3MzQzNzY3ODgyOWNmNTJhY2FmZUBn",
+      "created": "2026-02-05T05:14:33.000Z",
+      "updated": "2026-02-05T05:14:34.111Z",
       "summary": "\ud83c\udfe0 Andy & Libby Staying",
       "description": "Andy and Libby staying with us - family visit!",
+      "creator": {
+        "email": "samsclaw@gmail.com"
+      },
+      "organizer": {
+        "email": "5b69bf4aee3985fe14303dc0e733d51cca028bde7dfe73437678829cf52acafe@group.calendar.google.com",
+        "displayName": "Sam & Sophie Family Calendar",
+        "self": true
+      },
       "start": {
         "date": "2026-02-12"
       },
       "end": {
         "date": "2026-02-20"
       },
-      "location": "",
-      "htmlLink": "https://www.google.com/calendar/event?eid=bG8xaGQxNW4zNXRvcXBqZmFuMHAzdDIwcGsgNWI2OWJmNGFlZTM5ODVmZTE0MzAzZGMwZTczM2Q1MWNjYTAyOGJkZTdkZmU3MzQzNzY3ODgyOWNmNTJhY2FmZUBn"
+      "iCalUID": "lo1hd15n35toqpjfan0p3t20pk@google.com",
+      "sequence": 0,
+      "reminders": {
+        "useDefault": false,
+        "overrides": [
+          {
+            "method": "popup",
+            "minutes": 1440
+          }
+        ]
+      },
+      "eventType": "default"
     },
     {
-      "id": "rgbo7cdjgdvmej3u63cbfr462g_20260218T063000Z",
-      "summary": "\ud83c\udfca Noah Swimming with Justin",
-      "description": "Noah swimming session with Justin",
-      "start": {
-        "dateTime": "2026-02-18T10:30:00+04:00",
-        "timeZone": "Asia/Dubai"
-      },
-      "end": {
-        "dateTime": "2026-02-18T11:30:00+04:00",
-        "timeZone": "Asia/Dubai"
-      },
-      "location": "",
-      "htmlLink": "https://www.google.com/calendar/event?eid=cmdibzdjZGpnZHZtZWozdTYzY2JmcjQ2MmdfMjAyNjAyMThUMDYzMDAwWiA1YjY5YmY0YWVlMzk4NWZlMTQzMDNkYzBlNzMzZDUxY2NhMDI4YmRlN2RmZTczNDM3Njc4ODI5Y2Y1MmFjYWZlQGc"
-    },
-    {
+      "kind": "calendar#event",
+      "etag": "\"3540802561891918\"",
       "id": "g2l8cr76275s4tduqi5d6qfdtg_20260221T053000Z",
+      "status": "confirmed",
+      "htmlLink": "https://www.google.com/calendar/event?eid=ZzJsOGNyNzYyNzVzNHRkdXFpNWQ2cWZkdGdfMjAyNjAyMjFUMDUzMDAwWiA1YjY5YmY0YWVlMzk4NWZlMTQzMDNkYzBlNzMzZDUxY2NhMDI4YmRlN2RmZTczNDM3Njc4ODI5Y2Y1MmFjYWZlQGc",
+      "created": "2026-02-05T06:35:22.000Z",
+      "updated": "2026-02-08T05:40:39.049Z",
       "summary": "\ud83c\udfca Noah Swimming Lesson - Safa School",
       "description": "Noah swimming lesson at Safa School",
+      "creator": {
+        "email": "samsclaw@gmail.com"
+      },
+      "organizer": {
+        "email": "5b69bf4aee3985fe14303dc0e733d51cca028bde7dfe73437678829cf52acafe@group.calendar.google.com",
+        "displayName": "Sam & Sophie Family Calendar",
+        "self": true
+      },
       "start": {
         "dateTime": "2026-02-21T09:30:00+04:00",
         "timeZone": "Asia/Dubai"
@@ -41,13 +155,42 @@
         "dateTime": "2026-02-21T10:30:00+04:00",
         "timeZone": "Asia/Dubai"
       },
-      "location": "",
-      "htmlLink": "https://www.google.com/calendar/event?eid=ZzJsOGNyNzYyNzVzNHRkdXFpNWQ2cWZkdGdfMjAyNjAyMjFUMDUzMDAwWiA1YjY5YmY0YWVlMzk4NWZlMTQzMDNkYzBlNzMzZDUxY2NhMDI4YmRlN2RmZTczNDM3Njc4ODI5Y2Y1MmFjYWZlQGc"
+      "recurringEventId": "g2l8cr76275s4tduqi5d6qfdtg",
+      "originalStartTime": {
+        "dateTime": "2026-02-21T09:30:00+04:00",
+        "timeZone": "Asia/Dubai"
+      },
+      "iCalUID": "g2l8cr76275s4tduqi5d6qfdtg@google.com",
+      "sequence": 0,
+      "reminders": {
+        "useDefault": false,
+        "overrides": [
+          {
+            "method": "popup",
+            "minutes": 30
+          }
+        ]
+      },
+      "eventType": "default"
     },
     {
+      "kind": "calendar#event",
+      "etag": "\"3540546638821790\"",
       "id": "rgbo7cdjgdvmej3u63cbfr462g_20260225T063000Z",
+      "status": "confirmed",
+      "htmlLink": "https://www.google.com/calendar/event?eid=cmdibzdjZGpnZHZtZWozdTYzY2JmcjQ2MmdfMjAyNjAyMjVUMDYzMDAwWiA1YjY5YmY0YWVlMzk4NWZlMTQzMDNkYzBlNzMzZDUxY2NhMDI4YmRlN2RmZTczNDM3Njc4ODI5Y2Y1MmFjYWZlQGc",
+      "created": "2026-02-05T06:35:18.000Z",
+      "updated": "2026-02-05T06:35:19.410Z",
       "summary": "\ud83c\udfca Noah Swimming with Justin",
       "description": "Noah swimming session with Justin",
+      "creator": {
+        "email": "samsclaw@gmail.com"
+      },
+      "organizer": {
+        "email": "5b69bf4aee3985fe14303dc0e733d51cca028bde7dfe73437678829cf52acafe@group.calendar.google.com",
+        "displayName": "Sam & Sophie Family Calendar",
+        "self": true
+      },
       "start": {
         "dateTime": "2026-02-25T10:30:00+04:00",
         "timeZone": "Asia/Dubai"
@@ -56,13 +199,42 @@
         "dateTime": "2026-02-25T11:30:00+04:00",
         "timeZone": "Asia/Dubai"
       },
-      "location": "",
-      "htmlLink": "https://www.google.com/calendar/event?eid=cmdibzdjZGpnZHZtZWozdTYzY2JmcjQ2MmdfMjAyNjAyMjVUMDYzMDAwWiA1YjY5YmY0YWVlMzk4NWZlMTQzMDNkYzBlNzMzZDUxY2NhMDI4YmRlN2RmZTczNDM3Njc4ODI5Y2Y1MmFjYWZlQGc"
+      "recurringEventId": "rgbo7cdjgdvmej3u63cbfr462g",
+      "originalStartTime": {
+        "dateTime": "2026-02-25T10:30:00+04:00",
+        "timeZone": "Asia/Dubai"
+      },
+      "iCalUID": "rgbo7cdjgdvmej3u63cbfr462g@google.com",
+      "sequence": 0,
+      "reminders": {
+        "useDefault": false,
+        "overrides": [
+          {
+            "method": "popup",
+            "minutes": 30
+          }
+        ]
+      },
+      "eventType": "default"
     },
     {
+      "kind": "calendar#event",
+      "etag": "\"3540802561891918\"",
       "id": "g2l8cr76275s4tduqi5d6qfdtg_20260228T053000Z",
+      "status": "confirmed",
+      "htmlLink": "https://www.google.com/calendar/event?eid=ZzJsOGNyNzYyNzVzNHRkdXFpNWQ2cWZkdGdfMjAyNjAyMjhUMDUzMDAwWiA1YjY5YmY0YWVlMzk4NWZlMTQzMDNkYzBlNzMzZDUxY2NhMDI4YmRlN2RmZTczNDM3Njc4ODI5Y2Y1MmFjYWZlQGc",
+      "created": "2026-02-05T06:35:22.000Z",
+      "updated": "2026-02-08T05:40:39.049Z",
       "summary": "\ud83c\udfca Noah Swimming Lesson - Safa School",
       "description": "Noah swimming lesson at Safa School",
+      "creator": {
+        "email": "samsclaw@gmail.com"
+      },
+      "organizer": {
+        "email": "5b69bf4aee3985fe14303dc0e733d51cca028bde7dfe73437678829cf52acafe@group.calendar.google.com",
+        "displayName": "Sam & Sophie Family Calendar",
+        "self": true
+      },
       "start": {
         "dateTime": "2026-02-28T09:30:00+04:00",
         "timeZone": "Asia/Dubai"
@@ -71,13 +243,42 @@
         "dateTime": "2026-02-28T10:30:00+04:00",
         "timeZone": "Asia/Dubai"
       },
-      "location": "",
-      "htmlLink": "https://www.google.com/calendar/event?eid=ZzJsOGNyNzYyNzVzNHRkdXFpNWQ2cWZkdGdfMjAyNjAyMjhUMDUzMDAwWiA1YjY5YmY0YWVlMzk4NWZlMTQzMDNkYzBlNzMzZDUxY2NhMDI4YmRlN2RmZTczNDM3Njc4ODI5Y2Y1MmFjYWZlQGc"
+      "recurringEventId": "g2l8cr76275s4tduqi5d6qfdtg",
+      "originalStartTime": {
+        "dateTime": "2026-02-28T09:30:00+04:00",
+        "timeZone": "Asia/Dubai"
+      },
+      "iCalUID": "g2l8cr76275s4tduqi5d6qfdtg@google.com",
+      "sequence": 0,
+      "reminders": {
+        "useDefault": false,
+        "overrides": [
+          {
+            "method": "popup",
+            "minutes": 30
+          }
+        ]
+      },
+      "eventType": "default"
     },
     {
+      "kind": "calendar#event",
+      "etag": "\"3540546638821790\"",
       "id": "rgbo7cdjgdvmej3u63cbfr462g_20260304T063000Z",
+      "status": "confirmed",
+      "htmlLink": "https://www.google.com/calendar/event?eid=cmdibzdjZGpnZHZtZWozdTYzY2JmcjQ2MmdfMjAyNjAzMDRUMDYzMDAwWiA1YjY5YmY0YWVlMzk4NWZlMTQzMDNkYzBlNzMzZDUxY2NhMDI4YmRlN2RmZTczNDM3Njc4ODI5Y2Y1MmFjYWZlQGc",
+      "created": "2026-02-05T06:35:18.000Z",
+      "updated": "2026-02-05T06:35:19.410Z",
       "summary": "\ud83c\udfca Noah Swimming with Justin",
       "description": "Noah swimming session with Justin",
+      "creator": {
+        "email": "samsclaw@gmail.com"
+      },
+      "organizer": {
+        "email": "5b69bf4aee3985fe14303dc0e733d51cca028bde7dfe73437678829cf52acafe@group.calendar.google.com",
+        "displayName": "Sam & Sophie Family Calendar",
+        "self": true
+      },
       "start": {
         "dateTime": "2026-03-04T10:30:00+04:00",
         "timeZone": "Asia/Dubai"
@@ -86,13 +287,42 @@
         "dateTime": "2026-03-04T11:30:00+04:00",
         "timeZone": "Asia/Dubai"
       },
-      "location": "",
-      "htmlLink": "https://www.google.com/calendar/event?eid=cmdibzdjZGpnZHZtZWozdTYzY2JmcjQ2MmdfMjAyNjAzMDRUMDYzMDAwWiA1YjY5YmY0YWVlMzk4NWZlMTQzMDNkYzBlNzMzZDUxY2NhMDI4YmRlN2RmZTczNDM3Njc4ODI5Y2Y1MmFjYWZlQGc"
+      "recurringEventId": "rgbo7cdjgdvmej3u63cbfr462g",
+      "originalStartTime": {
+        "dateTime": "2026-03-04T10:30:00+04:00",
+        "timeZone": "Asia/Dubai"
+      },
+      "iCalUID": "rgbo7cdjgdvmej3u63cbfr462g@google.com",
+      "sequence": 0,
+      "reminders": {
+        "useDefault": false,
+        "overrides": [
+          {
+            "method": "popup",
+            "minutes": 30
+          }
+        ]
+      },
+      "eventType": "default"
     },
     {
+      "kind": "calendar#event",
+      "etag": "\"3540802561891918\"",
       "id": "g2l8cr76275s4tduqi5d6qfdtg_20260307T053000Z",
+      "status": "confirmed",
+      "htmlLink": "https://www.google.com/calendar/event?eid=ZzJsOGNyNzYyNzVzNHRkdXFpNWQ2cWZkdGdfMjAyNjAzMDdUMDUzMDAwWiA1YjY5YmY0YWVlMzk4NWZlMTQzMDNkYzBlNzMzZDUxY2NhMDI4YmRlN2RmZTczNDM3Njc4ODI5Y2Y1MmFjYWZlQGc",
+      "created": "2026-02-05T06:35:22.000Z",
+      "updated": "2026-02-08T05:40:39.049Z",
       "summary": "\ud83c\udfca Noah Swimming Lesson - Safa School",
       "description": "Noah swimming lesson at Safa School",
+      "creator": {
+        "email": "samsclaw@gmail.com"
+      },
+      "organizer": {
+        "email": "5b69bf4aee3985fe14303dc0e733d51cca028bde7dfe73437678829cf52acafe@group.calendar.google.com",
+        "displayName": "Sam & Sophie Family Calendar",
+        "self": true
+      },
       "start": {
         "dateTime": "2026-03-07T09:30:00+04:00",
         "timeZone": "Asia/Dubai"
@@ -101,13 +331,42 @@
         "dateTime": "2026-03-07T10:30:00+04:00",
         "timeZone": "Asia/Dubai"
       },
-      "location": "",
-      "htmlLink": "https://www.google.com/calendar/event?eid=ZzJsOGNyNzYyNzVzNHRkdXFpNWQ2cWZkdGdfMjAyNjAzMDdUMDUzMDAwWiA1YjY5YmY0YWVlMzk4NWZlMTQzMDNkYzBlNzMzZDUxY2NhMDI4YmRlN2RmZTczNDM3Njc4ODI5Y2Y1MmFjYWZlQGc"
+      "recurringEventId": "g2l8cr76275s4tduqi5d6qfdtg",
+      "originalStartTime": {
+        "dateTime": "2026-03-07T09:30:00+04:00",
+        "timeZone": "Asia/Dubai"
+      },
+      "iCalUID": "g2l8cr76275s4tduqi5d6qfdtg@google.com",
+      "sequence": 0,
+      "reminders": {
+        "useDefault": false,
+        "overrides": [
+          {
+            "method": "popup",
+            "minutes": 30
+          }
+        ]
+      },
+      "eventType": "default"
     },
     {
+      "kind": "calendar#event",
+      "etag": "\"3540546638821790\"",
       "id": "rgbo7cdjgdvmej3u63cbfr462g_20260311T063000Z",
+      "status": "confirmed",
+      "htmlLink": "https://www.google.com/calendar/event?eid=cmdibzdjZGpnZHZtZWozdTYzY2JmcjQ2MmdfMjAyNjAzMTFUMDYzMDAwWiA1YjY5YmY0YWVlMzk4NWZlMTQzMDNkYzBlNzMzZDUxY2NhMDI4YmRlN2RmZTczNDM3Njc4ODI5Y2Y1MmFjYWZlQGc",
+      "created": "2026-02-05T06:35:18.000Z",
+      "updated": "2026-02-05T06:35:19.410Z",
       "summary": "\ud83c\udfca Noah Swimming with Justin",
       "description": "Noah swimming session with Justin",
+      "creator": {
+        "email": "samsclaw@gmail.com"
+      },
+      "organizer": {
+        "email": "5b69bf4aee3985fe14303dc0e733d51cca028bde7dfe73437678829cf52acafe@group.calendar.google.com",
+        "displayName": "Sam & Sophie Family Calendar",
+        "self": true
+      },
       "start": {
         "dateTime": "2026-03-11T10:30:00+04:00",
         "timeZone": "Asia/Dubai"
@@ -116,13 +375,42 @@
         "dateTime": "2026-03-11T11:30:00+04:00",
         "timeZone": "Asia/Dubai"
       },
-      "location": "",
-      "htmlLink": "https://www.google.com/calendar/event?eid=cmdibzdjZGpnZHZtZWozdTYzY2JmcjQ2MmdfMjAyNjAzMTFUMDYzMDAwWiA1YjY5YmY0YWVlMzk4NWZlMTQzMDNkYzBlNzMzZDUxY2NhMDI4YmRlN2RmZTczNDM3Njc4ODI5Y2Y1MmFjYWZlQGc"
+      "recurringEventId": "rgbo7cdjgdvmej3u63cbfr462g",
+      "originalStartTime": {
+        "dateTime": "2026-03-11T10:30:00+04:00",
+        "timeZone": "Asia/Dubai"
+      },
+      "iCalUID": "rgbo7cdjgdvmej3u63cbfr462g@google.com",
+      "sequence": 0,
+      "reminders": {
+        "useDefault": false,
+        "overrides": [
+          {
+            "method": "popup",
+            "minutes": 30
+          }
+        ]
+      },
+      "eventType": "default"
     },
     {
+      "kind": "calendar#event",
+      "etag": "\"3540802561891918\"",
       "id": "g2l8cr76275s4tduqi5d6qfdtg_20260314T053000Z",
+      "status": "confirmed",
+      "htmlLink": "https://www.google.com/calendar/event?eid=ZzJsOGNyNzYyNzVzNHRkdXFpNWQ2cWZkdGdfMjAyNjAzMTRUMDUzMDAwWiA1YjY5YmY0YWVlMzk4NWZlMTQzMDNkYzBlNzMzZDUxY2NhMDI4YmRlN2RmZTczNDM3Njc4ODI5Y2Y1MmFjYWZlQGc",
+      "created": "2026-02-05T06:35:22.000Z",
+      "updated": "2026-02-08T05:40:39.049Z",
       "summary": "\ud83c\udfca Noah Swimming Lesson - Safa School",
       "description": "Noah swimming lesson at Safa School",
+      "creator": {
+        "email": "samsclaw@gmail.com"
+      },
+      "organizer": {
+        "email": "5b69bf4aee3985fe14303dc0e733d51cca028bde7dfe73437678829cf52acafe@group.calendar.google.com",
+        "displayName": "Sam & Sophie Family Calendar",
+        "self": true
+      },
       "start": {
         "dateTime": "2026-03-14T09:30:00+04:00",
         "timeZone": "Asia/Dubai"
@@ -131,13 +419,42 @@
         "dateTime": "2026-03-14T10:30:00+04:00",
         "timeZone": "Asia/Dubai"
       },
-      "location": "",
-      "htmlLink": "https://www.google.com/calendar/event?eid=ZzJsOGNyNzYyNzVzNHRkdXFpNWQ2cWZkdGdfMjAyNjAzMTRUMDUzMDAwWiA1YjY5YmY0YWVlMzk4NWZlMTQzMDNkYzBlNzMzZDUxY2NhMDI4YmRlN2RmZTczNDM3Njc4ODI5Y2Y1MmFjYWZlQGc"
+      "recurringEventId": "g2l8cr76275s4tduqi5d6qfdtg",
+      "originalStartTime": {
+        "dateTime": "2026-03-14T09:30:00+04:00",
+        "timeZone": "Asia/Dubai"
+      },
+      "iCalUID": "g2l8cr76275s4tduqi5d6qfdtg@google.com",
+      "sequence": 0,
+      "reminders": {
+        "useDefault": false,
+        "overrides": [
+          {
+            "method": "popup",
+            "minutes": 30
+          }
+        ]
+      },
+      "eventType": "default"
     },
     {
+      "kind": "calendar#event",
+      "etag": "\"3540546638821790\"",
       "id": "rgbo7cdjgdvmej3u63cbfr462g_20260318T063000Z",
+      "status": "confirmed",
+      "htmlLink": "https://www.google.com/calendar/event?eid=cmdibzdjZGpnZHZtZWozdTYzY2JmcjQ2MmdfMjAyNjAzMThUMDYzMDAwWiA1YjY5YmY0YWVlMzk4NWZlMTQzMDNkYzBlNzMzZDUxY2NhMDI4YmRlN2RmZTczNDM3Njc4ODI5Y2Y1MmFjYWZlQGc",
+      "created": "2026-02-05T06:35:18.000Z",
+      "updated": "2026-02-05T06:35:19.410Z",
       "summary": "\ud83c\udfca Noah Swimming with Justin",
       "description": "Noah swimming session with Justin",
+      "creator": {
+        "email": "samsclaw@gmail.com"
+      },
+      "organizer": {
+        "email": "5b69bf4aee3985fe14303dc0e733d51cca028bde7dfe73437678829cf52acafe@group.calendar.google.com",
+        "displayName": "Sam & Sophie Family Calendar",
+        "self": true
+      },
       "start": {
         "dateTime": "2026-03-18T10:30:00+04:00",
         "timeZone": "Asia/Dubai"
@@ -146,8 +463,23 @@
         "dateTime": "2026-03-18T11:30:00+04:00",
         "timeZone": "Asia/Dubai"
       },
-      "location": "",
-      "htmlLink": "https://www.google.com/calendar/event?eid=cmdibzdjZGpnZHZtZWozdTYzY2JmcjQ2MmdfMjAyNjAzMThUMDYzMDAwWiA1YjY5YmY0YWVlMzk4NWZlMTQzMDNkYzBlNzMzZDUxY2NhMDI4YmRlN2RmZTczNDM3Njc4ODI5Y2Y1MmFjYWZlQGc"
+      "recurringEventId": "rgbo7cdjgdvmej3u63cbfr462g",
+      "originalStartTime": {
+        "dateTime": "2026-03-18T10:30:00+04:00",
+        "timeZone": "Asia/Dubai"
+      },
+      "iCalUID": "rgbo7cdjgdvmej3u63cbfr462g@google.com",
+      "sequence": 0,
+      "reminders": {
+        "useDefault": false,
+        "overrides": [
+          {
+            "method": "popup",
+            "minutes": 30
+          }
+        ]
+      },
+      "eventType": "default"
     }
   ]
 }
