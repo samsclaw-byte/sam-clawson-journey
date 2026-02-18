@@ -15,11 +15,16 @@
       "type": "Dinner",
       "items": "Buffet dinner: Arabic meat, hummus, Arabic bread, butter naa...",
       "calories": 1200
+    },
+    {
+      "type": "Snack",
+      "items": "3 small dates, cafe au lait, protein shake (31g protein + cr...",
+      "calories": 250
     }
   ],
-  "total_calories": 2150,
+  "total_calories": 2400,
   "macros": {
-    "protein": 28,
+    "protein": 59,
     "carbs": 2,
     "fat": 35,
     "fiber": 0

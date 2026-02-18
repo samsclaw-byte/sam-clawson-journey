@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-02-18T21:33:01.554085",
+  "generated_at": "2026-02-18T21:48:00.246829",
   "today": {
     "health": {
-      "today_calories": 450,
-      "today_protein": 28,
+      "today_calories": 2400,
+      "today_protein": 59,
       "current_weight": 102,
       "today_activity": 0
     },
@@ -100,17 +100,17 @@
         "creatine": false
       },
       {
-        "date": "2026-02-17",
-        "multivitamin": true,
-        "fruit": true,
-        "water": 4,
+        "date": "2026-02-18",
+        "multivitamin": false,
+        "fruit": false,
+        "water": 6,
         "exercise": false,
         "creatine": false
       },
       {
         "date": "2026-02-17",
-        "multivitamin": false,
-        "fruit": false,
+        "multivitamin": true,
+        "fruit": true,
         "water": 4,
         "exercise": false,
         "creatine": false

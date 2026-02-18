@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-02-18T21:45:06.618273",
+  "generated_at": "2026-02-18T22:00:07.503238",
   "tat_tasks": [
     {
       "id": "rec82QLASN6uQUiHu",
@@ -149,6 +149,17 @@
       "creatine": true
     },
     {
+      "date": "2026-02-13",
+      "day_name": "Fri",
+      "day_num": "13",
+      "score": 3,
+      "water": 8,
+      "multivitamin": true,
+      "fruit": true,
+      "exercise": false,
+      "creatine": false
+    },
+    {
       "date": "2026-02-14",
       "day_name": "Sat",
       "day_num": "14",
@@ -171,81 +182,37 @@
       "creatine": true
     },
     {
+      "date": "2026-02-16",
+      "day_name": "Mon",
+      "day_num": "16",
+      "score": 5,
+      "water": 8,
+      "multivitamin": true,
+      "fruit": true,
+      "exercise": true,
+      "creatine": true
+    },
+    {
       "date": "2026-02-17",
       "day_name": "Tue",
       "day_num": "17",
+      "score": 3,
+      "water": 8,
+      "multivitamin": true,
+      "fruit": false,
+      "exercise": false,
+      "creatine": true
+    },
+    {
+      "date": "2026-02-18",
+      "day_name": "Wed",
+      "day_num": "18",
       "score": 2,
-      "water": 4,
+      "water": 6,
       "multivitamin": true,
-      "fruit": true,
-      "exercise": false,
-      "creatine": false
-    },
-    {
-      "date": "2026-02-17",
-      "day_name": "Tue",
-      "day_num": "17",
-      "score": 1,
-      "water": 8,
-      "multivitamin": false,
-      "fruit": false,
-      "exercise": false,
-      "creatine": false
-    },
-    {
-      "date": "2026-02-17",
-      "day_name": "Tue",
-      "day_num": "17",
-      "score": 1,
-      "water": 0,
-      "multivitamin": false,
       "fruit": false,
       "exercise": false,
       "creatine": true
-    },
-    {
-      "date": "2026-02-17",
-      "day_name": "Tue",
-      "day_num": "17",
-      "score": 4,
-      "water": 8,
-      "multivitamin": true,
-      "fruit": true,
-      "exercise": false,
-      "creatine": true
-    },
-    {
-      "date": "2026-02-17",
-      "day_name": "Tue",
-      "day_num": "17",
-      "score": 0,
-      "water": 4,
-      "multivitamin": false,
-      "fruit": false,
-      "exercise": false,
-      "creatine": false
-    },
-    {
-      "date": "2026-02-18",
-      "day_name": "Wed",
-      "day_num": "18",
-      "score": 0,
-      "water": 4,
-      "multivitamin": false,
-      "fruit": false,
-      "exercise": false,
-      "creatine": false
-    },
-    {
-      "date": "2026-02-18",
-      "day_name": "Wed",
-      "day_num": "18",
-      "score": 1,
-      "water": 0,
-      "multivitamin": true,
-      "fruit": false,
-      "exercise": false,
-      "creatine": false
     }
   ],
   "stats": {
