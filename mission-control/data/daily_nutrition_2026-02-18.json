@@ -5,9 +5,19 @@
       "type": "Breakfast",
       "items": "2-egg omelette with cheese",
       "calories": 450
+    },
+    {
+      "type": "Lunch",
+      "items": "Cappuccino and chicken pesto avocado tortilla wrap",
+      "calories": 500
+    },
+    {
+      "type": "Dinner",
+      "items": "Buffet dinner: Arabic meat, hummus, Arabic bread, butter naa...",
+      "calories": 1200
     }
   ],
-  "total_calories": 450,
+  "total_calories": 2150,
   "macros": {
     "protein": 28,
     "carbs": 2,
