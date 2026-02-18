@@ -277,7 +277,7 @@
       "name": "Share KSA",
       "description": "Launch readiness May 15",
       "status": "Active",
-      "progress": 50,
+      "progress": 0,
       "start_date": "2026-02-17",
       "target_end_date": "2026-05-18",
       "project_lead": "Sam",
@@ -428,7 +428,7 @@
     }
   ],
   "recurring": [],
-  "last_updated": "2026-02-18T09:12:28.243058",
+  "last_updated": "2026-02-18T10:12:28.176621",
   "summary": {
     "total_active": 26,
     "urgent": 0,
