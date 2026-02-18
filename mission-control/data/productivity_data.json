@@ -1,14 +1,14 @@
 {
-  "generated_at": "2026-02-18T04:00:05.703224",
+  "generated_at": "2026-02-18T04:15:07.763780",
   "tat_tasks": [
     {
       "id": "rec82QLASN6uQUiHu",
       "name": "Complete Google Calendar update",
       "category": "Personal",
       "status": "Not Started",
-      "due_status": "today",
-      "days_remaining": 0,
-      "urgency": "\ud83d\udfe0 Urgent",
+      "due_status": "overdue",
+      "days_remaining": -1,
+      "urgency": "\ud83d\udd34 Overdue",
       "due_date": "2026-02-17T00:00:00.000Z"
     },
     {
@@ -16,9 +16,9 @@
       "name": "Integrate with web search (Brave)",
       "category": "System Enhancement",
       "status": "Not Started",
-      "due_status": "today",
-      "days_remaining": 0,
-      "urgency": "\ud83d\udfe0 Urgent",
+      "due_status": "overdue",
+      "days_remaining": -1,
+      "urgency": "\ud83d\udd34 Overdue",
       "due_date": "2026-02-17T00:00:00.000Z"
     },
     {
@@ -26,9 +26,9 @@
       "name": "Run security updates (35 packages pending)",
       "category": "System Enhancement",
       "status": "Not Started",
-      "due_status": "today",
-      "days_remaining": 0,
-      "urgency": "\ud83d\udfe0 Urgent",
+      "due_status": "overdue",
+      "days_remaining": -1,
+      "urgency": "\ud83d\udd34 Overdue",
       "due_date": "2026-02-17T00:00:00.000Z"
     },
     {
@@ -36,9 +36,9 @@
       "name": "Link to Gmail and forward nursery dates and times",
       "category": "AI Development",
       "status": "Not Started",
-      "due_status": "today",
-      "days_remaining": 0,
-      "urgency": "\ud83d\udfe0 Urgent",
+      "due_status": "overdue",
+      "days_remaining": -1,
+      "urgency": "\ud83d\udd34 Overdue",
       "due_date": "2026-02-17T00:00:00.000Z"
     },
     {
@@ -46,9 +46,9 @@
       "name": "Give Clawson a voice to respond to voice messages",
       "category": "AI Development",
       "status": "Not Started",
-      "due_status": "today",
-      "days_remaining": 0,
-      "urgency": "\ud83d\udfe0 Urgent",
+      "due_status": "overdue",
+      "days_remaining": -1,
+      "urgency": "\ud83d\udd34 Overdue",
       "due_date": "2026-02-17T00:00:00.000Z"
     },
     {
@@ -56,9 +56,9 @@
       "name": "Review cron jobs",
       "category": "System Enhancement",
       "status": "Not Started",
-      "due_status": "today",
-      "days_remaining": 0,
-      "urgency": "\ud83d\udfe0 Urgent",
+      "due_status": "overdue",
+      "days_remaining": -1,
+      "urgency": "\ud83d\udd34 Overdue",
       "due_date": "2026-02-17T00:00:00.000Z"
     },
     {
@@ -66,9 +66,9 @@
       "name": "Review SOUL.md file",
       "category": "AI Development",
       "status": "Not Started",
-      "due_status": "today",
-      "days_remaining": 0,
-      "urgency": "\ud83d\udfe0 Urgent",
+      "due_status": "overdue",
+      "days_remaining": -1,
+      "urgency": "\ud83d\udd34 Overdue",
       "due_date": "2026-02-17T00:00:00.000Z"
     },
     {
@@ -76,9 +76,9 @@
       "name": "Renew CIMA membership",
       "category": "Personal",
       "status": "Not Started",
-      "due_status": "today",
-      "days_remaining": 0,
-      "urgency": "\ud83d\udfe0 Urgent",
+      "due_status": "overdue",
+      "days_remaining": -1,
+      "urgency": "\ud83d\udd34 Overdue",
       "due_date": "2026-02-17T00:00:00.000Z"
     },
     {
@@ -86,8 +86,8 @@
       "name": "Set up permanent systemd services for WHOOP webhook and tunnel",
       "category": "System Enhancement",
       "status": "Not Started",
-      "due_status": "soon",
-      "days_remaining": 1,
+      "due_status": "today",
+      "days_remaining": 0,
       "urgency": "\ud83d\udfe0 Urgent",
       "due_date": "2026-02-18T00:00:00.000Z"
     },
@@ -96,8 +96,8 @@
       "name": "Update TAT database schema - numeric categories + due date formula",
       "category": "System Enhancement",
       "status": "Not Started",
-      "due_status": "soon",
-      "days_remaining": 1,
+      "due_status": "today",
+      "days_remaining": 0,
       "urgency": "\ud83d\udfe0 Urgent",
       "due_date": "2026-02-18T00:00:00.000Z"
     },
@@ -107,7 +107,7 @@
       "category": "Projects",
       "status": "Not Started",
       "due_status": "soon",
-      "days_remaining": 3,
+      "days_remaining": 2,
       "urgency": "\ud83d\udfe1 Soon",
       "due_date": "2026-02-20T00:00:00.000Z"
     },
@@ -238,8 +238,8 @@
   ],
   "stats": {
     "active": 12,
-    "overdue": 0,
-    "today": 8,
+    "overdue": 8,
+    "today": 2,
     "completed_7d": 0
   }
 }

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-02-18T02:47:57.737397",
+  "generated_at": "2026-02-18T04:03:01.111665",
   "today": {
     "health": {
       "today_calories": 0,
@@ -19,40 +19,40 @@
         "id": "recxIjbjIk2R4IL2E",
         "name": "Renew CIMA membership",
         "category": "Personal",
-        "due_status": "today",
-        "days_remaining": 0,
+        "due_status": "overdue",
+        "days_remaining": -1,
         "status": "Not Started"
       },
       {
         "id": "recZOSWGvUtJn4Y8S",
         "name": "Link to Gmail and forward nursery dates and times",
         "category": "AI Development",
-        "due_status": "today",
-        "days_remaining": 0,
+        "due_status": "overdue",
+        "days_remaining": -1,
         "status": "Not Started"
       },
       {
         "id": "rec82QLASN6uQUiHu",
         "name": "Complete Google Calendar update",
         "category": "Personal",
-        "due_status": "today",
-        "days_remaining": 0,
+        "due_status": "overdue",
+        "days_remaining": -1,
         "status": "Not Started"
       },
       {
         "id": "reciYWtF73kNe3qFP",
         "name": "Give Clawson a voice to respond to voice messages",
         "category": "AI Development",
-        "due_status": "today",
-        "days_remaining": 0,
+        "due_status": "overdue",
+        "days_remaining": -1,
         "status": "Not Started"
       },
       {
         "id": "recl87W1nkafNEROB",
         "name": "Review cron jobs",
         "category": "System Enhancement",
-        "due_status": "today",
-        "days_remaining": 0,
+        "due_status": "overdue",
+        "days_remaining": -1,
         "status": "Not Started"
       }
     ]
