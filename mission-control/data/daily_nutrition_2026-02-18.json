@@ -1,11 +1,17 @@
 {
   "date": "2026-02-18",
-  "meals": [],
-  "total_calories": 0,
+  "meals": [
+    {
+      "type": "Breakfast",
+      "items": "2-egg omelette with cheese",
+      "calories": 450
+    }
+  ],
+  "total_calories": 450,
   "macros": {
-    "protein": 0,
-    "carbs": 0,
-    "fat": 0,
+    "protein": 28,
+    "carbs": 2,
+    "fat": 35,
     "fiber": 0
   }
 }
