@@ -532,16 +532,18 @@
                         <input type="text" id="trak-task-name" required style="width: 100%; padding: 10px 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px;">
                     </div>
                     
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px;">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
                         <div>
                             <label style="display: block; font-size: 12px; font-weight: 600; color: #666; margin-bottom: 6px; text-transform: uppercase;">Start Day</label>
-                            <input type="number" id="trak-task-start" min="1" max="14" required style="width: 100%; padding: 10px 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px;">
+                            <input type="number" id="trak-task-start" min="1" max="14" required style="width: 100%; padding: 10px 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px;" oninput="updateStartDatePreview()">
+                            <div id="start-date-preview" style="font-size: 11px; color: #22c55e; margin-top: 4px;"></div>
                         </div>
                         <div>
                             <label style="display: block; font-size: 12px; font-weight: 600; color: #666; margin-bottom: 6px; text-transform: uppercase;">Duration (days)</label>
-                            <input type="number" id="trak-task-duration" min="1" max="14" required style="width: 100%; padding: 10px 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px;">
+                            <input type="number" id="trak-task-duration" min="1" max="14" required style="width: 100%; padding: 10px 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px;" oninput="updateEndDatePreview()">
                         </div>
                     </div>
+                    <div id="end-date-preview" style="font-size: 12px; color: #666; margin-bottom: 16px; padding: 8px 12px; background: #f9fafb; border-radius: 8px;"></div>
                     
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px;">
                         <div>
@@ -1322,12 +1324,24 @@
             const tasks = loadTrakTasks();
             const container = document.getElementById('trak-gantt-container');
             
+            // Generate dates starting from Feb 18, 2026
+            const startDate = new Date(2026, 1, 18); // Month is 0-indexed, so 1 = February
+            const dates = [];
+            for (let i = 0; i < 14; i++) {
+                const date = new Date(startDate);
+                date.setDate(startDate.getDate() + i);
+                const day = String(date.getDate()).padStart(2, '0');
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const year = date.getFullYear();
+                dates.push(`${day}/${month}/${year}`);
+            }
+            
             let html = '<div style="display: grid; grid-template-columns: 200px repeat(14, 50px); min-width: 900px;">';
             
             // Header row
             html += '<div style="padding: 12px; font-weight: 600; font-size: 13px; background: #f9fafb; border-bottom: 2px solid #e5e7eb;">Task</div>';
-            for (let i = 1; i <= 14; i++) {
-                html += `<div style="padding: 12px 4px; text-align: center; font-size: 11px; background: #f9fafb; border-bottom: 2px solid #e5e7eb; border-right: 1px solid #f3f4f6;">Day ${i}</div>`;
+            for (let i = 0; i < 14; i++) {
+                html += `<div style="padding: 8px 2px; text-align: center; font-size: 9px; background: #f9fafb; border-bottom: 2px solid #e5e7eb; border-right: 1px solid #f3f4f6; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="${dates[i]}">${dates[i]}</div>`;
             }
             
             // Task rows
@@ -1382,6 +1396,7 @@
             document.getElementById('trak-task-status').value = task.status;
             document.getElementById('trak-task-owner').value = task.owner;
             
+            updateStartDatePreview();
             document.getElementById('trak-task-modal').style.display = 'flex';
         }
 
@@ -1407,6 +1422,31 @@
 
         function closeTrakModal() {
             document.getElementById('trak-task-modal').style.display = 'none';
+        }
+
+        function getDateForDay(dayNum) {
+            const startDate = new Date(2026, 1, 18); // Feb 18, 2026
+            const date = new Date(startDate);
+            date.setDate(startDate.getDate() + dayNum - 1);
+            const day = String(date.getDate()).padStart(2, '0');
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const year = date.getFullYear();
+            return `${day}/${month}/${year}`;
+        }
+
+        function updateStartDatePreview() {
+            const startDay = parseInt(document.getElementById('trak-task-start').value);
+            if (startDay >= 1 && startDay <= 14) {
+                document.getElementById('start-date-preview').textContent = `Start: ${getDateForDay(startDay)}`;
+            }
+            updateEndDatePreview();
+        }
+
+        function updateEndDatePreview() {
+            const startDay = parseInt(document.getElementById('trak-task-start').value) || 1;
+            const duration = parseInt(document.getElementById('trak-task-duration').value) || 1;
+            const endDay = Math.min(startDay + duration - 1, 14);
+            document.getElementById('end-date-preview').textContent = `📅 ${getDateForDay(startDay)} → ${getDateForDay(endDay)} (${duration} day${duration > 1 ? 's' : ''})`;
         }
 
         function resetTrakGantt() {
