@@ -389,6 +389,37 @@ class HealthAirtableClient(AirtableClient):
         
         return self.create_record(self.base_id, "Workouts", fields)
     
+    def save_workout(self, date: str, workout_type: str, duration: int,
+                    strain: Optional[float] = None, calories: Optional[int] = None,
+                    source: str = "WHOOP") -> Dict:
+        """Save workout data from WHOOP webhook"""
+        fields = {
+            "Date": date,
+            "Workout Type": workout_type,
+            "Duration (min)": duration,
+            "Source": source
+        }
+        if strain is not None:
+            fields["Strain"] = strain
+        if calories is not None:
+            fields["Calories Burned"] = calories
+        
+        return self.create_record(self.base_id, "Workouts", fields)
+    
+    def save_whoop_data(self, date: str, strain: Optional[float] = None,
+                       calories: Optional[int] = None) -> Dict:
+        """Save WHOOP daily strain and calories to WHOOP Data table"""
+        fields = {
+            "Date": date,
+            "Source": "WHOOP"
+        }
+        if strain is not None:
+            fields["Day Strain"] = strain
+        if calories is not None:
+            fields["Calories"] = calories
+        
+        return self.create_record(self.base_id, "WHOOP Data", fields)
+    
     # Habits - use Productivity base
     def get_habits(self, days: int = 7) -> List[Dict]:
         """Get habit entries from Daily Habits table in Productivity base"""
