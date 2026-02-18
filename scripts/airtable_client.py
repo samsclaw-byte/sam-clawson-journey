@@ -466,6 +466,88 @@ class HealthAirtableClient(AirtableClient):
             fields["Sleep Efficiency"] = efficiency
         
         return self.create_record(self.base_id, "WHOOP Data", fields)
+    
+    # ========== COMPREHENSIVE WHOOP DATA METHODS ==========
+    
+    def save_whoop_workout_full(self, data: Dict) -> Dict:
+        """Save complete WHOOP workout data to WHOOP Workouts table"""
+        fields = {
+            "Date": data.get('date'),
+            "Workout ID": data.get('workout_id'),
+            "Sport Name": data.get('sport_name', 'Unknown'),
+            "Start Time": data.get('start_time'),
+            "End Time": data.get('end_time'),
+            "Duration (min)": data.get('duration_minutes'),
+            "Strain": data.get('strain'),
+            "Average HR": data.get('average_heart_rate'),
+            "Max HR": data.get('max_heart_rate'),
+            "Calories": data.get('calories'),
+            "Distance (m)": data.get('distance_meters'),
+            "Altitude Gain (m)": data.get('altitude_gain_meters'),
+            "Zone 0 (min)": data.get('zone_0_min'),
+            "Zone 1 (min)": data.get('zone_1_min'),
+            "Zone 2 (min)": data.get('zone_2_min'),
+            "Zone 3 (min)": data.get('zone_3_min'),
+            "Zone 4 (min)": data.get('zone_4_min'),
+            "Zone 5 (min)": data.get('zone_5_min'),
+            "Score State": data.get('score_state'),
+            "Source": "WHOOP"
+        }
+        return self.create_record(self.base_id, "WHOOP Workouts", fields)
+    
+    def save_whoop_sleep_full(self, data: Dict) -> Dict:
+        """Save complete WHOOP sleep data to WHOOP Sleep table"""
+        fields = {
+            "Date": data.get('date'),
+            "Sleep ID": data.get('sleep_id'),
+            "Is Nap": data.get('is_nap', False),
+            "Start Time": data.get('start_time'),
+            "End Time": data.get('end_time'),
+            "In Bed (hrs)": data.get('total_in_bed_hours'),
+            "Awake (hrs)": data.get('total_awake_hours'),
+            "Light Sleep (hrs)": data.get('total_light_sleep_hours'),
+            "Deep Sleep (hrs)": data.get('total_slow_wave_sleep_hours'),
+            "REM Sleep (hrs)": data.get('total_rem_sleep_hours'),
+            "Performance %": data.get('sleep_performance_pct'),
+            "Consistency %": data.get('sleep_consistency_pct'),
+            "Efficiency %": data.get('sleep_efficiency_pct'),
+            "Respiratory Rate": data.get('respiratory_rate'),
+            "Sleep Cycles": data.get('sleep_cycle_count'),
+            "Disturbances": data.get('disturbance_count'),
+            "Score State": data.get('score_state'),
+            "Source": "WHOOP"
+        }
+        return self.create_record(self.base_id, "WHOOP Sleep", fields)
+    
+    def save_whoop_recovery_full(self, data: Dict) -> Dict:
+        """Save complete WHOOP recovery data to WHOOP Recovery table"""
+        fields = {
+            "Date": data.get('date'),
+            "Recovery ID": data.get('recovery_id'),
+            "Recovery Score": data.get('recovery_score'),
+            "Resting HR": data.get('resting_heart_rate'),
+            "HRV": data.get('hrv_rmssd'),
+            "SpO2 %": data.get('spo2_percentage'),
+            "Skin Temp (°C)": data.get('skin_temp_celsius'),
+            "Calibrating": data.get('user_calibrating', False),
+            "Score State": data.get('score_state'),
+            "Source": "WHOOP"
+        }
+        return self.create_record(self.base_id, "WHOOP Recovery", fields)
+    
+    def save_whoop_daily_full(self, data: Dict) -> Dict:
+        """Save complete WHOOP daily/cycle data to WHOOP Daily table"""
+        fields = {
+            "Date": data.get('date'),
+            "Cycle ID": data.get('cycle_id'),
+            "Day Strain": data.get('strain'),
+            "Calories": data.get('calories'),
+            "Average HR": data.get('average_heart_rate'),
+            "Max HR": data.get('max_heart_rate'),
+            "Score State": data.get('score_state'),
+            "Source": "WHOOP"
+        }
+        return self.create_record(self.base_id, "WHOOP Daily", fields)
 
 
 # Convenience function to get configured client
