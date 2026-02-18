@@ -1548,6 +1548,36 @@
             return `${day}/${month}/${year}`;
         }
 
+        // Tab switching function
+        function showProjectTab(tabName) {
+            // Hide all tab content
+            document.querySelectorAll('.project-content').forEach(tab => {
+                tab.style.display = 'none';
+            });
+            
+            // Show selected tab content
+            document.getElementById('project-tab-' + tabName).style.display = 'block';
+            
+            // Update tab button styles
+            document.querySelectorAll('.project-tab').forEach(btn => {
+                btn.style.background = 'white';
+                btn.style.color = '#667eea';
+                btn.style.border = '1px solid rgba(102, 126, 234, 0.3)';
+            });
+            
+            // Highlight active tab
+            const activeBtn = document.getElementById('tab-' + tabName);
+            if (tabName === 'health-nutrition') {
+                activeBtn.style.background = 'linear-gradient(135deg, #22c55e, #16a34a)';
+                activeBtn.style.color = 'white';
+                activeBtn.style.border = 'none';
+            } else {
+                activeBtn.style.background = 'linear-gradient(135deg, #667eea, #764ba2)';
+                activeBtn.style.color = 'white';
+                activeBtn.style.border = 'none';
+            }
+        }
+
         function updateStartDatePreview() {
             const startDay = parseInt(document.getElementById('trak-task-start').value);
             if (startDay >= 1 && startDay <= 14) {
