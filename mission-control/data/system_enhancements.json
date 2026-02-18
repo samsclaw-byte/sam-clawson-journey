@@ -4,28 +4,28 @@
       "name": "Set up permanent systemd services for WHOOP webhook and tunnel",
       "urgency": "\ud83d\udfe0 Urgent",
       "status": "Not Started",
-      "days_remaining": 1,
+      "days_remaining": 0,
       "workflow": "\ud83d\udc93 WHOOP Recovery"
     },
     {
       "name": "Update TAT database schema - numeric categories + due date formula",
       "urgency": "\ud83d\udfe0 Urgent",
       "status": "Not Started",
-      "days_remaining": 1,
+      "days_remaining": 0,
       "workflow": "\ud83d\udccb TAT System"
     },
     {
       "name": "Integrate with web search (Brave)",
-      "urgency": "\ud83d\udfe0 Urgent",
+      "urgency": "\ud83d\udd34 Overdue",
       "status": "Not Started",
-      "days_remaining": 0,
+      "days_remaining": -1,
       "workflow": "\ud83e\udd16 AI Development"
     },
     {
       "name": "Run security updates (35 packages pending)",
-      "urgency": "\ud83d\udfe0 Urgent",
+      "urgency": "\ud83d\udd34 Overdue",
       "status": "Not Started",
-      "days_remaining": 0,
+      "days_remaining": -1,
       "workflow": "\ud83d\udee1\ufe0f Security Sentinel"
     },
     {
@@ -39,11 +39,11 @@
     },
     {
       "name": "Review cron jobs",
-      "urgency": "\ud83d\udfe0 Urgent",
+      "urgency": "\ud83d\udd34 Overdue",
       "status": "Not Started",
-      "days_remaining": 0,
+      "days_remaining": -1,
       "workflow": "\ud83c\udf05 Morning Brief"
     }
   ],
-  "last_updated": "2026-02-18T03:55:45+04:00"
+  "last_updated": "2026-02-18T04:55:45+04:00"
 }
