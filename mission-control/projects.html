@@ -414,51 +414,137 @@
     </div>
     
     <div class="container">
-        <!-- Project Header -->
-        <div class="project-header">
-            <div class="project-title">Mission Control Cloud v1.0</div>
-            <p style="color: #666; margin-bottom: 12px;">Transform personal dashboard into multi-user platform for family & friends</p>
-            <div class="project-meta">
-                <span>📅 Started: Feb 16, 2026</span>
-                <span>🎯 Target: Q2 2026</span>
-                <span>👥 Users: 1 (Sam) → 10 (pilot)</span>
-                <span>💰 Budget: $0-20/mo</span>
-            </div>
-            <div class="progress-section">
-                <div class="progress-bar-container">
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: 5%"></div>
+        <!-- Projects Tab Navigation -->
+        <div style="display: flex; justify-content: center; gap: 12px; margin-bottom: 24px; flex-wrap: wrap;">
+            <button onclick="showProjectTab('overview')" id="tab-overview" class="project-tab active" style="padding: 12px 24px; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; border-radius: 25px; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s;">Overview</button>
+            <button onclick="showProjectTab('mission-control')" id="tab-mission-control" class="project-tab" style="padding: 12px 24px; background: white; color: #667eea; border: 1px solid rgba(102, 126, 234, 0.3); border-radius: 25px; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s;">Mission Control Cloud v1.0</button>
+            <button onclick="showProjectTab('health-nutrition')" id="tab-health-nutrition" class="project-tab" style="padding: 12px 24px; background: white; color: #22c55e; border: 1px solid rgba(34, 197, 94, 0.3); border-radius: 25px; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s;">🥗 Health & Nutrition App</button>
+        </div>
+
+        <!-- OVERVIEW TAB -->
+        <div id="project-tab-overview" class="project-content">
+            <div class="project-header" style="text-align: center; padding: 60px 40px;">
+                <div style="font-size: 64px; margin-bottom: 20px;">🎯</div>
+                <div class="project-title" style="font-size: 32px; margin-bottom: 16px;">Project Dashboard</div>
+                <p style="color: #666; font-size: 16px; max-width: 500px; margin: 0 auto 30px;">Active development projects for Mission Control Cloud platform. Select a project tab above to view details.</p>
+                <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+                    <div style="background: #f8f9ff; padding: 20px 30px; border-radius: 12px; text-align: center;">
+                        <div style="font-size: 28px; font-weight: 700; color: #667eea;">2</div>
+                        <div style="font-size: 12px; color: #666;">Active Projects</div>
                     </div>
-                    <span class="progress-text">5% Complete</span>
+                    <div style="background: #f8f9ff; padding: 20px 30px; border-radius: 12px; text-align: center;">
+                        <div style="font-size: 28px; font-weight: 700; color: #22c55e;">23</div>
+                        <div style="font-size: 12px; color: #666;">Deliverables</div>
+                    </div>
+                    <div style="background: #f8f9ff; padding: 20px 30px; border-radius: 12px; text-align: center;">
+                        <div style="font-size: 28px; font-weight: 700; color: #f59e0b;">3%</div>
+                        <div style="font-size: 12px; color: #666;">Avg Progress</div>
+                    </div>
                 </div>
             </div>
         </div>
-        
-        <!-- Health & Nutrition App Project -->
-        <div class="project-header" style="margin-top: 30px; border-left: 4px solid #22c55e;">
-            <div class="project-title" style="background: linear-gradient(135deg, #22c55e, #16a34a); -webkit-background-clip: text;">🥗 Health & Nutrition App</div>
-            <p style="color: #666; margin-bottom: 12px;">Standalone nutrition tracking app with meal logging, recipes, and health insights</p>
-            <div class="project-meta">
-                <span>📅 Started: Feb 16, 2026</span>
-                <span>🎯 Target: Q3 2026</span>
-                <span>👥 Users: Personal → Family</span>
-                <span>📱 Platform: Web + Mobile</span>
-            </div>
-            <div class="progress-section">
-                <div class="progress-bar-container">
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: 2%; background: linear-gradient(135deg, #22c55e, #16a34a);"></div>
+
+        <!-- MISSION CONTROL CLOUD TAB -->
+        <div id="project-tab-mission-control" class="project-content" style="display: none;">
+            <div class="project-header">
+                <div class="project-title">Mission Control Cloud v1.0</div>
+                <p style="color: #666; margin-bottom: 12px;">Transform personal dashboard into multi-user platform for family & friends</p>
+                <div class="project-meta">
+                    <span>📅 Started: Feb 16, 2026</span>
+                    <span>🎯 Target: Q2 2026</span>
+                    <span>👥 Users: 1 (Sam) → 10 (pilot)</span>
+                    <span>💰 Budget: $0-20/mo</span>
+                </div>
+                <div class="progress-section">
+                    <div class="progress-bar-container">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 5%"></div>
+                        </div>
+                        <span class="progress-text">5% Complete</span>
                     </div>
-                    <span class="progress-text" style="color: #22c55e;">2% Complete</span>
                 </div>
             </div>
-            <div style="margin-top: 16px;">
-                <a href="health-nutrition.html" style="display: inline-block; padding: 10px 20px; background: linear-gradient(135deg, #22c55e, #16a34a); color: white; text-decoration: none; border-radius: 20px; font-size: 14px; font-weight: 500;">🚀 Launch App</a>
-                <a href="health-nutrition-mvp-process.html" style="display: inline-block; padding: 10px 20px; background: white; color: #22c55e; border: 2px solid #22c55e; text-decoration: none; border-radius: 20px; font-size: 14px; font-weight: 500; margin-left: 12px;">📋 Development Process</a>
-                <a href="health-nutrition-wireframes.html" style="display: inline-block; padding: 10px 20px; background: white; color: #f59e0b; border: 2px solid #f59e0b; text-decoration: none; border-radius: 20px; font-size: 14px; font-weight: 500; margin-left: 12px;">🎨 Wireframes</a>
-                <button onclick="document.getElementById('trak-beta-gantt').scrollIntoView({behavior: 'smooth'})" style="display: inline-block; padding: 10px 20px; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; border-radius: 20px; font-size: 14px; font-weight: 500; margin-left: 12px; cursor: pointer;">📊 Trak Beta GANTT</button>
+            
+            <div class="grid">
+                <div class="card">
+                    <h2>🎯 Project Goals</h2>
+                    <ul style="font-size: 13px; line-height: 1.8; padding-left: 20px;">
+                        <li>Scale from single-user to multi-user platform</li>
+                        <li>Enable family & friends to track health, productivity, work together</li>
+                        <li>Maintain data isolation and security</li>
+                        <li>Keep costs under $20/month</li>
+                        <li>Learn real-world auth, scaling, security</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h2>📋 Key Deliverables</h2>
+                    <ul style="font-size: 13px; line-height: 1.8; padding-left: 20px;">
+                        <li>User authentication & authorization</li>
+                        <li>Multi-tenant database architecture</li>
+                        <li>Family invitation system</li>
+                        <li>Admin dashboard</li>
+                        <li>Data migration from Airtable to PostgreSQL</li>
+                        <li>Mobile-responsive all pages</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="card" style="margin-top: 20px;">
+                <h2>🛣️ Roadmap</h2>
+                <div style="display: grid; gap: 16px; margin-top: 16px;">
+                    <div style="display: flex; align-items: center; gap: 16px; padding: 16px; background: #f0fdf4; border-radius: 12px; border-left: 4px solid #22c55e;">
+                        <div style="font-size: 24px;">✅</div>
+                        <div>
+                            <div style="font-weight: 600;">Phase 0: Single-User MVP</div>
+                            <div style="font-size: 12px; color: #666;">Complete — Personal dashboard working</div>
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 16px; padding: 16px; background: #fef3c7; border-radius: 12px; border-left: 4px solid #f59e0b;">
+                        <div style="font-size: 24px;">▶️</div>
+                        <div>
+                            <div style="font-weight: 600;">Phase 1: Health & Nutrition Beta</div>
+                            <div style="font-size: 12px; color: #666;">In Progress — Test with 3-5 family members</div>
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 16px; padding: 16px; background: #f3f4f6; border-radius: 12px; border-left: 4px solid #9ca3af;">
+                        <div style="font-size: 24px;">⏸️</div>
+                        <div>
+                            <div style="font-weight: 600;">Phase 2: Full Multi-User Platform</div>
+                            <div style="font-size: 12px; color: #666;">Pending — All features, all modules</div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+
+        <!-- HEALTH & NUTRITION APP TAB -->
+        <div id="project-tab-health-nutrition" class="project-content" style="display: none;">
+            <!-- Health & Nutrition App Project Header -->
+            <div class="project-header" style="border-left: 4px solid #22c55e;">
+                <div class="project-title" style="background: linear-gradient(135deg, #22c55e, #16a34a); -webkit-background-clip: text;">🥗 Health & Nutrition App</div>
+                <p style="color: #666; margin-bottom: 12px;">Standalone nutrition tracking app with meal logging, recipes, and health insights</p>
+                <div class="project-meta">
+                    <span>📅 Started: Feb 16, 2026</span>
+                    <span>🎯 Target: Q3 2026</span>
+                    <span>👥 Users: Personal → Family</span>
+                    <span>📱 Platform: Web + Mobile</span>
+                </div>
+                <div class="progress-section">
+                    <div class="progress-bar-container">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 2%; background: linear-gradient(135deg, #22c55e, #16a34a);"></div>
+                        </div>
+                        <span class="progress-text" style="color: #22c55e;">2% Complete</span>
+                    </div>
+                </div>
+                <div style="margin-top: 16px;">
+                    <a href="health-nutrition.html" style="display: inline-block; padding: 10px 20px; background: linear-gradient(135deg, #22c55e, #16a34a); color: white; text-decoration: none; border-radius: 20px; font-size: 14px; font-weight: 500;">🚀 Launch App</a>
+                    <a href="health-nutrition-mvp-process.html" style="display: inline-block; padding: 10px 20px; background: white; color: #22c55e; border: 2px solid #22c55e; text-decoration: none; border-radius: 20px; font-size: 14px; font-weight: 500; margin-left: 12px;">📋 Development Process</a>
+                    <a href="health-nutrition-wireframes.html" style="display: inline-block; padding: 10px 20px; background: white; color: #f59e0b; border: 2px solid #f59e0b; text-decoration: none; border-radius: 20px; font-size: 14px; font-weight: 500; margin-left: 12px;">🎨 Wireframes</a>
+                    <button onclick="document.getElementById('trak-beta-gantt').scrollIntoView({behavior: 'smooth'})" style="display: inline-block; padding: 10px 20px; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; border-radius: 20px; font-size: 14px; font-weight: 500; margin-left: 12px; cursor: pointer;">📊 Trak Beta GANTT</button>
+                </div>
+            </div>
         
         <!-- Simplified Beta MVP -->
         <div class="card" style="background: linear-gradient(135deg, #f0fdf4, #dcfce7); border: 2px solid #22c55e;">
@@ -1294,9 +1380,37 @@
                 </div>
             </div>
         </div>
+        <!-- End Health & Nutrition Tab -->
+        </div>
     </div>
 
     <script>
+        // Tab Switching Functions
+        function showProjectTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.project-content').forEach(tab => {
+                tab.style.display = 'none';
+            });
+            
+            // Show selected tab
+            document.getElementById('project-tab-' + tabName).style.display = 'block';
+            
+            // Update tab buttons
+            document.querySelectorAll('.project-tab').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.id === 'tab-' + tabName) {
+                    btn.classList.add('active');
+                    btn.style.background = 'linear-gradient(135deg, #667eea, #764ba2)';
+                    btn.style.color = 'white';
+                    btn.style.borderColor = 'transparent';
+                } else {
+                    btn.style.background = 'white';
+                    btn.style.color = btn.id === 'tab-health-nutrition' ? '#22c55e' : '#667eea';
+                    btn.style.borderColor = btn.id === 'tab-health-nutrition' ? 'rgba(34, 197, 94, 0.3)' : 'rgba(102, 126, 234, 0.3)';
+                }
+            });
+        }
+
         // Trak Beta GANTT Functions
         const defaultTrakTasks = [
             { id: 1, name: 'Cloudflare Setup (Pages, D1, Workers)', start: 1, duration: 2, status: 'not-started', owner: 'Sam' },
