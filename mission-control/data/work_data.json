@@ -428,11 +428,11 @@
     }
   ],
   "recurring": [],
-  "last_updated": "2026-02-18T23:42:33.277294",
+  "last_updated": "2026-02-19T00:12:34.743128",
   "summary": {
     "total_active": 26,
     "urgent": 0,
     "blocked": 0,
-    "due_this_week": 5
+    "due_this_week": 4
   }
 }
