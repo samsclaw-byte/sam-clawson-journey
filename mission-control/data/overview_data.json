@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-02-19T03:47:59.701576",
+  "generated_at": "2026-02-19T04:02:59.454739",
   "today": {
     "health": {
       "today_calories": 0,
@@ -20,7 +20,7 @@
         "name": "Renew CIMA membership",
         "category": "Personal",
         "due_status": "overdue",
-        "days_remaining": -1,
+        "days_remaining": -2,
         "status": "Not Started"
       },
       {
@@ -28,7 +28,7 @@
         "name": "Link to Gmail and forward nursery dates and times",
         "category": "AI Development",
         "due_status": "overdue",
-        "days_remaining": -1,
+        "days_remaining": -2,
         "status": "Not Started"
       },
       {
@@ -36,7 +36,7 @@
         "name": "Complete Google Calendar update",
         "category": "Personal",
         "due_status": "overdue",
-        "days_remaining": -1,
+        "days_remaining": -2,
         "status": "Not Started"
       },
       {
@@ -44,7 +44,7 @@
         "name": "Give Clawson a voice to respond to voice messages",
         "category": "AI Development",
         "due_status": "overdue",
-        "days_remaining": -1,
+        "days_remaining": -2,
         "status": "Not Started"
       },
       {
@@ -52,7 +52,7 @@
         "name": "Review cron jobs",
         "category": "System Enhancement",
         "due_status": "overdue",
-        "days_remaining": -1,
+        "days_remaining": -2,
         "status": "Not Started"
       }
     ]
