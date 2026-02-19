@@ -7,6 +7,11 @@
       "calories": 450
     },
     {
+      "type": "Lunch",
+      "items": "Medium portion rice with Thai green curry",
+      "calories": 550
+    },
+    {
       "type": "Snack",
       "items": "220g raspberry Greek yogurt",
       "calories": 180
@@ -15,9 +20,14 @@
       "type": "Snack",
       "items": "3 dates",
       "calories": 70
+    },
+    {
+      "type": "Snack",
+      "items": "10 cubes Dairy Milk chocolate",
+      "calories": 200
     }
   ],
-  "total_calories": 700,
+  "total_calories": 1450,
   "macros": {
     "protein": 0,
     "carbs": 0,
