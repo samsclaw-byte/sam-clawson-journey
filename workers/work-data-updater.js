@@ -46,6 +46,17 @@ export default {
 async function addDeliverable(data, env, corsHeaders) {
   const { name, projectId, status, owner, dueDate, weight, notes } = data;
   
+  // Validate environment variables
+  if (!env.AIRTABLE_API_KEY) {
+    throw new Error('AIRTABLE_API_KEY not configured');
+  }
+  if (!env.AIRTABLE_BASE_ID) {
+    throw new Error('AIRTABLE_BASE_ID not configured');
+  }
+  if (!env.DELIVERABLES_TABLE_ID) {
+    throw new Error('DELIVERABLES_TABLE_ID not configured');
+  }
+  
   const airtableUrl = `https://api.airtable.com/v0/${env.AIRTABLE_BASE_ID}/${env.DELIVERABLES_TABLE_ID}`;
   
   const record = {
@@ -69,12 +80,21 @@ async function addDeliverable(data, env, corsHeaders) {
     },
     body: JSON.stringify(record)
   });
-  
+
   if (!response.ok) {
-    const error = await response.text();
-    throw new Error(`Airtable error: ${error}`);
+    const errorText = await response.text();
+    console.error('Airtable error:', errorText);
+    return new Response(JSON.stringify({
+      success: false,
+      error: 'Airtable API error',
+      details: errorText,
+      url: airtableUrl
+    }), {
+      status: 500,
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+    });
   }
-  
+
   const result = await response.json();
   
   return new Response(JSON.stringify({ 
