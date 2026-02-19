@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rive Health Bar Animation</title>
+    <script src="https://unpkg.com/@rive-app/canvas@2.7.0"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-size: 32px;
+            background: linear-gradient(135deg, #22c55e, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+        }
+        
+        .header p {
+            color: #888;
+            font-size: 14px;
+        }
+        
+        .nav {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        .nav a {
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 25px;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        
+        .nav a:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        
+        .animation-card {
+            background: linear-gradient(135deg, #2d3748, #1a202c);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 20px;
+            border: 2px solid rgba(255,255,255,0.1);
+        }
+        
+        .animation-card h2 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #a5b4fc;
+        }
+        
+        #rive-canvas {
+            width: 100%;
+            height: 400px;
+            background: #0f172a;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .controls {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .control-btn {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .control-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+        
+        .btn-damage {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+        }
+        
+        .btn-heal {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            color: white;
+        }
+        
+        .btn-gameover {
+            background: linear-gradient(135deg, #7c3aed, #6d28d9);
+            color: white;
+        }
+        
+        .btn-reset {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: white;
+        }
+        
+        .status-display {
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .health-value {
+            font-size: 48px;
+            font-weight: 700;
+            color: #22c55e;
+            margin: 10px 0;
+        }
+        
+        .health-bar {
+            width: 100%;
+            height: 30px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 16px 0;
+        }
+        
+        .health-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ef4444 0%, #22c55e 100%);
+            transition: width 0.5s ease;
+            border-radius: 15px;
+        }
+        
+        .code-section {
+            background: #0f172a;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .code-section h3 {
+            font-size: 14px;
+            color: #a5b4fc;
+            margin-bottom: 12px;
+        }
+        
+        .code-input {
+            width: 100%;
+            height: 150px;
+            padding: 12px;
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            color: #a5b4fc;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 12px;
+            resize: vertical;
+        }
+        
+        .save-btn {
+            margin-top: 12px;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #9945FF, #FF6B9D);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        
+        .save-status {
+            margin-top: 8px;
+            font-size: 12px;
+            color: #22c55e;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .save-status.show {
+            opacity: 1;
+        }
+        
+        .instructions {
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 20px;
+        }
+        
+        .instructions h3 {
+            color: #22c55e;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+        
+        .instructions p {
+            color: #888;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+        
+        .instructions code {
+            background: rgba(255,255,255,0.1);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+            color: #a5b4fc;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎬 Rive Health Bar Animation</h1>
+            <p>Interactive animation with data binding controls</p>
+        </div>
+        
+        <div class="nav">
+            <a href="index.html">← Back to Mission Control</a>
+            <a href="health-nutrition.html">Health & Nutrition</a>
+        </div>
+        
+        <div class="animation-card">
+            <h2>🎮 Animation View</h2>
+            <canvas id="rive-canvas"></canvas>
+            
+            <div class="status-display">
+                <div>Current Health</div>
+                <div class="health-value" id="health-display">100%</div>
+                <div class="health-bar">
+                    <div class="health-fill" id="health-fill" style="width: 100%"></div>
+                </div>
+                <div id="status-text" style="color: #888; font-size: 12px;">Ready</div>
+            </div>
+            
+            <div class="controls">
+                <button class="control-btn btn-damage" onclick="takeDamage()">
+                    💥 Take Damage (-7)
+                </button>
+                <button class="control-btn btn-heal" onclick="heal()">
+                    💚 Heal (+10)
+                </button>
+                <button class="control-btn btn-gameover" onclick="gameOver()">
+                    🎮 Game Over
+                </button>
+                <button class="control-btn btn-reset" onclick="resetHealth()">
+                    🔄 Reset
+                </button>
+            </div>
+        </div>
+        
+        <div class="animation-card">
+            <h2>💾 Save Your Code</h2>
+            <div class="code-section">
+                <h3>React Component Code</h3>
+                <textarea class="code-input" id="code-input" placeholder="Paste your Rive React component code here..."></textarea>
+                <button class="save-btn" onclick="saveCode()">💾 Save Code</button>
+                <div class="save-status" id="save-status">✅ Code saved to localStorage!</div>
+            </div>
+            
+            <div class="instructions">
+                <h3>📋 How to Use</h3>
+                <p>
+                    This page demonstrates Rive animation integration. To use your actual <code>.riv</code> file:
+                    <br><br>
+                    1. Upload your <code>quick_start_health_bar.riv</code> file to the server
+                    <br>
+                    2. Update the <code>src</code> path in the JavaScript below
+                    <br>
+                    3. The animation will load and respond to the control buttons
+                    <br><br>
+                    <strong>Note:</strong> Currently showing a placeholder visualization. Replace the canvas drawing code with actual Rive runtime code to see your animation.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentHealth = 100;
+        let riveInstance = null;
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSavedCode();
+            drawHealthBar();
+            
+            // Attempt to initialize Rive if file exists
+            initRiveAnimation();
+        });
+        
+        // Try to load Rive animation
+        function initRiveAnimation() {
+            const canvas = document.getElementById('rive-canvas');
+            
+            // Check if Rive file exists at common locations
+            const possiblePaths = [
+                'quick_start_health_bar.riv',
+                'assets/quick_start_health_bar.riv',
+                'rive/quick_start_health_bar.riv',
+                '../quick_start_health_bar.riv'
+            ];
+            
+            // For now, draw a placeholder visualization
+            // In production, replace this with actual Rive loading code:
+            /*
+            riveInstance = new rive.Rive({
+                src: 'path/to/quick_start_health_bar.riv',
+                canvas: canvas,
+                autoplay: true,
+                stateMachines: 'State Machine 1',
+                onLoad: () => {
+                    console.log('Rive animation loaded!');
+                }
+            });
+            */
+        }
+        
+        // Draw placeholder health bar visualization
+        function drawHealthBar() {
+            const canvas = document.getElementById('rive-canvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Set canvas size
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+            
+            const width = canvas.width;
+            const height = canvas.height;
+            
+            // Clear canvas
+            ctx.fillStyle = '#0f172a';
+            ctx.fillRect(0, 0, width, height);
+            
+            // Draw health bar background
+            const barWidth = width * 0.7;
+            const barHeight = 60;
+            const barX = (width - barWidth) / 2;
+            const barY = (height - barHeight) / 2;
+            
+            // Background
+            ctx.fillStyle = '#1e293b';
+            ctx.roundRect(barX, barY, barWidth, barHeight, 30);
+            ctx.fill();
+            
+            // Health fill
+            const fillWidth = (currentHealth / 100) * (barWidth - 8);
+            const healthColor = currentHealth > 50 ? '#22c55e' : currentHealth > 25 ? '#f59e0b' : '#ef4444';
+            
+            // Gradient
+            const gradient = ctx.createLinearGradient(barX, 0, barX + barWidth, 0);
+            gradient.addColorStop(0, '#ef4444');
+            gradient.addColorStop(0.5, '#f59e0b');
+            gradient.addColorStop(1, '#22c55e');
+            
+            ctx.fillStyle = gradient;
+            ctx.roundRect(barX + 4, barY + 4, fillWidth, barHeight - 8, 26);
+            ctx.fill();
+            
+            // Draw health value
+            ctx.font = 'bold 48px -apple-system, BlinkMacSystemFont, sans-serif';
+            ctx.fillStyle = '#fff';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(`${currentHealth}%`, width / 2, barY - 50);
+            
+            // Draw label
+            ctx.font = '16px -apple-system, BlinkMacSystemFont, sans-serif';
+            ctx.fillStyle = '#888';
+            ctx.fillText('HEALTH', width / 2, barY + barHeight + 40);
+            
+            // Draw status
+            let status = 'Healthy';
+            if (currentHealth <= 0) status = 'GAME OVER';
+            else if (currentHealth < 25) status = 'Critical';
+            else if (currentHealth < 50) status = 'Warning';
+            
+            ctx.font = 'bold 20px -apple-system, BlinkMacSystemFont, sans-serif';
+            ctx.fillStyle = healthColor;
+            ctx.fillText(status, width / 2, barY + barHeight + 70);
+        }
+        
+        // Control functions
+        function takeDamage() {
+            currentHealth = Math.max(0, currentHealth - 7);
+            updateDisplay();
+            animateDamage();
+            
+            // Trigger Rive state machine input if available
+            if (riveInstance) {
+                // riveInstance.setInputValue('health', currentHealth);
+            }
+        }
+        
+        function heal() {
+            currentHealth = Math.min(100, currentHealth + 10);
+            updateDisplay();
+            
+            if (riveInstance) {
+                // riveInstance.setInputValue('health', currentHealth);
+            }
+        }
+        
+        function gameOver() {
+            currentHealth = 0;
+            updateDisplay();
+            
+            if (riveInstance) {
+                // riveInstance.fireTrigger('gameOver');
+            }
+        }
+        
+        function resetHealth() {
+            currentHealth = 100;
+            updateDisplay();
+            
+            if (riveInstance) {
+                // riveInstance.setInputValue('health', currentHealth);
+            }
+        }
+        
+        function updateDisplay() {
+            drawHealthBar();
+            document.getElementById('health-display').textContent = `${currentHealth}%`;
+            document.getElementById('health-fill').style.width = `${currentHealth}%`;
+            
+            let statusText = 'Healthy';
+            let statusColor = '#22c55e';
+            
+            if (currentHealth <= 0) {
+                statusText = 'GAME OVER';
+                statusColor = '#ef4444';
+            } else if (currentHealth < 25) {
+                statusText = 'Critical';
+                statusColor = '#ef4444';
+            } else if (currentHealth < 50) {
+                statusText = 'Warning';
+                statusColor = '#f59e0b';
+            }
+            
+            const statusEl = document.getElementById('status-text');
+            statusEl.textContent = statusText;
+            statusEl.style.color = statusColor;
+            
+            // Update health bar color
+            const healthFill = document.getElementById('health-fill');
+            if (currentHealth > 50) {
+                healthFill.style.background = 'linear-gradient(90deg, #22c55e, #16a34a)';
+            } else if (currentHealth > 25) {
+                healthFill.style.background = 'linear-gradient(90deg, #f59e0b, #d97706)';
+            } else {
+                healthFill.style.background = 'linear-gradient(90deg, #ef4444, #dc2626)';
+            }
+        }
+        
+        function animateDamage() {
+            const canvas = document.getElementById('rive-canvas');
+            canvas.style.transform = 'translateX(-5px)';
+            setTimeout(() => canvas.style.transform = 'translateX(5px)', 50);
+            setTimeout(() => canvas.style.transform = 'translateX(-5px)', 100);
+            setTimeout(() => canvas.style.transform = 'translateX(5px)', 150);
+            setTimeout(() => canvas.style.transform = 'translateX(0)', 200);
+        }
+        
+        // Code saving functionality
+        function saveCode() {
+            const code = document.getElementById('code-input').value;
+            localStorage.setItem('rive-health-bar-code', code);
+            
+            const status = document.getElementById('save-status');
+            status.classList.add('show');
+            setTimeout(() => status.classList.remove('show'), 3000);
+            
+            console.log('💾 Code saved!');
+        }
+        
+        function loadSavedCode() {
+            const saved = localStorage.getItem('rive-health-bar-code');
+            if (saved) {
+                document.getElementById('code-input').value = saved;
+            } else {
+                // Default React component code
+                document.getElementById('code-input').value = `/* Rive Health Bar - React Component */
+import { useRive, Layout, Fit } from "@rive-app/react-webgl2";
+
+export default function HealthBar() {
+  const { rive, RiveComponent } = useRive({
+    src: "quick_start_health_bar.riv",
+    stateMachines: "State Machine 1",
+    layout: new Layout({ fit: Fit.Layout }),
+    autoplay: true,
+    autoBind: true,
+  });
+  
+  return (
+    <div style={{ width: '100%', height: '400px' }}>
+      <RiveComponent />
+    </div>
+  );
+}`;
+            }
+        }
+        
+        // Handle window resize
+        window.addEventListener('resize', drawHealthBar);
+    </script>
+</body>
+</html>
