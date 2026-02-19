@@ -2018,33 +2018,50 @@
             if (!deliverables || deliverables.length === 0) {
                 return '<div style="text-align: center; padding: 20px; color: #999;">No deliverables yet</div>';
             }
-            
-            // Generate date columns from today until project due date (or +30 days)
+
+            // Find min/max dates from deliverables
             const today = new Date();
             today.setHours(0, 0, 0, 0);
-            
-            const endDate = projectDueDate ? new Date(projectDueDate) : new Date(today);
-            if (!projectDueDate) {
-                endDate.setDate(endDate.getDate() + 30); // Default 30 days
+
+            const deliverableDates = deliverables
+                .filter(d => d.due_date)
+                .map(d => new Date(d.due_date));
+
+            const minDate = deliverableDates.length > 0
+                ? new Date(Math.min(...deliverableDates))
+                : today;
+
+            const maxDate = deliverableDates.length > 0
+                ? new Date(Math.max(...deliverableDates))
+                : new Date(today);
+
+            // Extend range to include project due date if set
+            if (projectDueDate) {
+                const projDate = new Date(projectDueDate);
+                if (projDate > maxDate) maxDate.setTime(projDate.getTime());
             }
-            
-            // Generate weekly columns
+
+            // Always include today and extend to cover all deliverables
+            if (minDate > today) minDate.setTime(today.getTime());
+            maxDate.setDate(maxDate.getDate() + 7); // Add buffer
+
+            // Generate weekly columns covering all deliverable dates
             const columns = [];
-            let current = new Date(today);
+            let current = new Date(minDate);
             let colIndex = 0;
-            
-            while (current <= endDate && colIndex < 12) {
+
+            while (current <= maxDate && colIndex < 20) {
                 const weekStart = new Date(current);
                 const weekEnd = new Date(current);
                 weekEnd.setDate(weekEnd.getDate() + 6);
-                
+
                 columns.push({
                     key: `week-${colIndex}`,
                     label: `${weekStart.getDate()}/${weekStart.getMonth() + 1}`,
                     start: weekStart,
                     end: weekEnd
                 });
-                
+
                 current.setDate(current.getDate() + 7);
                 colIndex++;
             }
