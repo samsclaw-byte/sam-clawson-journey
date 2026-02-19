@@ -9,19 +9,20 @@ export default {
       'Access-Control-Allow-Methods': 'POST, OPTIONS',
       'Access-Control-Allow-Headers': 'Content-Type',
     };
-    
+
     if (request.method === 'OPTIONS') {
       return new Response(null, { headers: corsHeaders });
     }
-    
+
     if (request.method !== 'POST') {
       return new Response('Method not allowed', { status: 405, headers: corsHeaders });
     }
-    
+
     try {
       const body = await request.json();
+      console.log('Received request:', JSON.stringify(body));
       const { action, data } = body;
-      
+
       if (action === 'addDeliverable') {
         return await addDeliverable(data, env, corsHeaders);
       } else if (action === 'updateDeliverable') {
@@ -31,11 +32,12 @@ export default {
       } else if (action === 'markTaskComplete') {
         return await markTaskComplete(data, env, corsHeaders);
       }
-      
-      return new Response('Unknown action', { status: 400, headers: corsHeaders });
-      
+
+      return new Response(JSON.stringify({ error: 'Unknown action', action }), { status: 400, headers: corsHeaders });
+
     } catch (error) {
-      return new Response(JSON.stringify({ error: error.message }), {
+      console.error('Worker error:', error);
+      return new Response(JSON.stringify({ error: error.message, stack: error.stack }), {
         status: 500,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' }
       });
