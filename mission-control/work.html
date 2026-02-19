@@ -2333,47 +2333,24 @@
             } catch (syncError) {
                 console.log('Airtable sync failed (saved locally):', syncError.message);
             }
-                
-                // Recalculate project progress
-                if (project.deliverables.length > 0) {
-                    const avgProgress = project.deliverables.reduce((sum, d) => sum + (d.progress || 0), 0) / project.deliverables.length;
-                    project.progress = Math.round(avgProgress);
-                    
-                    // Update project progress in Airtable
-                    await fetch(WORKER_URL, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            action: 'updateProjectProgress',
-                            data: {
-                                projectId: projectId,
-                                progress: project.progress
-                            }
-                        })
-                    });
-                }
-                
-                renderProjects();
-                
-                const action = isEdit ? 'updated' : 'added';
-                console.log(`✅ Deliverable "${data.name}" ${action} successfully!`);
-                
-            } catch (error) {
-                console.error('Error saving deliverable:', error);
-                alert('Error: ' + error.message + '\n\nChanges saved locally only.');
-                // Still add to local data for UI feedback
-                if (!isEdit && project) {
-                    project.deliverables.push({
-                        name: data.name,
-                        status: data.status,
-                        owner: data.owner,
-                        due_date: data.dueDate,
-                        progress: data.progress,
-                        weight: 10,
-                        notes: data.notes
-                    });
-                }
-                renderProjects();
+
+            // Recalculate project progress
+            if (project.deliverables.length > 0) {
+                const avgProgress = project.deliverables.reduce((sum, d) => sum + (d.progress || 0), 0) / project.deliverables.length;
+                project.progress = Math.round(avgProgress);
+
+                // Update project progress in Airtable (fire and forget)
+                fetch(WORKER_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        action: 'updateProjectProgress',
+                        data: {
+                            projectId: projectId,
+                            progress: project.progress
+                        }
+                    })
+                }).catch(e => console.log('Progress sync failed:', e.message));
             }
         }
         
