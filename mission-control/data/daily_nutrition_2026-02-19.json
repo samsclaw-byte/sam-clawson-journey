@@ -25,9 +25,14 @@
       "type": "Snack",
       "items": "10 cubes Dairy Milk chocolate",
       "calories": 200
+    },
+    {
+      "type": "Snack",
+      "items": "8 cubes Dairy Milk chocolate",
+      "calories": 160
     }
   ],
-  "total_calories": 1450,
+  "total_calories": 1610,
   "macros": {
     "protein": 0,
     "carbs": 0,
