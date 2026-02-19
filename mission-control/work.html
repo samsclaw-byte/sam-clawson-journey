@@ -1899,14 +1899,19 @@
             }
 
             try {
+            // First, merge deliverables for all projects and update workData
+            workData.projects.forEach(project => {
+                project.deliverables = mergeDeliverables(project.id, project.deliverables || []);
+            });
+
             projectList.innerHTML = workData.projects.map(project => {
                 const statusClass = project.status ? project.status.toLowerCase().replace(' ', '-') : 'planning';
 
-                // Merge Airtable deliverables with localStorage deliverables
-                const deliverables = mergeDeliverables(project.id, project.deliverables || []);
+                // Use already-merged deliverables
+                const deliverables = project.deliverables;
 
-                // Sort deliverables by due date
-                deliverables.sort((a, b) => {
+                // Sort a copy for display
+                const sortedDeliverables = [...deliverables].sort((a, b) => {
                     if (!a.due_date) return 1;
                     if (!b.due_date) return -1;
                     return new Date(a.due_date) - new Date(b.due_date);
@@ -1935,16 +1940,16 @@
                         <div class="project-progress-text">${project.progress || 0}% Complete</div>
                     </div>
                     
-                    ${deliverables.length >= 0 ? `
+                    ${sortedDeliverables.length >= 0 ? `
                     <div class="deliverables-section">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
                             <h3>📋 Deliverables (${deliverables.length})</h3>
                             <button class="add-deliverable-btn" onclick="showAddDeliverableModal('${project.id}')">+ Add Deliverable</button>
                         </div>
-                        
+
                         <!-- Deliverables Date GANTT -->
                         <div class="deliverables-date-gantt" id="deliverables-gantt-${project.id}">
-                            ${generateDeliverablesGantt(deliverables, project.target_end_date, project.id)}
+                            ${generateDeliverablesGantt(sortedDeliverables, project.target_end_date, project.id)}
                         </div>
                         
                         <!-- Selected Deliverable Detail View -->
