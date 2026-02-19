@@ -10,9 +10,14 @@
       "type": "Snack",
       "items": "220g raspberry Greek yogurt",
       "calories": 180
+    },
+    {
+      "type": "Snack",
+      "items": "3 dates",
+      "calories": 70
     }
   ],
-  "total_calories": 630,
+  "total_calories": 700,
   "macros": {
     "protein": 0,
     "carbs": 0,
