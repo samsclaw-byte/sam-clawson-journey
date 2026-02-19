@@ -51,6 +51,7 @@ async function addDeliverable(data, env, corsHeaders) {
   const record = {
     fields: {
       Name: name,
+      Project: [projectId],
       Status: status || 'Not Started',
       Owner: owner || '',
       'Due Date': dueDate || '',
