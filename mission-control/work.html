@@ -2062,20 +2062,25 @@
                 return new Date(a.due_date) - new Date(b.due_date);
             });
             
+            // Create a name-to-index map for the original array
+            const nameToIndex = new Map();
+            deliverables.forEach((d, i) => nameToIndex.set(d.name, i));
+
             // Deliverable rows
-            sortedDelivs.forEach((d, index) => {
+            sortedDelivs.forEach((d) => {
                 const statusClass = d.status ? d.status.toLowerCase().replace(' ', '-') : 'not-started';
                 const dueDate = d.due_date ? new Date(d.due_date) : null;
+                const originalIndex = nameToIndex.get(d.name);
 
-                html += `<div class="deliverables-gantt-row ${statusClass}" draggable="true" ondragstart="dragDeliverable(event, '${projectId}', ${index})" data-project-id="${projectId}" data-deliv-index="${index}">`;
+                html += `<div class="deliverables-gantt-row ${statusClass}" draggable="true" ondragstart="dragDeliverable(event, '${projectId}', '${d.name.replace(/'/g, "\\'")}')" data-project-id="${projectId}" data-deliv-name="${d.name.replace(/"/g, '&quot;')}">`;
 
                 // Name cell with edit/delete buttons
                 html += `<div class="deliverables-gantt-name-cell">`;
                 html += `<div class="deliverable-gantt-title">${d.name}</div>`;
                 html += `<div class="deliverable-gantt-subtitle">${d.status} • ${d.progress || 0}%</div>`;
                 html += `<div class="deliverable-row-actions">`;
-                html += `<button class="deliverable-row-btn edit" onclick="editDeliverableFromRow(event, '${projectId}', ${index})" title="Edit">✏️</button>`;
-                html += `<button class="deliverable-row-btn delete" onclick="deleteDeliverableFromRow(event, '${projectId}', ${index})" title="Delete">🗑️</button>`;
+                html += `<button class="deliverable-row-btn edit" onclick="editDeliverableFromRow(event, '${projectId}', ${originalIndex})" title="Edit">✏️</button>`;
+                html += `<button class="deliverable-row-btn delete" onclick="deleteDeliverableFromRow(event, '${projectId}', ${originalIndex})" title="Delete">🗑️</button>`;
                 html += `</div>`;
                 html += '</div>';
 
@@ -2087,7 +2092,7 @@
 
                     if (dueDate && dueDate >= col.start && dueDate <= col.end) {
                         // Due date falls in this week
-                        cellContent = `<div class="deliverable-gantt-marker ${statusClass}" draggable="true" ondragstart="dragDeliverable(event, '${projectId}', ${index})"></div>`;
+                        cellContent = `<div class="deliverable-gantt-marker ${statusClass}" draggable="true" ondragstart="dragDeliverable(event, '${projectId}', '${d.name.replace(/'/g, "\\'")}')"></div>`;
                         cellClass = 'has-due-date';
                     }
 
@@ -2193,10 +2198,11 @@
         // Drag and Drop functions for deliverables
         let draggedDeliverable = null;
 
-        function dragDeliverable(event, projectId, deliverableIndex) {
-            draggedDeliverable = { projectId, deliverableIndex };
+        function dragDeliverable(event, projectId, deliverableName) {
+            draggedDeliverable = { projectId, deliverableName };
             event.dataTransfer.effectAllowed = 'move';
             event.target.closest('.deliverables-gantt-row').classList.add('dragging');
+            console.log('Dragging deliverable:', deliverableName);
         }
 
         function allowDropDeliverable(event) {
@@ -2237,9 +2243,11 @@
                 return;
             }
 
-            const deliv = project.deliverables[draggedDeliverable.deliverableIndex];
+            // Find deliverable by name instead of index
+            const deliv = project.deliverables.find(d => d.name === draggedDeliverable.deliverableName);
             if (!deliv) {
-                console.log('Deliverable not found at index:', draggedDeliverable.deliverableIndex);
+                console.log('Deliverable not found with name:', draggedDeliverable.deliverableName);
+                console.log('Available deliverables:', project.deliverables.map(d => d.name));
                 return;
             }
 
