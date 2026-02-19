@@ -2083,6 +2083,7 @@
                 columns.forEach((col, colIndex) => {
                     let cellContent = '';
                     let cellClass = '';
+                    const dateStr = col.start.toISOString().split('T')[0];
 
                     if (dueDate && dueDate >= col.start && dueDate <= col.end) {
                         // Due date falls in this week
@@ -2090,7 +2091,7 @@
                         cellClass = 'has-due-date';
                     }
 
-                    html += `<div class="deliverables-gantt-cell ${cellClass}" ondrop="dropDeliverable(event, '${projectId}', ${colIndex}, '${col.start.toISOString().split('T')[0]}')" ondragover="allowDropDeliverable(event)" onclick="showDeliverableDetail('${projectId}', ${index})">${cellContent}</div>`;
+                    html += `<div class="deliverables-gantt-cell ${cellClass}" ondrop="dropDeliverable(event, '${projectId}', ${colIndex}, '${dateStr}')" ondragover="allowDropDeliverable(event)" ondragleave="dragLeaveDeliverable(event)">${cellContent}</div>`;
                 });
 
                 html += '</div>';
@@ -2200,30 +2201,58 @@
 
         function allowDropDeliverable(event) {
             event.preventDefault();
-            document.querySelectorAll('.deliverables-gantt-cell.drag-over').forEach(el => el.classList.remove('drag-over'));
-            event.target.closest('.deliverables-gantt-cell').classList.add('drag-over');
+            const cell = event.target.closest('.deliverables-gantt-cell');
+            if (cell) {
+                document.querySelectorAll('.deliverables-gantt-cell.drag-over').forEach(el => {
+                    if (el !== cell) el.classList.remove('drag-over');
+                });
+                cell.classList.add('drag-over');
+            }
+        }
+
+        function dragLeaveDeliverable(event) {
+            const cell = event.target.closest('.deliverables-gantt-cell');
+            if (cell) {
+                cell.classList.remove('drag-over');
+            }
         }
 
         async function dropDeliverable(event, projectId, columnIndex, targetDate) {
             event.preventDefault();
-            event.target.closest('.deliverables-gantt-cell').classList.remove('drag-over');
+            event.stopPropagation();
 
-            if (!draggedDeliverable) return;
+            const cell = event.target.closest('.deliverables-gantt-cell');
+            if (cell) cell.classList.remove('drag-over');
 
-            const project = workData.projects.find(p => p.id === projectId);
-            if (!project) return;
+            console.log('Drop event fired:', { projectId, columnIndex, targetDate, draggedDeliverable });
+
+            if (!draggedDeliverable) {
+                console.log('No dragged deliverable found');
+                return;
+            }
+
+            const project = workData.projects.find(p => p.id === draggedDeliverable.projectId);
+            if (!project) {
+                console.log('Project not found:', draggedDeliverable.projectId);
+                return;
+            }
 
             const deliv = project.deliverables[draggedDeliverable.deliverableIndex];
-            if (!deliv) return;
+            if (!deliv) {
+                console.log('Deliverable not found at index:', draggedDeliverable.deliverableIndex);
+                return;
+            }
 
             const oldDate = deliv.due_date;
             deliv.due_date = targetDate;
 
             // Update localStorage
-            updateLocalDeliverable(projectId, deliv.name, { due_date: targetDate });
+            updateLocalDeliverable(draggedDeliverable.projectId, deliv.name, { due_date: targetDate });
 
-            renderProjects();
             console.log(`📅 Moved "${deliv.name}" from ${oldDate || 'no date'} to ${targetDate}`);
+
+            // Re-render to show changes
+            renderProjects();
 
             // Try to sync to Airtable
             try {
