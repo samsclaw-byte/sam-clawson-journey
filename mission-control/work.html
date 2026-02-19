@@ -2165,9 +2165,10 @@
             };
             
             closeDeliverableModal();
-            
+
+            const project = workData.projects.find(p => p.id === projectId);
+
             try {
-                const project = workData.projects.find(p => p.id === projectId);
                 
                 if (isEdit) {
                     // Update existing deliverable
@@ -2276,7 +2277,7 @@
                 console.error('Error saving deliverable:', error);
                 alert('Error: ' + error.message + '\n\nChanges saved locally only.');
                 // Still add to local data for UI feedback
-                if (!isEdit) {
+                if (!isEdit && project) {
                     project.deliverables.push({
                         name: data.name,
                         status: data.status,
