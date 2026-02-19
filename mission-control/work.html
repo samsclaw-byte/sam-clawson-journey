@@ -1828,17 +1828,19 @@
         // Render Projects with Deliverables and CRAM Notes
         function renderProjects() {
             const projectList = document.getElementById('project-list');
-            
+
             if (workData.projects.length === 0) {
                 projectList.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📁</div><p>No active projects.</p></div>';
                 return;
             }
-            
+
             try {
             projectList.innerHTML = workData.projects.map(project => {
                 const statusClass = project.status ? project.status.toLowerCase().replace(' ', '-') : 'planning';
-                const deliverables = project.deliverables || [];
-                
+
+                // Merge Airtable deliverables with localStorage deliverables
+                const deliverables = mergeDeliverables(project.id, project.deliverables || []);
+
                 // Sort deliverables by due date
                 deliverables.sort((a, b) => {
                     if (!a.due_date) return 1;
@@ -2110,7 +2112,62 @@
         
         // Worker API configuration
         const WORKER_URL = 'https://work-data-updater.samsclaw-498.workers.dev';
-        
+
+        // LocalStorage helpers for deliverables (fallback when Worker fails)
+        function getLocalDeliverables(projectId) {
+            const key = `deliverables_${projectId}`;
+            const saved = localStorage.getItem(key);
+            return saved ? JSON.parse(saved) : [];
+        }
+
+        function saveLocalDeliverables(projectId, deliverables) {
+            const key = `deliverables_${projectId}`;
+            localStorage.setItem(key, JSON.stringify(deliverables));
+        }
+
+        function addLocalDeliverable(projectId, deliverable) {
+            const existing = getLocalDeliverables(projectId);
+            existing.push({
+                ...deliverable,
+                id: 'local_' + Date.now(),
+                source: 'local'
+            });
+            saveLocalDeliverables(projectId, existing);
+            return existing;
+        }
+
+        function updateLocalDeliverable(projectId, originalName, updates) {
+            const existing = getLocalDeliverables(projectId);
+            const index = existing.findIndex(d => d.name === originalName);
+            if (index !== -1) {
+                existing[index] = { ...existing[index], ...updates };
+                saveLocalDeliverables(projectId, existing);
+            }
+            return existing;
+        }
+
+        // Merge Airtable and local deliverables
+        function mergeDeliverables(projectId, airtableDeliverables) {
+            const localDeliverables = getLocalDeliverables(projectId);
+
+            // Create a map of existing deliverables by name
+            const merged = new Map();
+
+            // Add Airtable deliverables first
+            (airtableDeliverables || []).forEach(d => {
+                merged.set(d.name, { ...d, source: 'airtable' });
+            });
+
+            // Add local deliverables (override if same name, or add if new)
+            localDeliverables.forEach(d => {
+                if (!merged.has(d.name)) {
+                    merged.set(d.name, d);
+                }
+            });
+
+            return Array.from(merged.values());
+        }
+
         // Mark TAT Task as Complete
         async function markTaskComplete(taskId) {
             if (!confirm('Mark this task as Complete?')) return;
@@ -2168,20 +2225,70 @@
 
             const project = workData.projects.find(p => p.id === projectId);
 
+            // ALWAYS save to localStorage first (persists across refreshes)
+            if (isEdit) {
+                updateLocalDeliverable(projectId, originalName, {
+                    name: data.name,
+                    status: data.status,
+                    owner: data.owner,
+                    due_date: data.dueDate,
+                    progress: data.progress,
+                    notes: data.notes
+                });
+            } else {
+                addLocalDeliverable(projectId, {
+                    name: data.name,
+                    status: data.status,
+                    owner: data.owner,
+                    due_date: data.dueDate,
+                    progress: data.progress,
+                    weight: 10,
+                    notes: data.notes
+                });
+            }
+
+            // Update local project data immediately
+            if (!project.deliverables) project.deliverables = [];
+
+            if (isEdit) {
+                const deliv = project.deliverables.find(d => d.name === originalName);
+                if (deliv) {
+                    deliv.name = data.name;
+                    deliv.status = data.status;
+                    deliv.owner = data.owner;
+                    deliv.due_date = data.dueDate;
+                    deliv.progress = data.progress;
+                    deliv.notes = data.notes;
+                }
+            } else {
+                project.deliverables.push({
+                    name: data.name,
+                    status: data.status,
+                    owner: data.owner,
+                    due_date: data.dueDate,
+                    progress: data.progress,
+                    weight: 10,
+                    notes: data.notes,
+                    source: 'local'
+                });
+            }
+
+            renderProjects();
+            console.log(`✅ Deliverable "${data.name}" ${isEdit ? 'updated' : 'added'} locally (saved to browser)`);
+
+            // Try to sync to Airtable (non-blocking)
             try {
-                
                 if (isEdit) {
-                    // Update existing deliverable
-                    const deliv = project.deliverables.find(d => d.name === originalName);
-                    if (deliv) {
-                        // Call Worker to update in Airtable
+                    const deliv = project.deliverables.find(d => d.name === data.name);
+                    if (deliv && deliv.id && !deliv.id.startsWith('local_')) {
+                        // Only update Airtable if it has a real ID
                         const response = await fetch(WORKER_URL, {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({
                                 action: 'updateDeliverable',
                                 data: {
-                                    id: deliv.id, // Note: We need the Airtable record ID
+                                    id: deliv.id,
                                     updates: {
                                         name: data.name,
                                         status: data.status,
@@ -2193,21 +2300,9 @@
                                 }
                             })
                         });
-                        
-                        if (!response.ok) throw new Error('Failed to update');
-                        
-                        // Update local
-                        deliv.name = data.name;
-                        deliv.status = data.status;
-                        deliv.owner = data.owner;
-                        deliv.due_date = data.dueDate;
-                        deliv.progress = data.progress;
-                        deliv.notes = data.notes;
+                        if (response.ok) console.log('Synced to Airtable');
                     }
                 } else {
-                    // Add new deliverable via Worker
-                    console.log('Sending to Worker:', { action: 'addDeliverable', data });
-                    
                     const response = await fetch(WORKER_URL, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
@@ -2224,30 +2319,20 @@
                             }
                         })
                     });
-                    
-                    console.log('Worker response status:', response.status);
-                    
-                    if (!response.ok) {
-                        const errorText = await response.text();
-                        console.error('Worker error:', errorText);
-                        throw new Error(`Worker error: ${response.status} - ${errorText}`);
+                    if (response.ok) {
+                        const result = await response.json();
+                        console.log('Synced to Airtable:', result);
+                        // Update local ID with Airtable ID
+                        const newDeliv = project.deliverables.find(d => d.name === data.name && d.source === 'local');
+                        if (newDeliv && result.deliverable) {
+                            newDeliv.id = result.deliverable.id;
+                            newDeliv.source = 'airtable';
+                        }
                     }
-                    
-                    const result = await response.json();
-                    console.log('Worker result:', result);
-                    
-                    // Add to local with Airtable ID
-                    project.deliverables.push({
-                        id: result.deliverable?.id,
-                        name: data.name,
-                        status: data.status,
-                        owner: data.owner,
-                        due_date: data.dueDate,
-                        progress: data.progress,
-                        weight: 10,
-                        notes: data.notes
-                    });
                 }
+            } catch (syncError) {
+                console.log('Airtable sync failed (saved locally):', syncError.message);
+            }
                 
                 // Recalculate project progress
                 if (project.deliverables.length > 0) {
