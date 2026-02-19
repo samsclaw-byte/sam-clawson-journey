@@ -601,6 +601,185 @@
         .pending-changes strong {
             color: #E67700;
         }
+        
+        /* Streak Animations */
+        .streak-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-top: 16px;
+        }
+        
+        .streak-card {
+            background: linear-gradient(135deg, #f8f5ff 0%, #fff5f8 100%);
+            border-radius: 16px;
+            padding: 20px;
+            border: 2px solid rgba(153, 69, 255, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .streak-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(153, 69, 255, 0.2);
+        }
+        
+        .streak-card.completed {
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            border-color: #28a745;
+            animation: streakPulse 0.6s ease;
+        }
+        
+        .streak-card.completed .streak-icon {
+            animation: iconBounce 0.5s ease;
+        }
+        
+        @keyframes streakPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); box-shadow: 0 0 30px rgba(40, 167, 69, 0.4); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes iconBounce {
+            0%, 100% { transform: scale(1); }
+            25% { transform: scale(1.2) rotate(-10deg); }
+            50% { transform: scale(1.3) rotate(10deg); }
+            75% { transform: scale(1.1) rotate(-5deg); }
+        }
+        
+        .streak-icon {
+            font-size: 40px;
+            margin-bottom: 12px;
+            display: block;
+        }
+        
+        .streak-name {
+            font-weight: 600;
+            font-size: 14px;
+            color: #1a1a2e;
+            margin-bottom: 4px;
+        }
+        
+        .streak-count {
+            font-size: 32px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #9945FF, #FF6B9D);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .streak-count.completed {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            -webkit-background-clip: text;
+        }
+        
+        .streak-label {
+            font-size: 12px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .streak-flames {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            font-size: 24px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .streak-card:hover .streak-flames {
+            opacity: 1;
+            animation: flames 1s ease infinite;
+        }
+        
+        @keyframes flames {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+        
+        /* Quick Log Buttons */
+        .quick-log-container {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 16px;
+        }
+        
+        .quick-log-btn {
+            padding: 12px 20px;
+            border: 2px solid #9945FF;
+            background: white;
+            color: #9945FF;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .quick-log-btn:hover {
+            background: linear-gradient(135deg, #9945FF, #FF6B9D);
+            color: white;
+            transform: scale(1.05);
+        }
+        
+        .quick-log-btn:active {
+            transform: scale(0.95);
+        }
+        
+        .quick-log-btn.logged {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            border-color: #28a745;
+            color: white;
+            animation: buttonPop 0.4s ease;
+        }
+        
+        @keyframes buttonPop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+            100% { transform: scale(1); }
+        }
+        
+        /* Reward Animation */
+        .reward-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: linear-gradient(135deg, #9945FF, #FF6B9D);
+            color: white;
+            padding: 30px 50px;
+            border-radius: 20px;
+            font-size: 24px;
+            font-weight: 700;
+            z-index: 1000;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(153, 69, 255, 0.4);
+            transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        
+        .reward-popup.show {
+            transform: translate(-50%, -50%) scale(1);
+            animation: rewardBounce 0.6s ease;
+        }
+        
+        @keyframes rewardBounce {
+            0% { transform: translate(-50%, -50%) scale(0); }
+            50% { transform: translate(-50%, -50%) scale(1.1); }
+            70% { transform: translate(-50%, -50%) scale(0.95); }
+            100% { transform: translate(-50%, -50%) scale(1); }
+        }
+        
+        .reward-popup .emoji {
+            font-size: 48px;
+            display: block;
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
@@ -699,7 +878,83 @@
             </div>
         </div>
         
+        <!-- Streaks & Quick Log Card -->
+        <div class="card">
+            <h2>🔥 Habit Streaks & Quick Log</h2>
+            
+            <!-- Streak Display -->
+            <div class="streak-container" id="streak-container">
+                <div class="streak-card" id="streak-water" onclick="quickLogHabit('water')">
+                    <span class="streak-flames">🔥</span>
+                    <span class="streak-icon">💧</span>
+                    <div class="streak-name">Water</div>
+                    <div class="streak-count" id="streak-water-count">0</div>
+                    <div class="streak-label">day streak</div>
+                </div>
+                
+                <div class="streak-card" id="streak-multivitamin" onclick="quickLogHabit('multivitamin')">
+                    <span class="streak-flames">🔥</span>
+                    <span class="streak-icon">💊</span>
+                    <div class="streak-name">Multivitamin</div>
+                    <div class="streak-count" id="streak-multivitamin-count">0</div>
+                    <div class="streak-label">day streak</div>
+                </div>
+                
+                <div class="streak-card" id="streak-creatine" onclick="quickLogHabit('creatine')">
+                    <span class="streak-flames">🔥</span>
+                    <span class="streak-icon">💪</span>
+                    <div class="streak-name">Creatine</div>
+                    <div class="streak-count" id="streak-creatine-count">0</div>
+                    <div class="streak-label">day streak</div>
+                </div>
+                
+                <div class="streak-card" id="streak-exercise" onclick="quickLogHabit('exercise')">
+                    <span class="streak-flames">🔥</span>
+                    <span class="streak-icon">🏃</span>
+                    <div class="streak-name">Exercise</div>
+                    <div class="streak-count" id="streak-exercise-count">0</div>
+                    <div class="streak-label">day streak</div>
+                </div>
+                
+                <div class="streak-card" id="streak-fruit" onclick="quickLogHabit('fruit')">
+                    <span class="streak-flames">🔥</span>
+                    <span class="streak-icon">🍎</span>
+                    <div class="streak-name">Fruit</div>
+                    <div class="streak-count" id="streak-fruit-count">0</div>
+                    <div class="streak-label">day streak</div>
+                </div>
+            </div>
+            
+            <!-- Quick Log Buttons -->
+            <div style="margin-top: 24px; padding-top: 20px; border-top: 1px solid rgba(153, 69, 255, 0.1);">
+                <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: #9945FF; margin-bottom: 12px; font-weight: 600;">Quick Log (Click to track)</div>
+                <div class="quick-log-container">
+                    <button class="quick-log-btn" id="btn-water" onclick="quickLogHabit('water')">
+                        💧 Log Water (+1 glass)
+                    </button>
+                    <button class="quick-log-btn" id="btn-multivitamin" onclick="quickLogHabit('multivitamin')">
+                        💊 Multivitamin
+                    </button>
+                    <button class="quick-log-btn" id="btn-creatine" onclick="quickLogHabit('creatine')">
+                        💪 Creatine
+                    </button>
+                    <button class="quick-log-btn" id="btn-exercise" onclick="quickLogHabit('exercise')">
+                        🏃 Exercise
+                    </button>
+                    <button class="quick-log-btn" id="btn-fruit" onclick="quickLogHabit('fruit')">
+                        🍎 Fruit
+                    </button>
+                </div>
+            </div>
+        </div>
+        
         <p class="last-updated">Last updated: <span id="last-updated">--</span> | Data source: Airtable (auto-sync every 15 min)</p>
+    </div>
+    
+    <!-- Reward Popup -->
+    <div id="reward-popup" class="reward-popup">
+        <span class="emoji">🎉</span>
+        <div id="reward-text">Streak Extended!</div>
     </div>
     
     <script>
@@ -1617,10 +1872,158 @@
         document.addEventListener('DOMContentLoaded', () => {
             initializeDateSelector();
             updateHabitViews(); // Load initial data
+            loadStreaksAndQuickLog(); // Load streaks
         });
         
         // Load data when page loads
         document.addEventListener('DOMContentLoaded', loadData);
+        
+        // ========== STREAK TRACKING & QUICK LOG ==========
+        
+        // Current streak data (mock - replace with Airtable fetch)
+        let currentStreaks = {
+            'water': 5,
+            'multivitamin': 12,
+            'creatine': 8,
+            'exercise': 3,
+            'fruit': 2
+        };
+        
+        // Today's completion status
+        let todayCompleted = {
+            'water': false,
+            'multivitamin': false,
+            'creatine': false,
+            'exercise': false,
+            'fruit': false
+        };
+        
+        // Load streaks and initialize quick log buttons
+        async function loadStreaksAndQuickLog() {
+            // In production, fetch from Airtable
+            // For now, use mock data
+            updateStreakDisplay();
+            updateQuickLogButtons();
+        }
+        
+        // Update streak display
+        function updateStreakDisplay() {
+            Object.entries(currentStreaks).forEach(([habit, streak]) => {
+                const countEl = document.getElementById(`streak-${habit}-count`);
+                const card = document.getElementById(`streak-${habit}`);
+                
+                if (countEl) {
+                    countEl.textContent = streak;
+                    if (todayCompleted[habit]) {
+                        countEl.classList.add('completed');
+                    } else {
+                        countEl.classList.remove('completed');
+                    }
+                }
+                
+                if (card) {
+                    if (todayCompleted[habit]) {
+                        card.classList.add('completed');
+                    } else {
+                        card.classList.remove('completed');
+                    }
+                }
+            });
+        }
+        
+        // Update quick log buttons
+        function updateQuickLogButtons() {
+            Object.entries(todayCompleted).forEach(([habit, completed]) => {
+                const btn = document.getElementById(`btn-${habit}`);
+                if (btn) {
+                    if (completed) {
+                        btn.classList.add('logged');
+                        btn.innerHTML = `✅ ${habit.charAt(0).toUpperCase() + habit.slice(1)} Logged!`;
+                    } else {
+                        btn.classList.remove('logged');
+                        const icons = {
+                            'water': '💧',
+                            'multivitamin': '💊',
+                            'creatine': '💪',
+                            'exercise': '🏃',
+                            'fruit': '🍎'
+                        };
+                        const labels = {
+                            'water': 'Log Water (+1 glass)',
+                            'multivitamin': 'Multivitamin',
+                            'creatine': 'Creatine',
+                            'exercise': 'Exercise',
+                            'fruit': 'Fruit'
+                        };
+                        btn.innerHTML = `${icons[habit]} ${labels[habit]}`;
+                    }
+                }
+            });
+        }
+        
+        // Quick log a habit
+        async function quickLogHabit(habit) {
+            if (todayCompleted[habit]) {
+                showReward('Already logged today! 🎉', '✅');
+                return;
+            }
+            
+            // Mark as completed
+            todayCompleted[habit] = true;
+            
+            // Increment streak
+            currentStreaks[habit]++;
+            
+            // Update UI with animation
+            updateStreakDisplay();
+            updateQuickLogButtons();
+            
+            // Show reward popup
+            const messages = {
+                'water': 'Hydration Hero! 💧',
+                'multivitamin': 'Health Boost! 💊',
+                'creatine': 'Strength Up! 💪',
+                'exercise': 'Movement Master! 🏃',
+                'fruit': 'Vitamin Power! 🍎'
+            };
+            showReward(messages[habit], '🔥');
+            
+            // In production, save to Airtable
+            console.log(`Logged ${habit} - Streak: ${currentStreaks[habit]} days`);
+            
+            // Simulate API call
+            // await saveHabitToAirtable(habit, new Date().toISOString().split('T')[0]);
+        }
+        
+        // Show reward popup
+        function showReward(text, emoji) {
+            const popup = document.getElementById('reward-popup');
+            const emojiEl = popup.querySelector('.emoji');
+            const textEl = document.getElementById('reward-text');
+            
+            emojiEl.textContent = emoji;
+            textEl.textContent = text;
+            
+            popup.classList.add('show');
+            
+            // Play sound effect (optional)
+            // const audio = new Audio('/sounds/success.mp3');
+            // audio.play();
+            
+            // Hide after 2 seconds
+            setTimeout(() => {
+                popup.classList.remove('show');
+            }, 2000);
+        }
+        
+        // Save habit to Airtable (production function)
+        async function saveHabitToAirtable(habit, date) {
+            // TODO: Implement Airtable API call
+            // This would use the habit_updater.py logic
+            // For now, just console log
+            console.log(`Saving ${habit} for ${date} to Airtable`);
+            return true;
+        }
     </script>
 </body>
 </html>
