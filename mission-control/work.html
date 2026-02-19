@@ -1129,6 +1129,70 @@
         .deliverable-gantt-marker.complete { background: #10b981; }
         .deliverable-gantt-marker.blocked { background: #ef4444; }
 
+        /* Deliverable Row Actions */
+        .deliverable-row-actions {
+            display: flex;
+            gap: 4px;
+            margin-top: 4px;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .deliverables-gantt-row:hover .deliverable-row-actions {
+            opacity: 1;
+        }
+
+        .deliverable-row-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 12px;
+            padding: 2px 4px;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+
+        .deliverable-row-btn:hover {
+            background: rgba(153, 69, 255, 0.1);
+        }
+
+        .deliverable-row-btn.edit:hover {
+            background: #dbeafe;
+        }
+
+        .deliverable-row-btn.delete:hover {
+            background: #fee2e2;
+        }
+
+        /* Drag and Drop Styles */
+        .deliverables-gantt-row[draggable="true"] {
+            cursor: grab;
+        }
+
+        .deliverables-gantt-row[draggable="true"]:active {
+            cursor: grabbing;
+        }
+
+        .deliverables-gantt-row.dragging {
+            opacity: 0.5;
+            background: #fef3c7;
+        }
+
+        .deliverables-gantt-cell.drag-over {
+            background: #d1fae5 !important;
+            border: 2px dashed #10b981;
+        }
+
+        .deliverable-gantt-marker[draggable="true"] {
+            cursor: grab;
+            width: 100%;
+            height: 100%;
+        }
+
+        .deliverable-gantt-marker[draggable="true"]:active {
+            cursor: grabbing;
+        }
+
         /* Deliverable Detail View */
         .deliverable-detail-view {
             background: #f9fafb;
@@ -2002,29 +2066,33 @@
             sortedDelivs.forEach((d, index) => {
                 const statusClass = d.status ? d.status.toLowerCase().replace(' ', '-') : 'not-started';
                 const dueDate = d.due_date ? new Date(d.due_date) : null;
-                
-                html += `<div class="deliverables-gantt-row ${statusClass}">`;
-                
-                // Name cell
-                html += `<div class="deliverables-gantt-name-cell" onclick="showDeliverableDetail('${projectId}', ${index})">`;
+
+                html += `<div class="deliverables-gantt-row ${statusClass}" draggable="true" ondragstart="dragDeliverable(event, '${projectId}', ${index})" data-project-id="${projectId}" data-deliv-index="${index}">`;
+
+                // Name cell with edit/delete buttons
+                html += `<div class="deliverables-gantt-name-cell">`;
                 html += `<div class="deliverable-gantt-title">${d.name}</div>`;
                 html += `<div class="deliverable-gantt-subtitle">${d.status} • ${d.progress || 0}%</div>`;
+                html += `<div class="deliverable-row-actions">`;
+                html += `<button class="deliverable-row-btn edit" onclick="editDeliverableFromRow(event, '${projectId}', ${index})" title="Edit">✏️</button>`;
+                html += `<button class="deliverable-row-btn delete" onclick="deleteDeliverableFromRow(event, '${projectId}', ${index})" title="Delete">🗑️</button>`;
+                html += `</div>`;
                 html += '</div>';
-                
-                // Date columns
-                columns.forEach(col => {
+
+                // Date columns (droppable)
+                columns.forEach((col, colIndex) => {
                     let cellContent = '';
                     let cellClass = '';
-                    
+
                     if (dueDate && dueDate >= col.start && dueDate <= col.end) {
                         // Due date falls in this week
-                        cellContent = `<div class="deliverable-gantt-marker ${statusClass}"></div>`;
+                        cellContent = `<div class="deliverable-gantt-marker ${statusClass}" draggable="true" ondragstart="dragDeliverable(event, '${projectId}', ${index})"></div>`;
                         cellClass = 'has-due-date';
                     }
-                    
-                    html += `<div class="deliverables-gantt-cell ${cellClass}" onclick="showDeliverableDetail('${projectId}', ${index})">${cellContent}</div>`;
+
+                    html += `<div class="deliverables-gantt-cell ${cellClass}" ondrop="dropDeliverable(event, '${projectId}', ${colIndex}, '${col.start.toISOString().split('T')[0]}')" ondragover="allowDropDeliverable(event)" onclick="showDeliverableDetail('${projectId}', ${index})">${cellContent}</div>`;
                 });
-                
+
                 html += '</div>';
             });
             
@@ -2079,7 +2147,108 @@
             const detailDiv = document.getElementById(`deliverable-detail-${projectId}`);
             if (detailDiv) detailDiv.style.display = 'none';
         }
-        
+
+        // Edit deliverable from row
+        function editDeliverableFromRow(event, projectId, deliverableIndex) {
+            event.stopPropagation();
+            const project = workData.projects.find(p => p.id === projectId);
+            if (!project || !project.deliverables[deliverableIndex]) return;
+
+            const d = project.deliverables[deliverableIndex];
+            showEditDeliverableModal(projectId, d.name, d.status, d.owner, d.due_date, d.progress, d.notes);
+        }
+
+        // Delete deliverable from row
+        async function deleteDeliverableFromRow(event, projectId, deliverableIndex) {
+            event.stopPropagation();
+            const project = workData.projects.find(p => p.id === projectId);
+            if (!project || !project.deliverables[deliverableIndex]) return;
+
+            const d = project.deliverables[deliverableIndex];
+            if (!confirm(`Delete deliverable "${d.name}"?`)) return;
+
+            // Remove from local array
+            project.deliverables.splice(deliverableIndex, 1);
+
+            // Remove from localStorage
+            const localDeliverables = getLocalDeliverables(projectId);
+            const updatedLocals = localDeliverables.filter(ld => ld.name !== d.name);
+            saveLocalDeliverables(projectId, updatedLocals);
+
+            // Try to delete from Airtable if it has a real ID
+            if (d.id && !d.id.startsWith('local_')) {
+                try {
+                    // Note: Would need a deleteDeliverable Worker function
+                    console.log('Would delete from Airtable:', d.id);
+                } catch (e) {
+                    console.log('Airtable delete failed:', e.message);
+                }
+            }
+
+            renderProjects();
+            console.log(`🗑️ Deleted deliverable "${d.name}"`);
+        }
+
+        // Drag and Drop functions for deliverables
+        let draggedDeliverable = null;
+
+        function dragDeliverable(event, projectId, deliverableIndex) {
+            draggedDeliverable = { projectId, deliverableIndex };
+            event.dataTransfer.effectAllowed = 'move';
+            event.target.closest('.deliverables-gantt-row').classList.add('dragging');
+        }
+
+        function allowDropDeliverable(event) {
+            event.preventDefault();
+            document.querySelectorAll('.deliverables-gantt-cell.drag-over').forEach(el => el.classList.remove('drag-over'));
+            event.target.closest('.deliverables-gantt-cell').classList.add('drag-over');
+        }
+
+        async function dropDeliverable(event, projectId, columnIndex, targetDate) {
+            event.preventDefault();
+            event.target.closest('.deliverables-gantt-cell').classList.remove('drag-over');
+
+            if (!draggedDeliverable) return;
+
+            const project = workData.projects.find(p => p.id === projectId);
+            if (!project) return;
+
+            const deliv = project.deliverables[draggedDeliverable.deliverableIndex];
+            if (!deliv) return;
+
+            const oldDate = deliv.due_date;
+            deliv.due_date = targetDate;
+
+            // Update localStorage
+            updateLocalDeliverable(projectId, deliv.name, { due_date: targetDate });
+
+            renderProjects();
+            console.log(`📅 Moved "${deliv.name}" from ${oldDate || 'no date'} to ${targetDate}`);
+
+            // Try to sync to Airtable
+            try {
+                if (deliv.id && !deliv.id.startsWith('local_')) {
+                    const response = await fetch(WORKER_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            action: 'updateDeliverable',
+                            data: {
+                                id: deliv.id,
+                                updates: { dueDate: targetDate }
+                            }
+                        })
+                    });
+                    if (response.ok) console.log('Date synced to Airtable');
+                }
+            } catch (e) {
+                console.log('Airtable sync failed (saved locally):', e.message);
+            }
+
+            draggedDeliverable = null;
+            document.querySelectorAll('.deliverables-gantt-row.dragging').forEach(el => el.classList.remove('dragging'));
+        }
+
         // Deliverable Modal Functions
         function showAddDeliverableModal(projectId) {
             document.getElementById('deliverable-project-id').value = projectId;
