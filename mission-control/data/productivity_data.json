@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-02-19T23:45:10.302640",
+  "generated_at": "2026-02-20T00:00:10.170228",
   "tat_tasks": [
     {
       "id": "rec82QLASN6uQUiHu",
@@ -137,17 +137,6 @@
     }
   ],
   "habit_days": [
-    {
-      "date": "2026-02-13",
-      "day_name": "Fri",
-      "day_num": "13",
-      "score": 3,
-      "water": 8,
-      "multivitamin": true,
-      "fruit": true,
-      "exercise": false,
-      "creatine": false
-    },
     {
       "date": "2026-02-14",
       "day_name": "Sat",
