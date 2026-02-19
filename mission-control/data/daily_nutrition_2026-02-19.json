@@ -5,9 +5,14 @@
       "type": "Breakfast",
       "items": "Two pieces multigrain toast with Lurpak and ham, cafe au lai...",
       "calories": 450
+    },
+    {
+      "type": "Snack",
+      "items": "220g raspberry Greek yogurt",
+      "calories": 180
     }
   ],
-  "total_calories": 450,
+  "total_calories": 630,
   "macros": {
     "protein": 0,
     "carbs": 0,
