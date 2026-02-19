@@ -526,6 +526,27 @@
             margin-left: 0;
         }
         
+        /* Projects card - no padding to align content to left */
+        .card.projects-card {
+            padding: 24px 0 24px 0;
+        }
+        
+        .card.projects-card .project-actions-header {
+            padding: 0 24px;
+        }
+        
+        .card.projects-card .project-full-card {
+            margin-left: 0;
+            margin-right: 0;
+            border-radius: 0;
+            border-left: none;
+            border-right: none;
+        }
+        
+        .card.projects-card .project-full-card:last-child {
+            margin-bottom: 0;
+        }
+        
         .project-full-card h2 {
             font-size: 20px;
             font-weight: 700;
@@ -1698,7 +1719,7 @@
                 </div>
             </div>
 
-            <div class="card">
+            <div class="card projects-card">
                 <div class="project-actions-header">
                     <h2>📁 Active Projects</h2>
                     <button class="btn-primary" onclick="showAddProjectModal()">+ New Project</button>
