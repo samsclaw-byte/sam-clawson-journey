@@ -236,6 +236,45 @@ def extract_full_cycle(data):
         'updated_at': data.get('updated_at')
     }
 
+# ========== WHOOP API FETCHING ==========
+
+def fetch_whoop_data(endpoint, record_id):
+    """Fetch full data from WHOOP API using the record ID"""
+    try:
+        # Load tokens
+        token_file = Path.home() / '.openclaw' / 'whoop_tokens.json'
+        if not token_file.exists():
+            log_event("⚠️ WHOOP tokens not found")
+            return None
+        
+        with open(token_file) as f:
+            tokens = json.load(f)
+        
+        access_token = tokens.get('access_token')
+        if not access_token:
+            log_event("⚠️ No access token available")
+            return None
+        
+        # Make API request
+        url = f'https://api.prod.whoop.com/developer/v1/{endpoint}/{record_id}'
+        headers = {'Authorization': f'Bearer {access_token}'}
+        
+        response = requests.get(url, headers=headers, timeout=30)
+        
+        if response.status_code == 200:
+            log_event(f"✅ Fetched full data from WHOOP API: {endpoint}/{record_id}")
+            return response.json()
+        elif response.status_code == 401:
+            log_event("⚠️ Token expired, needs refresh")
+            return None
+        else:
+            log_event(f"⚠️ API error: {response.status_code} - {response.text[:100]}")
+            return None
+            
+    except Exception as e:
+        log_event(f"❌ Error fetching WHOOP data: {e}")
+        return None
+
 # ========== WEBHOOK ENDPOINT ==========
 
 @app.route('/webhook/whoop', methods=['POST'])
@@ -253,12 +292,16 @@ def whoop_webhook():
         # Step 1: Save raw data locally
         raw_file = save_raw_data(event_type, data)
         
-        # Step 2: Extract and process based on event type
-        processed_data = None
-        table_name = None
+        # Step 2: Fetch full data from WHOOP API (webhooks are lightweight notifications only)
+        record_id = data.get('id')
+        full_data = None
         
         if event_type in ['workout.created', 'workout.updated']:
-            processed_data = extract_full_workout(data)
+            log_event(f"🔍 Fetching workout data for ID: {record_id}")
+            full_data = fetch_whoop_data('activity', record_id)
+            if not full_data:
+                full_data = fetch_whoop_data('workout', record_id)  # Try alternate endpoint
+            processed_data = extract_full_workout(full_data or data)
             table_name = "WHOOP Workouts"
             notification_title = "🏋️ Workout Recorded"
             duration = processed_data.get('duration_minutes') or 0
@@ -272,7 +315,9 @@ def whoop_webhook():
                                  f"Avg HR: {avg_hr} bpm"
         
         elif event_type in ['sleep.created', 'sleep.updated']:
-            processed_data = extract_full_sleep(data)
+            log_event(f"🔍 Fetching sleep data for ID: {record_id}")
+            full_data = fetch_whoop_data('sleep', record_id)
+            processed_data = extract_full_sleep(full_data or data)
             table_name = "WHOOP Sleep"
             notification_title = "😴 Sleep Recorded"
             bed_hours = processed_data.get('total_in_bed_hours') or 0
@@ -285,7 +330,9 @@ def whoop_webhook():
                                  f"REM: {rem_hours:.1f} hrs"
         
         elif event_type in ['recovery.created', 'recovery.updated']:
-            processed_data = extract_full_recovery(data)
+            log_event(f"🔍 Fetching recovery data for ID: {record_id}")
+            full_data = fetch_whoop_data('recovery', record_id)
+            processed_data = extract_full_recovery(full_data or data)
             table_name = "WHOOP Recovery"
             notification_title = "💓 Recovery Updated"
             score = processed_data.get('recovery_score') or 0
@@ -296,7 +343,9 @@ def whoop_webhook():
                                  f"HRV: {hrv:.1f} ms"
         
         elif event_type == 'cycles.updated':
-            processed_data = extract_full_cycle(data)
+            log_event(f"🔍 Fetching cycle data for ID: {record_id}")
+            full_data = fetch_whoop_data('cycle', record_id)
+            processed_data = extract_full_cycle(full_data or data)
             table_name = "WHOOP Daily"
             notification_title = "📅 Daily Data Updated"
             date = processed_data.get('date') or 'Unknown'
