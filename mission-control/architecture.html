@@ -375,6 +375,271 @@
             border: 1px solid rgba(153, 69, 255, 0.2);
         }
         
+        /* GANTT Chart Styles */
+        .gantt-controls {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .gantt-btn {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #9945FF, #FF6B9D);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .gantt-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(153, 69, 255, 0.3);
+        }
+        
+        .gantt-btn.secondary {
+            background: #f3f4f6;
+            color: #666;
+        }
+        
+        .gantt-btn.secondary:hover {
+            background: #e5e7eb;
+        }
+        
+        .gantt-container {
+            overflow-x: auto;
+            border: 1px solid rgba(153, 69, 255, 0.2);
+            border-radius: 12px;
+            background: white;
+        }
+        
+        .gantt-header {
+            display: flex;
+            background: linear-gradient(135deg, #f8f5ff, #fff5f8);
+            border-bottom: 2px solid rgba(153, 69, 255, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        
+        .gantt-workflow-label {
+            width: 200px;
+            min-width: 200px;
+            padding: 12px 16px;
+            font-weight: 600;
+            color: #1a1a2e;
+            border-right: 1px solid rgba(153, 69, 255, 0.1);
+            display: flex;
+            align-items: center;
+            font-size: 13px;
+        }
+        
+        .gantt-date-cell {
+            width: 60px;
+            min-width: 60px;
+            padding: 12px 4px;
+            text-align: center;
+            font-size: 11px;
+            color: #666;
+            border-right: 1px solid rgba(153, 69, 255, 0.1);
+            font-weight: 500;
+        }
+        
+        .gantt-date-cell.weekend {
+            background: rgba(153, 69, 255, 0.05);
+        }
+        
+        .gantt-date-cell.today {
+            background: rgba(153, 69, 255, 0.15);
+            color: #9945FF;
+            font-weight: 700;
+        }
+        
+        .gantt-row {
+            display: flex;
+            border-bottom: 1px solid rgba(153, 69, 255, 0.1);
+            min-height: 50px;
+            position: relative;
+        }
+        
+        .gantt-row:hover {
+            background: rgba(153, 69, 255, 0.02);
+        }
+        
+        .gantt-row-label {
+            width: 200px;
+            min-width: 200px;
+            padding: 12px 16px;
+            font-size: 12px;
+            color: #1a1a2e;
+            border-right: 1px solid rgba(153, 69, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .gantt-row-cells {
+            display: flex;
+            position: relative;
+            flex: 1;
+        }
+        
+        .gantt-cell {
+            width: 60px;
+            min-width: 60px;
+            border-right: 1px solid rgba(153, 69, 255, 0.05);
+            position: relative;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .gantt-cell:hover {
+            background: rgba(153, 69, 255, 0.1);
+        }
+        
+        .gantt-cell.weekend {
+            background: rgba(153, 69, 255, 0.03);
+        }
+        
+        .gantt-cell.today {
+            background: rgba(153, 69, 255, 0.08);
+        }
+        
+        .deliverable {
+            position: absolute;
+            top: 50%;
+            left: 4px;
+            right: 4px;
+            transform: translateY(-50%);
+            padding: 6px 10px;
+            background: linear-gradient(135deg, #9945FF, #FF6B9D);
+            color: white;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 500;
+            cursor: grab;
+            box-shadow: 0 2px 8px rgba(153, 69, 255, 0.3);
+            transition: all 0.2s;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            z-index: 5;
+        }
+        
+        .deliverable:hover {
+            transform: translateY(-50%) scale(1.02);
+            box-shadow: 0 4px 12px rgba(153, 69, 255, 0.4);
+        }
+        
+        .deliverable.completed {
+            background: linear-gradient(135deg, #10b981, #34d399);
+            text-decoration: line-through;
+            opacity: 0.8;
+        }
+        
+        .deliverable.completed::after {
+            content: " ✓";
+            font-weight: 700;
+        }
+        
+        .deliverable .delete-btn {
+            position: absolute;
+            right: 4px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 16px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        
+        .deliverable:hover .delete-btn {
+            opacity: 1;
+        }
+        
+        .deliverable .delete-btn:hover {
+            background: rgba(255,255,255,0.5);
+        }
+        
+        /* Modal for adding deliverables */
+        .gantt-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .gantt-modal.active {
+            display: flex;
+        }
+        
+        .gantt-modal-content {
+            background: white;
+            padding: 24px;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        .gantt-modal h3 {
+            margin-bottom: 16px;
+            color: #1a1a2e;
+        }
+        
+        .gantt-modal input, .gantt-modal select {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        
+        .gantt-modal input:focus, .gantt-modal select:focus {
+            outline: none;
+            border-color: #9945FF;
+        }
+        
+        .gantt-modal-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 16px;
+        }
+        
+        .gantt-modal-buttons button {
+            flex: 1;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+        }
+        
+        .gantt-modal-buttons .save {
+            background: linear-gradient(135deg, #9945FF, #FF6B9D);
+            color: white;
+        }
+        
+        .gantt-modal-buttons .cancel {
+            background: #f3f4f6;
+            color: #666;
+        }
+        
         /* Pulse Animation for Active Nodes */
         @keyframes pulse {
             0%, 100% { box-shadow: 0 0 0 0 rgba(153, 69, 255, 0.4); }
@@ -880,5 +1145,888 @@
         // Load on page load
         document.addEventListener('DOMContentLoaded', loadSystemEnhancements);
     </script>
+</div>
+    
+    <!-- Workflow GANTT Chart Card -->
+    <div class="card" style="margin-top: 20px; max-width: 1200px; margin-left: auto; margin-right: auto;">
+        <h2>📅 Workflow Deliverables GANTT</h2>
+        <div class="gantt-controls">
+            <button class="gantt-btn" onclick="addDeliverable()">+ Add Deliverable</button>
+            <button class="gantt-btn secondary" onclick="resetGantt()">Reset View</button>
+        </div>
+        <div class="gantt-container" id="gantt-container">
+            <div class="gantt-header" id="gantt-header">
+                <!-- Dates will be generated here -->
+            </div>
+            <div class="gantt-body" id="gantt-body">
+                <!-- Workflow rows will be generated here -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- GANTT Modal -->
+    <div class="gantt-modal" id="gantt-modal">
+        <div class="gantt-modal-content">
+            <h3>Add Deliverable</h3>
+            <input type="text" id="deliverable-name" placeholder="Deliverable name...">
+            <select id="deliverable-workflow">
+                <!-- Options populated by JS -->
+            </select>
+            <input type="date" id="deliverable-date">
+            <div class="gantt-modal-buttons">
+                <button class="save" onclick="saveDeliverable()">Add</button>
+                <button class="cancel" onclick="closeGanttModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Workflows from System Health Matrix
+        const WORKFLOWS = [
+            { id: 'morning-brief', name: '🌅 Morning Brief', emoji: '🌅' },
+            { id: 'food-logging', name: '🥗 Food Logging', emoji: '🥗' },
+            { id: 'whoop-recovery', name: '💓 WHOOP Recovery', emoji: '💓' },
+            { id: 'tat-system', name: '📋 TAT System', emoji: '📋' },
+            { id: 'calendar-sync', name: '📅 Calendar Sync', emoji: '📅' },
+            { id: 'water-tracker', name: '💧 Water Tracker', emoji: '💧' },
+            { id: 'security-sentinel', name: '🛡️ Security Sentinel', emoji: '🛡️' },
+            { id: 'voice-transcribe', name: '🎙️ Voice Transcribe', emoji: '🎙️' },
+            { id: 'dashboard-update', name: '📊 Dashboard Update', emoji: '📊' }
+        ];
+        
+        // GANTT State
+        let ganttState = {
+            deliverables: [],
+            startDate: null,
+            endDate: null
+        };
+        
+        const STORAGE_KEY = 'mission-control-gantt';
+        
+        // Initialize GANTT
+        function initGantt() {
+            loadGanttState();
+            renderGantt();
+            populateWorkflowSelect();
+        }
+        
+        // Load state from localStorage
+        function loadGanttState() {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if (saved) {
+                ganttState = JSON.parse(saved);
+            } else {
+                // Default date range (2 weeks from today)
+                const today = new Date();
+                ganttState.startDate = formatDate(today);
+                const twoWeeks = new Date(today);
+                twoWeeks.setDate(twoWeeks.getDate() + 14);
+                ganttState.endDate = formatDate(twoWeeks);
+                ganttState.deliverables = [];
+            }
+        }
+        
+        // Save state to localStorage
+        function saveGanttState() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(ganttState));
+        }
+        
+        // Format date as YYYY-MM-DD
+        function formatDate(date) {
+            return date.toISOString().split('T')[0];
+        }
+        
+        // Format date as DD/MM
+        function formatDateShort(dateStr) {
+            const [year, month, day] = dateStr.split('-');
+            return `${day}/${month}`;
+        }
+        
+        // Get all dates in range
+        function getDateRange() {
+            const dates = [];
+            const start = new Date(ganttState.startDate);
+            const end = new Date(ganttState.endDate);
+            
+            for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+                dates.push(formatDate(new Date(d)));
+            }
+            return dates;
+        }
+        
+        // Check if date is weekend
+        function isWeekend(dateStr) {
+            const date = new Date(dateStr);
+            const day = date.getDay();
+            return day === 0 || day === 6;
+        }
+        
+        // Check if date is today
+        function isToday(dateStr) {
+            return dateStr === formatDate(new Date());
+        }
+        
+        // Render GANTT
+        function renderGantt() {
+            const dates = getDateRange();
+            const headerEl = document.getElementById('gantt-header');
+            const bodyEl = document.getElementById('gantt-body');
+            
+            // Render header
+            let headerHTML = '<div class="gantt-workflow-label">Workflow</div>';
+            dates.forEach(date => {
+                const classes = ['gantt-date-cell'];
+                if (isWeekend(date)) classes.push('weekend');
+                if (isToday(date)) classes.push('today');
+                headerHTML += `<div class="${classes.join(' ')}">${formatDateShort(date)}</div>`;
+            });
+            headerEl.innerHTML = headerHTML;
+            
+            // Render rows
+            let bodyHTML = '';
+            WORKFLOWS.forEach(workflow => {
+                bodyHTML += `
+                    <div class="gantt-row" data-workflow="${workflow.id}">
+                        <div class="gantt-row-label">
+                            <span>${workflow.emoji}</span>
+                            <span>${workflow.name.replace(/^[^\s]+\s/, '')}</span>
+                        </div>
+                        <div class="gantt-row-cells">
+                            ${dates.map(date => {
+                                const classes = ['gantt-cell'];
+                                if (isWeekend(date)) classes.push('weekend');
+                                if (isToday(date)) classes.push('today');
+                                return `<div class="${classes.join(' ')}" data-date="${date}" onclick="cellClicked('${workflow.id}', '${date}')"></div>`;
+                            }).join('')}
+                            ${renderDeliverablesForRow(workflow.id, dates)}
+                        </div>
+                    </div>
+                `;
+            });
+            bodyEl.innerHTML = bodyHTML;
+        }
+        
+        // Render deliverables for a workflow row
+        function renderDeliverablesForRow(workflowId, dates) {
+            const deliverables = ganttState.deliverables.filter(d => d.workflow === workflowId);
+            if (deliverables.length === 0) return '';
+            
+            return deliverables.map(d => {
+                const dateIndex = dates.indexOf(d.date);
+                if (dateIndex === -1) return '';
+                
+                const left = (dateIndex * 60) + 4;
+                const completedClass = d.completed ? 'completed' : '';
+                
+                return `
+                    <div class="deliverable ${completedClass}" 
+                         style="left: ${left}px; width: 52px;"
+                         draggable="true"
+                         data-id="${d.id}"
+                         ondragstart="dragStart(event, '${d.id}')"
+                         onclick="toggleDeliverable('${d.id}')">
+                        ${d.name}
+                        <span class="delete-btn" onclick="deleteDeliverable(event, '${d.id}')">×</span>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        // Populate workflow select
+        function populateWorkflowSelect() {
+            const select = document.getElementById('deliverable-workflow');
+            select.innerHTML = WORKFLOWS.map(w => 
+                `<option value="${w.id}">${w.name}</option>`
+            ).join('');
+        }
+        
+        // Add deliverable
+        function addDeliverable() {
+            document.getElementById('deliverable-name').value = '';
+            document.getElementById('deliverable-date').value = formatDate(new Date());
+            document.getElementById('gantt-modal').classList.add('active');
+        }
+        
+        // Save deliverable
+        function saveDeliverable() {
+            const name = document.getElementById('deliverable-name').value.trim();
+            const workflow = document.getElementById('deliverable-workflow').value;
+            const date = document.getElementById('deliverable-date').value;
+            
+            if (!name || !date) return;
+            
+            ganttState.deliverables.push({
+                id: Date.now().toString(),
+                name,
+                workflow,
+                date,
+                completed: false
+            });
+            
+            saveGanttState();
+            closeGanttModal();
+            renderGantt();
+        }
+        
+        // Close modal
+        function closeGanttModal() {
+            document.getElementById('gantt-modal').classList.remove('active');
+        }
+        
+        // Toggle deliverable completion
+        function toggleDeliverable(id) {
+            const d = ganttState.deliverables.find(x => x.id === id);
+            if (d) {
+                d.completed = !d.completed;
+                saveGanttState();
+                renderGantt();
+            }
+        }
+        
+        // Delete deliverable
+        function deleteDeliverable(event, id) {
+            event.stopPropagation();
+            ganttState.deliverables = ganttState.deliverables.filter(x => x.id !== id);
+            saveGanttState();
+            renderGantt();
+        }
+        
+        // Cell clicked
+        function cellClicked(workflow, date) {
+            const name = prompt('Enter deliverable name:');
+            if (name && name.trim()) {
+                ganttState.deliverables.push({
+                    id: Date.now().toString(),
+                    name: name.trim(),
+                    workflow,
+                    date,
+                    completed: false
+                });
+                saveGanttState();
+                renderGantt();
+            }
+        }
+        
+        // Drag and drop
+        let draggedId = null;
+        
+        function dragStart(event, id) {
+            draggedId = id;
+            event.dataTransfer.effectAllowed = 'move';
+        }
+        
+        // Set up drop handlers
+        document.addEventListener('DOMContentLoaded', () => {
+            initGantt();
+            
+            const container = document.getElementById('gantt-body');
+            
+            container.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                e.dataTransfer.dropEffect = 'move';
+            });
+            
+            container.addEventListener('drop', (e) => {
+                e.preventDefault();
+                if (!draggedId) return;
+                
+                const cell = e.target.closest('.gantt-cell');
+                if (cell) {
+                    const newDate = cell.dataset.date;
+                    const d = ganttState.deliverables.find(x => x.id === draggedId);
+                    if (d && newDate) {
+                        d.date = newDate;
+                        saveGanttState();
+                        renderGantt();
+                    }
+                }
+                draggedId = null;
+            });
+        });
+        
+        // Reset GANTT view
+        function resetGantt() {
+            const today = new Date();
+            ganttState.startDate = formatDate(today);
+            const twoWeeks = new Date(today);
+            twoWeeks.setDate(twoWeeks.getDate() + 14);
+            ganttState.endDate = formatDate(twoWeeks);
+            saveGanttState();
+            renderGantt();
+        }
+        
+        // Close modal on outside click
+        document.getElementById('gantt-modal')?.addEventListener('click', (e) => {
+            if (e.target.id === 'gantt-modal') {
+                closeGanttModal();
+            }
+        });
+    </script>
 </body>
 </html>
+    
+    <style>
+        /* GANTT Chart Styles */
+        .gantt-controls {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .gantt-btn {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #9945FF, #FF6B9D);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .gantt-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(153, 69, 255, 0.3);
+        }
+        
+        .gantt-btn.secondary {
+            background: #f3f4f6;
+            color: #666;
+        }
+        
+        .gantt-btn.secondary:hover {
+            background: #e5e7eb;
+        }
+        
+        .gantt-container {
+            overflow-x: auto;
+            border: 1px solid rgba(153, 69, 255, 0.2);
+            border-radius: 12px;
+            background: white;
+        }
+        
+        .gantt-header {
+            display: flex;
+            background: linear-gradient(135deg, #f8f5ff, #fff5f8);
+            border-bottom: 2px solid rgba(153, 69, 255, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        
+        .gantt-workflow-label {
+            width: 200px;
+            min-width: 200px;
+            padding: 12px 16px;
+            font-weight: 600;
+            color: #1a1a2e;
+            border-right: 1px solid rgba(153, 69, 255, 0.1);
+            display: flex;
+            align-items: center;
+            font-size: 13px;
+        }
+        
+        .gantt-date-cell {
+            width: 60px;
+            min-width: 60px;
+            padding: 12px 4px;
+            text-align: center;
+            font-size: 11px;
+            color: #666;
+            border-right: 1px solid rgba(153, 69, 255, 0.1);
+            font-weight: 500;
+        }
+        
+        .gantt-date-cell.weekend {
+            background: rgba(153, 69, 255, 0.05);
+        }
+        
+        .gantt-date-cell.today {
+            background: rgba(153, 69, 255, 0.15);
+            color: #9945FF;
+            font-weight: 700;
+        }
+        
+        .gantt-row {
+            display: flex;
+            border-bottom: 1px solid rgba(153, 69, 255, 0.1);
+            min-height: 50px;
+            position: relative;
+        }
+        
+        .gantt-row:hover {
+            background: rgba(153, 69, 255, 0.02);
+        }
+        
+        .gantt-row-label {
+            width: 200px;
+            min-width: 200px;
+            padding: 12px 16px;
+            font-size: 12px;
+            color: #1a1a2e;
+            border-right: 1px solid rgba(153, 69, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .gantt-row-cells {
+            display: flex;
+            position: relative;
+            flex: 1;
+        }
+        
+        .gantt-cell {
+            width: 60px;
+            min-width: 60px;
+            border-right: 1px solid rgba(153, 69, 255, 0.05);
+            position: relative;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .gantt-cell:hover {
+            background: rgba(153, 69, 255, 0.1);
+        }
+        
+        .gantt-cell.weekend {
+            background: rgba(153, 69, 255, 0.03);
+        }
+        
+        .gantt-cell.today {
+            background: rgba(153, 69, 255, 0.08);
+        }
+        
+        .deliverable {
+            position: absolute;
+            top: 50%;
+            left: 4px;
+            right: 4px;
+            transform: translateY(-50%);
+            padding: 6px 10px;
+            background: linear-gradient(135deg, #9945FF, #FF6B9D);
+            color: white;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 500;
+            cursor: grab;
+            box-shadow: 0 2px 8px rgba(153, 69, 255, 0.3);
+            transition: all 0.2s;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            z-index: 5;
+        }
+        
+        .deliverable:hover {
+            transform: translateY(-50%) scale(1.02);
+            box-shadow: 0 4px 12px rgba(153, 69, 255, 0.4);
+        }
+        
+        .deliverable.completed {
+            background: linear-gradient(135deg, #10b981, #34d399);
+            text-decoration: line-through;
+            opacity: 0.8;
+        }
+        
+        .deliverable.completed::after {
+            content: " ✓";
+            font-weight: 700;
+        }
+        
+        .deliverable .delete-btn {
+            position: absolute;
+            right: 4px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 16px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        
+        .deliverable:hover .delete-btn {
+            opacity: 1;
+        }
+        
+        .deliverable .delete-btn:hover {
+            background: rgba(255,255,255,0.5);
+        }
+        
+        /* Modal for adding deliverables */
+        .gantt-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .gantt-modal.active {
+            display: flex;
+        }
+        
+        .gantt-modal-content {
+            background: white;
+            padding: 24px;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        .gantt-modal h3 {
+            margin-bottom: 16px;
+            color: #1a1a2e;
+        }
+        
+        .gantt-modal input, .gantt-modal select {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        
+        .gantt-modal input:focus, .gantt-modal select:focus {
+            outline: none;
+            border-color: #9945FF;
+        }
+        
+        .gantt-modal-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 16px;
+        }
+        
+        .gantt-modal-buttons button {
+            flex: 1;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+        }
+        
+        .gantt-modal-buttons .save {
+            background: linear-gradient(135deg, #9945FF, #FF6B9D);
+            color: white;
+        }
+        
+        .gantt-modal-buttons .cancel {
+            background: #f3f4f6;
+            color: #666;
+        }
+    </style>
+    
+    <!-- GANTT Modal -->
+    <div class="gantt-modal" id="gantt-modal">
+        <div class="gantt-modal-content">
+            <h3>Add Deliverable</h3>
+            <input type="text" id="deliverable-name" placeholder="Deliverable name...">
+            <select id="deliverable-workflow">
+                <!-- Options populated by JS -->
+            </select>
+            <input type="date" id="deliverable-date">
+            <div class="gantt-modal-buttons">
+                <button class="save" onclick="saveDeliverable()">Add</button>
+                <button class="cancel" onclick="closeGanttModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Workflows from System Health Matrix
+        const WORKFLOWS = [
+            { id: 'morning-brief', name: '🌅 Morning Brief', emoji: '🌅' },
+            { id: 'food-logging', name: '🥗 Food Logging', emoji: '🥗' },
+            { id: 'whoop-recovery', name: '💓 WHOOP Recovery', emoji: '💓' },
+            { id: 'tat-system', name: '📋 TAT System', emoji: '📋' },
+            { id: 'calendar-sync', name: '📅 Calendar Sync', emoji: '📅' },
+            { id: 'water-tracker', name: '💧 Water Tracker', emoji: '💧' },
+            { id: 'security-sentinel', name: '🛡️ Security Sentinel', emoji: '🛡️' },
+            { id: 'voice-transcribe', name: '🎙️ Voice Transcribe', emoji: '🎙️' },
+            { id: 'dashboard-update', name: '📊 Dashboard Update', emoji: '📊' }
+        ];
+        
+        // GANTT State
+        let ganttState = {
+            deliverables: [],
+            startDate: null,
+            endDate: null
+        };
+        
+        const STORAGE_KEY = 'mission-control-gantt';
+        
+        // Initialize GANTT
+        function initGantt() {
+            loadGanttState();
+            renderGantt();
+            populateWorkflowSelect();
+        }
+        
+        // Load state from localStorage
+        function loadGanttState() {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if (saved) {
+                ganttState = JSON.parse(saved);
+            } else {
+                // Default date range (2 weeks from today)
+                const today = new Date();
+                ganttState.startDate = formatDate(today);
+                const twoWeeks = new Date(today);
+                twoWeeks.setDate(twoWeeks.getDate() + 14);
+                ganttState.endDate = formatDate(twoWeeks);
+                ganttState.deliverables = [];
+            }
+        }
+        
+        // Save state to localStorage
+        function saveGanttState() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(ganttState));
+        }
+        
+        // Format date as YYYY-MM-DD
+        function formatDate(date) {
+            return date.toISOString().split('T')[0];
+        }
+        
+        // Format date as DD/MM
+        function formatDateShort(dateStr) {
+            const [year, month, day] = dateStr.split('-');
+            return `${day}/${month}`;
+        }
+        
+        // Get all dates in range
+        function getDateRange() {
+            const dates = [];
+            const start = new Date(ganttState.startDate);
+            const end = new Date(ganttState.endDate);
+            
+            for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+                dates.push(formatDate(new Date(d)));
+            }
+            return dates;
+        }
+        
+        // Check if date is weekend
+        function isWeekend(dateStr) {
+            const date = new Date(dateStr);
+            const day = date.getDay();
+            return day === 0 || day === 6;
+        }
+        
+        // Check if date is today
+        function isToday(dateStr) {
+            return dateStr === formatDate(new Date());
+        }
+        
+        // Render GANTT
+        function renderGantt() {
+            const dates = getDateRange();
+            const headerEl = document.getElementById('gantt-header');
+            const bodyEl = document.getElementById('gantt-body');
+            
+            // Render header
+            let headerHTML = '<div class="gantt-workflow-label">Workflow</div>';
+            dates.forEach(date => {
+                const classes = ['gantt-date-cell'];
+                if (isWeekend(date)) classes.push('weekend');
+                if (isToday(date)) classes.push('today');
+                headerHTML += `<div class="${classes.join(' ')}">${formatDateShort(date)}</div>`;
+            });
+            headerEl.innerHTML = headerHTML;
+            
+            // Render rows
+            let bodyHTML = '';
+            WORKFLOWS.forEach(workflow => {
+                bodyHTML += `
+                    <div class="gantt-row" data-workflow="${workflow.id}">
+                        <div class="gantt-row-label">
+                            <span>${workflow.emoji}</span>
+                            <span>${workflow.name.replace(/^[^\s]+\s/, '')}</span>
+                        </div>
+                        <div class="gantt-row-cells">
+                            ${dates.map(date => {
+                                const classes = ['gantt-cell'];
+                                if (isWeekend(date)) classes.push('weekend');
+                                if (isToday(date)) classes.push('today');
+                                return `<div class="${classes.join(' ')}" data-date="${date}" onclick="cellClicked('${workflow.id}', '${date}')"></div>`;
+                            }).join('')}
+                            ${renderDeliverablesForRow(workflow.id, dates)}
+                        </div>
+                    </div>
+                `;
+            });
+            bodyEl.innerHTML = bodyHTML;
+        }
+        
+        // Render deliverables for a workflow row
+        function renderDeliverablesForRow(workflowId, dates) {
+            const deliverables = ganttState.deliverables.filter(d => d.workflow === workflowId);
+            if (deliverables.length === 0) return '';
+            
+            return deliverables.map(d => {
+                const dateIndex = dates.indexOf(d.date);
+                if (dateIndex === -1) return '';
+                
+                const left = (dateIndex * 60) + 4;
+                const completedClass = d.completed ? 'completed' : '';
+                
+                return `
+                    <div class="deliverable ${completedClass}" 
+                         style="left: ${left}px; width: 52px;"
+                         draggable="true"
+                         data-id="${d.id}"
+                         ondragstart="dragStart(event, '${d.id}')"
+                         onclick="toggleDeliverable('${d.id}')">
+                        ${d.name}
+                        <span class="delete-btn" onclick="deleteDeliverable(event, '${d.id}')">×</span>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        // Populate workflow select
+        function populateWorkflowSelect() {
+            const select = document.getElementById('deliverable-workflow');
+            select.innerHTML = WORKFLOWS.map(w => 
+                `<option value="${w.id}">${w.name}</option>`
+            ).join('');
+        }
+        
+        // Add deliverable
+        function addDeliverable() {
+            document.getElementById('deliverable-name').value = '';
+            document.getElementById('deliverable-date').value = formatDate(new Date());
+            document.getElementById('gantt-modal').classList.add('active');
+        }
+        
+        // Save deliverable
+        function saveDeliverable() {
+            const name = document.getElementById('deliverable-name').value.trim();
+            const workflow = document.getElementById('deliverable-workflow').value;
+            const date = document.getElementById('deliverable-date').value;
+            
+            if (!name || !date) return;
+            
+            ganttState.deliverables.push({
+                id: Date.now().toString(),
+                name,
+                workflow,
+                date,
+                completed: false
+            });
+            
+            saveGanttState();
+            closeGanttModal();
+            renderGantt();
+        }
+        
+        // Close modal
+        function closeGanttModal() {
+            document.getElementById('gantt-modal').classList.remove('active');
+        }
+        
+        // Toggle deliverable completion
+        function toggleDeliverable(id) {
+            const d = ganttState.deliverables.find(x => x.id === id);
+            if (d) {
+                d.completed = !d.completed;
+                saveGanttState();
+                renderGantt();
+            }
+        }
+        
+        // Delete deliverable
+        function deleteDeliverable(event, id) {
+            event.stopPropagation();
+            ganttState.deliverables = ganttState.deliverables.filter(x => x.id !== id);
+            saveGanttState();
+            renderGantt();
+        }
+        
+        // Cell clicked
+        function cellClicked(workflow, date) {
+            const name = prompt('Enter deliverable name:');
+            if (name && name.trim()) {
+                ganttState.deliverables.push({
+                    id: Date.now().toString(),
+                    name: name.trim(),
+                    workflow,
+                    date,
+                    completed: false
+                });
+                saveGanttState();
+                renderGantt();
+            }
+        }
+        
+        // Drag and drop
+        let draggedId = null;
+        
+        function dragStart(event, id) {
+            draggedId = id;
+            event.dataTransfer.effectAllowed = 'move';
+        }
+        
+        // Set up drop handlers
+        document.addEventListener('DOMContentLoaded', () => {
+            initGantt();
+            
+            const container = document.getElementById('gantt-body');
+            
+            container.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                e.dataTransfer.dropEffect = 'move';
+            });
+            
+            container.addEventListener('drop', (e) => {
+                e.preventDefault();
+                if (!draggedId) return;
+                
+                const cell = e.target.closest('.gantt-cell');
+                if (cell) {
+                    const newDate = cell.dataset.date;
+                    const d = ganttState.deliverables.find(x => x.id === draggedId);
+                    if (d && newDate) {
+                        d.date = newDate;
+                        saveGanttState();
+                        renderGantt();
+                    }
+                }
+                draggedId = null;
+            });
+        });
+        
+        // Reset GANTT view
+        function resetGantt() {
+            const today = new Date();
+            ganttState.startDate = formatDate(today);
+            const twoWeeks = new Date(today);
+            twoWeeks.setDate(twoWeeks.getDate() + 14);
+            ganttState.endDate = formatDate(twoWeeks);
+            saveGanttState();
+            renderGantt();
+        }
+        
+        // Close modal on outside click
+        document.getElementById('gantt-modal')?.addEventListener('click', (e) => {
+            if (e.target.id === 'gantt-modal') {
+                closeGanttModal();
+            }
+        });
+    </script>
