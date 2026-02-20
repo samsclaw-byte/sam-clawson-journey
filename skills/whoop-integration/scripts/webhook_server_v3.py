@@ -356,6 +356,57 @@ def fetch_whoop_data_v2(endpoint, record_id):
         log_event(f"❌ Error fetching WHOOP data: {e}")
         return None
 
+
+def fetch_recent_cycles(access_token, days=2):
+    """Fetch recent cycles with embedded sleep and workout data"""
+    try:
+        from datetime import datetime, timedelta
+        
+        # Use v1 cycle endpoint (works) to get recent data
+        url = 'https://api.prod.whoop.com/developer/v1/cycle'
+        params = {
+            'start': (datetime.now() - timedelta(days=days)).strftime('%Y-%m-%d'),
+            'end': datetime.now().strftime('%Y-%m-%d')
+        }
+        headers = {'Authorization': f'Bearer {access_token}'}
+        
+        response = requests.get(url, headers=headers, params=params, timeout=30)
+        
+        if response.status_code == 200:
+            cycles = response.json().get('records', [])
+            log_event(f"✅ Fetched {len(cycles)} recent cycles")
+            return cycles
+        elif response.status_code == 401:
+            log_event("⚠️ Token expired in fetch_recent_cycles")
+            return None
+        else:
+            log_event(f"⚠️ Cycle fetch error: {response.status_code}")
+            return None
+            
+    except Exception as e:
+        log_event(f"❌ Error fetching cycles: {e}")
+        return None
+
+
+def find_sleep_by_id(cycles, sleep_id):
+    """Find sleep data in cycles by ID"""
+    for cycle in cycles:
+        sleep = cycle.get('sleep')
+        if sleep and str(sleep.get('id')) == str(sleep_id):
+            return sleep
+    return None
+
+
+def find_workout_by_id(cycles, workout_id):
+    """Find workout data in cycles by ID"""
+    for cycle in cycles:
+        workouts = cycle.get('workouts', [])
+        for workout in workouts:
+            if str(workout.get('id')) == str(workout_id):
+                return workout
+    return None
+
+
 # ========== WEBHOOK ENDPOINT ==========
 
 @app.route('/webhook/whoop', methods=['POST'])
@@ -373,16 +424,40 @@ def whoop_webhook():
         # Step 1: Save raw data locally
         raw_file = save_raw_data(event_type, data)
         
-        # Step 2: Fetch full data from WHOOP API v2 using the record ID from webhook
+        # Step 2: Fetch full data from WHOOP API
+        # Strategy: Fetch recent cycles (works in v1) which include sleep/workout data
         record_id = data.get('id')
         full_data = None
         
+        # Load access token for API calls
+        token_file = Path.home() / '.openclaw' / 'whoop_tokens.json'
+        access_token = None
+        if token_file.exists():
+            with open(token_file) as f:
+                tokens = json.load(f)
+                access_token = tokens.get('access_token')
+        
+        # Fetch recent cycles with embedded data
+        cycles = None
+        if access_token:
+            cycles = fetch_recent_cycles(access_token, days=2)
+        
         if event_type in ['workout.created', 'workout.updated']:
-            log_event(f"🔍 Fetching workout data from WHOOP v2 API for ID: {record_id}")
-            # v2 endpoint: GET /v2/activity/workout/{workoutId}
-            full_data = fetch_whoop_data_v2('activity/workout', record_id)
+            log_event(f"🔍 Looking for workout ID: {record_id} in recent cycles")
+            # Find workout in cycles
+            if cycles:
+                full_data = find_workout_by_id(cycles, record_id)
+                if full_data:
+                    log_event(f"✅ Found workout in cycle data")
+                else:
+                    log_event(f"⚠️ Workout ID not found in recent cycles, trying direct v2 API")
+                    full_data = fetch_whoop_data_v2('activity/workout', record_id)
+            else:
+                log_event(f"⚠️ No cycles fetched, trying direct v2 API")
+                full_data = fetch_whoop_data_v2('activity/workout', record_id)
+            
             processed_data = extract_full_workout(full_data or data)
-            table_name = "WHOOP Workouts"
+            table_name = "WHOOP Workouts v2"
             notification_title = "🏋️ Workout Recorded"
             duration = processed_data.get('duration_minutes') or 0
             strain = processed_data.get('strain') or 0
@@ -395,9 +470,19 @@ def whoop_webhook():
                                  f"Avg HR: {avg_hr} bpm"
         
         elif event_type in ['sleep.created', 'sleep.updated']:
-            log_event(f"🔍 Fetching sleep data from WHOOP v2 API for ID: {record_id}")
-            # v2 endpoint: GET /v2/activity/sleep/{sleepId}
-            full_data = fetch_whoop_data_v2('activity/sleep', record_id)
+            log_event(f"🔍 Looking for sleep ID: {record_id} in recent cycles")
+            # Find sleep in cycles
+            if cycles:
+                full_data = find_sleep_by_id(cycles, record_id)
+                if full_data:
+                    log_event(f"✅ Found sleep in cycle data")
+                else:
+                    log_event(f"⚠️ Sleep ID not found in recent cycles, trying direct v2 API")
+                    full_data = fetch_whoop_data_v2('activity/sleep', record_id)
+            else:
+                log_event(f"⚠️ No cycles fetched, trying direct v2 API")
+                full_data = fetch_whoop_data_v2('activity/sleep', record_id)
+            
             processed_data = extract_full_sleep(full_data or data)
             table_name = "WHOOP Sleep"
             notification_title = "😴 Sleep Recorded"
@@ -411,18 +496,23 @@ def whoop_webhook():
                                  f"REM: {rem_hours:.1f} hrs"
         
         elif event_type in ['recovery.created', 'recovery.updated']:
-            log_event(f"🔍 Fetching recovery data from WHOOP v2 API for ID: {record_id}")
-            # Recovery in v2: GET /v2/cycle/{cycleId}/recovery
-            # Or fetch via sleep ID if that's what the webhook provides
-            # Try fetching sleep first (recovery is linked to sleep in v2)
-            full_data = fetch_whoop_data_v2('activity/sleep', record_id)
-            if full_data:
-                # Extract recovery from sleep data if available
-                processed_data = extract_full_recovery_from_sleep(full_data)
-            else:
-                # Try cycle-based recovery
+            log_event(f"🔍 Looking for recovery data in cycles")
+            # Recovery is embedded in cycle data
+            if cycles:
+                for cycle in cycles:
+                    recovery = cycle.get('recovery')
+                    if recovery and str(recovery.get('id')) == str(record_id):
+                        full_data = recovery
+                        log_event(f"✅ Found recovery in cycle data")
+                        break
+                if not full_data:
+                    log_event(f"⚠️ Recovery ID not found in recent cycles")
+            
+            if not full_data:
+                # Try v2 endpoint as fallback
                 full_data = fetch_whoop_data_v2(f'cycle/{record_id}/recovery', '')
-                processed_data = extract_full_recovery(full_data or data)
+            
+            processed_data = extract_full_recovery(full_data or data)
             table_name = "WHOOP Recovery"
             notification_title = "💓 Recovery Updated"
             score = processed_data.get('recovery_score') or 0
@@ -433,9 +523,17 @@ def whoop_webhook():
                                  f"HRV: {hrv:.1f} ms"
         
         elif event_type == 'cycles.updated':
-            log_event(f"🔍 Fetching cycle data from WHOOP v2 API for ID: {record_id}")
-            # v2 endpoint: GET /v2/cycle/{cycleId}
-            full_data = fetch_whoop_data_v2('cycle', record_id)
+            log_event(f"🔍 Fetching cycle data for ID: {record_id}")
+            # Find cycle in fetched data
+            if cycles:
+                for cycle in cycles:
+                    if str(cycle.get('id')) == str(record_id):
+                        full_data = cycle
+                        log_event(f"✅ Found cycle in recent data")
+                        break
+            if not full_data:
+                full_data = fetch_whoop_data_v2('cycle', record_id)
+            
             processed_data = extract_full_cycle(full_data or data)
             table_name = "WHOOP Daily"
             notification_title = "📅 Daily Data Updated"
