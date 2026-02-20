@@ -245,6 +245,273 @@
             border: 2px solid;
         }
         
+        
+        /* GANTT Chart Styles */
+        .gantt-controls {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .gantt-btn {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #9945FF, #FF6B9D);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .gantt-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(153, 69, 255, 0.3);
+        }
+        
+        .gantt-btn.secondary {
+            background: #f3f4f6;
+            color: #666;
+        }
+        
+        .gantt-btn.secondary:hover {
+            background: #e5e7eb;
+        }
+        
+        .gantt-container {
+            overflow-x: auto;
+            border: 1px solid rgba(153, 69, 255, 0.2);
+            border-radius: 12px;
+            background: white;
+        }
+        
+        .gantt-header {
+            display: flex;
+            background: linear-gradient(135deg, #f8f5ff, #fff5f8);
+            border-bottom: 2px solid rgba(153, 69, 255, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        
+        .gantt-workflow-label {
+            width: 200px;
+            min-width: 200px;
+            padding: 12px 16px;
+            font-weight: 600;
+            color: #1a1a2e;
+            border-right: 1px solid rgba(153, 69, 255, 0.1);
+            display: flex;
+            align-items: center;
+            font-size: 13px;
+        }
+        
+        .gantt-date-cell {
+            width: 60px;
+            min-width: 60px;
+            padding: 12px 4px;
+            text-align: center;
+            font-size: 11px;
+            color: #666;
+            border-right: 1px solid rgba(153, 69, 255, 0.1);
+            font-weight: 500;
+        }
+        
+        .gantt-date-cell.weekend {
+            background: rgba(153, 69, 255, 0.05);
+        }
+        
+        .gantt-date-cell.today {
+            background: rgba(153, 69, 255, 0.15);
+            color: #9945FF;
+            font-weight: 700;
+        }
+        
+        .gantt-row {
+            display: flex;
+            border-bottom: 1px solid rgba(153, 69, 255, 0.1);
+            min-height: 50px;
+            position: relative;
+        }
+        
+        .gantt-row:hover {
+            background: rgba(153, 69, 255, 0.02);
+        }
+        
+        .gantt-row-label {
+            width: 200px;
+            min-width: 200px;
+            padding: 12px 16px;
+            font-size: 12px;
+            color: #1a1a2e;
+            border-right: 1px solid rgba(153, 69, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .gantt-row-cells {
+            display: flex;
+            position: relative;
+            flex: 1;
+        }
+        
+        .gantt-cell {
+            width: 60px;
+            min-width: 60px;
+            border-right: 1px solid rgba(153, 69, 255, 0.05);
+            position: relative;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .gantt-cell:hover {
+            background: rgba(153, 69, 255, 0.1);
+        }
+        
+        .gantt-cell.weekend {
+            background: rgba(153, 69, 255, 0.03);
+        }
+        
+        .gantt-cell.today {
+            background: rgba(153, 69, 255, 0.08);
+        }
+        
+        .deliverable {
+            position: absolute;
+            top: 50%;
+            left: 4px;
+            right: 4px;
+            transform: translateY(-50%);
+            padding: 6px 10px;
+            background: linear-gradient(135deg, #9945FF, #FF6B9D);
+            color: white;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 500;
+            cursor: grab;
+            box-shadow: 0 2px 8px rgba(153, 69, 255, 0.3);
+            transition: all 0.2s;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            z-index: 5;
+        }
+        
+        .deliverable:hover {
+            transform: translateY(-50%) scale(1.02);
+            box-shadow: 0 4px 12px rgba(153, 69, 255, 0.4);
+        }
+        
+        .deliverable.completed {
+            background: linear-gradient(135deg, #10b981, #34d399);
+            text-decoration: line-through;
+            opacity: 0.8;
+        }
+        
+        .deliverable.completed::after {
+            content: " ✓";
+            font-weight: 700;
+        }
+        
+        .deliverable .delete-btn {
+            position: absolute;
+            right: 4px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 16px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        
+        .deliverable:hover .delete-btn {
+            opacity: 1;
+        }
+        
+        .deliverable .delete-btn:hover {
+            background: rgba(255,255,255,0.5);
+        }
+        
+        /* Modal for adding deliverables */
+        .gantt-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .gantt-modal.active {
+            display: flex;
+        }
+        
+        .gantt-modal-content {
+            background: white;
+            padding: 24px;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        .gantt-modal h3 {
+            margin-bottom: 16px;
+            color: #1a1a2e;
+        }
+        
+        .gantt-modal input, .gantt-modal select {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        
+        .gantt-modal input:focus, .gantt-modal select:focus {
+            outline: none;
+            border-color: #9945FF;
+        }
+        
+        .gantt-modal-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 16px;
+        }
+        
+        .gantt-modal-buttons button {
+            flex: 1;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+        }
+        
+        .gantt-modal-buttons .save {
+            background: linear-gradient(135deg, #9945FF, #FF6B9D);
+            color: white;
+        }
+        
+        .gantt-modal-buttons .cancel {
+            background: #f3f4f6;
+            color: #666;
+        }
+        
+        /* System Health Matrix */
         /* System Health Matrix */
         .health-matrix {
             overflow-x: auto;
@@ -727,6 +994,23 @@
     </div>
     
     <div class="container">
+        <!-- Workflow GANTT Chart Card -->
+        <div class="card">
+            <h2>📅 Workflow Deliverables GANTT</h2>
+            <div class="gantt-controls">
+                <button class="gantt-btn" onclick="addDeliverable()">+ Add Deliverable</button>
+                <button class="gantt-btn secondary" onclick="resetGantt()">Reset View</button>
+            </div>
+            <div class="gantt-container" id="gantt-container">
+                <div class="gantt-header" id="gantt-header">
+                    <!-- Dates will be generated here -->
+                </div>
+                <div class="gantt-body" id="gantt-body">
+                    <!-- Workflow rows will be generated here -->
+                </div>
+            </div>
+        </div>
+        
         <!-- Architecture Diagram Card -->
         <div class="card">
             <h2>System Overview</h2>
@@ -2030,3 +2314,21 @@
             }
         });
     </script>
+    
+    <!-- GANTT Modal -->
+    <div class="gantt-modal" id="gantt-modal">
+        <div class="gantt-modal-content">
+            <h3>Add Deliverable</h3>
+            <input type="text" id="deliverable-name" placeholder="Deliverable name...">
+            <select id="deliverable-workflow">
+                <!-- Options populated by JS -->
+            </select>
+            <input type="date" id="deliverable-date">
+            <div class="gantt-modal-buttons">
+                <button class="save" onclick="saveDeliverable()">Add</button>
+                <button class="cancel" onclick="closeGanttModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
