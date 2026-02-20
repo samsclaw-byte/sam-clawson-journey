@@ -292,6 +292,17 @@
             transform: translateX(4px);
         }
         
+        .workflow-name::after {
+            content: " →";
+            opacity: 0.5;
+            font-size: 14px;
+            transition: opacity 0.2s;
+        }
+        
+        .workflow-name:hover::after {
+            opacity: 1;
+        }
+        
         .status-badge {
             display: inline-block;
             padding: 4px 10px;
