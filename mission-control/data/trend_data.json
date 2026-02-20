@@ -1,47 +1,43 @@
 {
-  "generated_at": "2026-02-20T22:38:10.286452",
+  "generated_at": "2026-02-21T00:38:35.819764",
   "nutrition": [
     {
-      "date": "2026-02-14",
-      "calories": 2750,
-      "protein": 145
-    },
-    {
       "date": "2026-02-15",
-      "calories": 3270,
-      "protein": 111
+      "calories": 0,
+      "protein": 0
     },
     {
       "date": "2026-02-16",
-      "calories": 2480,
-      "protein": 83
+      "calories": 0,
+      "protein": 0
     },
     {
       "date": "2026-02-17",
-      "calories": 795,
-      "protein": 30
+      "calories": 0,
+      "protein": 0
     },
     {
       "date": "2026-02-18",
-      "calories": 2400,
-      "protein": 59
+      "calories": 0,
+      "protein": 0
     },
     {
       "date": "2026-02-19",
-      "calories": 1750,
+      "calories": 0,
       "protein": 0
     },
     {
       "date": "2026-02-20",
-      "calories": 2664,
-      "protein": 83.1
+      "calories": 0,
+      "protein": 0
+    },
+    {
+      "date": "2026-02-21",
+      "calories": 0,
+      "protein": 0
     }
   ],
   "productivity": [
-    {
-      "date": "2026-01-22",
-      "completed": 0
-    },
     {
       "date": "2026-01-23",
       "completed": 0
@@ -116,15 +112,15 @@
     },
     {
       "date": "2026-02-10",
-      "completed": 11
+      "completed": 0
     },
     {
       "date": "2026-02-11",
-      "completed": 7
+      "completed": 0
     },
     {
       "date": "2026-02-12",
-      "completed": 2
+      "completed": 0
     },
     {
       "date": "2026-02-13",
@@ -140,7 +136,7 @@
     },
     {
       "date": "2026-02-16",
-      "completed": 1
+      "completed": 0
     },
     {
       "date": "2026-02-17",
@@ -156,6 +152,10 @@
     },
     {
       "date": "2026-02-20",
+      "completed": 0
+    },
+    {
+      "date": "2026-02-21",
       "completed": 0
     }
   ]
