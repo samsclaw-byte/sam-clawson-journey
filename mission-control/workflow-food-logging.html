@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Logging Workflow - Mission Control</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #f8f9ff 0%, #fff5f8 100%);
+            color: #1a1a2e;
+            min-height: 100vh;
+        }
+        .header {
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            padding: 30px 20px;
+            text-align: center;
+            color: white;
+            box-shadow: 0 4px 20px rgba(34, 197, 94, 0.3);
+        }
+        .header h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+        .subtitle { font-size: 14px; opacity: 0.9; }
+        .nav {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin: 20px;
+            flex-wrap: wrap;
+        }
+        .nav a {
+            padding: 12px 24px;
+            background: white;
+            border: 1px solid rgba(34, 197, 94, 0.2);
+            border-radius: 25px;
+            color: #22c55e;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        .nav a:hover {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            color: white;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 20px rgba(34, 197, 94, 0.08);
+            border: 1px solid rgba(34, 197, 94, 0.1);
+        }
+        .card h2 {
+            font-size: 18px;
+            color: #22c55e;
+            margin-bottom: 16px;
+            font-weight: 700;
+        }
+        .step {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            margin-bottom: 16px;
+            padding: 16px;
+            background: #f0fdf4;
+            border-radius: 10px;
+            border-left: 4px solid #22c55e;
+        }
+        .step-number {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+        .step-content h4 { font-size: 15px; margin-bottom: 6px; color: #1a1a2e; }
+        .step-content p { font-size: 13px; color: #666; line-height: 1.5; }
+        .highlight { background: rgba(34, 197, 94, 0.1); padding: 2px 6px; border-radius: 4px; color: #22c55e; font-weight: 600; }
+        ul { margin: 12px 0 12px 20px; }
+        li { margin-bottom: 8px; line-height: 1.5; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🥗 Food Logging Workflow</h1>
+        <p class="subtitle">Natural language meal tracking with AI macro estimation</p>
+    </div>
+    
+    <div class="nav">
+        <a href="architecture.html">← Back to Architecture</a>
+        <a href="health-nutrition.html">Health & Nutrition</a>
+    </div>
+    
+    <div class="container">
+        <div class="card">
+            <h2>📋 Workflow Overview</h2>
+            <p>Log meals via Telegram using natural language. AI estimates calories and macros, stores in Airtable, and tracks daily nutrition goals.</p>
+            
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h4>User Input</h4>
+                    <p>Send meal description via Telegram: <em>"Two eggs, toast, coffee with milk"</em></p>
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h4>AI Processing</h4>
+                    <p>Kimi AI analyzes description and estimates: calories, protein, carbs, fat. Uses nutritional knowledge base + Edamam API for accuracy.</p>
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h4>Data Storage</h4>
+                    <p>Entry saved to <span class="highlight">Airtable Food Log</span> with timestamp, meal type, estimated macros, and raw description.</p>
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <h4>Daily Tracking</h4>
+                    <p>Mission Control dashboard updates with running totals. Cron job validates entries at 11 PM.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2>🔧 Technical Details</h2>
+            <ul>
+                <li><strong>Input Method:</strong> Telegram natural language</li>
+                <li><strong>AI Model:</strong> Kimi K2.5 for macro estimation</li>
+                <li><strong>Nutrition API:</strong> Edamam (fallback for accuracy)</li>
+                <li><strong>Database:</strong> Airtable Food Log table</li>
+                <li><strong>Validation:</strong> Daily cron check at 11 PM</li>
+            </ul>
+        </div>
+        
+        <div class="card">
+            <h2>💡 Example Interactions</h2>
+            <ul>
+                <li><strong>User:</strong> "Grilled chicken salad with avocado"</li>
+                <li><strong>AI:</strong> Lunch logged: ~450 cal | 35g protein | 15g carbs | 28g fat</li>
+                <li></li>
+                <li><strong>User:</strong> "Large cappuccino and a muffin"</li>
+                <li><strong>AI:</strong> Snack logged: ~320 cal | 8g protein | 45g carbs | 12g fat</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

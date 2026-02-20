@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WHOOP Recovery Workflow - Mission Control</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #f8f9ff 0%, #fff5f8 100%);
+            color: #1a1a2e;
+            min-height: 100vh;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #9945FF 0%, #FF6B9D 100%);
+            padding: 30px 20px;
+            text-align: center;
+            color: white;
+            box-shadow: 0 4px 20px rgba(153, 69, 255, 0.3);
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .nav {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .nav a {
+            padding: 12px 24px;
+            background: white;
+            border: 1px solid rgba(153, 69, 255, 0.2);
+            border-radius: 25px;
+            color: #9945FF;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        
+        .nav a:hover {
+            background: linear-gradient(135deg, #9945FF, #FF6B9D);
+            color: white;
+            border-color: transparent;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 20px rgba(153, 69, 255, 0.08);
+            border: 1px solid rgba(153, 69, 255, 0.1);
+        }
+        
+        .card h2 {
+            font-size: 18px;
+            background: linear-gradient(135deg, #9945FF, #FF6B9D);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 16px;
+            font-weight: 700;
+        }
+        
+        .card h3 {
+            font-size: 16px;
+            color: #1a1a2e;
+            margin: 20px 0 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(153, 69, 255, 0.1);
+        }
+        
+        .workflow-diagram {
+            background: linear-gradient(135deg, #f8f5ff, #fff5f8);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 16px 0;
+            border: 1px solid rgba(153, 69, 255, 0.15);
+        }
+        
+        .step {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            margin-bottom: 16px;
+            padding: 16px;
+            background: white;
+            border-radius: 10px;
+            border-left: 4px solid #9945FF;
+        }
+        
+        .step-number {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #9945FF, #FF6B9D);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+        
+        .step-content h4 {
+            font-size: 15px;
+            margin-bottom: 6px;
+            color: #1a1a2e;
+        }
+        
+        .step-content p {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.5;
+        }
+        
+        .code-block {
+            background: #1a1a2e;
+            color: #a5b4fc;
+            padding: 16px;
+            border-radius: 10px;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 12px;
+            overflow-x: auto;
+            margin: 12px 0;
+        }
+        
+        .highlight {
+            background: rgba(153, 69, 255, 0.1);
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #9945FF;
+            font-weight: 600;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+            font-size: 13px;
+        }
+        
+        .comparison-table th {
+            background: linear-gradient(135deg, #f8f5ff, #fff5f8);
+            color: #9945FF;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid rgba(153, 69, 255, 0.2);
+        }
+        
+        .comparison-table td {
+            padding: 12px;
+            border-bottom: 1px solid rgba(153, 69, 255, 0.1);
+        }
+        
+        .comparison-table tr:hover {
+            background: rgba(153, 69, 255, 0.05);
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        
+        .badge-green {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        
+        .badge-blue {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+        
+        .badge-purple {
+            background: #f3e8ff;
+            color: #7c3aed;
+        }
+        
+        ul {
+            margin: 12px 0 12px 20px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+        
+        .note {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 12px 16px;
+            border-radius: 0 8px 8px 0;
+            margin: 16px 0;
+            font-size: 13px;
+        }
+        
+        .warning {
+            background: #fee2e2;
+            border-left: 4px solid #ef4444;
+            padding: 12px 16px;
+            border-radius: 0 8px 8px 0;
+            margin: 16px 0;
+            font-size: 13px;
+        }
+        
+        .success {
+            background: #d1fae5;
+            border-left: 4px solid #22c55e;
+            padding: 12px 16px;
+            border-radius: 0 8px 8px 0;
+            margin: 16px 0;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>💓 WHOOP Recovery Workflow</h1>
+        <p class="subtitle">From Single User to Multi-User Architecture</p>
+    </div>
+    
+    <div class="nav">
+        <a href="architecture.html">← Back to Architecture</a>
+        <a href="index.html">Mission Control</a>
+    </div>
+    
+    <div class="container">
+        <!-- Current Implementation -->
+        <div class="card">
+            <h2>🔧 Current Implementation (Single User)</h2>
+            
+            <div class="workflow-diagram">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h4>Webhook Reception</h4>
+                        <p>WHOOP sends lightweight webhook to <span class="highlight">whoop-webhook.samsclaw.org</span> with event type and ID. Raw JSON saved to <span class="highlight">~/.openclaw/whoop_data/</span></p>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h4>Event Processing</h4>
+                        <p>Webhook server detects event type (recovery.updated, sleep.updated, workout.updated) and extracts the record ID from the payload.</p>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h4>API Data Fetch</h4>
+                        <p>Server uses OAuth access token to call WHOOP API v2 endpoints:</p>
+                        <div class="code-block">GET /v2/activity/sleep/{sleepId}
+GET /v2/activity/workout/{workoutId}
+GET /v2/cycle/{cycleId} (includes recovery data)</div>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h4>Token Refresh (if needed)</h4>
+                        <p>If access token expired (401), server automatically refreshes using the <span class="highlight">offline</span> scope refresh token.</p>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">5</div>
+                    <div class="step-content">
+                        <h4>Data Storage</h4>
+                        <p>Full data (recovery scores, HRV, sleep stages, workout strain) extracted and saved to Airtable <span class="highlight">WHOOP Daily</span> table.</p>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">6</div>
+                    <div class="step-content">
+                        <h4>Notification</h4>
+                        <p>Telegram notification sent to user with key metrics (recovery score, HRV, sleep performance).</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="success">
+                <strong>✅ Current Status:</strong> Fully operational. Webhooks receiving, API fetching working, data saving to Airtable with refresh token for seamless authentication.
+            </div>
+        </div>
+        
+        <!-- Multi-User Architecture -->
+        <div class="card">
+            <h2>🏢 Multi-User App Architecture</h2>
+            
+            <h3>Key Differences: Single User vs Multi-User</h3>
+            
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Aspect</th>
+                        <th>Single User (Current)</th>
+                        <th>Multi-User App</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Token Storage</strong></td>
+                        <td>Single JSON file<br><span class="badge badge-green">~/.openclaw/whoop_tokens.json</span></td>
+                        <td>Database per user<br><span class="badge badge-purple">PostgreSQL/DynamoDB</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Authentication</strong></td>
+                        <td>One-time OAuth setup<br>Manual browser flow</td>
+                        <td>Per-user OAuth<br>Automatic redirect handling</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Token Refresh</strong></td>
+                        <td>Automatic on 401 error<br>Single refresh token</td>
+                        <td>Scheduled refresh (50min)<br>Parallel for all users</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Webhook Handling</strong></td>
+                        <td>Process all webhooks<br>Assume single user</td>
+                        <td>User ID in webhook<br>Route to correct user queue</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Data Isolation</strong></td>
+                        <td>N/A - only one user</td>
+                        <td>Row-level security<br>User-specific data access</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Rate Limiting</strong></td>
+                        <td>Single user limits</td>
+                        <td>Per-user + global limits<br>Queue-based processing</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h3>Multi-User Token Management Strategy</h3>
+            
+            <div class="note">
+                <strong>🎯 Core Principle:</strong> Each user has their own OAuth tokens. The app never shares tokens between users and maintains strict isolation.
+            </div>
+            
+            <h4>1. Database Schema (PostgreSQL Example)</h4>
+            <div class="code-block">CREATE TABLE whoop_users (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id INTEGER UNIQUE NOT NULL,  -- WHOOP user ID
+    email VARCHAR(255),
+    whoop_tokens JSONB,  -- {access_token, refresh_token, expires_at}
+    last_sync TIMESTAMP,
+    created_at TIMESTAMP DEFAULT NOW(),
+    updated_at TIMESTAMP DEFAULT NOW()
+);
+
+CREATE TABLE whoop_webhooks (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id INTEGER REFERENCES whoop_users(user_id),
+    event_type VARCHAR(50),
+    record_id UUID,
+    raw_payload JSONB,
+    processed BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
+CREATE INDEX idx_whoop_webhooks_user ON whoop_webhooks(user_id, processed);</div>
+            
+            <h4>2. OAuth Flow for New Users</h4>
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h4>Initiate OAuth</h4>
+                    <p>User clicks "Connect WHOOP" → App generates unique state parameter with user ID encoded → Redirects to WHOOP authorization URL</p>
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h4>Handle Callback</h4>
+                    <p>WHOOP redirects to <span class="highlight">/oauth/callback?code=XXX&state=USER_ID</span> → Server exchanges code for tokens → Stores in database with user ID</p>
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h4>Register Webhook</h4>
+                    <p>App subscribes to webhooks for that specific user via WHOOP API (each user needs webhook registration)</p>
+                </div>
+            </div>
+            
+            <h4>3. Token Refresh Strategy</h4>
+            
+            <div class="code-block"># Pseudo-code for multi-user token refresh
+
+def refresh_all_user_tokens():
+    """Run every 50 minutes via cron/job queue"""
+    
+    # Get all users with tokens expiring in < 10 minutes
+    users = db.query("""
+        SELECT user_id, whoop_tokens 
+        FROM whoop_users 
+        WHERE whoop_tokens->>'expires_at' < NOW() + INTERVAL '10 minutes'
+    """)
+    
+    for user in users:
+        try:
+            # Refresh this user's token
+            new_tokens = whoop_api.refresh_token(
+                user.whoop_tokens['refresh_token']
+            )
+            
+            # Update database
+            db.execute("""
+                UPDATE whoop_users 
+                SET whoop_tokens = %s,
+                    updated_at = NOW()
+                WHERE user_id = %s
+            """, [new_tokens, user.user_id])
+            
+        except Exception as e:
+            log.error(f"Failed to refresh token for user {user.user_id}: {e}")
+            # Notify user to re-authenticate if refresh fails
+
+# Schedule: Run every 50 minutes
+schedule.every(50).minutes.do(refresh_all_user_tokens)</div>
+            
+            <h4>4. Webhook Processing (Multi-User)</h4>
+            
+            <div class="code-block">@app.route('/webhook/whoop', methods=['POST'])
+def handle_whoop_webhook():
+    data = request.json
+    
+    # Extract user ID from webhook
+    whoop_user_id = data.get('user_id')
+    
+    # Find user in our database
+    user = db.query(
+        "SELECT * FROM whoop_users WHERE user_id = %s",
+        [whoop_user_id]
+    ).first()
+    
+    if not user:
+        log.warning(f"Webhook for unknown user: {whoop_user_id}")
+        return jsonify({'status': 'ignored'}), 200
+    
+    # Queue for processing (don't block webhook response)
+    webhook_queue.enqueue(
+        process_whoop_webhook,
+        user_id=whoop_user_id,
+        event_type=data.get('type'),
+        record_id=data.get('id'),
+        tokens=user.whoop_tokens
+    )
+    
+    return jsonify({'status': 'queued'}), 200
+
+
+def process_whoop_webhook(user_id, event_type, record_id, tokens):
+    """Background job to process webhook"""
+    
+    # Fetch full data using user's tokens
+    whoop_api = WhoopAPI(tokens)
+    
+    if event_type == 'recovery.updated':
+        # Fetch cycle data (includes recovery)
+        cycle_data = whoop_api.get_cycle(record_id)
+        
+        # Save to user's data store
+        db.execute("""
+            INSERT INTO whoop_recovery_data 
+            (user_id, cycle_id, recovery_score, hrv, resting_hr, date)
+            VALUES (%s, %s, %s, %s, %s, %s)
+        """, [
+            user_id,
+            cycle_data['id'],
+            cycle_data['recovery']['score']['recovery_score'],
+            cycle_data['recovery']['score']['hrv_rmssd_milli'],
+            cycle_data['recovery']['score']['resting_heart_rate'],
+            cycle_data['start'][:10]
+        ])</div>
+            
+            <h4>5. Security Considerations</h4>
+            
+            <div class="warning">
+                <strong>⚠️ Critical Security Requirements:</strong>
+                <ul>
+                    <li>Encrypt tokens at rest (AES-256)</li>
+                    <li>Never log tokens or expose in error messages</li>
+                    <li>Use separate database credentials per environment</li>
+                    <li>Implement row-level security (RLS) in PostgreSQL</li>
+                    <li>Rate limit per user to prevent abuse</li>
+                    <li>Allow users to revoke access (delete tokens)</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Infrastructure Requirements -->
+        <div class="card">
+            <h2>🏗️ Infrastructure for Multi-User</h2>
+            
+            <h3>Technology Stack</h3>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Component</th>
+                        <th>Single User</th>
+                        <th>Multi-User Scale</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Webhooks</strong></td>
+                        <td>Flask server (localhost)</td>
+                        <td>Cloudflare Workers + Queue</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Database</strong></td>
+                        <td>Local SQLite/JSON</td>
+                        <td>PostgreSQL (Neon/Supabase)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Token Refresh</strong></td>
+                        <td>Cron job (single)</td>
+                        <td>Bull Queue / AWS Lambda</td>
+                    </tr>
+                    <tr>
+                        <td><strong>API Calls</strong></td>
+                        <td>Synchronous</td>
+                        <td>Async with p-limit (rate limiting)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Hosting</strong></td>
+                        <td>Local/WSL</td>
+                        <td>Cloudflare Pages + Workers</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h3>Estimated Costs (1000 users)</h3>
+            <ul>
+                <li><strong>Database:</strong> $20-50/month (Neon PostgreSQL)</li>
+                <li><strong>Compute:</strong> $30-80/month (Cloudflare Workers)</li>
+                <li><strong>Queue System:</strong> $10-20/month (Upstash Redis)</li>
+                <li><strong>Storage:</strong> $5-15/month (R2/S3 for raw data)</li>
+                <li><strong>Total:</strong> ~$65-165/month for 1000 active users</li>
+            </ul>
+        </div>
+        
+        <!-- Current System Status -->
+        <div class="card">
+            <h2>📊 Current System Status</h2>
+            
+            <p><strong>Active Webhooks Received:</strong></p>
+            <ul>
+                <li>Feb 19, 03:53 AM - recovery.updated (saved to Airtable)</li>
+                <li>Feb 19, 06:53 AM - recovery.updated (saved to Airtable)</li>
+                <li>Feb 19, 06:53 AM - sleep.updated (saved locally)</li>
+                <li>Feb 20, 06:35 AM - recovery.updated (saved to Airtable)</li>
+            </ul>
+            
+            <p><strong>Data Saved to Airtable (10 cycles):</strong></p>
+            <ul>
+                <li>2026-02-19: Strain 5.93 | Avg HR 65</li>
+                <li>2026-02-18: Strain 6.61 | Avg HR 69</li>
+                <li>2026-02-17: Strain 14.29 | Avg HR 74</li>
+                <li>... (10 days total)</li>
+            </ul>
+            
+            <div class="success">
+                <strong>✅ All systems operational!</strong> Webhooks receiving, API fetching, data saving to Airtable, refresh token working for seamless authentication.
+            </div>
+        </div>
+    </div>
+</body>
+</html>
