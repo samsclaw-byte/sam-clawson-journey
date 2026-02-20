@@ -4,6 +4,71 @@ All notable changes to the workspace, systems, and data.
 
 ---
 
+## 2026-02-20
+
+### Systems
+- **OpenClaw Update:** Updated from 2026.2.9 → 2026.2.19-2 (10 versions behind → current)
+- **WHOOP Integration v3.0:** Major API overhaul with cycle-based data fetching
+  - Fixed webhook server to use WHOOP v2 API with v1 cycle endpoints
+  - New strategy: Fetch recent cycles → Search embedded data for sleep/workout/recovery
+  - Webhook IDs are notification IDs (not API resource IDs) - now handled correctly
+  - Added helper functions: `fetch_recent_cycles()`, `find_sleep_by_id()`, `find_workout_by_id()`
+  - Server stable on port 8080, receiving `recovery.updated` events
+- **Workflow Documentation:** 7 clickable workflow pages created from System Health Matrix
+  - WHOOP Recovery, Morning Brief, Food Logging, TAT System, Calendar Sync, Water Tracker, Security Sentinel
+  - Added finger emoji (👆) indicator for clickable workflow links
+  - Each page includes architecture, data flow, and troubleshooting guides
+- **Architecture Page Updates:**
+  - Workflow Deliverables GANTT chart moved to top of page
+  - Doubled dimensions: Y-axis 400px width, X-axis rows 100px height
+  - Live System Enhancements column pulling from TAT tasks
+- **Cron Job Fixes:** Disabled problematic "Monitor Food Logging" cron job causing reference errors
+
+### Features
+- **WHOOP Data Sync:** Successfully backfilled 20 days of cycle data (Feb 1-19, 2026)
+  - 30 records in WHOOP Daily table (strain scores, calories, avg/max HR, cycle IDs)
+  - 3 records in WHOOP Recovery table
+  - Created new "WHOOP Workouts v2" table for workout data
+- **System Health Matrix v2:** All 7 workflows now clickable with detailed documentation
+  - Each workflow has dedicated HTML page with implementation details
+  - Color-coded status badges (Healthy/Warning/Error/Down)
+  - Auto-refreshes hourly via cron job
+
+### Data
+- **WHOOP Airtable Records:**
+  - Daily: 30 records (20 days of cycle data from Feb 1-19, 2026)
+  - Recovery: 3 records successfully saved
+  - OAuth re-authenticated with full scopes (sleep, recovery, workout, cycles, offline)
+- **Mission Control Data:** Continuous auto-updates every 15 minutes
+  - Work data, productivity data, system enhancements all synchronized
+  - Timeline data updated with daily nutrition and exercise
+
+### Health
+- **Water Intake:** 7/8 glasses (87.5% of daily goal) ⭐
+  - Morning: 2 glasses with green apple
+  - Afternoon: 1 glass
+  - Evening: 2 glasses
+  - Late evening: 2 more glasses
+- **Food Logged:** ~2,372 calories across 8 entries
+  - Breakfast: 12 cubes Dairy Milk chocolate (~240 cal)
+  - Snack: Green Apple (52 cal)
+  - Snack: 6 cubes Dairy Milk chocolate (120 cal)
+  - Breakfast: Half sourdough + 2 egg omelette (350 cal)
+  - Lunch: Small pizza slice (280 cal)
+  - Dinner: Butter chicken + pita (450 cal)
+  - Drinks: Latte + cafe au lait (180 cal)
+  - Lunch: Truffle fettuccine (420 cal)
+  - Dessert: Vanilla ice cream (280 cal)
+- **Daily Habits:**
+  - ✅ Fruit: Green apple
+  - ✅ Water: 7/8 glasses (almost there!)
+  - ❌ Multivitamin: Not taken
+  - ❌ Exercise: Not done (rest day)
+  - ❌ Creatine: Not taken
+- **WHOOP Data:** Latest recovery webhook received Feb 20, 06:35 AM
+
+---
+
 ## 2026-02-16
 
 ### Systems
