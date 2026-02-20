@@ -12,6 +12,26 @@
       "calories": 240
     },
     {
+      "type": "Breakfast",
+      "items": "Half sourdough slice + 2 egg omelette",
+      "calories": 350
+    },
+    {
+      "type": "Lunch",
+      "items": "Small slice pizza",
+      "calories": 280
+    },
+    {
+      "type": "Lunch",
+      "items": "Truffle fettuccine (small portion)",
+      "calories": 420
+    },
+    {
+      "type": "Dinner",
+      "items": "Small butter chicken + pita",
+      "calories": 450
+    },
+    {
       "type": "Snack",
       "items": "Green Apple",
       "calories": 52
@@ -20,13 +40,28 @@
       "type": "Snack",
       "items": "Green Apple",
       "calories": 52
+    },
+    {
+      "type": "Snack",
+      "items": "Dairy Milk Chocolate (6 cubes)",
+      "calories": 120
+    },
+    {
+      "type": "Snack",
+      "items": "Latte + Cafe au lait",
+      "calories": 180
+    },
+    {
+      "type": "Snack",
+      "items": "Vanilla ice cream (2 scoops)",
+      "calories": 280
     }
   ],
-  "total_calories": 584,
+  "total_calories": 2664,
   "macros": {
-    "protein": 0.6,
-    "carbs": 28,
-    "fat": 0.4,
+    "protein": 83.1,
+    "carbs": 228,
+    "fat": 107.4,
     "fiber": 0
   }
 }
