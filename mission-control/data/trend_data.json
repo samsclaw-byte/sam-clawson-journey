@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-02-20T10:38:10.586079",
+  "generated_at": "2026-02-20T12:38:14.882786",
   "nutrition": [
     {
       "date": "2026-02-14",
@@ -33,8 +33,8 @@
     },
     {
       "date": "2026-02-20",
-      "calories": 240,
-      "protein": 0
+      "calories": 344,
+      "protein": 0.6
     }
   ],
   "productivity": [
