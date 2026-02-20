@@ -1,37 +1,13 @@
 {
-  "generated_at": "2026-02-17T05:30:37.595727",
+  "generated_at": "2026-02-20T09:15:47.066516",
   "days": [
-    {
-      "date": "2026-02-11",
-      "calories_burned": 2771,
-      "calories_consumed": 1800,
-      "strain": 13.7,
-      "weight": 103,
-      "sleep": 60
-    },
-    {
-      "date": "2026-02-12",
-      "calories_burned": 1278,
-      "calories_consumed": 1963.21,
-      "strain": 6.4,
-      "weight": null,
-      "sleep": 65
-    },
-    {
-      "date": "2026-02-13",
-      "calories_burned": 3717,
-      "calories_consumed": 2860,
-      "strain": 18.009338,
-      "weight": 102,
-      "sleep": 0
-    },
     {
       "date": "2026-02-14",
       "calories_burned": 3316,
       "calories_consumed": 2750,
       "strain": 15.575809,
       "weight": null,
-      "sleep": 0
+      "sleep": 0.81
     },
     {
       "date": "2026-02-15",
@@ -39,20 +15,44 @@
       "calories_consumed": 3270,
       "strain": 0,
       "weight": null,
-      "sleep": 0
+      "sleep": 0.8
     },
     {
       "date": "2026-02-16",
       "calories_burned": 0,
-      "calories_consumed": 1300,
+      "calories_consumed": 2480,
       "strain": 0,
       "weight": 102,
-      "sleep": 0
+      "sleep": 0.74
     },
     {
       "date": "2026-02-17",
       "calories_burned": 0,
-      "calories_consumed": 0,
+      "calories_consumed": 795,
+      "strain": 0,
+      "weight": null,
+      "sleep": 0
+    },
+    {
+      "date": "2026-02-18",
+      "calories_burned": 0,
+      "calories_consumed": 2400,
+      "strain": 0,
+      "weight": null,
+      "sleep": 0
+    },
+    {
+      "date": "2026-02-19",
+      "calories_burned": 0,
+      "calories_consumed": 1750,
+      "strain": 0,
+      "weight": null,
+      "sleep": 0
+    },
+    {
+      "date": "2026-02-20",
+      "calories_burned": 0,
+      "calories_consumed": 240,
       "strain": 0,
       "weight": null,
       "sleep": 0

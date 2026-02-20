@@ -1,0 +1,32 @@
+{
+  "date": "2026-02-18",
+  "meals": [
+    {
+      "type": "Breakfast",
+      "items": "2-egg omelette with cheese",
+      "calories": 450
+    },
+    {
+      "type": "Lunch",
+      "items": "Cappuccino and chicken pesto avocado tortilla wrap",
+      "calories": 500
+    },
+    {
+      "type": "Dinner",
+      "items": "Buffet dinner: Arabic meat, hummus, Arabic bread, butter naa...",
+      "calories": 1200
+    },
+    {
+      "type": "Snack",
+      "items": "3 small dates, cafe au lait, protein shake (31g protein + cr...",
+      "calories": 250
+    }
+  ],
+  "total_calories": 2400,
+  "macros": {
+    "protein": 59,
+    "carbs": 2,
+    "fat": 35,
+    "fiber": 0
+  }
+}

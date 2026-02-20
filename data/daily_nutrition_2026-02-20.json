@@ -1,0 +1,17 @@
+{
+  "date": "2026-02-20",
+  "meals": [
+    {
+      "type": "Breakfast",
+      "items": "12 cubes Dairy Milk chocolate",
+      "calories": 240
+    }
+  ],
+  "total_calories": 240,
+  "macros": {
+    "protein": 0,
+    "carbs": 0,
+    "fat": 0,
+    "fiber": 0
+  }
+}

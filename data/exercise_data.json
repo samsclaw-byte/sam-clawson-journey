@@ -1,33 +1,31 @@
 {
-  "generated_at": "2026-02-17T05:30:07.513969",
+  "generated_at": "2026-02-20T09:15:06.377911",
   "workout_count": 4,
-  "total_minutes": 108.75999999999999,
-  "avg_strain": 11.5,
+  "total_minutes": 118.19999999999999,
+  "avg_strain": 10.8,
   "exercise_types": {
-    "Kettlebell": {
-      "minutes": 33.01,
-      "count": 1,
-      "type": "Hard"
-    },
     "Running": {
       "minutes": 33.1,
       "count": 1,
       "type": "Other"
     },
+    "Kettlebell": {
+      "minutes": 29,
+      "count": 1,
+      "type": "Hard"
+    },
+    "Kettlebell - Full Body": {
+      "minutes": 33,
+      "count": 1,
+      "type": "Other"
+    },
     "Swimming": {
-      "minutes": 42.650000000000006,
-      "count": 2,
+      "minutes": 23.1,
+      "count": 1,
       "type": "Active Recovery"
     }
   },
   "workouts": [
-    {
-      "date": "2026-02-11",
-      "type": "Hard",
-      "exercises": "Kettlebell",
-      "duration": 33.01,
-      "strain": 12
-    },
     {
       "date": "2026-02-14",
       "type": "Other",
@@ -36,11 +34,18 @@
       "strain": 13.8
     },
     {
-      "date": "2026-02-12",
-      "type": "Active Recovery",
-      "exercises": "Swimming",
-      "duration": 19.55,
-      "strain": 10.6
+      "date": "2026-02-16",
+      "type": "Hard",
+      "exercises": "Kettlebell",
+      "duration": 29,
+      "strain": 8.1
+    },
+    {
+      "date": "2026-02-18",
+      "type": "Other",
+      "exercises": "Kettlebell - Full Body",
+      "duration": 33,
+      "strain": 11.6
     },
     {
       "date": "2026-02-15",

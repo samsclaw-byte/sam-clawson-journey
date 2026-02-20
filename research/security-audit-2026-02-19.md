@@ -1,4 +1,4 @@
-# Security Audit - 2026-02-17
+# Security Audit - 2026-02-19
 
 ## ✅ Operating System
 Command: `uname -a`
@@ -20,16 +20,23 @@ udp   UNCONN 0      0             0.0.0.0:5353       0.0.0.0:*    users:(("openc
 udp   UNCONN 0      0             0.0.0.0:5353       0.0.0.0:*    users:(("openclaw-gatewa",pid=2993,fd=25))
 udp   UNCONN 0      0                   *:53540            *:*    users:(("cloudflared",pid=154306,fd=9))   
 udp   UNCONN 0      0               [::1]:323           [::]:*                                              
-udp   UNCONN 0      0                   *:33451            *:*    users:(("cloudflared",pid=154306,fd=8))   
-udp   UNCONN 0      0                   *:60767            *:*    users:(("cloudflared",pid=154306,fd=7))   
+udp   UNCONN 0      0                   *:33451            *:*    users:(("cloudflared",pid=154306,fd=7))   
+udp   UNCONN 0      0                   *:54073            *:*    users:(("cloudflared",pid=228557,fd=6))   
+udp   UNCONN 0      0                   *:54465            *:*    users:(("cloudflared",pid=227984,fd=3))   
+udp   UNCONN 0      0                   *:58637            *:*    users:(("cloudflared",pid=228557,fd=8))   
+udp   UNCONN 0      0                   *:58930            *:*    users:(("cloudflared",pid=228557,fd=7))   
+udp   UNCONN 0      0                   *:60767            *:*    users:(("cloudflared",pid=154306,fd=8))   
 udp   UNCONN 0      0                   *:60873            *:*    users:(("cloudflared",pid=154306,fd=6))   
 tcp   LISTEN 0      511         127.0.0.1:18792      0.0.0.0:*    users:(("openclaw-gatewa",pid=2993,fd=30))
 tcp   LISTEN 0      511         127.0.0.1:18789      0.0.0.0:*    users:(("openclaw-gatewa",pid=2993,fd=23))
 tcp   LISTEN 0      5             0.0.0.0:8765       0.0.0.0:*    users:(("python3",pid=6111,fd=3))         
+tcp   LISTEN 0      4096        127.0.0.1:20242      0.0.0.0:*    users:(("cloudflared",pid=227984,fd=6))   
 tcp   LISTEN 0      4096        127.0.0.1:20243      0.0.0.0:*    users:(("cloudflared",pid=154306,fd=3))   
 tcp   LISTEN 0      4096        127.0.0.1:20241      0.0.0.0:*    users:(("cloudflared",pid=51186,fd=6))    
+tcp   LISTEN 0      4096        127.0.0.1:20244      0.0.0.0:*    users:(("cloudflared",pid=228557,fd=3))   
 tcp   LISTEN 0      4096          0.0.0.0:22         0.0.0.0:*                                              
 tcp   LISTEN 0      4096    127.0.0.53%lo:53         0.0.0.0:*                                              
+tcp   LISTEN 0      128           0.0.0.0:8080       0.0.0.0:*    users:(("python3",pid=262071,fd=3))       
 tcp   LISTEN 0      4096       127.0.0.54:53         0.0.0.0:*                                              
 tcp   LISTEN 0      1000   10.255.255.254:53         0.0.0.0:*                                              
 tcp   LISTEN 0      4096             [::]:22            [::]:*                                              
@@ -59,7 +66,7 @@ apparmor/noble-updates 4.0.1really4.0.1-0ubuntu0.24.04.5 amd64 [upgradable from:
 base-files/noble-updates 13ubuntu10.4 amd64 [upgradable from: 13ubuntu10.3]
 bsdextrautils/noble-updates 2.39.3-9ubuntu6.4 amd64 [upgradable from: 2.39.3-9ubuntu6.3]
 bsdutils/noble-updates 1:2.39.3-9ubuntu6.4 amd64 [upgradable from: 1:2.39.3-9ubuntu6.3]
-cloud-init/noble-updates 25.2-0ubuntu1~24.04.1 all [upgradable from: 25.1.4-0ubuntu0~24.04.1]
+cloud-init/noble-updates 25.3-0ubuntu1~24.04.1 all [upgradable from: 25.1.4-0ubuntu0~24.04.1]
 coreutils/noble-updates 9.4-3ubuntu6.1 amd64 [upgradable from: 9.4-3ubuntu6]
 dconf-gsettings-backend/noble-updates 0.40.0-4ubuntu0.1 amd64 [upgradable from: 0.40.0-4build2]
 dconf-service/noble-updates 0.40.0-4ubuntu0.1 amd64 [upgradable from: 0.40.0-4build2]

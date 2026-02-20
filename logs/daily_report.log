@@ -368,3 +368,223 @@ Active tables: 3/5
   },
   "productivity_error": "'<' not supported between instances of 'dict' and 'str'"
 }
+📊 Generating Daily Confirmation Report...
+══════════════════════════════════════════════════
+
+📅 Date: 2026-02-17
+📈 Total entries: 8
+📊 Active tables: 2
+
+💾 Report saved: /home/samsclaw/.openclaw/workspace/reports/daily-report-2026-02-17.json
+
+📤 Sending Telegram message...
+
+==================================================
+TELEGRAM MESSAGE (would be sent):
+==================================================
+📊 *Daily Confirmation Report - 2026-02-17*
+══════════════════════════════
+
+💪 *Health & Fitness*
+────────────────────
+🍽️ Food: 6 entries, 2480 cal
+   📝 Unknown, Unknown, Unknown
+✅ Habits: 0/2 completed
+
+📋 *Productivity*
+────────────────────
+
+📈 *Summary*
+────────────────────
+Total entries: 8
+Active tables: 2/5
+
+🌟 *Highlights*
+────────────────────
+• 🍽️ Good meal tracking
+
+🦞 *Clawson* - Keep building!
+==================================================
+
+✅ Telegram message sent successfully
+
+══════════════════════════════════════════════════
+✅ Daily report complete!
+
+---JSON_REPORT---
+{
+  "date": "2026-02-17",
+  "generated_at": "2026-02-17T23:00:06.081001",
+  "health": {
+    "food_log": {
+      "count": 6,
+      "total_calories": 2480,
+      "entries": [
+        "Unknown",
+        "Unknown",
+        "Unknown"
+      ]
+    },
+    "habits": {
+      "count": 2,
+      "completed": 0,
+      "names": []
+    }
+  },
+  "productivity": {},
+  "summary": {
+    "total_entries": 8,
+    "tables_with_data": 2
+  },
+  "productivity_error": "'<' not supported between instances of 'dict' and 'str'"
+}
+📊 Generating Daily Confirmation Report...
+══════════════════════════════════════════════════
+
+📅 Date: 2026-02-18
+📈 Total entries: 5
+📊 Active tables: 3
+
+💾 Report saved: /home/samsclaw/.openclaw/workspace/reports/daily-report-2026-02-18.json
+
+📤 Sending Telegram message...
+
+==================================================
+TELEGRAM MESSAGE (would be sent):
+==================================================
+📊 *Daily Confirmation Report - 2026-02-18*
+══════════════════════════════
+
+💪 *Health & Fitness*
+────────────────────
+🍽️ Food: 3 entries, 795 cal
+   📝 Unknown, Unknown, Unknown
+🏋️ Workouts: 1 (33 min)
+   📝 Unknown
+✅ Habits: 0/1 completed
+
+📋 *Productivity*
+────────────────────
+
+📈 *Summary*
+────────────────────
+Total entries: 5
+Active tables: 3/5
+
+🌟 *Highlights*
+────────────────────
+• 💪 Workout completed!
+• 🍽️ Good meal tracking
+
+🦞 *Clawson* - Keep building!
+==================================================
+
+✅ Telegram message sent successfully
+
+══════════════════════════════════════════════════
+✅ Daily report complete!
+
+---JSON_REPORT---
+{
+  "date": "2026-02-18",
+  "generated_at": "2026-02-18T23:00:03.199106",
+  "health": {
+    "food_log": {
+      "count": 3,
+      "total_calories": 795,
+      "entries": [
+        "Unknown",
+        "Unknown",
+        "Unknown"
+      ]
+    },
+    "workouts": {
+      "count": 1,
+      "total_minutes": 33,
+      "types": [
+        "Unknown"
+      ]
+    },
+    "habits": {
+      "count": 1,
+      "completed": 0,
+      "names": []
+    }
+  },
+  "productivity": {},
+  "summary": {
+    "total_entries": 5,
+    "tables_with_data": 3
+  },
+  "productivity_error": "'<' not supported between instances of 'dict' and 'str'"
+}
+📊 Generating Daily Confirmation Report...
+══════════════════════════════════════════════════
+
+📅 Date: 2026-02-19
+📈 Total entries: 6
+📊 Active tables: 2
+
+💾 Report saved: /home/samsclaw/.openclaw/workspace/reports/daily-report-2026-02-19.json
+
+📤 Sending Telegram message...
+
+==================================================
+TELEGRAM MESSAGE (would be sent):
+==================================================
+📊 *Daily Confirmation Report - 2026-02-19*
+══════════════════════════════
+
+💪 *Health & Fitness*
+────────────────────
+🍽️ Food: 4 entries, 2400 cal
+   📝 Unknown, Unknown, Unknown
+✅ Habits: 0/2 completed
+
+📋 *Productivity*
+────────────────────
+
+📈 *Summary*
+────────────────────
+Total entries: 6
+Active tables: 2/5
+
+🌟 *Highlights*
+────────────────────
+• 🍽️ Good meal tracking
+
+🦞 *Clawson* - Keep building!
+==================================================
+
+✅ Telegram message sent successfully
+
+══════════════════════════════════════════════════
+✅ Daily report complete!
+
+---JSON_REPORT---
+{
+  "date": "2026-02-19",
+  "generated_at": "2026-02-19T23:00:04.026637",
+  "health": {
+    "food_log": {
+      "count": 4,
+      "total_calories": 2400,
+      "entries": [
+        "Unknown",
+        "Unknown",
+        "Unknown"
+      ]
+    },
+    "habits": {
+      "count": 2,
+      "completed": 0,
+      "names": []
+    }
+  },
+  "productivity": {},
+  "summary": {
+    "total_entries": 6,
+    "tables_with_data": 2
+  },
+  "productivity_error": "'<' not supported between instances of 'dict' and 'str'"
+}

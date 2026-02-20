@@ -95,7 +95,8 @@ def start_oauth_flow():
     redirect_uri = "http://localhost:18790/oauth/callback"
     
     # Scopes needed for sleep and recovery data
-    scopes = ["read:sleep", "read:recovery", "read:cycles"]
+    # NOTE: 'offline' scope is required to get a refresh token
+    scopes = ["read:sleep", "read:recovery", "read:cycles", "offline"]
     scope_string = " ".join(scopes)
     
     # Generate state for CSRF protection

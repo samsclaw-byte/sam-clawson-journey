@@ -219,7 +219,7 @@ def main():
     }
     
     # Save to file
-    output_path = '/home/samsclaw/.openclaw/workspace/mission-control/data/overview_data.json'
+    output_path = '/home/samsclaw/.openclaw/workspace/mission-control-cloud/data/overview.json'
     with open(output_path, 'w') as f:
         json.dump(overview_data, f, indent=2)
     

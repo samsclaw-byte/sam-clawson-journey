@@ -1,0 +1,26 @@
+{
+  "date": "2026-02-17",
+  "generated_at": "2026-02-17T23:00:06.081001",
+  "health": {
+    "food_log": {
+      "count": 6,
+      "total_calories": 2480,
+      "entries": [
+        "Unknown",
+        "Unknown",
+        "Unknown"
+      ]
+    },
+    "habits": {
+      "count": 2,
+      "completed": 0,
+      "names": []
+    }
+  },
+  "productivity": {},
+  "summary": {
+    "total_entries": 8,
+    "tables_with_data": 2
+  },
+  "productivity_error": "'<' not supported between instances of 'dict' and 'str'"
+}

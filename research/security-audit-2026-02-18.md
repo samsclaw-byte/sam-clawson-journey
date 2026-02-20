@@ -1,4 +1,4 @@
-# Security Audit - 2026-02-17
+# Security Audit - 2026-02-18
 
 ## ✅ Operating System
 Command: `uname -a`
@@ -18,16 +18,22 @@ udp   UNCONN 0      0      10.255.255.254:53         0.0.0.0:*
 udp   UNCONN 0      0           127.0.0.1:323        0.0.0.0:*                                              
 udp   UNCONN 0      0             0.0.0.0:5353       0.0.0.0:*    users:(("openclaw-gatewa",pid=2993,fd=21))
 udp   UNCONN 0      0             0.0.0.0:5353       0.0.0.0:*    users:(("openclaw-gatewa",pid=2993,fd=25))
-udp   UNCONN 0      0                   *:53540            *:*    users:(("cloudflared",pid=154306,fd=9))   
+udp   UNCONN 0      0                   *:53540            *:*    users:(("cloudflared",pid=154306,fd=8))   
 udp   UNCONN 0      0               [::1]:323           [::]:*                                              
-udp   UNCONN 0      0                   *:33451            *:*    users:(("cloudflared",pid=154306,fd=8))   
+udp   UNCONN 0      0                   *:33451            *:*    users:(("cloudflared",pid=154306,fd=9))   
+udp   UNCONN 0      0                   *:54073            *:*    users:(("cloudflared",pid=228557,fd=6))   
+udp   UNCONN 0      0                   *:54465            *:*    users:(("cloudflared",pid=227984,fd=7))   
+udp   UNCONN 0      0                   *:58637            *:*    users:(("cloudflared",pid=228557,fd=9))   
+udp   UNCONN 0      0                   *:59047            *:*    users:(("cloudflared",pid=228557,fd=7))   
 udp   UNCONN 0      0                   *:60767            *:*    users:(("cloudflared",pid=154306,fd=7))   
 udp   UNCONN 0      0                   *:60873            *:*    users:(("cloudflared",pid=154306,fd=6))   
 tcp   LISTEN 0      511         127.0.0.1:18792      0.0.0.0:*    users:(("openclaw-gatewa",pid=2993,fd=30))
 tcp   LISTEN 0      511         127.0.0.1:18789      0.0.0.0:*    users:(("openclaw-gatewa",pid=2993,fd=23))
 tcp   LISTEN 0      5             0.0.0.0:8765       0.0.0.0:*    users:(("python3",pid=6111,fd=3))         
+tcp   LISTEN 0      4096        127.0.0.1:20242      0.0.0.0:*    users:(("cloudflared",pid=227984,fd=6))   
 tcp   LISTEN 0      4096        127.0.0.1:20243      0.0.0.0:*    users:(("cloudflared",pid=154306,fd=3))   
 tcp   LISTEN 0      4096        127.0.0.1:20241      0.0.0.0:*    users:(("cloudflared",pid=51186,fd=6))    
+tcp   LISTEN 0      4096        127.0.0.1:20244      0.0.0.0:*    users:(("cloudflared",pid=228557,fd=3))   
 tcp   LISTEN 0      4096          0.0.0.0:22         0.0.0.0:*                                              
 tcp   LISTEN 0      4096    127.0.0.53%lo:53         0.0.0.0:*                                              
 tcp   LISTEN 0      4096       127.0.0.54:53         0.0.0.0:*                                              
