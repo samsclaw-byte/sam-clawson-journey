@@ -182,6 +182,38 @@ def extract_full_sleep(data):
         'date': data.get('start')[:10] if data.get('start') else datetime.now().strftime('%Y-%m-%d')
     }
 
+def extract_full_recovery_from_sleep(sleep_data):
+    """Extract recovery data from sleep record (v2 API links recovery to sleep)"""
+    # In WHOOP v2, recovery is often embedded in or linked to sleep data
+    # Try to find recovery data in the sleep record
+    recovery = sleep_data.get('recovery', {})
+    score = recovery.get('score', {})
+    
+    if not score:
+        # If no recovery in sleep, return minimal data
+        return {
+            'recovery_id': sleep_data.get('id'),
+            'sleep_id': sleep_data.get('id'),
+            'user_id': sleep_data.get('user_id'),
+            'recovery_score': None,
+            'resting_heart_rate': None,
+            'hrv_rmssd': None,
+            'date': sleep_data.get('created_at', '')[:10] if sleep_data.get('created_at') else None
+        }
+    
+    return {
+        'recovery_id': recovery.get('id'),
+        'sleep_id': sleep_data.get('id'),
+        'cycle_id': recovery.get('cycle_id'),
+        'user_id': sleep_data.get('user_id'),
+        'recovery_score': score.get('recovery_score'),
+        'resting_heart_rate': score.get('resting_heart_rate'),
+        'hrv_rmssd': score.get('hrv_rmssd_milli'),
+        'spo2_percentage': score.get('spo2_percentage'),
+        'skin_temp_celsius': score.get('skin_temp_celsius'),
+        'date': sleep_data.get('created_at', '')[:10] if sleep_data.get('created_at') else None
+    }
+
 def extract_full_recovery(data):
     """Extract ALL recovery data from WHOOP"""
     score = data.get('score', {})
@@ -236,10 +268,51 @@ def extract_full_cycle(data):
         'updated_at': data.get('updated_at')
     }
 
-# ========== WHOOP API FETCHING ==========
+# ========== WHOOP API FETCHING (v2) ==========
 
-def fetch_whoop_data(endpoint, record_id):
-    """Fetch full data from WHOOP API using the record ID"""
+def refresh_whoop_token():
+    """Refresh WHOOP access token using refresh token"""
+    try:
+        token_file = Path.home() / '.openclaw' / 'whoop_tokens.json'
+        with open(token_file) as f:
+            tokens = json.load(f)
+        
+        refresh_token = tokens.get('refresh_token')
+        client_id = os.getenv('WHOOP_CLIENT_ID')
+        client_secret = os.getenv('WHOOP_CLIENT_SECRET')
+        
+        if not refresh_token:
+            log_event("⚠️ No refresh token available")
+            return None
+        
+        # Refresh token request
+        url = 'https://api.prod.whoop.com/oauth/oauth2/token'
+        payload = {
+            'grant_type': 'refresh_token',
+            'refresh_token': refresh_token,
+            'client_id': client_id,
+            'client_secret': client_secret
+        }
+        
+        response = requests.post(url, data=payload, timeout=30)
+        
+        if response.status_code == 200:
+            new_tokens = response.json()
+            # Save new tokens
+            with open(token_file, 'w') as f:
+                json.dump(new_tokens, f, indent=2)
+            log_event("✅ WHOOP token refreshed successfully")
+            return new_tokens.get('access_token')
+        else:
+            log_event(f"⚠️ Token refresh failed: {response.status_code}")
+            return None
+            
+    except Exception as e:
+        log_event(f"❌ Error refreshing token: {e}")
+        return None
+
+def fetch_whoop_data_v2(endpoint, record_id):
+    """Fetch full data from WHOOP API v2 using the record ID"""
     try:
         # Load tokens
         token_file = Path.home() / '.openclaw' / 'whoop_tokens.json'
@@ -255,17 +328,25 @@ def fetch_whoop_data(endpoint, record_id):
             log_event("⚠️ No access token available")
             return None
         
-        # Make API request
-        url = f'https://api.prod.whoop.com/developer/v1/{endpoint}/{record_id}'
+        # Make API request to v2 endpoint
+        url = f'https://api.prod.whoop.com/v2/{endpoint}/{record_id}'
         headers = {'Authorization': f'Bearer {access_token}'}
         
         response = requests.get(url, headers=headers, timeout=30)
         
         if response.status_code == 200:
-            log_event(f"✅ Fetched full data from WHOOP API: {endpoint}/{record_id}")
+            log_event(f"✅ Fetched full data from WHOOP v2 API: {endpoint}/{record_id}")
             return response.json()
         elif response.status_code == 401:
-            log_event("⚠️ Token expired, needs refresh")
+            log_event("⚠️ Token expired, attempting refresh...")
+            # Try to refresh token and retry
+            new_token = refresh_whoop_token()
+            if new_token:
+                headers = {'Authorization': f'Bearer {new_token}'}
+                response = requests.get(url, headers=headers, timeout=30)
+                if response.status_code == 200:
+                    log_event(f"✅ Fetched data after token refresh: {endpoint}/{record_id}")
+                    return response.json()
             return None
         else:
             log_event(f"⚠️ API error: {response.status_code} - {response.text[:100]}")
@@ -292,15 +373,14 @@ def whoop_webhook():
         # Step 1: Save raw data locally
         raw_file = save_raw_data(event_type, data)
         
-        # Step 2: Fetch full data from WHOOP API (webhooks are lightweight notifications only)
+        # Step 2: Fetch full data from WHOOP API v2 using the record ID from webhook
         record_id = data.get('id')
         full_data = None
         
         if event_type in ['workout.created', 'workout.updated']:
-            log_event(f"🔍 Fetching workout data for ID: {record_id}")
-            full_data = fetch_whoop_data('activity', record_id)
-            if not full_data:
-                full_data = fetch_whoop_data('workout', record_id)  # Try alternate endpoint
+            log_event(f"🔍 Fetching workout data from WHOOP v2 API for ID: {record_id}")
+            # v2 endpoint: GET /v2/activity/workout/{workoutId}
+            full_data = fetch_whoop_data_v2('activity/workout', record_id)
             processed_data = extract_full_workout(full_data or data)
             table_name = "WHOOP Workouts"
             notification_title = "🏋️ Workout Recorded"
@@ -315,8 +395,9 @@ def whoop_webhook():
                                  f"Avg HR: {avg_hr} bpm"
         
         elif event_type in ['sleep.created', 'sleep.updated']:
-            log_event(f"🔍 Fetching sleep data for ID: {record_id}")
-            full_data = fetch_whoop_data('sleep', record_id)
+            log_event(f"🔍 Fetching sleep data from WHOOP v2 API for ID: {record_id}")
+            # v2 endpoint: GET /v2/activity/sleep/{sleepId}
+            full_data = fetch_whoop_data_v2('activity/sleep', record_id)
             processed_data = extract_full_sleep(full_data or data)
             table_name = "WHOOP Sleep"
             notification_title = "😴 Sleep Recorded"
@@ -330,9 +411,18 @@ def whoop_webhook():
                                  f"REM: {rem_hours:.1f} hrs"
         
         elif event_type in ['recovery.created', 'recovery.updated']:
-            log_event(f"🔍 Fetching recovery data for ID: {record_id}")
-            full_data = fetch_whoop_data('recovery', record_id)
-            processed_data = extract_full_recovery(full_data or data)
+            log_event(f"🔍 Fetching recovery data from WHOOP v2 API for ID: {record_id}")
+            # Recovery in v2: GET /v2/cycle/{cycleId}/recovery
+            # Or fetch via sleep ID if that's what the webhook provides
+            # Try fetching sleep first (recovery is linked to sleep in v2)
+            full_data = fetch_whoop_data_v2('activity/sleep', record_id)
+            if full_data:
+                # Extract recovery from sleep data if available
+                processed_data = extract_full_recovery_from_sleep(full_data)
+            else:
+                # Try cycle-based recovery
+                full_data = fetch_whoop_data_v2(f'cycle/{record_id}/recovery', '')
+                processed_data = extract_full_recovery(full_data or data)
             table_name = "WHOOP Recovery"
             notification_title = "💓 Recovery Updated"
             score = processed_data.get('recovery_score') or 0
@@ -343,8 +433,9 @@ def whoop_webhook():
                                  f"HRV: {hrv:.1f} ms"
         
         elif event_type == 'cycles.updated':
-            log_event(f"🔍 Fetching cycle data for ID: {record_id}")
-            full_data = fetch_whoop_data('cycle', record_id)
+            log_event(f"🔍 Fetching cycle data from WHOOP v2 API for ID: {record_id}")
+            # v2 endpoint: GET /v2/cycle/{cycleId}
+            full_data = fetch_whoop_data_v2('cycle', record_id)
             processed_data = extract_full_cycle(full_data or data)
             table_name = "WHOOP Daily"
             notification_title = "📅 Daily Data Updated"
