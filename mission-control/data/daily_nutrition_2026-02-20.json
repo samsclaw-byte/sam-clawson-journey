@@ -1,67 +1,11 @@
 {
   "date": "2026-02-20",
-  "meals": [
-    {
-      "type": "Breakfast",
-      "items": "12 cubes Dairy Milk chocolate",
-      "calories": 240
-    },
-    {
-      "type": "Breakfast",
-      "items": "12 cubes Dairy Milk chocolate",
-      "calories": 240
-    },
-    {
-      "type": "Breakfast",
-      "items": "Half sourdough slice + 2 egg omelette",
-      "calories": 350
-    },
-    {
-      "type": "Lunch",
-      "items": "Small slice pizza",
-      "calories": 280
-    },
-    {
-      "type": "Lunch",
-      "items": "Truffle fettuccine (small portion)",
-      "calories": 420
-    },
-    {
-      "type": "Dinner",
-      "items": "Small butter chicken + pita",
-      "calories": 450
-    },
-    {
-      "type": "Snack",
-      "items": "Green Apple",
-      "calories": 52
-    },
-    {
-      "type": "Snack",
-      "items": "Green Apple",
-      "calories": 52
-    },
-    {
-      "type": "Snack",
-      "items": "Dairy Milk Chocolate (6 cubes)",
-      "calories": 120
-    },
-    {
-      "type": "Snack",
-      "items": "Latte + Cafe au lait",
-      "calories": 180
-    },
-    {
-      "type": "Snack",
-      "items": "Vanilla ice cream (2 scoops)",
-      "calories": 280
-    }
-  ],
-  "total_calories": 2664,
+  "meals": [],
+  "total_calories": 0,
   "macros": {
-    "protein": 83.1,
-    "carbs": 228,
-    "fat": 107.4,
+    "protein": 0,
+    "carbs": 0,
+    "fat": 0,
     "fiber": 0
   }
 }

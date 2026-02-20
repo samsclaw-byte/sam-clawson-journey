@@ -1,27 +1,11 @@
 {
   "date": "2026-02-17",
-  "meals": [
-    {
-      "type": "Breakfast",
-      "items": "Two pieces multigrain toast with Lurpak and ham, cafe au lai...",
-      "calories": 450
-    },
-    {
-      "type": "Lunch",
-      "items": "Chicken, avocado and pesto tortilla with cappuccino",
-      "calories": 250
-    },
-    {
-      "type": "Snack",
-      "items": "Red apple",
-      "calories": 95
-    }
-  ],
-  "total_calories": 795,
+  "meals": [],
+  "total_calories": 0,
   "macros": {
-    "protein": 30,
-    "carbs": 37,
-    "fat": 32,
-    "fiber": 4.0
+    "protein": 0,
+    "carbs": 0,
+    "fat": 0,
+    "fiber": 0
   }
 }

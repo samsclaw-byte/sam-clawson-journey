@@ -1,43 +1,7 @@
 {
   "date": "2026-02-19",
-  "meals": [
-    {
-      "type": "Breakfast",
-      "items": "Two pieces multigrain toast with Lurpak and ham, cafe au lai...",
-      "calories": 450
-    },
-    {
-      "type": "Lunch",
-      "items": "Medium portion rice with Thai green curry",
-      "calories": 550
-    },
-    {
-      "type": "Snack",
-      "items": "220g raspberry Greek yogurt",
-      "calories": 180
-    },
-    {
-      "type": "Snack",
-      "items": "3 dates",
-      "calories": 70
-    },
-    {
-      "type": "Snack",
-      "items": "10 cubes Dairy Milk chocolate",
-      "calories": 200
-    },
-    {
-      "type": "Snack",
-      "items": "8 cubes Dairy Milk chocolate",
-      "calories": 160
-    },
-    {
-      "type": "Snack",
-      "items": "7 cubes Dairy Milk chocolate",
-      "calories": 140
-    }
-  ],
-  "total_calories": 1750,
+  "meals": [],
+  "total_calories": 0,
   "macros": {
     "protein": 0,
     "carbs": 0,
