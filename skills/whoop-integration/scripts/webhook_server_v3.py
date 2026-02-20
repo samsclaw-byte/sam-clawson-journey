@@ -246,7 +246,8 @@ def whoop_webhook():
     
     try:
         data = request.json
-        event_type = data.get('event_type', 'unknown')
+        # WHOOP sends event type as 'type', not 'event_type'
+        event_type = data.get('event_type') or data.get('type', 'unknown')
         log_event(f"📊 Event Type: {event_type}")
         
         # Step 1: Save raw data locally
@@ -260,36 +261,50 @@ def whoop_webhook():
             processed_data = extract_full_workout(data)
             table_name = "WHOOP Workouts"
             notification_title = "🏋️ Workout Recorded"
-            notification_details = f"*{processed_data['sport_name']}*\n" \
-                                 f"Duration: {processed_data['duration_minutes']:.0f} min\n" \
-                                 f"Strain: {processed_data['strain']}\n" \
-                                 f"Calories: {processed_data['calories']:.0f}\n" \
-                                 f"Avg HR: {processed_data['average_heart_rate']} bpm"
+            duration = processed_data.get('duration_minutes') or 0
+            strain = processed_data.get('strain') or 0
+            calories = processed_data.get('calories') or 0
+            avg_hr = processed_data.get('average_heart_rate') or 0
+            notification_details = f"*{processed_data.get('sport_name', 'Unknown')}*\n" \
+                                 f"Duration: {duration:.0f} min\n" \
+                                 f"Strain: {strain:.1f}\n" \
+                                 f"Calories: {calories:.0f}\n" \
+                                 f"Avg HR: {avg_hr} bpm"
         
         elif event_type in ['sleep.created', 'sleep.updated']:
             processed_data = extract_full_sleep(data)
             table_name = "WHOOP Sleep"
             notification_title = "😴 Sleep Recorded"
-            notification_details = f"Duration: {processed_data['total_in_bed_hours']:.1f} hours\n" \
-                                 f"Performance: {processed_data['sleep_performance_pct']:.0f}%\n" \
-                                 f"Efficiency: {processed_data['sleep_efficiency_pct']:.0f}%\n" \
-                                 f"REM: {processed_data['total_rem_sleep_hours']:.1f} hrs"
+            bed_hours = processed_data.get('total_in_bed_hours') or 0
+            performance = processed_data.get('sleep_performance_pct') or 0
+            efficiency = processed_data.get('sleep_efficiency_pct') or 0
+            rem_hours = processed_data.get('total_rem_sleep_hours') or 0
+            notification_details = f"Duration: {bed_hours:.1f} hours\n" \
+                                 f"Performance: {performance:.0f}%\n" \
+                                 f"Efficiency: {efficiency:.0f}%\n" \
+                                 f"REM: {rem_hours:.1f} hrs"
         
         elif event_type in ['recovery.created', 'recovery.updated']:
             processed_data = extract_full_recovery(data)
             table_name = "WHOOP Recovery"
             notification_title = "💓 Recovery Updated"
-            notification_details = f"Score: {processed_data['recovery_score']:.0f}%\n" \
-                                 f"RHR: {processed_data['resting_heart_rate']} bpm\n" \
-                                 f"HRV: {processed_data['hrv_rmssd']:.1f} ms"
+            score = processed_data.get('recovery_score') or 0
+            rhr = processed_data.get('resting_heart_rate') or 0
+            hrv = processed_data.get('hrv_rmssd') or 0
+            notification_details = f"Score: {score:.0f}%\n" \
+                                 f"RHR: {rhr} bpm\n" \
+                                 f"HRV: {hrv:.1f} ms"
         
         elif event_type == 'cycles.updated':
             processed_data = extract_full_cycle(data)
             table_name = "WHOOP Daily"
             notification_title = "📅 Daily Data Updated"
-            notification_details = f"Date: {processed_data['date']}\n" \
-                                 f"Strain: {processed_data['strain']}\n" \
-                                 f"Calories: {processed_data['calories']:.0f}"
+            date = processed_data.get('date') or 'Unknown'
+            strain = processed_data.get('strain') or 0
+            calories = processed_data.get('calories') or 0
+            notification_details = f"Date: {date}\n" \
+                                 f"Strain: {strain:.1f}\n" \
+                                 f"Calories: {calories:.0f}"
         
         else:
             log_event(f"⚠️ Unknown event type: {event_type}")
