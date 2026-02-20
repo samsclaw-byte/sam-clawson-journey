@@ -5,13 +5,23 @@
       "type": "Breakfast",
       "items": "12 cubes Dairy Milk chocolate",
       "calories": 240
+    },
+    {
+      "type": "Snack",
+      "items": "Green Apple",
+      "calories": 52
+    },
+    {
+      "type": "Snack",
+      "items": "Green Apple",
+      "calories": 52
     }
   ],
-  "total_calories": 240,
+  "total_calories": 344,
   "macros": {
-    "protein": 0,
-    "carbs": 0,
-    "fat": 0,
+    "protein": 0.6,
+    "carbs": 28,
+    "fat": 0.4,
     "fiber": 0
   }
 }
