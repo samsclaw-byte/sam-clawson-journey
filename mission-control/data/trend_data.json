@@ -1,35 +1,35 @@
 {
-  "generated_at": "2026-02-21T02:38:52.256879",
+  "generated_at": "2026-02-21T03:38:13.644106",
   "nutrition": [
     {
       "date": "2026-02-15",
-      "calories": 0,
-      "protein": 0
+      "calories": 3270,
+      "protein": 111
     },
     {
       "date": "2026-02-16",
-      "calories": 0,
-      "protein": 0
+      "calories": 2480,
+      "protein": 83
     },
     {
       "date": "2026-02-17",
-      "calories": 0,
-      "protein": 0
+      "calories": 795,
+      "protein": 30
     },
     {
       "date": "2026-02-18",
-      "calories": 0,
-      "protein": 0
+      "calories": 2400,
+      "protein": 59
     },
     {
       "date": "2026-02-19",
-      "calories": 0,
+      "calories": 1750,
       "protein": 0
     },
     {
       "date": "2026-02-20",
-      "calories": 0,
-      "protein": 0
+      "calories": 2664,
+      "protein": 83.1
     },
     {
       "date": "2026-02-21",
@@ -112,15 +112,15 @@
     },
     {
       "date": "2026-02-10",
-      "completed": 0
+      "completed": 11
     },
     {
       "date": "2026-02-11",
-      "completed": 0
+      "completed": 7
     },
     {
       "date": "2026-02-12",
-      "completed": 0
+      "completed": 2
     },
     {
       "date": "2026-02-13",
@@ -136,7 +136,7 @@
     },
     {
       "date": "2026-02-16",
-      "completed": 0
+      "completed": 1
     },
     {
       "date": "2026-02-17",
