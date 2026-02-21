@@ -1,0 +1,41 @@
+{
+  "date": "2026-02-21",
+  "water_glasses": 4,
+  "meals": [
+    {
+      "time": "13:19",
+      "type": "Lunch",
+      "items": "Multigrain bread (1 slice) + ham + cheese + ketchup sandwich",
+      "calories": 380,
+      "protein_g": 18,
+      "carbs_g": 35,
+      "fat_g": 18
+    },
+    {
+      "time": "13:19",
+      "type": "Snack",
+      "items": "Apple",
+      "calories": 52,
+      "protein_g": 0.3,
+      "carbs_g": 14,
+      "fat_g": 0.2
+    },
+    {
+      "time": "13:19",
+      "type": "Dessert",
+      "items": "Dairy Milk chocolate (4 cubes)",
+      "calories": 80,
+      "protein_g": 1,
+      "carbs_g": 9,
+      "fat_g": 4.5
+    }
+  ],
+  "habits": {
+    "fruit": true,
+    "multivitamin": false,
+    "exercise": false,
+    "creatine": false
+  },
+  "total_calories": 512,
+  "logged_at": "2026-02-21T13:19:00"
+}
