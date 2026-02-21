@@ -59,11 +59,11 @@
     {
       "time": "13:00",
       "type": "Lunch",
-      "items": "2 poratta + chicken curry + beef curry + chai tea",
-      "calories": 900,
-      "protein_g": 45,
-      "carbs_g": 95,
-      "fat_g": 35
+      "items": "2 poratta + 1/2 chicken curry + 1/2 beef curry + chai tea",
+      "calories": 750,
+      "protein_g": 35,
+      "carbs_g": 75,
+      "fat_g": 25
     },
     {
       "time": "19:00",
@@ -81,6 +81,6 @@
     "exercise": false,
     "creatine": true
   },
-  "total_calories": 3102,
+  "total_calories": 2952,
   "logged_at": "2026-02-21T13:19:00"
 }
