@@ -1,6 +1,6 @@
 {
   "date": "2026-02-21",
-  "water_glasses": 4,
+  "water_glasses": 8,
   "meals": [
     {
       "time": "08:00",
@@ -59,9 +59,9 @@
   ],
   "habits": {
     "fruit": true,
-    "multivitamin": false,
+    "multivitamin": true,
     "exercise": false,
-    "creatine": false
+    "creatine": true
   },
   "total_calories": 1172,
   "logged_at": "2026-02-21T13:19:00"
