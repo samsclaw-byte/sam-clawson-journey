@@ -73,6 +73,15 @@
       "protein_g": 42,
       "carbs_g": 85,
       "fat_g": 55
+    },
+    {
+      "time": "21:00",
+      "type": "Snack",
+      "items": "Protein shake (31g) + Tangerine",
+      "calories": 180,
+      "protein_g": 31,
+      "carbs_g": 15,
+      "fat_g": 2
     }
   ],
   "habits": {
@@ -81,6 +90,6 @@
     "exercise": false,
     "creatine": true
   },
-  "total_calories": 2952,
+  "total_calories": 3132,
   "logged_at": "2026-02-21T13:19:00"
 }
