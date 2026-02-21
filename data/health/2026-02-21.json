@@ -87,9 +87,20 @@
   "habits": {
     "fruit": true,
     "multivitamin": true,
-    "exercise": false,
+    "exercise": {
+      "type": "Upper body kettlebell",
+      "strain": 9.4,
+      "duration_minutes": 29,
+      "calories": 213,
+      "zones": {
+        "zone_0": "4:52",
+        "zone_1": "15:45",
+        "zone_2": "7:12",
+        "zone_3": "1:18"
+      }
+    },
     "creatine": true
   },
-  "total_calories": 3132,
+  "total_calories": 3345,
   "logged_at": "2026-02-21T13:19:00"
 }
