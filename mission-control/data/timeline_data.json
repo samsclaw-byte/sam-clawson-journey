@@ -1,26 +1,26 @@
 {
-  "generated_at": "2026-02-21T22:45:41.634786",
+  "generated_at": "2026-02-21T23:06:52.373909",
   "days": [
     {
       "date": "2026-02-15",
       "calories_burned": 0,
-      "calories_consumed": 3270,
+      "calories_consumed": 0,
       "strain": 0,
       "weight": null,
-      "sleep": 0.8
+      "sleep": 0
     },
     {
       "date": "2026-02-16",
       "calories_burned": 0,
-      "calories_consumed": 2480,
+      "calories_consumed": 0,
       "strain": 0,
-      "weight": 102,
-      "sleep": 0.74
+      "weight": null,
+      "sleep": 0
     },
     {
       "date": "2026-02-17",
       "calories_burned": 0,
-      "calories_consumed": 795,
+      "calories_consumed": 0,
       "strain": 0,
       "weight": null,
       "sleep": 0
@@ -28,7 +28,7 @@
     {
       "date": "2026-02-18",
       "calories_burned": 0,
-      "calories_consumed": 2400,
+      "calories_consumed": 0,
       "strain": 0,
       "weight": null,
       "sleep": 0
@@ -36,7 +36,7 @@
     {
       "date": "2026-02-19",
       "calories_burned": 0,
-      "calories_consumed": 1750,
+      "calories_consumed": 0,
       "strain": 0,
       "weight": null,
       "sleep": 0
@@ -44,7 +44,7 @@
     {
       "date": "2026-02-20",
       "calories_burned": 0,
-      "calories_consumed": 2664,
+      "calories_consumed": 0,
       "strain": 0,
       "weight": null,
       "sleep": 0
