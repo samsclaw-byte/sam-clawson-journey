@@ -3,6 +3,33 @@
   "water_glasses": 4,
   "meals": [
     {
+      "time": "08:00",
+      "type": "Breakfast",
+      "items": "Half slice sourdough + 2 egg omelette",
+      "calories": 280,
+      "protein_g": 14,
+      "carbs_g": 22,
+      "fat_g": 16
+    },
+    {
+      "time": "08:00",
+      "type": "Drink",
+      "items": "Latte",
+      "calories": 120,
+      "protein_g": 6,
+      "carbs_g": 10,
+      "fat_g": 6
+    },
+    {
+      "time": "08:00",
+      "type": "Breakfast",
+      "items": "Chocolate croissant",
+      "calories": 280,
+      "protein_g": 5,
+      "carbs_g": 32,
+      "fat_g": 14
+    },
+    {
       "time": "13:19",
       "type": "Lunch",
       "items": "Multigrain bread (1 slice) + ham + cheese + ketchup sandwich",
@@ -36,6 +63,6 @@
     "exercise": false,
     "creatine": false
   },
-  "total_calories": 512,
+  "total_calories": 1172,
   "logged_at": "2026-02-21T13:19:00"
 }
