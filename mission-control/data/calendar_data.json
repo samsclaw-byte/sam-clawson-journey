@@ -1,9 +1,9 @@
 {
   "metadata": {
-    "fetched_at": "2026-02-21T06:18:42.230295+00:00",
+    "fetched_at": "2026-02-21T07:03:43.765143+00:00",
     "time_range": {
-      "start": "2026-02-21T06:18:42.230295+00:00",
-      "end": "2026-03-23T06:18:42.230295+00:00"
+      "start": "2026-02-21T07:03:43.765143+00:00",
+      "end": "2026-03-23T07:03:43.765143+00:00"
     }
   },
   "calendars": [
@@ -92,50 +92,6 @@
     }
   ],
   "events": [
-    {
-      "kind": "calendar#event",
-      "etag": "\"3540802561891918\"",
-      "id": "g2l8cr76275s4tduqi5d6qfdtg_20260221T053000Z",
-      "status": "confirmed",
-      "htmlLink": "https://www.google.com/calendar/event?eid=ZzJsOGNyNzYyNzVzNHRkdXFpNWQ2cWZkdGdfMjAyNjAyMjFUMDUzMDAwWiA1YjY5YmY0YWVlMzk4NWZlMTQzMDNkYzBlNzMzZDUxY2NhMDI4YmRlN2RmZTczNDM3Njc4ODI5Y2Y1MmFjYWZlQGc",
-      "created": "2026-02-05T06:35:22.000Z",
-      "updated": "2026-02-08T05:40:39.049Z",
-      "summary": "\ud83c\udfca Noah Swimming Lesson - Safa School",
-      "description": "Noah swimming lesson at Safa School",
-      "creator": {
-        "email": "samsclaw@gmail.com"
-      },
-      "organizer": {
-        "email": "5b69bf4aee3985fe14303dc0e733d51cca028bde7dfe73437678829cf52acafe@group.calendar.google.com",
-        "displayName": "Sam & Sophie Family Calendar",
-        "self": true
-      },
-      "start": {
-        "dateTime": "2026-02-21T09:30:00+04:00",
-        "timeZone": "Asia/Dubai"
-      },
-      "end": {
-        "dateTime": "2026-02-21T10:30:00+04:00",
-        "timeZone": "Asia/Dubai"
-      },
-      "recurringEventId": "g2l8cr76275s4tduqi5d6qfdtg",
-      "originalStartTime": {
-        "dateTime": "2026-02-21T09:30:00+04:00",
-        "timeZone": "Asia/Dubai"
-      },
-      "iCalUID": "g2l8cr76275s4tduqi5d6qfdtg@google.com",
-      "sequence": 0,
-      "reminders": {
-        "useDefault": false,
-        "overrides": [
-          {
-            "method": "popup",
-            "minutes": 30
-          }
-        ]
-      },
-      "eventType": "default"
-    },
     {
       "kind": "calendar#event",
       "etag": "\"3540546638821790\"",
