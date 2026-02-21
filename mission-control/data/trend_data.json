@@ -1,11 +1,6 @@
 {
-  "generated_at": "2026-02-21T23:39:20.507057",
+  "generated_at": "2026-02-22T00:38:15.946100",
   "nutrition": [
-    {
-      "date": "2026-02-15",
-      "calories": 3270,
-      "protein": 111
-    },
     {
       "date": "2026-02-16",
       "calories": 2480,
@@ -35,13 +30,14 @@
       "date": "2026-02-21",
       "calories": 0,
       "protein": 0
+    },
+    {
+      "date": "2026-02-22",
+      "calories": 0,
+      "protein": 0
     }
   ],
   "productivity": [
-    {
-      "date": "2026-01-23",
-      "completed": 0
-    },
     {
       "date": "2026-01-24",
       "completed": 0
@@ -156,6 +152,10 @@
     },
     {
       "date": "2026-02-21",
+      "completed": 0
+    },
+    {
+      "date": "2026-02-22",
       "completed": 0
     }
   ]
