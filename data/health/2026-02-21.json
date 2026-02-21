@@ -55,6 +55,24 @@
       "protein_g": 1,
       "carbs_g": 9,
       "fat_g": 4.5
+    },
+    {
+      "time": "13:00",
+      "type": "Lunch",
+      "items": "2 poratta + chicken curry + beef curry + chai tea",
+      "calories": 900,
+      "protein_g": 45,
+      "carbs_g": 95,
+      "fat_g": 35
+    },
+    {
+      "time": "19:00",
+      "type": "Dinner",
+      "items": "McDonald's double cheeseburger + medium fries + 6 chicken nuggets",
+      "calories": 1030,
+      "protein_g": 42,
+      "carbs_g": 85,
+      "fat_g": 55
     }
   ],
   "habits": {
@@ -63,6 +81,6 @@
     "exercise": false,
     "creatine": true
   },
-  "total_calories": 1172,
+  "total_calories": 3102,
   "logged_at": "2026-02-21T13:19:00"
 }
