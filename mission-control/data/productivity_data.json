@@ -1,225 +1,54 @@
 {
-  "generated_at": "2026-02-22T10:15:16.883777",
-  "tat_tasks": [
+  "generated_at": "2026-02-22T10:45:03.497836",
+  "daily": [
     {
-      "id": "rec82QLASN6uQUiHu",
-      "name": "Complete Google Calendar update",
-      "category": "Personal",
-      "status": "Not Started",
-      "due_status": "overdue",
-      "days_remaining": -5,
-      "urgency": "\ud83d\udd34 Overdue",
-      "due_date": "2026-02-17T00:00:00.000Z"
-    },
-    {
-      "id": "recSXBPa0erXNCHmn",
-      "name": "Integrate with web search (Brave)",
-      "category": "System Enhancement",
-      "status": "Not Started",
-      "due_status": "overdue",
-      "days_remaining": -5,
-      "urgency": "\ud83d\udd34 Overdue",
-      "due_date": "2026-02-17T00:00:00.000Z"
-    },
-    {
-      "id": "recTtASONiftQqmDW",
-      "name": "Run security updates (35 packages pending)",
-      "category": "System Enhancement",
-      "status": "Not Started",
-      "due_status": "overdue",
-      "days_remaining": -5,
-      "urgency": "\ud83d\udd34 Overdue",
-      "due_date": "2026-02-17T00:00:00.000Z"
-    },
-    {
-      "id": "recZOSWGvUtJn4Y8S",
-      "name": "Link to Gmail and forward nursery dates and times",
-      "category": "AI Development",
-      "status": "Not Started",
-      "due_status": "overdue",
-      "days_remaining": -5,
-      "urgency": "\ud83d\udd34 Overdue",
-      "due_date": "2026-02-17T00:00:00.000Z"
-    },
-    {
-      "id": "reciYWtF73kNe3qFP",
-      "name": "Give Clawson a voice to respond to voice messages",
-      "category": "AI Development",
-      "status": "Not Started",
-      "due_status": "overdue",
-      "days_remaining": -5,
-      "urgency": "\ud83d\udd34 Overdue",
-      "due_date": "2026-02-17T00:00:00.000Z"
-    },
-    {
-      "id": "recl87W1nkafNEROB",
-      "name": "Review cron jobs",
-      "category": "System Enhancement",
-      "status": "Not Started",
-      "due_status": "overdue",
-      "days_remaining": -5,
-      "urgency": "\ud83d\udd34 Overdue",
-      "due_date": "2026-02-17T00:00:00.000Z"
-    },
-    {
-      "id": "recsoQZEDAOd2AepZ",
-      "name": "Review SOUL.md file",
-      "category": "AI Development",
-      "status": "Not Started",
-      "due_status": "overdue",
-      "days_remaining": -5,
-      "urgency": "\ud83d\udd34 Overdue",
-      "due_date": "2026-02-17T00:00:00.000Z"
-    },
-    {
-      "id": "recxIjbjIk2R4IL2E",
-      "name": "Renew CIMA membership",
-      "category": "Personal",
-      "status": "Not Started",
-      "due_status": "overdue",
-      "days_remaining": -5,
-      "urgency": "\ud83d\udd34 Overdue",
-      "due_date": "2026-02-17T00:00:00.000Z"
-    },
-    {
-      "id": "rec5TVKrb8KezW8sm",
-      "name": "Set up permanent systemd services for WHOOP webhook and tunnel",
-      "category": "System Enhancement",
-      "status": "Not Started",
-      "due_status": "overdue",
-      "days_remaining": -4,
-      "urgency": "\ud83d\udd34 Overdue",
-      "due_date": "2026-02-18T00:00:00.000Z"
-    },
-    {
-      "id": "recHo1Nl9eJjztBhP",
-      "name": "Update TAT database schema - numeric categories + due date formula",
-      "category": "System Enhancement",
-      "status": "Not Started",
-      "due_status": "overdue",
-      "days_remaining": -4,
-      "urgency": "\ud83d\udd34 Overdue",
-      "due_date": "2026-02-18T00:00:00.000Z"
-    },
-    {
-      "id": "recdblOKBXyxXVprE",
-      "name": "Research and set up wireframing tools for Trak (Figma/Whimsical) and image analysis model",
-      "category": "Projects",
-      "status": "Not Started",
-      "due_status": "overdue",
-      "days_remaining": -2,
-      "urgency": "\ud83d\udd34 Overdue",
-      "due_date": "2026-02-20T00:00:00.000Z"
-    },
-    {
-      "id": "recWApOPGiBHyd4os",
-      "name": "Create Cloudflare Worker for GANTT chart due date updates",
-      "category": "System Enhancement",
-      "status": "Not Started",
-      "due_status": "later",
-      "days_remaining": 999,
-      "urgency": "\ud83d\udfe2 Normal",
-      "due_date": {
-        "error": "#ERROR"
-      }
-    },
-    {
-      "id": "rechKgvkTi3UmSZA0",
-      "name": "Debug Tunneling Infrastructure Issues - Token Pattern Analysis",
-      "category": "1",
-      "status": "Not Started",
-      "due_status": "later",
-      "days_remaining": 999,
-      "urgency": "\ud83d\udfe2 Normal",
-      "due_date": {
-        "error": "#ERROR"
-      }
-    },
-    {
-      "id": "reclU5VbCpBE6ZbMQ",
-      "name": "Talk to gardener 1",
-      "category": "7",
-      "status": "Not Started",
-      "due_status": "later",
-      "days_remaining": 999,
-      "urgency": "\ud83d\udfe2 Normal",
-      "due_date": {
-        "error": "#ERROR"
-      }
-    }
-  ],
-  "habit_days": [
-    {
-      "date": "2026-02-16",
-      "day_name": "Mon",
-      "day_num": "16",
-      "score": 5,
-      "water": 8,
-      "multivitamin": true,
-      "fruit": true,
-      "exercise": true,
-      "creatine": true
-    },
-    {
-      "date": "2026-02-17",
-      "day_name": "Tue",
-      "day_num": "17",
-      "score": 3,
-      "water": 8,
-      "multivitamin": true,
-      "fruit": false,
+      "date": "2026-02-22",
+      "tasks_completed": 0,
       "exercise": false,
-      "creatine": true
+      "exercise_minutes": 0,
+      "habits_done": 0
     },
     {
-      "date": "2026-02-18",
-      "day_name": "Wed",
-      "day_num": "18",
-      "score": 4,
-      "water": 8,
-      "multivitamin": true,
-      "fruit": false,
-      "exercise": true,
-      "creatine": true
-    },
-    {
-      "date": "2026-02-19",
-      "day_name": "Thu",
-      "day_num": "19",
-      "score": 0,
-      "water": 4,
-      "multivitamin": false,
-      "fruit": false,
+      "date": "2026-02-21",
+      "tasks_completed": 0,
       "exercise": false,
-      "creatine": false
-    },
-    {
-      "date": "2026-02-19",
-      "day_name": "Thu",
-      "day_num": "19",
-      "score": 0,
-      "water": 4,
-      "multivitamin": false,
-      "fruit": false,
-      "exercise": false,
-      "creatine": false
+      "exercise_minutes": 0,
+      "habits_done": 0
     },
     {
       "date": "2026-02-20",
-      "day_name": "Fri",
-      "day_num": "20",
-      "score": 1,
-      "water": 2,
-      "multivitamin": false,
-      "fruit": true,
+      "tasks_completed": 0,
       "exercise": false,
-      "creatine": false
+      "exercise_minutes": 0,
+      "habits_done": 0
+    },
+    {
+      "date": "2026-02-19",
+      "tasks_completed": 0,
+      "exercise": false,
+      "exercise_minutes": 0,
+      "habits_done": 0
+    },
+    {
+      "date": "2026-02-18",
+      "tasks_completed": 0,
+      "exercise": false,
+      "exercise_minutes": 0,
+      "habits_done": 0
+    },
+    {
+      "date": "2026-02-17",
+      "tasks_completed": 0,
+      "exercise": false,
+      "exercise_minutes": 0,
+      "habits_done": 0
+    },
+    {
+      "date": "2026-02-16",
+      "tasks_completed": 0,
+      "exercise": false,
+      "exercise_minutes": 0,
+      "habits_done": 0
     }
-  ],
-  "stats": {
-    "active": 14,
-    "overdue": 11,
-    "today": 0,
-    "completed_7d": 0
-  }
+  ]
 }
