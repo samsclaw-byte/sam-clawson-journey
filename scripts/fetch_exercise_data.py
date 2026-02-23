@@ -1,77 +1,75 @@
 #!/usr/bin/env python3
-"""Fetch exercise data from Airtable for Mission Control dashboard"""
+"""Fetch exercise data from D1 for Mission Control dashboard"""
 
-import requests
 import json
 from datetime import datetime, timedelta
+from pathlib import Path
+import sys
 
-AIRTABLE_KEY = open('/home/samsclaw/.config/airtable/api_key').read().strip()
-HEALTH_BASE = "appnVeGSjwJgG2snS"
-WORKOUTS_TABLE = "tblZzvXBJoKcMtjZU"
+sys.path.insert(0, str(Path(__file__).parent))
+from d1_client import D1Client
 
 def fetch_exercise_data():
-    headers = {"Authorization": f"Bearer {AIRTABLE_KEY}"}
-    url = f"https://api.airtable.com/v0/{HEALTH_BASE}/{WORKOUTS_TABLE}"
+    """Fetch exercise data from D1"""
+    client = D1Client()
     
-    # Get workouts from last 7 days
-    week_ago = (datetime.now() - timedelta(days=7)).strftime('%Y-%m-%d')
+    # Get last 7 days
+    dates = []
+    for i in range(7):
+        date = (datetime.now() - timedelta(days=i)).strftime('%Y-%m-%d')
+        dates.append(date)
     
-    resp = requests.get(
-        f"{url}?filterByFormula=IS_AFTER({{Date}}, '{week_ago}')&maxRecords=50",
-        headers=headers,
-        timeout=30
-    )
+    all_exercise = []
+    exercise_types = {}
+    total_minutes = 0
+    total_strain = 0
+    workout_count = 0
     
-    if resp.status_code == 200:
-        records = resp.json().get('records', [])
-        
-        exercise_types = {}
-        total_minutes = 0
-        total_strain = 0
-        
-        for r in records:
-            f = r['fields']
-            # Use Exercises field for the workout description
-            exercises = f.get('Exercises', f.get('Workout Name', 'Unnamed'))
-            workout_type = f.get('Type', 'Other')
-            duration = f.get('Duration (min)', 0) or 0
-            strain = f.get('Strain', 0) or 0
-            
-            # Group by exercises (actual workout description)
-            if exercises not in exercise_types:
-                exercise_types[exercises] = {'minutes': 0, 'count': 0, 'type': workout_type}
-            exercise_types[exercises]['minutes'] += duration
-            exercise_types[exercises]['count'] += 1
-            
-            total_minutes += duration
-            total_strain += strain
-        
-        data = {
-            'generated_at': datetime.now().isoformat(),
-            'workout_count': len(records),
+    for date in dates:
+        try:
+            exercises = client.get_exercise(date)
+            for ex in exercises:
+                workout_type = ex.get('workout_type', 'Other')
+                duration = ex.get('duration_minutes', 0) or 0
+                strain = ex.get('strain', 0) or 0
+                
+                all_exercise.append({
+                    'date': ex.get('date'),
+                    'workout_type': workout_type,
+                    'duration': duration,
+                    'strain': strain,
+                    'notes': ex.get('notes')
+                })
+                
+                if workout_type not in exercise_types:
+                    exercise_types[workout_type] = {'minutes': 0, 'count': 0}
+                exercise_types[workout_type]['minutes'] += duration
+                exercise_types[workout_type]['count'] += 1
+                
+                total_minutes += duration
+                total_strain += strain
+                workout_count += 1
+        except Exception as e:
+            print(f"Error fetching {date}: {e}")
+    
+    data = {
+        'generated_at': datetime.now().isoformat(),
+        'exercise': all_exercise,
+        'summary': {
+            'total_workouts': workout_count,
             'total_minutes': total_minutes,
-            'avg_strain': round(total_strain / len(records), 1) if records else 0,
-            'exercise_types': exercise_types,
-            'workouts': [
-                {
-                    'date': r['fields'].get('Date'),
-                    'type': r['fields'].get('Type', 'Other'),
-                    'exercises': r['fields'].get('Exercises', r['fields'].get('Workout Name', 'Unnamed')),
-                    'duration': r['fields'].get('Duration (min)', 0) or 0,
-                    'strain': r['fields'].get('Strain', 0) or 0
-                }
-                for r in records
-            ]
+            'total_strain': round(total_strain, 1),
+            'by_type': exercise_types
         }
-        
-        with open('/home/samsclaw/.openclaw/workspace/data/exercise_data.json', 'w') as f:
-            json.dump(data, f, indent=2)
-        
-        print(f"✅ Exercise data updated: {len(records)} workouts, {total_minutes} minutes")
-        return True
-    else:
-        print(f"❌ Error fetching exercise data: {resp.status_code}")
-        return False
+    }
+    
+    # Save to file
+    output_file = Path(__file__).parent.parent / "data" / "exercise_data.json"
+    output_file.parent.mkdir(exist_ok=True)
+    output_file.write_text(json.dumps(data, indent=2))
+    
+    print(f"✅ Exercise data saved: {workout_count} workouts, {total_minutes} min, strain {round(total_strain, 1)}")
+    return data
 
 if __name__ == "__main__":
     fetch_exercise_data()

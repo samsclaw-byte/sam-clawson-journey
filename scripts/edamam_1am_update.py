@@ -64,7 +64,8 @@ def update_pending_edamam_records():
     week_ago = (datetime.now() - timedelta(days=7)).strftime('%Y-%m-%d')
     
     # Find records without Edamam data from last 7 days
-    filter_formula = f"AND(IS_AFTER({{Date}}, '{week_ago}'), {{Edamam Data}}=FALSE)"
+    # Check for records with missing or zero calories (not yet processed by Edamam)
+    filter_formula = f"AND(IS_AFTER({{Date}}, '{week_ago}'), OR({{Calories}}=0, {{Calories}}=BLANK()))"
     
     response = requests.get(
         f"{url}?filterByFormula={filter_formula}&maxRecords=50",
@@ -101,7 +102,6 @@ def update_pending_edamam_records():
             # Update record with Edamam data
             update = {
                 "fields": {
-                    "Edamam Data": True,
                     "Calories": nutrition['calories'],
                     "Protein (g)": nutrition['protein'],
                     "Carbs (g)": nutrition['carbs'],

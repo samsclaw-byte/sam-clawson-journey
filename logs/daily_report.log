@@ -588,3 +588,165 @@ Active tables: 2/5
   },
   "productivity_error": "'<' not supported between instances of 'dict' and 'str'"
 }
+📊 Generating Daily Confirmation Report...
+══════════════════════════════════════════════════
+
+📅 Date: 2026-02-20
+📈 Total entries: 0
+📊 Active tables: 0
+
+💾 Report saved: /home/samsclaw/.openclaw/workspace/reports/daily-report-2026-02-20.json
+
+📤 Sending Telegram message...
+
+==================================================
+TELEGRAM MESSAGE (would be sent):
+==================================================
+📊 *Daily Confirmation Report - 2026-02-20*
+══════════════════════════════
+
+💪 *Health & Fitness*
+────────────────────
+
+📋 *Productivity*
+────────────────────
+
+📈 *Summary*
+────────────────────
+Total entries: 0
+Active tables: 0/5
+
+🌟 *Highlights*
+────────────────────
+• 📌 New day tomorrow - fresh start!
+
+🦞 *Clawson* - Keep building!
+==================================================
+
+✅ Telegram message sent successfully
+
+══════════════════════════════════════════════════
+✅ Daily report complete!
+
+---JSON_REPORT---
+{
+  "date": "2026-02-20",
+  "generated_at": "2026-02-20T23:00:04.647454",
+  "health": {},
+  "productivity": {},
+  "summary": {
+    "total_entries": 0,
+    "tables_with_data": 0
+  },
+  "health_error": "Airtable API error: 500 - Server encountered an error while processing your request",
+  "productivity_error": "Airtable API error: 500 - Server encountered an error while processing your request"
+}
+📊 Generating Daily Confirmation Report...
+══════════════════════════════════════════════════
+⚠️ Request error: HTTPSConnectionPool(host='api.airtable.com', port=443): Max retries exceeded with url: /v0/appnVeGSjwJgG2snS/tblsoErCMSBtzBZKB?maxRecords=100&filterByFormula=%7BDate%7D+%3E%3D+%272026-02-14%27 (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x7dbc685bcfe0>: Failed to resolve 'api.airtable.com' ([Errno -3] Temporary failure in name resolution)")), retrying (1/3)...
+⚠️ Request error: HTTPSConnectionPool(host='api.airtable.com', port=443): Max retries exceeded with url: /v0/appnVeGSjwJgG2snS/tblsoErCMSBtzBZKB?maxRecords=100&filterByFormula=%7BDate%7D+%3E%3D+%272026-02-14%27 (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x7dbc685bd670>: Failed to resolve 'api.airtable.com' ([Errno -3] Temporary failure in name resolution)")), retrying (2/3)...
+⚠️ Request error: HTTPSConnectionPool(host='api.airtable.com', port=443): Max retries exceeded with url: /v0/appvUbV8IeGhxmcPn/tblkbuvkZUSpm1IgJ?maxRecords=100 (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x7dbc685be3f0>: Failed to resolve 'api.airtable.com' ([Errno -3] Temporary failure in name resolution)")), retrying (1/3)...
+⚠️ Request error: HTTPSConnectionPool(host='api.airtable.com', port=443): Max retries exceeded with url: /v0/appvUbV8IeGhxmcPn/tblkbuvkZUSpm1IgJ?maxRecords=100 (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x7dbc685bdcd0>: Failed to resolve 'api.airtable.com' ([Errno -3] Temporary failure in name resolution)")), retrying (2/3)...
+
+📅 Date: 2026-02-21
+📈 Total entries: 0
+📊 Active tables: 0
+
+💾 Report saved: /home/samsclaw/.openclaw/workspace/reports/daily-report-2026-02-21.json
+
+📤 Sending Telegram message...
+
+==================================================
+TELEGRAM MESSAGE (would be sent):
+==================================================
+📊 *Daily Confirmation Report - 2026-02-21*
+══════════════════════════════
+
+💪 *Health & Fitness*
+────────────────────
+
+📋 *Productivity*
+────────────────────
+
+📈 *Summary*
+────────────────────
+Total entries: 0
+Active tables: 0/5
+
+🌟 *Highlights*
+────────────────────
+• 📌 New day tomorrow - fresh start!
+
+🦞 *Clawson* - Keep building!
+==================================================
+
+✅ Telegram message sent successfully
+
+══════════════════════════════════════════════════
+✅ Daily report complete!
+
+---JSON_REPORT---
+{
+  "date": "2026-02-21",
+  "generated_at": "2026-02-21T23:00:01.683081",
+  "health": {},
+  "productivity": {},
+  "summary": {
+    "total_entries": 0,
+    "tables_with_data": 0
+  },
+  "health_error": "HTTPSConnectionPool(host='api.airtable.com', port=443): Max retries exceeded with url: /v0/appnVeGSjwJgG2snS/tblsoErCMSBtzBZKB?maxRecords=100&filterByFormula=%7BDate%7D+%3E%3D+%272026-02-14%27 (Caused by NameResolutionError(\"<urllib3.connection.HTTPSConnection object at 0x7dbc685bdd00>: Failed to resolve 'api.airtable.com' ([Errno -3] Temporary failure in name resolution)\"))",
+  "productivity_error": "HTTPSConnectionPool(host='api.airtable.com', port=443): Max retries exceeded with url: /v0/appvUbV8IeGhxmcPn/tblkbuvkZUSpm1IgJ?maxRecords=100 (Caused by NameResolutionError(\"<urllib3.connection.HTTPSConnection object at 0x7dbc685bd2e0>: Failed to resolve 'api.airtable.com' ([Errno -3] Temporary failure in name resolution)\"))"
+}
+📊 Generating Daily Confirmation Report...
+══════════════════════════════════════════════════
+
+📅 Date: 2026-02-22
+📈 Total entries: 0
+📊 Active tables: 0
+
+💾 Report saved: /home/samsclaw/.openclaw/workspace/reports/daily-report-2026-02-22.json
+
+📤 Sending Telegram message...
+
+==================================================
+TELEGRAM MESSAGE (would be sent):
+==================================================
+📊 *Daily Confirmation Report - 2026-02-22*
+══════════════════════════════
+
+💪 *Health & Fitness*
+────────────────────
+
+📋 *Productivity*
+────────────────────
+
+📈 *Summary*
+────────────────────
+Total entries: 0
+Active tables: 0/5
+
+🌟 *Highlights*
+────────────────────
+• 📌 New day tomorrow - fresh start!
+
+🦞 *Clawson* - Keep building!
+==================================================
+
+✅ Telegram message sent successfully
+
+══════════════════════════════════════════════════
+✅ Daily report complete!
+
+---JSON_REPORT---
+{
+  "date": "2026-02-22",
+  "generated_at": "2026-02-22T23:00:08.070274",
+  "health": {},
+  "productivity": {},
+  "summary": {
+    "total_entries": 0,
+    "tables_with_data": 0
+  },
+  "productivity_error": "'<' not supported between instances of 'dict' and 'str'"
+}

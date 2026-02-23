@@ -1,0 +1,9 @@
+name = "trak-api"
+main = "src/index.js"
+compatibility_date = "2026-02-17"
+
+[env.production]
+[[d1_databases]]
+binding = "DB"
+database_name = "trak-db"
+database_id = "860ddc67-3889-4d8e-8c23-a0d7e46bd589"

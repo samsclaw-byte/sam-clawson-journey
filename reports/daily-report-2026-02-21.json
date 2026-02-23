@@ -1,0 +1,12 @@
+{
+  "date": "2026-02-21",
+  "generated_at": "2026-02-21T23:00:01.683081",
+  "health": {},
+  "productivity": {},
+  "summary": {
+    "total_entries": 0,
+    "tables_with_data": 0
+  },
+  "health_error": "HTTPSConnectionPool(host='api.airtable.com', port=443): Max retries exceeded with url: /v0/appnVeGSjwJgG2snS/tblsoErCMSBtzBZKB?maxRecords=100&filterByFormula=%7BDate%7D+%3E%3D+%272026-02-14%27 (Caused by NameResolutionError(\"<urllib3.connection.HTTPSConnection object at 0x7dbc685bdd00>: Failed to resolve 'api.airtable.com' ([Errno -3] Temporary failure in name resolution)\"))",
+  "productivity_error": "HTTPSConnectionPool(host='api.airtable.com', port=443): Max retries exceeded with url: /v0/appvUbV8IeGhxmcPn/tblkbuvkZUSpm1IgJ?maxRecords=100 (Caused by NameResolutionError(\"<urllib3.connection.HTTPSConnection object at 0x7dbc685bd2e0>: Failed to resolve 'api.airtable.com' ([Errno -3] Temporary failure in name resolution)\"))"
+}

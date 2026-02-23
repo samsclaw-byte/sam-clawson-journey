@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-02-20T09:03:00.364793",
+  "generated_at": "2026-02-22T10:19:11.704801",
   "today": {
     "health": {
-      "today_calories": 240,
+      "today_calories": 0,
       "today_protein": 0,
       "current_weight": 102,
       "today_activity": 0
@@ -20,7 +20,7 @@
         "name": "Renew CIMA membership",
         "category": "Personal",
         "due_status": "overdue",
-        "days_remaining": -3,
+        "days_remaining": -5,
         "status": "Not Started"
       },
       {
@@ -28,7 +28,7 @@
         "name": "Link to Gmail and forward nursery dates and times",
         "category": "AI Development",
         "due_status": "overdue",
-        "days_remaining": -3,
+        "days_remaining": -5,
         "status": "Not Started"
       },
       {
@@ -36,7 +36,7 @@
         "name": "Complete Google Calendar update",
         "category": "Personal",
         "due_status": "overdue",
-        "days_remaining": -3,
+        "days_remaining": -5,
         "status": "Not Started"
       },
       {
@@ -44,7 +44,7 @@
         "name": "Give Clawson a voice to respond to voice messages",
         "category": "AI Development",
         "due_status": "overdue",
-        "days_remaining": -3,
+        "days_remaining": -5,
         "status": "Not Started"
       },
       {
@@ -52,13 +52,21 @@
         "name": "Review cron jobs",
         "category": "System Enhancement",
         "due_status": "overdue",
-        "days_remaining": -3,
+        "days_remaining": -5,
         "status": "Not Started"
       }
     ]
   },
   "trends": {
     "habit_days": [
+      {
+        "date": "2026-02-20",
+        "multivitamin": false,
+        "fruit": true,
+        "water": 2,
+        "exercise": false,
+        "creatine": false
+      },
       {
         "date": "2026-02-19",
         "multivitamin": false,
@@ -106,14 +114,6 @@
         "water": 9,
         "exercise": true,
         "creatine": true
-      },
-      {
-        "date": "2026-02-14",
-        "multivitamin": false,
-        "fruit": true,
-        "water": 8,
-        "exercise": true,
-        "creatine": true
       }
     ],
     "weight_history": [
@@ -143,18 +143,6 @@
       }
     ],
     "workouts": [
-      {
-        "date": "2026-02-14",
-        "duration": 33.1,
-        "strain": 13.8,
-        "name": "Morning Run"
-      },
-      {
-        "date": "2026-02-15",
-        "duration": 23.1,
-        "strain": 9.5,
-        "name": "Swim Session"
-      },
       {
         "date": "2026-02-16",
         "duration": 29,

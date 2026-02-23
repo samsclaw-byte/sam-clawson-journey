@@ -1,0 +1,42 @@
+{
+  "timestamp": "2026-02-21T02:00:01.552186",
+  "date_checked": "2026-02-20",
+  "tables": {
+    "Food Log": {
+      "status": "ERROR",
+      "severe": [
+        "SEVERE: Cannot fetch Food Log: HTTP 500"
+      ],
+      "minor": [],
+      "warnings": [],
+      "missing_fields": 0
+    },
+    "Daily Habits": {
+      "status": "ERROR",
+      "severe": [
+        "SEVERE: Cannot fetch Daily Habits: HTTP 500"
+      ],
+      "minor": [],
+      "warnings": [],
+      "missing_fields": 0
+    },
+    "TAT Tasks": {
+      "status": "ERROR",
+      "severe": [
+        "SEVERE: Cannot fetch TAT Tasks: HTTP 500"
+      ],
+      "minor": [],
+      "warnings": [],
+      "missing_fields": 0
+    }
+  },
+  "summary": {
+    "total_records": 0,
+    "severe_errors": 3,
+    "minor_errors": 0,
+    "warnings": 0,
+    "auto_fixed": 0,
+    "missing_fields_count": 0,
+    "overall_status": "FAIL"
+  }
+}

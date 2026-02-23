@@ -1,341 +1,497 @@
-# Work Workflow Control Centre — Business Plan
+# Work Workflow Control Centre - Business Plan
 
-> **Document Version:** 1.0  
-> **Created:** 2026-02-20  
-> **Based on:** Voice note from 2026-02-10 19:49  
-> **Status:** Draft for review
+**Version:** 1.0  
+**Created:** 2026-02-11  
+**Based on voice note:** 2026-02-10 19:49
 
 ---
 
 ## Executive Summary
 
-The **Work Workflow Control Centre** is a Mission Control-style dashboard designed specifically for professional task and project management. Unlike the personal life dashboard (TAT), this system focuses on work-related workflows: email management, project tracking, team communications, and deliverable scheduling.
-
-**Core Value Proposition:** Centralize all work inputs into a single, actionable dashboard with intelligent prioritization, Gantt visualization, and seamless integration with existing tools (Outlook, Teams, Slack).
+Build a **"Mission Control" dashboard** for work management — a dedicated command centre separate from the personal dashboard, focused on professional task management, project tracking, and work communications. Think of it as mission control for your work life.
 
 ---
 
 ## 1. Input Sources (Task Intake)
 
-The system aggregates tasks from multiple channels to ensure nothing falls through the cracks:
+A centralized system for capturing work items from multiple channels:
 
 | Source | Description | Priority |
 |--------|-------------|----------|
-| **Emails** | Messages requiring response or action | High |
-| **Teams/Slack** | Direct messages, mentions, channel notifications | High |
-| **Calendar Events** | Meetings, deadlines, reminders | Medium |
-| **Monthly Repeatables** | Recurring tasks (reports, reviews, updates) | Medium |
-| **Manual Entry** | Ad-hoc tasks captured via Telegram or direct input | High |
+| **Email** | Items requiring response or action from inbox | High |
+| **Teams/Slack** | Messages and notifications from collaboration tools | High |
+| **Calendar** | Meeting outcomes, preparation tasks, follow-ups | Medium |
+| **Monthly Repeatables** | Recurring tasks (reports, reviews, maintenance) | Medium |
+| **Voice Notes** | Quick capture via Telegram while on-the-go | High |
+| **Direct Entry** | Manual input for ad-hoc tasks | Low |
 
 ### Intake Philosophy
-- **Capture everything** — If it needs action, it goes in the system
-- **Zero-inbox mentality** — Email becomes a source, not a destination
-- **Frictionless entry** — Multiple input methods to match context
+> All roads lead to the dashboard. No task should exist only in someone's head or scattered across apps.
 
 ---
 
 ## 2. Task Categorization System
 
-### 2.1 Urgency Framework
-Simple, clear urgency levels to eliminate decision fatigue:
+### Urgency Framework (Simplified)
 
-| Level | Timeline | Action Required |
-|-------|----------|-----------------|
-| **Urgent** | 1 day | Drop everything, handle now |
-| **Soon** | 3 days | Schedule within 48 hours |
-| **This Week** | 7 days | Plan into weekly workflow |
-| **This Month** | 30 days | Track in monthly planning |
+| Bucket | Timeline | Action |
+|--------|----------|--------|
+| **Urgent** | 1 day | Drop everything, handle today |
+| **Soon** | 3 days | Schedule time this week |
+| **Planned** | 7 days | Include in weekly planning |
+| **Backlog** | 30 days | Review monthly, schedule as needed |
 
-### 2.2 Task Types
+### Task Types
 
-**Simple Tasks**
-- Quick, one-off actions
-- Single-step completion
-- Examples: Reply to email, approve document, send update
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    TASK TYPES                                │
+├─────────────────────────────────────────────────────────────┤
+│                                                              │
+│  ┌──────────────────┐        ┌──────────────────┐          │
+│  │   SIMPLE TASK    │        │   PROJECT TASK   │          │
+│  │                  │        │                  │          │
+│  │  • Quick win     │        │  • Multi-step    │          │
+│  │  • One-off       │        │  • Deliverables  │          │
+│  │  • < 30 min      │        │  • Timeline      │          │
+│  │  • No subtasks   │        │  • Dependencies  │          │
+│  │                  │        │  • Stakeholders  │          │
+│  └──────────────────┘        └──────────────────┘          │
+│                                                              │
+└─────────────────────────────────────────────────────────────┘
+```
 
-**Project Tasks**
-- Ongoing, multi-step initiatives
-- Have deliverables and milestones
-- Require Gantt chart visualization
-- Examples: Quarterly report, system rollout, team restructuring
-
-### 2.3 Auto-Prioritization Rules
-
-| Rule | Action |
-|------|--------|
-| Anything mentioning "Steve" | Auto-flag as Urgent (1-day) |
-| CEO/Executive sender | +1 urgency level |
-| External client deadline | Auto-calculate based on date |
-| Recurring monthly task | Auto-populate on schedule |
-| Keywords: "ASAP", "urgent", "deadline" | Flag for review |
+### Gantt Chart Visualization
+- Visual timeline for all projects
+- Drag-and-drop rescheduling
+- Dependency mapping (this blocks that)
+- Resource allocation view
+- Critical path highlighting
 
 ---
 
 ## 3. Mission Control Dashboard
 
-### 3.1 Layout Design
+### Dashboard Layout (Desktop)
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│  WORK WORKFLOW CONTROL CENTRE                                │
-├─────────────────────────────────────────────────────────────┤
-│  [TASK LIST — Today's Priorities]                           │
-│  🔴 Reply to Steve about Q1 budget (Due: Today)             │
-│  🟡 Review team proposal (Due: Tomorrow)                    │
-│  🟢 Monthly report draft (Due: Fri)                         │
-├─────────────────────────────────────────────────────────────┤
-│  [MAJOR PROJECTS]        │  [CALENDAR VIEW]                 │
-│  • Project Alpha         │  Mon  Tue  Wed  Thu  Fri         │
-│    ████████████░░ 75%    │  [📅] [📅] [📅] [📅] [📅]        │
-│  • System Migration      │                                  │
-│    ██████░░░░░░░░ 40%    │                                  │
-│  • Q1 Planning           │                                  │
-│    ████░░░░░░░░░░ 25%    │                                  │
-├─────────────────────────────────────────────────────────────┤
-│  [GANTT CHART — Project Timeline]                           │
-│  Alpha    ████████████████████                              │
-│  Migrate       ████████████████████                         │
-│  Q1 Plan          ████████████████                          │
-└─────────────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────────────────────┐
+│  🚀 WORK MISSION CONTROL                                          [Search]  │
+├──────────────────────────────────────────────────────────────────────────────┤
+│                                                                              │
+│  ┌──────────────────────────────────────────────────────────────────────┐   │
+│  │  ⚡ URGENT TASKS (Next 24h)                                          │   │
+│  │  • Reply to Steve about Q3 budget                    [Due: 2h] 🔴    │   │
+│  │  • Submit expense report                              [Due: 4h] 🟡    │   │
+│  └──────────────────────────────────────────────────────────────────────┘   │
+│                                                                              │
+│  ┌─────────────────────┐  ┌─────────────────────────────────────────────────┐│
+│  │  📅 CALENDAR VIEW   │  │  📊 PROJECT GANTT CHART                        ││
+│  │                     │  │                                                  ││
+│  │  Mon ▓▓░░▓▓▓░      │  │  Project A  ████████░░████████░░░░              ││
+│  │  Tue ░░▓▓░░▓▓      │  │  Project B  ░░████░░░░░░████░░░░░░              ││
+│  │  Wed ▓▓▓░░░▓▓      │  │  Project C  ░░░░████████░░░░████░░              ││
+│  │  Thu ░▓▓▓▓░░░      │  │                                                  ││
+│  │  Fri ▓░░░▓▓▓▓      │  │  ▓ = Completed  █ = In Progress  ░ = Planned   ││
+│  │                     │  │                                                  ││
+│  └─────────────────────┘  └─────────────────────────────────────────────────┘│
+│                                                                              │
+│  ┌──────────────────────────────────────────────────────────────────────┐   │
+│  │  📁 MAJOR PROJECTS                                                   │   │
+│  │                                                                      │   │
+│  │  ┌──────────────┐ ┌──────────────┐ ┌──────────────┐ ┌──────────────┐ │   │
+│  │  │ Website      │ │ Migration    │ │ Q3 Planning  │ │ Compliance   │ │   │
+│  │  │ Redesign     │ │ Project      │ │              │ │ Audit        │ │   │
+│  │  │              │ │              │ │              │ │              │ │   │
+│  │  │ ▓▓▓▓▓▓░░░░ 75% │ ▓▓░░░░░░░░ 20% │ ▓▓░░░░░░░░ 10% │ ▓▓▓░░░░░░░ 30% │ │   │
+│  │  │ Due: Mar 15  │ │ Due: Apr 30  │ │ Due: May 1   │ │ Due: Mar 1   │ │   │
+│  │  └──────────────┘ └──────────────┘ └──────────────┘ └──────────────┘ │   │
+│  └──────────────────────────────────────────────────────────────────────┘   │
+│                                                                              │
+│  ┌──────────────────────────────────────────────────────────────────────┐   │
+│  │  📥 EMAIL SUMMARY          │  🔔 NOTIFICATIONS                       │   │
+│  │  [Last updated: 10:30 AM]  │  • 3 Teams mentions                    │   │
+│  │                            │  • 1 Meeting in 15 min                 │   │
+│  │  5 emails need action      │  • 2 Calendar invites pending          │   │
+│  │  2 urgent, 3 normal        │                                         │   │
+│  └──────────────────────────────────────────────────────────────────────┘   │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
 ```
 
-### 3.2 Key Views
+### Mobile-Optimized View
 
-| View | Purpose | Update Frequency |
-|------|---------|------------------|
-| **Task List** | Immediate actions | Real-time |
-| **Calendar** | Schedule overview | Hourly sync |
-| **Gantt Chart** | Project timelines | On project update |
-| **Major Projects** | High-level progress | Daily |
-
-### 3.3 Mobile Optimization
-- Responsive layout for phone/tablet
-- Swipe-to-complete for tasks
-- Quick-add voice/note entry
+**Priority Mode:**
+- Collapsible sections
+- Swipe gestures for task management
+- Quick-add voice capture
+- Offline capability
 - Push notifications for urgent items
 
 ---
 
 ## 4. Recording Methods
 
-### 4.1 Telegram Integration
-- Send message → auto-parsed into task
-- Voice note transcription
-- Photo/document attachment support
-- Commands: `/task`, `/project`, `/urgent`
-
-### 4.2 Excel/Spreadsheet
-- Export capability for reporting
-- Bulk editing for power users
-- Integration with existing workflows
-
-### 4.3 Notion Integration
-- Bi-directional sync option
-- Rich text and documentation
-- Team collaboration features
-
-### 4.4 Direct Entry
-- Web dashboard input
-- Email-to-task forwarding
-- Calendar drag-and-drop
-
-### 4.5 Mixed Approach (Recommended)
-- **Mobile:** Telegram for quick capture
-- **Desktop:** Direct dashboard entry
-- **Review:** Excel export for weekly planning
-- **Documentation:** Notion for project details
-
----
-
-## 5. Email Management (Critical Pain Point)
-
-### 5.1 Current Problem
-- Email volume overwhelms action-taking
-- Important items buried in noise
-- No systematic triage process
-- Context-switching between email and task tools
-
-### 5.2 Proposed Solution: Outlook Integration
-
-**Phase 1: Email Summaries**
-- Automated digests every 30-60 minutes
-- AI-extracted action items
-- One-click "Add to Dashboard"
-
-**Phase 2: Smart Triage**
-- Auto-categorization (FYI, Action Required, Waiting)
-- Priority scoring based on sender/timing
-- Snooze and schedule features
-
-**Phase 3: Full Integration**
-- Reply from dashboard
-- Track email threads as tasks
-- Auto-archive handled items
-
-### 5.3 Email Summary Format
-
+### Option A: Telegram → Excel/Notion Bridge
 ```
-📧 WORK EMAIL DIGEST — 2:00 PM
+Voice Note → Telegram Bot → Parser → Excel/Notion → Dashboard
+```
 
-🔴 ACTION REQUIRED (3)
-   → Budget approval from Steve (sent 1:30 PM)
-   → Q4 review meeting request (expires today)
-   → Client contract feedback needed
+**Pros:**
+- Fast, hands-free capture
+- Natural language processing
+- Works anywhere
 
-🟡 WAITING ON OTHERS (2)
-   → IT ticket response pending
-   → Vendor quote expected
+**Cons:**
+- Requires parsing layer
+- Potential transcription errors
 
-🟢 FYI ONLY (5)
-   [Expand to view]
+### Option B: Direct Entry
+```
+Dashboard UI → Direct database write
+```
 
-💡 SUGGESTED TASKS
-   + Add "Reply to Steve" (Urgent)
-   + Schedule "Q4 review prep" (This week)
+**Pros:**
+- No parsing needed
+- Structured data entry
+- Validation built-in
+
+**Cons:**
+- Slower for quick captures
+- Not mobile-friendly for quick notes
+
+### Option C: Hybrid Approach (Recommended)
+```
+┌──────────────────────────────────────────────────────────────┐
+│                     HYBRID INPUT FLOW                         │
+├──────────────────────────────────────────────────────────────┤
+│                                                               │
+│  Quick Capture (Mobile/Voice)                                 │
+│     ↓                                                         │
+│  Telegram Bot  ─────────────────┐                             │
+│     ↓                           │                             │
+│  Parse → Draft → Confirm ───────┤                             │
+│     ↓                           │                             │
+│  Add to Dashboard               │                             │
+│                                  │                            │
+│  Detailed Entry (Desktop/Web)    │                            │
+│     ↓                           │                             │
+│  Direct to Dashboard ←──────────┘                             │
+│                                                               │
+└──────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## 6. Technical Architecture
+## 5. Email Management System
 
-### 6.1 Integration Points
+### Current Pain Point
+Email is the biggest source of scattered tasks and missed follow-ups.
 
-| System | Integration Type | Data Flow |
-|--------|-----------------|-----------|
-| **Existing TAT System** | Shared auth, separate DB | User profile sync |
-| **Outlook/Exchange** | Microsoft Graph API | Email fetch, calendar sync |
-| **Teams** | Webhooks + API | Message notifications |
-| **Slack** | Slack API | DM and mention capture |
-| **Telegram** | Bot API | Task entry, notifications |
-| **Notion** | Notion API | Optional bidirectional sync |
+### Proposed Solution: Email Integration Hub
 
-### 6.2 Data Model
+**Features:**
+
+| Feature | Description | Priority |
+|---------|-------------|----------|
+| **Outlook Integration** | Connect to corporate Exchange/Office 365 | Critical |
+| **Hourly Summaries** | Digest of emails requiring action | High |
+| **Auto-Action Extraction** | AI identifies "reply needed", "review attached", etc. | High |
+| **One-Click Task Creation** | Convert email to dashboard task | High |
+| **Smart Filtering** | Ignore newsletters, CCs, non-actionable | Medium |
+| **Follow-Up Tracking** | Flag sent emails awaiting response | Medium |
+
+### Email Summary Format
 
 ```
-┌─────────────┐     ┌─────────────┐     ┌─────────────┐
-│   Users     │────→│   Tasks     │←────│   Sources   │
-└─────────────┘     ├─────────────┤     └─────────────┘
-                    │ - id        │
-                    │ - title     │     ┌─────────────┐
-                    │ - urgency   │←────│  Projects   │
-                    │ - type      │     ├─────────────┤
-                    │ - due_date  │     │ - milestones│
-                    │ - source    │     │ - gantt     │
-                    │ - status    │     │ - progress  │
-                    └─────────────┘     └─────────────┘
+📧 EMAIL ACTION SUMMARY
+Generated: 10:30 AM | Next: 11:30 AM
+
+🔴 URGENT (Reply within 4 hours)
+  1. RE: Q3 Budget Review — Steve (2h ago)
+     Action: Approve revised numbers
+  
+🟡 ACTION NEEDED (Reply today)
+  2. Project Update Required — Sarah (4h ago)
+     Action: Send status by EOD
+  3. Meeting Notes — Dave (5h ago)
+     Action: Review and comment
+
+🟢 FYI (No action required)
+  4. All-hands Recording — HR (1h ago)
+  5. Office Move Update — Facilities (3h ago)
+
+[View in Outlook]  [Mark All Read]  [Create Tasks]
 ```
-
-### 6.3 Technology Stack (Proposed)
-
-| Component | Option A | Option B |
-|-----------|----------|----------|
-| Frontend | React + Tailwind | Vue + Tailwind |
-| Backend | Cloudflare Workers | Node.js + Express |
-| Database | Cloudflare D1 | Supabase Postgres |
-| Auth | Google OAuth | Microsoft OAuth |
-| Email | Microsoft Graph | IMAP + AI parsing |
-| Hosting | Cloudflare Pages | Vercel |
-
-### 6.4 Separation from Personal Dashboard
-
-| Aspect | Personal (TAT) | Work (WWCC) |
-|--------|---------------|-------------|
-| **Focus** | Life, health, habits | Work, career, projects |
-| **Data** | Private, personal | Professional, potentially shared |
-| **Notifications** | Relaxed, batched | Timely, work-hours focused |
-| **Integrations** | WHOOP, health apps | Outlook, Teams, Slack |
-| **Access** | Personal only | Team sharing possible |
 
 ---
 
-## 7. Implementation Roadmap
+## 6. Sample Business Rules Engine
 
-### Phase 1: Email Integration Research (Weeks 1-2)
-- [ ] Evaluate Microsoft Graph API capabilities
-- [ ] Test Outlook webhook reliability
-- [ ] Build email summary proof-of-concept
-- [ ] Define email parsing rules
+### Auto-Prioritization Logic
 
-**Deliverable:** Technical spec for email integration
+```yaml
+rules:
+  urgent_rules:
+    - condition: "sender == 'Steve'"
+      action: "priority = 'urgent'"
+      note: "Anything 'in Steve' = urgent"
+    
+    - condition: "subject.contains('URGENT') OR subject.contains('ASAP')"
+      action: "priority = 'urgent'"
+    
+    - condition: "sender.contains('ceo@') OR sender.contains('director@')"
+      action: "priority = 'high'"
+    
+    - condition: "body.contains('deadline') AND date.within('2 days')"
+      action: "priority = 'high'"
 
-### Phase 2: Dashboard Design (Weeks 3-4)
-- [ ] Create wireframes for all views
-- [ ] Design mobile-responsive layouts
-- [ ] Build component library
-- [ ] User testing with Sam
+  project_rules:
+    - condition: "subject.contains('Project') AND has_attachments"
+      action: "type = 'project_task'"
+    
+    - condition: "mentions_multiple_people AND has_deliverable_language"
+      action: "type = 'project_task'"
 
-**Deliverable:** Interactive prototype
+  auto_categorize:
+    - keywords: ["expense", "reimbursement", "invoice"]
+      category: "Finance"
+    
+    - keywords: ["meeting", "schedule", "calendar"]
+      category: "Coordination"
+    
+    - keywords: ["report", "analysis", "data"]
+      category: "Analytics"
+```
 
-### Phase 3: Task Intake System (Weeks 5-7)
-- [ ] Implement Telegram bot integration
-- [ ] Build manual task entry
-- [ ] Create urgency categorization engine
-- [ ] Set up basic dashboard
+### Smart Suggestions
+- "This looks like a project task. Create a project entry?"
+- "You've received 3 emails from Steve today. Prioritize these?"
+- "This email mentions a deadline in 2 days. Mark as urgent?"
 
-**Deliverable:** Working task capture system
+---
 
-### Phase 4: Project & Gantt Features (Weeks 8-10)
-- [ ] Project creation workflow
+## 7. Technical Architecture
+
+### System Diagram
+
+```
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                           WORK WORKFLOW CONTROL CENTRE                        │
+├──────────────────────────────────────────────────────────────────────────────┤
+│                                                                              │
+│  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐              │
+│  │   INPUT LAYER   │  │  PROCESSING     │  │  OUTPUT LAYER   │              │
+│  │                 │  │                 │  │                 │              │
+│  │  📧 Outlook API │→ │  🧠 Task        │→ │  📊 Dashboard   │              │
+│  │  💬 Teams/Slack │  │    Parser       │  │     (Web)       │              │
+│  │  📅 Calendar    │  │                 │  │                 │              │
+│  │  🎙️ Telegram    │  │  • NLP Engine   │  │  • Calendar View│              │
+│  │  ✏️ Direct UI   │  │  • Rules Engine │  │  • Gantt Charts │              │
+│  │                 │  │  • AI Classifier│  │  • Task Lists   │              │
+│  │                 │  │                 │  │  • Mobile App   │              │
+│  └─────────────────┘  └─────────────────┘  └─────────────────┘              │
+│           │                   │                      │                       │
+│           ↓                   ↓                      ↓                       │
+│  ┌─────────────────────────────────────────────────────────────────────┐   │
+│  │                        DATA LAYER                                    │   │
+│  │                                                                      │   │
+│  │   ┌──────────────┐  ┌──────────────┐  ┌──────────────┐              │   │
+│  │   │ Task Database│  │ Email Cache  │  │ Project Store│              │   │
+│  │   │ (PostgreSQL) │  │ (Redis)      │  │ (Notion/     │              │   │
+│  │   │              │  │              │  │  Airtable)   │              │   │
+│  │   └──────────────┘  └──────────────┘  └──────────────┘              │   │
+│  │                                                                      │   │
+│  └─────────────────────────────────────────────────────────────────────┘   │
+│                                                                              │
+│  ┌─────────────────────────────────────────────────────────────────────┐   │
+│  │                    INTEGRATION: TAT SYSTEM                           │   │
+│  │                                                                      │   │
+│  │   Work Dashboard ←── Shared Auth ──→ Personal Dashboard              │   │
+│  │        ↓                  ↓                  ↓                       │   │
+│  │   Work Context      Unified Identity    Personal Context             │   │
+│  │                                                                      │   │
+│  └─────────────────────────────────────────────────────────────────────┘   │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+```
+
+### Technology Stack
+
+| Layer | Technology | Notes |
+|-------|------------|-------|
+| **Frontend** | React + Tailwind | Component-based, responsive |
+| **Mobile** | React Native or PWA | iOS/Android support |
+| **Backend** | Node.js/Express or Python/FastAPI | API layer |
+| **Database** | PostgreSQL | Structured task data |
+| **Cache** | Redis | Email summaries, sessions |
+| **AI/NLP** | OpenAI API or local LLM | Task classification, email parsing |
+| **Integrations** | Microsoft Graph API | Outlook, Teams, Calendar |
+| **Storage** | Notion API / Airtable | Project data, documentation |
+
+### Integration with Existing TAT System
+
+```
+Existing TAT Architecture:
+┌─────────────────────────────────────────────────────┐
+│           PERSONAL DASHBOARD                        │
+│  (Health, Finance, Habits, Personal Projects)       │
+└─────────────────────────────────────────────────────┘
+
+New Addition:
+┌─────────────────────────────────────────────────────┐
+│           WORK DASHBOARD                            │
+│  (Email, Tasks, Projects, Calendar, Teams)          │
+└─────────────────────────────────────────────────────┘
+                    ↕
+            Unified Login (SSO)
+                    ↕
+┌─────────────────────────────────────────────────────┐
+│           TAT CONTROL CENTRE                        │
+│  (User Management, Settings, Cross-Context Rules)   │
+└─────────────────────────────────────────────────────┘
+```
+
+### Key Principles
+- **Separation of Concerns:** Work and personal data never mix
+- **Unified Identity:** Single login for both systems
+- **Context Switching:** Easy toggle between work/personal modes
+- **Mobile-First:** Critical for work use cases
+- **Real-Time:** WebSocket or SSE for live updates
+
+---
+
+## 8. Implementation Roadmap
+
+### Phase 1: Foundation & Email Integration Research (Weeks 1-2)
+
+**Goals:**
+- [ ] Evaluate Outlook/Exchange integration options
+- [ ] Set up development environment
+- [ ] Design database schema
+- [ ] Create proof-of-concept email fetcher
+
+**Deliverables:**
+- Technical specification document
+- Working email connection prototype
+- Database schema diagram
+
+### Phase 2: Dashboard Design & Core UI (Weeks 3-4)
+
+**Goals:**
+- [ ] Design system and component library
+- [ ] Build base dashboard layout
+- [ ] Implement task list view
+- [ ] Create urgency filtering
+
+**Deliverables:**
+- Interactive Figma prototype
+- Core dashboard frontend
+- Component documentation
+
+### Phase 3: Task Intake System (Weeks 5-6)
+
+**Goals:**
+- [ ] Implement email-to-task conversion
+- [ ] Build Telegram bot integration
+- [ ] Create direct entry forms
+- [ ] Set up task database
+
+**Deliverables:**
+- Functional task creation from all sources
+- Working Telegram bot
+- Data persistence layer
+
+### Phase 4: Project Management & Gantt (Weeks 7-8)
+
+**Goals:**
+- [ ] Project entity model
 - [ ] Gantt chart visualization
-- [ ] Milestone tracking
-- [ ] Progress indicators
+- [ ] Dependency management
+- [ ] Timeline editing
 
-**Deliverable:** Full project management features
+**Deliverables:**
+- Project creation and management
+- Interactive Gantt charts
+- Drag-and-drop rescheduling
 
-### Phase 5: Full Integration (Weeks 11-12)
-- [ ] Outlook email summaries
+### Phase 5: Integration & Polish (Weeks 9-10)
+
+**Goals:**
+- [ ] Teams/Slack integration
 - [ ] Calendar sync
-- [ ] Teams/Slack notifications
 - [ ] Mobile optimization
-- [ ] Testing and polish
+- [ ] Business rules engine
+- [ ] Testing and bug fixes
 
-**Deliverable:** Production-ready v1.0
+**Deliverables:**
+- Production-ready system
+- Mobile app/PWA
+- Documentation
+- User guide
 
-### Timeline Summary
+### Phase 6: Full Integration with TAT (Weeks 11-12)
 
-```
-Week:  1  2  3  4  5  6  7  8  9  10 11 12
-       ├─Email R&D─┤
-                   ├─Dashboard Design─┤
-                                    ├─Task Intake──┤
-                                                   ├─Projects/Gantt─┤
-                                                                    ├─Integration─┤
-```
+**Goals:**
+- [ ] Unified authentication
+- [ ] Cross-dashboard navigation
+- [ ] Shared settings/preferences
+- [ ] Deployment and monitoring
+
+**Deliverables:**
+- Integrated TAT ecosystem
+- Production deployment
+- Monitoring dashboard
 
 ---
 
-## 8. Success Metrics
+## 9. Success Metrics
 
 | Metric | Target | Measurement |
 |--------|--------|-------------|
-| **Task Capture Rate** | 95% | Tasks created vs. work items identified |
-| **Email Response Time** | < 4 hours for urgent | Average time to respond |
-| **Project Visibility** | 100% | All active projects in Gantt view |
-| **Zero Items Lost** | 0 | Tasks dropped due to system failure |
-| **User Satisfaction** | 8/10 | Weekly check-in with Sam |
+| Task Capture Time | < 30 seconds | Time from thought to logged task |
+| Email Processing Time | -50% | Reduction in daily email management |
+| Missed Deadlines | Zero | Tasks past due date |
+| Dashboard Adoption | Daily use | % of workdays with dashboard check |
+| Mobile Usage | > 40% | % of tasks created via mobile |
 
 ---
 
-## 9. Open Questions
+## 10. Future Enhancements
 
-1. **Outlook Authentication:** Personal or organizational tenant?
-2. **Teams Integration:** Can we access DMs or just channel mentions?
-3. **Data Retention:** How long to keep completed tasks?
-4. **Team Sharing:** Is this solo or will team members need access?
-5. **Budget:** Cloud costs for AI processing and hosting?
-6. **Existing Tools:** Does Sam already use Asana, Monday, or similar?
-
----
-
-## 10. Next Steps
-
-1. **Review this plan** with Sam for feedback
-2. **Answer open questions** to finalize scope
-3. **Begin Phase 1** — Email integration research
-4. **Set up development environment**
-5. **Schedule weekly check-ins** for progress review
+**Post-MVP Features:**
+- AI-powered task estimation
+- Team collaboration features
+- Time tracking integration
+- Automated status reports
+- Voice command integration
+- Calendar auto-blocking for tasks
+- Focus mode / distraction blocking
 
 ---
 
-*Document created by Clawson based on voice note transcription.*  
-*For questions or revisions, ping @Clawson in Telegram.*
+## 11. Risk Assessment
+
+| Risk | Likelihood | Impact | Mitigation |
+|------|------------|--------|------------|
+| Outlook API limitations | Medium | High | Evaluate alternatives early |
+| Corporate security policies | High | High | Work with IT, on-prem option |
+| Integration complexity | Medium | Medium | Phased approach, MVP first |
+| User adoption | Low | High | Start with email pain point |
+| Mobile performance | Medium | Medium | Progressive web app approach |
+
+---
+
+## 12. Next Steps
+
+1. **This Week:** Review and approve this plan
+2. **Week 1:** Begin Outlook API research
+3. **Set up:** Development environment
+4. **Schedule:** Weekly progress check-ins
+5. **Define:** Success criteria for each phase
+
+---
+
+**Document Status:** Draft  
+**Last Updated:** 2026-02-11  
+**Next Review:** Upon Phase 1 completion

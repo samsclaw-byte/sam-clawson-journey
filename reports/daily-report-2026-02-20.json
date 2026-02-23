@@ -1,0 +1,12 @@
+{
+  "date": "2026-02-20",
+  "generated_at": "2026-02-20T23:00:04.647454",
+  "health": {},
+  "productivity": {},
+  "summary": {
+    "total_entries": 0,
+    "tables_with_data": 0
+  },
+  "health_error": "Airtable API error: 500 - Server encountered an error while processing your request",
+  "productivity_error": "Airtable API error: 500 - Server encountered an error while processing your request"
+}

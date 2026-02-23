@@ -1,74 +1,60 @@
 #!/usr/bin/env python3
-"""Fetch daily nutrition data (meals + macros) for last 7 days"""
+"""Fetch daily nutrition data from D1"""
 
-import requests
 import json
-import urllib.parse
 from datetime import datetime, timedelta
+from pathlib import Path
+import sys
 
-AIRTABLE_KEY = open('/home/samsclaw/.config/airtable/api_key').read().strip()
-HEALTH_BASE = "appnVeGSjwJgG2snS"
+sys.path.insert(0, str(Path(__file__).parent))
+from d1_client import D1Client
 
 def fetch_daily_nutrition():
-    headers = {"Authorization": f"Bearer {AIRTABLE_KEY}"}
-    food_url = f"https://api.airtable.com/v0/{HEALTH_BASE}/tblsoErCMSBtzBZKB"
+    """Fetch nutrition data from D1 for last 7 days"""
+    client = D1Client()
     
-    # Calculate last 7 days
-    today = datetime.now()
-    dates = [(today - timedelta(days=i)).strftime('%Y-%m-%d') for i in range(7)]
+    # Get last 7 days
+    dates = []
+    for i in range(7):
+        date = (datetime.now() - timedelta(days=i)).strftime('%Y-%m-%d')
+        dates.append(date)
+    
+    all_meals = []
+    daily_totals = {}
     
     for date in dates:
-        data = {
-            'date': date,
-            'meals': [],
-            'total_calories': 0,
-            'macros': {'protein': 0, 'carbs': 0, 'fat': 0, 'fiber': 0}
-        }
-        
         try:
-            # Fetch meals for this date
-            formula = urllib.parse.quote(f"IS_SAME(Date, '{date}', 'day')")
-            resp = requests.get(
-                f"{food_url}?filterByFormula={formula}&sort[0][field]=Meal Type",
-                headers=headers,
-                timeout=30
-            )
-            
-            if resp.status_code == 200:
-                records = resp.json().get('records', [])
-                
-                for r in records:
-                    f = r['fields']
-                    meal = {
-                        'type': f.get('Meal Type', 'Snack'),
-                        'items': f.get('Food Items', '')[:60] + ('...' if len(f.get('Food Items', '')) > 60 else ''),
-                        'calories': f.get('Calories', 0) or 0
-                    }
-                    data['meals'].append(meal)
-                    data['total_calories'] += meal['calories']
-                    
-                    # Accumulate macros
-                    data['macros']['protein'] += f.get('Protein (g)', 0) or 0
-                    data['macros']['carbs'] += f.get('Carbs (g)', 0) or 0
-                    data['macros']['fat'] += f.get('Fat (g)', 0) or 0
-                    data['macros']['fiber'] += f.get('Fiber (g)', 0) or 0
-                
-                # Round macros
-                data['macros'] = {k: round(v, 1) for k, v in data['macros'].items()}
-                
-                print(f"  {date}: {len(data['meals'])} meals, {data['total_calories']} calories")
-            else:
-                print(f"  {date}: Error {resp.status_code}")
-                
+            meals = client.get_nutrition(date)
+            day_calories = 0
+            for meal in meals:
+                calories = meal.get('calories') or 0
+                day_calories += calories
+                all_meals.append({
+                    'date': meal.get('date'),
+                    'meal_type': meal.get('meal_type'),
+                    'description': meal.get('description'),
+                    'calories': calories
+                })
+            daily_totals[date] = day_calories
         except Exception as e:
-            print(f"  {date}: Error - {e}")
-        
-        # Save to file
-        with open(f'/home/samsclaw/.openclaw/workspace/data/daily_nutrition_{date}.json', 'w') as f:
-            json.dump(data, f, indent=2)
+            print(f"Error fetching {date}: {e}")
+            daily_totals[date] = 0
     
-    print(f"\n✅ Daily nutrition data saved for {len(dates)} days")
-    return True
+    data = {
+        'generated_at': datetime.now().isoformat(),
+        'meals': all_meals,
+        'daily_totals': daily_totals
+    }
+    
+    # Save to file
+    output_file = Path(__file__).parent.parent / "data" / "nutrition_data.json"
+    output_file.parent.mkdir(exist_ok=True)
+    output_file.write_text(json.dumps(data, indent=2))
+    
+    total_meals = len(all_meals)
+    total_cals = sum(daily_totals.values())
+    print(f"✅ Daily nutrition data saved: {total_meals} meals, {total_cals} calories")
+    return data
 
 if __name__ == "__main__":
     fetch_daily_nutrition()
