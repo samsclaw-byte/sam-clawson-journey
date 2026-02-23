@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-02-23T23:45:17.464626",
+  "generated_at": "2026-02-24T00:00:12.390616",
   "exercise": [
     {
       "date": "2026-02-22",
@@ -14,16 +14,27 @@
       "duration": 23,
       "strain": 9.7,
       "notes": "285 calories, zones 1-4"
+    },
+    {
+      "date": "2026-02-18",
+      "workout_type": "Unknown",
+      "duration": 33,
+      "strain": 11.6,
+      "notes": "Source: Manual Log"
     }
   ],
   "summary": {
-    "total_workouts": 2,
-    "total_minutes": 46,
-    "total_strain": 19.4,
+    "total_workouts": 3,
+    "total_minutes": 79,
+    "total_strain": 31.0,
     "by_type": {
       "Swimming": {
         "minutes": 46,
         "count": 2
+      },
+      "Unknown": {
+        "minutes": 33,
+        "count": 1
       }
     }
   }
