@@ -2241,7 +2241,7 @@
                     html += '<div style="display: table-row; border-bottom: 1px solid #e5e7eb; background: white;">';
                     
                     // Name cell - draggable
-                    html += `<div draggable="true" ondragstart="dragGanttRow(event, ${actualIndex})" ondragend="dragGanttEnd(event)" style="display: table-cell; width: 180px; min-width: 180px; padding: 10px; border-right: 1px solid #e5e7eb; background: #f9fafb; cursor: grab; vertical-align: middle;">`;
+                    html += `<div draggable="true" ondragstart="dragGanttRow(event, '${encodeURIComponent(d && d.name ? d.name : '')}')" ondragend="dragGanttEnd(event)" style="display: table-cell; width: 180px; min-width: 180px; padding: 10px; border-right: 1px solid #e5e7eb; background: #f9fafb; cursor: grab; vertical-align: middle;">`;
                     html += `<div style="font-weight: 600; font-size: 13px;">${d && d.name ? d.name : 'Unnamed'}</div>`;
                     html += `<div style="font-size: 11px; color: #666;">${(d && d.project) || '-'}</div>`;
                     html += `<div style="font-size: 10px; margin-top: 4px;"><span class="priority-badge priority-${priorityClass}">${(d && d.priority) || 'Medium'}</span></div>`;
@@ -2253,7 +2253,7 @@
                         let cellStyle = 'display: table-cell; width: ' + dateColWidth + 'px; min-width: ' + dateColWidth + 'px; padding: 4px; border-right: 1px solid #f3f4f4; vertical-align: middle; text-align: center; ';
                         if (isDue) cellStyle += 'background: #fef3c7;';
                         
-                        html += `<div ondragover="allowGanttDrop(event)" ondrop="dropGanttOnDate(event, ${actualIndex}, '${dateStr}')" style="${cellStyle} cursor: pointer;" title="Drop here to set due date to ${dateStr}">`;
+                        html += `<div ondragover="allowGanttDrop(event)" ondrop="dropGanttOnDate(event, '${encodeURIComponent(d && d.name ? d.name : '')}', '${dateStr}')" style="${cellStyle} cursor: pointer;" title="Drop here to set due date to ${dateStr}">`;
                         if (isDue) {
                             html += '<div style="background: linear-gradient(135deg, #9945FF, #FF6B9D); color: white; padding: 4px 8px; border-radius: 4px; font-size: 10px; font-weight: 600; display: inline-block;">DUE</div>';
                         } else {
@@ -2270,17 +2270,18 @@
             container.innerHTML = html;
         }
         
-        // Drop on date to change due date
-        function dropGanttOnDate(e, index, newDate) {
+        // Drop on date to change due date - use deliverable name for reliability
+        function dropGanttOnDate(e, deliverableName, newDate) {
             e.preventDefault();
             e.stopPropagation();
-            if (index === null || index === undefined || index < 0) {
-                console.log('Invalid index for drop:', index);
+            if (!deliverableName) {
+                console.log('No deliverable name for drop');
                 return;
             }
             const deliverables = loadGanttDeliverables();
-            if (deliverables && deliverables[index]) {
-                deliverables[index].due_date = newDate;
+            const idx = deliverables.findIndex(d => d && d.name === deliverableName);
+            if (idx !== -1) {
+                deliverables[idx].due_date = newDate;
                 saveGanttDeliverables(deliverables);
                 renderGanttChart();
             }
@@ -2528,12 +2529,12 @@
             renderGanttChart();
         }
         
-        // Drag and drop handlers - FIXED to persist order
-        function dragGanttRow(e, index) {
-            draggedGanttIndex = index;
+        // Drag and drop handlers
+        function dragGanttRow(e, deliverableName) {
+            draggedGanttIndex = deliverableName;
             e.dataTransfer.effectAllowed = 'move';
-            e.dataTransfer.setData('text/plain', index);
-            const row = e.target.closest('.deliverables-gantt-row');
+            e.dataTransfer.setData('text/plain', deliverableName);
+            const row = e.target.closest('[draggable="true"]');
             if (row) row.style.opacity = '0.5';
         }
         
