@@ -2226,7 +2226,7 @@
                 
                 // Items
                 groupItems.forEach(d => {
-                    const actualIndex = ganttDeliverables.findIndex(gd => gd.id === d.id);
+                    const actualIndex = ganttDeliverables.findIndex(gd => gd && gd.id && gd.id === d.id);
                     const dueDate = d.due_date;
                     const priorityClass = (d.priority || 'medium').toLowerCase();
                     
