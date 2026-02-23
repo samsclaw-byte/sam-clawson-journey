@@ -2157,6 +2157,7 @@
                 const priorityOrder = { 'Critical': 0, 'High': 1, 'Medium': 2, 'Low': 3 };
                 filtered.sort((a, b) => (priorityOrder[(a && a.priority) || 'Medium'] || 2) - (priorityOrder[(b && b.priority) || 'Medium'] || 2));
                 filtered.forEach(d => {
+                    if (!d) return;
                     const key = d.priority || 'Medium';
                     if (!groups[key]) groups[key] = [];
                     groups[key].push(d);
@@ -2164,6 +2165,7 @@
             } else if (currentGanttFilter === 'category') {
                 filtered.sort((a, b) => ((a && a.category) || '').localeCompare((b && b.category) || ''));
                 filtered.forEach(d => {
+                    if (!d) return;
                     const key = d.category || 'Uncategorized';
                     if (!groups[key]) groups[key] = [];
                     groups[key].push(d);
@@ -2171,6 +2173,7 @@
             } else if (currentGanttFilter === 'stakeholder') {
                 filtered.sort((a, b) => ((a && a.stakeholder) || '').localeCompare((b && b.stakeholder) || ''));
                 filtered.forEach(d => {
+                    if (!d) return;
                     const key = d.stakeholder || 'Unassigned';
                     if (!groups[key]) groups[key] = [];
                     groups[key].push(d);
@@ -2178,6 +2181,7 @@
             } else if (currentGanttFilter === 'project') {
                 filtered.sort((a, b) => ((a && a.project) || a && a.projectName || '').localeCompare((b && b.project) || b && b.projectName || ''));
                 filtered.forEach(d => {
+                    if (!d) return;
                     const key = d.project || d.projectName || 'No Project';
                     if (!groups[key]) groups[key] = [];
                     groups[key].push(d);
@@ -2235,8 +2239,8 @@
                     // Name cell - draggable
                     html += `<div draggable="true" ondragstart="dragGanttRow(event, ${actualIndex})" ondragend="dragGanttEnd(event)" style="flex: 0 0 180px; padding: 10px; border-right: 1px solid #e5e7eb; background: #f9fafb; cursor: grab;">`;
                     html += `<div style="font-weight: 600; font-size: 13px;">${d && d.name ? d.name : 'Unnamed'}</div>`;
-                    html += `<div style="font-size: 11px; color: #666;">${d.project || '-'}</div>`;
-                    html += `<div style="font-size: 10px; margin-top: 4px;"><span class="priority-badge priority-${priorityClass}">${d.priority || 'Medium'}</span></div>`;
+                    html += `<div style="font-size: 11px; color: #666;">${(d && d.project) || '-'}</div>`;
+                    html += `<div style="font-size: 10px; margin-top: 4px;"><span class="priority-badge priority-${priorityClass}">${(d && d.priority) || 'Medium'}</span></div>`;
                     html += '</div>';
                     
                     // Date cells - drop targets
