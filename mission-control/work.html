@@ -1913,10 +1913,6 @@
                     if (!b || !b.due_date) return -1;
                     return new Date(a.due_date) - new Date(b.due_date);
                 });
-                    const daysA = a.due_date ? Math.floor((new Date(a.due_date) - new Date()) / (1000 * 60 * 60 * 24)) : 999;
-                    const daysB = b.due_date ? Math.floor((new Date(b.due_date) - new Date()) / (1000 * 60 * 60 * 24)) : 999;
-                    return daysA - daysB;
-                });
             });
             
             // Build HTML - CSS Grid with sticky first column
