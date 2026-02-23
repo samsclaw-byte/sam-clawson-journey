@@ -1503,7 +1503,8 @@
                 <h2>📈 Deliverables Gantt Chart</h2>
                 
                 <div class="filters">
-                    <button class="filter-btn active" onclick="filterGanttBy('all')">All</button>
+                    <button class="filter-btn active" onclick="filterGanttBy('all')">Active</button>
+                    <button class="filter-btn" onclick="filterGanttBy('completed')">✅ Completed</button>
                     <button class="filter-btn" onclick="filterGanttBy('priority')">By Priority</button>
                     <button class="filter-btn" onclick="filterGanttBy('category')">By Category</button>
                     <button class="filter-btn" onclick="filterGanttBy('stakeholder')">By Stakeholder</button>
@@ -2144,6 +2145,13 @@
             // Filter and sort
             let filtered = [...ganttDeliverables];
             
+            // Check if showing completed
+            if (currentGanttFilter === 'completed') {
+                const completed = loadCompletedDeliverables();
+                container.innerHTML = renderCompletedGantt(completed);
+                return;
+            }
+            
             // Apply filter
             if (currentGanttFilter === 'priority') {
                 const priorityOrder = { 'P0': 0, 'P1': 1, 'P2': 2, 'P3': 3 };
@@ -2189,14 +2197,15 @@
             filtered.forEach((d, idx) => {
                 const dueDate = d.due_date;
                 const statusClass = d.status ? d.status.toLowerCase().replace(' ', '-') : 'not-started';
+                const priorityClass = (d.priority || 'medium').toLowerCase();
                 
-                html += `<div class="deliverables-gantt-row" style="display: flex; border-bottom: 1px solid #e5e7eb; min-height: 50px;">`;
+                html += `<div class="deliverables-gantt-row" draggable="true" ondragstart="dragGanttRow(event, ${idx})" ondragend="dragGanttEnd(event)" ondragover="allowGanttDrop(event)" ondrop="dropGanttRow(event, ${idx})" onclick="showGanttDetail(${idx})" style="cursor: grab; display: flex; border-bottom: 1px solid #e5e7eb; min-height: 50px;">`;
                 
                 // Name cell
                 html += `<div style="flex: 0 0 200px; padding: 12px; border-right: 1px solid #e5e7eb; background: #f9fafb;">`;
                 html += `<div style="font-weight: 600; font-size: 13px; margin-bottom: 4px;">${d.name}</div>`;
-                html += `<div style="font-size: 11px; color: #666;">${d.projectName}</div>`;
-                html += `<div style="font-size: 10px; margin-top: 4px;"><span class="status-badge ${statusClass}">${d.status || 'Not Started'}</span></div>`;
+                html += `<div style="font-size: 11px; color: #666;">${d.project || '-'}</div>`;
+                html += `<div style="font-size: 10px; margin-top: 4px;"><span class="priority-badge priority-${priorityClass}">${d.priority || 'Medium'}</span></div>`;
                 html += '</div>';
                 
                 // Date cells
@@ -2219,6 +2228,42 @@
             
             html += '</div>';
             container.innerHTML = html;
+        }
+        
+        // Render completed deliverables
+        function renderCompletedGantt(completed) {
+            if (completed.length === 0) {
+                return '<div class="empty-state"><div class="empty-state-icon">✅</div><p>No completed deliverables yet.</p></div>';
+            }
+            
+            let html = '<div style="background: white; border-radius: 12px; padding: 20px;">';
+            html += '<h3 style="margin-bottom: 16px; color: #10b981;">✅ Completed Deliverables</h3>';
+            
+            completed.forEach((d, idx) => {
+                html += `
+                    <div style="display: flex; align-items: center; gap: 12px; padding: 12px; background: #f0fdf4; border-radius: 8px; margin-bottom: 8px; border-left: 3px solid #10b981;">
+                        <div style="font-size: 20px;">✅</div>
+                        <div style="flex: 1;">
+                            <div style="font-weight: 600;">${d.name}</div>
+                            <div style="font-size: 11px; color: #666;">${d.project || '-'} • Completed: ${d.completedAt}</div>
+                        </div>
+                        <button onclick="deleteCompletedGantt(${idx})" style="background: none; border: none; cursor: pointer; font-size: 16px; opacity: 0.5;">🗑️</button>
+                    </div>
+                `;
+            });
+            
+            html += '</div>';
+            return html;
+        }
+        
+        // Delete completed deliverable
+        function deleteCompletedGantt(index) {
+            if (!confirm('Remove this from completed history?')) return;
+            
+            const completed = loadCompletedDeliverables();
+            completed.splice(index, 1);
+            saveCompletedDeliverables(completed);
+            renderGanttChart();
         }
         
         // Filter Gantt
@@ -2273,6 +2318,149 @@
         // Load gantt deliverables from localStorage
         function loadGanttDeliverables() {
             return JSON.parse(localStorage.getItem('gantt_deliverables') || '[]');
+        }
+        
+        function saveGanttDeliverables(deliverables) {
+            localStorage.setItem('gantt_deliverables', JSON.stringify(deliverables));
+        }
+        
+        // Load completed deliverables
+        function loadCompletedDeliverables() {
+            return JSON.parse(localStorage.getItem('gantt_completed') || '[]');
+        }
+        
+        function saveCompletedDeliverables(deliverables) {
+            localStorage.setItem('gantt_completed', JSON.stringify(deliverables));
+        }
+        
+        // Drag and drop state
+        let draggedGanttIndex = null;
+        
+        // Show deliverable detail
+        function showGanttDetail(index) {
+            const deliverables = loadGanttDeliverables();
+            const d = deliverables[index];
+            
+            const container = document.getElementById('gantt-chart-container');
+            const priorityClass = (d.priority || 'Medium').toLowerCase();
+            
+            let html = `
+                <div class="deliverable-detail-view" style="background: white; border: 1px solid #e5e7eb; border-radius: 12px; padding: 20px; margin-bottom: 20px;">
+                    <div class="deliverable-detail-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                        <h4 style="margin: 0; font-size: 18px;">📋 ${d.name}</h4>
+                        <button onclick="closeGanttDetail()" style="background: none; border: none; font-size: 24px; cursor: pointer; color: #666;">×</button>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 16px;">
+                        <div>
+                            <label style="font-size: 11px; color: #666; text-transform: uppercase;">Due Date</label>
+                            <div style="font-weight: 600;">${d.due_date || 'Not set'}</div>
+                        </div>
+                        <div>
+                            <label style="font-size: 11px; color: #666; text-transform: uppercase;">Priority</label>
+                            <div><span class="priority-badge priority-${priorityClass}">${d.priority || 'Medium'}</span></div>
+                        </div>
+                        <div>
+                            <label style="font-size: 11px; color: #666; text-transform: uppercase;">Category</label>
+                            <div>${d.category || '-'}</div>
+                        </div>
+                        <div>
+                            <label style="font-size: 11px; color: #666; text-transform: uppercase;">Project</label>
+                            <div>${d.project || '-'}</div>
+                        </div>
+                        <div>
+                            <label style="font-size: 11px; color: #666; text-transform: uppercase;">Stakeholder</label>
+                            <div>${d.stakeholder || '-'}</div>
+                        </div>
+                        <div>
+                            <label style="font-size: 11px; color: #666; text-transform: uppercase;">Assigned To</label>
+                            <div>${d.assigned || '-'}</div>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; gap: 12px; margin-top: 20px; padding-top: 16px; border-top: 1px solid #eee;">
+                        <button onclick="markGanttComplete(${index})" style="background: linear-gradient(135deg, #10b981, #059669); color: white; border: none; padding: 12px 24px; border-radius: 20px; font-size: 14px; font-weight: 600; cursor: pointer; flex: 1;">✅ Mark Complete</button>
+                        <button onclick="deleteGanttDeliverable(${index})" style="background: #fee2e2; color: #991b1b; border: none; padding: 12px 24px; border-radius: 20px; font-size: 14px; font-weight: 600; cursor: pointer;">🗑️ Delete</button>
+                    </div>
+                </div>
+            `;
+            
+            container.insertAdjacentHTML('afterbegin', html);
+        }
+        
+        function closeGanttDetail() {
+            const detail = document.querySelector('.deliverable-detail-view');
+            if (detail) detail.remove();
+        }
+        
+        // Mark as complete
+        function markGanttComplete(index) {
+            const deliverables = loadGanttDeliverables();
+            const d = deliverables[index];
+            
+            if (!confirm(`Mark "${d.name}" as complete?`)) return;
+            
+            // Add to completed list
+            const completed = loadCompletedDeliverables();
+            completed.unshift({
+                ...d,
+                completedAt: new Date().toISOString().split('T')[0]
+            });
+            saveCompletedDeliverables(completed);
+            
+            // Remove from active
+            deliverables.splice(index, 1);
+            saveGanttDeliverables(deliverables);
+            
+            closeGanttDetail();
+            renderGanttChart();
+            
+            console.log(`✅ Completed: ${d.name}`);
+        }
+        
+        // Delete deliverable
+        function deleteGanttDeliverable(index) {
+            const deliverables = loadGanttDeliverables();
+            const d = deliverables[index];
+            
+            if (!confirm(`Delete "${d.name}"?`)) return;
+            
+            deliverables.splice(index, 1);
+            saveGanttDeliverables(deliverables);
+            
+            closeGanttDetail();
+            renderGanttChart();
+        }
+        
+        // Drag and drop handlers
+        function dragGanttRow(e, index) {
+            draggedGanttIndex = index;
+            e.dataTransfer.effectAllowed = 'move';
+            e.target.style.opacity = '0.5';
+        }
+        
+        function dropGanttRow(e, targetIndex) {
+            e.preventDefault();
+            e.target.style.opacity = '1';
+            
+            if (draggedGanttIndex === null || draggedGanttIndex === targetIndex) return;
+            
+            const deliverables = loadGanttDeliverables();
+            const [removed] = deliverables.splice(draggedGanttIndex, 1);
+            deliverables.splice(targetIndex, 0, removed);
+            saveGanttDeliverables(deliverables);
+            
+            draggedGanttIndex = null;
+            renderGanttChart();
+        }
+        
+        function dragGanttEnd(e) {
+            e.target.style.opacity = '1';
+            draggedGanttIndex = null;
+        }
+        
+        function allowGanttDrop(e) {
+            e.preventDefault();
         }
         
         // Generate Deliverables Date GANTT
