@@ -2112,12 +2112,12 @@
         }
         
         // Render Gantt Chart
-        // Render Gantt Chart - COMPLETE REWRITE
+        // Render Gantt Chart
         function renderGanttChart() {
             const container = document.getElementById('gantt-chart-container');
+            if (!container) return;
             
             // Load standalone deliverables from localStorage
-            ganttDeliverables = loadGanttDeliverables();
             
             // Filter out null/undefined items
             ganttDeliverables = ganttDeliverables.filter(d => d && typeof d === 'object');
