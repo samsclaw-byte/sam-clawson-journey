@@ -1909,6 +1909,10 @@
             // Sort by due date within each group
             Object.values(groups).forEach(g => {
                 g.tasks.sort((a, b) => {
+                    if (!a || !a.due_date) return 1;
+                    if (!b || !b.due_date) return -1;
+                    return new Date(a.due_date) - new Date(b.due_date);
+                });
                     const daysA = a.due_date ? Math.floor((new Date(a.due_date) - new Date()) / (1000 * 60 * 60 * 24)) : 999;
                     const daysB = b.due_date ? Math.floor((new Date(b.due_date) - new Date()) / (1000 * 60 * 60 * 24)) : 999;
                     return daysA - daysB;
@@ -2155,28 +2159,28 @@
             
             if (currentGanttFilter === 'priority') {
                 const priorityOrder = { 'Critical': 0, 'High': 1, 'Medium': 2, 'Low': 3 };
-                filtered.sort((a, b) => (priorityOrder[a.priority] || 2) - (priorityOrder[b.priority] || 2));
+                filtered.sort((a, b) => (priorityOrder[(a && a.priority) || 'Medium'] || 2) - (priorityOrder[(b && b.priority) || 'Medium'] || 2));
                 filtered.forEach(d => {
                     const key = d.priority || 'Medium';
                     if (!groups[key]) groups[key] = [];
                     groups[key].push(d);
                 });
             } else if (currentGanttFilter === 'category') {
-                filtered.sort((a, b) => (a.category || '').localeCompare(b.category || ''));
+                filtered.sort((a, b) => ((a && a.category) || '').localeCompare((b && b.category) || ''));
                 filtered.forEach(d => {
                     const key = d.category || 'Uncategorized';
                     if (!groups[key]) groups[key] = [];
                     groups[key].push(d);
                 });
             } else if (currentGanttFilter === 'stakeholder') {
-                filtered.sort((a, b) => (a.stakeholder || '').localeCompare(b.stakeholder || ''));
+                filtered.sort((a, b) => ((a && a.stakeholder) || '').localeCompare((b && b.stakeholder) || ''));
                 filtered.forEach(d => {
                     const key = d.stakeholder || 'Unassigned';
                     if (!groups[key]) groups[key] = [];
                     groups[key].push(d);
                 });
             } else if (currentGanttFilter === 'project') {
-                filtered.sort((a, b) => (a.project || a.projectName || '').localeCompare(b.project || b.projectName || ''));
+                filtered.sort((a, b) => ((a && a.project) || a && a.projectName || '').localeCompare((b && b.project) || b && b.projectName || ''));
                 filtered.forEach(d => {
                     const key = d.project || d.projectName || 'No Project';
                     if (!groups[key]) groups[key] = [];
@@ -2184,8 +2188,8 @@
                 });
             } else {
                 filtered.sort((a, b) => {
-                    if (!a.due_date) return 1;
-                    if (!b.due_date) return -1;
+                    if (!a || !a.due_date) return 1;
+                    if (!b || !b.due_date) return -1;
                     return new Date(a.due_date) - new Date(b.due_date);
                 });
                 groups['All'] = filtered;
