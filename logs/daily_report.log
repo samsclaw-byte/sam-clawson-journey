@@ -750,3 +750,55 @@ Active tables: 0/5
   },
   "productivity_error": "'<' not supported between instances of 'dict' and 'str'"
 }
+📊 Generating Daily Confirmation Report...
+══════════════════════════════════════════════════
+
+📅 Date: 2026-02-23
+📈 Total entries: 0
+📊 Active tables: 0
+
+💾 Report saved: /home/samsclaw/.openclaw/workspace/reports/daily-report-2026-02-23.json
+
+📤 Sending Telegram message...
+
+==================================================
+TELEGRAM MESSAGE (would be sent):
+==================================================
+📊 *Daily Confirmation Report - 2026-02-23*
+══════════════════════════════
+
+💪 *Health & Fitness*
+────────────────────
+
+📋 *Productivity*
+────────────────────
+
+📈 *Summary*
+────────────────────
+Total entries: 0
+Active tables: 0/5
+
+🌟 *Highlights*
+────────────────────
+• 📌 New day tomorrow - fresh start!
+
+🦞 *Clawson* - Keep building!
+==================================================
+
+✅ Telegram message sent successfully
+
+══════════════════════════════════════════════════
+✅ Daily report complete!
+
+---JSON_REPORT---
+{
+  "date": "2026-02-23",
+  "generated_at": "2026-02-23T23:00:02.073120",
+  "health": {},
+  "productivity": {},
+  "summary": {
+    "total_entries": 0,
+    "tables_with_data": 0
+  },
+  "productivity_error": "'<' not supported between instances of 'dict' and 'str'"
+}

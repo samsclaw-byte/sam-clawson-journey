@@ -1,0 +1,11 @@
+{
+  "date": "2026-02-23",
+  "generated_at": "2026-02-23T23:00:02.073120",
+  "health": {},
+  "productivity": {},
+  "summary": {
+    "total_entries": 0,
+    "tables_with_data": 0
+  },
+  "productivity_error": "'<' not supported between instances of 'dict' and 'str'"
+}

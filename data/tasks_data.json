@@ -1,0 +1,46 @@
+{
+  "generated_at": "2026-02-23T23:27:40.391446",
+  "total_tasks": 3,
+  "pending_tasks": 3,
+  "tasks": [
+    {
+      "id": "rec4555850939",
+      "task_name": "Test task via D1",
+      "category": 7,
+      "status": "Not Started",
+      "priority": "Medium",
+      "date_created": "2026-02-23",
+      "due_date": "2026-03-02",
+      "date_completed": null,
+      "notes": "Testing D1 direct",
+      "created_at": "2026-02-23 18:12:15",
+      "updated_at": "2026-02-23 18:12:15"
+    },
+    {
+      "id": "rec2bf0ba8c89",
+      "task_name": "Talk to gardener",
+      "category": 7,
+      "status": "Not Started",
+      "priority": "Medium",
+      "date_created": "2026-02-23",
+      "due_date": "2026-03-02",
+      "date_completed": null,
+      "notes": "Test from D1",
+      "created_at": "2026-02-23 18:15:25",
+      "updated_at": "2026-02-23 18:15:25"
+    },
+    {
+      "id": "rec24e51a2249",
+      "task_name": "Test D1 migration",
+      "category": 7,
+      "status": "Not Started",
+      "priority": "Medium",
+      "date_created": "2026-02-23",
+      "due_date": "2026-03-02",
+      "date_completed": null,
+      "notes": "",
+      "created_at": "2026-02-23 18:29:19",
+      "updated_at": "2026-02-23 18:29:19"
+    }
+  ]
+}

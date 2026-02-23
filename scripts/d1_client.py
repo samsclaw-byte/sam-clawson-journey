@@ -13,15 +13,26 @@ from datetime import datetime, timedelta
 D1_DB = "trak-db"
 
 def run_wrangler(command):
-    """Run wrangler command and return results"""
+    """Run wrangler command and return results - ALWAYS use remote"""
+    # Force remote execution
     result = subprocess.run(
-        f"wrangler d1 execute {D1_DB} --command=\"{command}\" --remote",
+        f"wrangler d1 execute {D1_DB} --command=\"{command}\" --remote 2>&1",
         shell=True,
         capture_output=True,
         text=True,
         timeout=30
     )
-    return result.stdout
+    # Check for errors
+    if "error" in result.stderr.lower() or result.returncode != 0:
+        # Try one more time
+        result = subprocess.run(
+            f"wrangler d1 execute {D1_DB} --command=\"{command}\" --remote",
+            shell=True,
+            capture_output=True,
+            text=True,
+            timeout=30
+        )
+    return result.stdout + result.stderr
 
 def get_results(output):
     """Extract results from wrangler JSON output"""
@@ -126,6 +137,31 @@ class D1Client:
         try:
             run_wrangler(sql)
             return {"success": True, "id": exe_id}
+        except Exception as e:
+            return {"success": False, "error": str(e)}
+
+    # ============== HABITS ==============
+    def get_habits(self, date=None):
+        if not date:
+            date = datetime.now().strftime('%Y-%m-%d')
+        try:
+            output = run_wrangler(f"SELECT * FROM habits WHERE date = '{date}'")
+            return get_results(output)
+        except:
+            return []
+
+    def create_habit(self, habit_name, date, completed=True, notes=None):
+        import uuid
+        hab_id = "hab" + str(uuid.uuid4().hex[:8])
+        
+        habit_name = (habit_name or "").replace("'", "''")
+        notes = (notes or "").replace("'", "''")
+        
+        sql = f"""INSERT INTO habits (id, habit_name, date, completed, notes)
+                  VALUES ('{hab_id}', '{habit_name}', '{date}', {1 if completed else 0}, {f"'{notes}'" if notes else 'NULL'})"""
+        try:
+            run_wrangler(sql)
+            return {"success": True, "id": hab_id}
         except Exception as e:
             return {"success": False, "error": str(e)}
 
