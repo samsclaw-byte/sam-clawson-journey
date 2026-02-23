@@ -2119,12 +2119,15 @@
             // Load standalone deliverables from localStorage
             ganttDeliverables = loadGanttDeliverables();
             
+            // Filter out null/undefined items
+            ganttDeliverables = ganttDeliverables.filter(d => d && typeof d === 'object');
+            
             // Also collect deliverables from projects if workData is loaded
             if (workData && workData.projects) {
                 workData.projects.forEach(project => {
-                    if (project.deliverables && project.deliverables.length > 0) {
+                    if (project && project.deliverables && project.deliverables.length > 0) {
                         project.deliverables.forEach(d => {
-                            if (!ganttDeliverables.find(gd => gd && gd.name && d && d.name && gd.name === d.name && gd.source === 'project')) {
+                            if (d && !ganttDeliverables.find(gd => gd && gd.name && d.name && gd.name === d.name && gd.source === 'project')) {
                                 ganttDeliverables.push({
                                     ...d,
                                     projectName: project.name,
@@ -2150,7 +2153,7 @@
             }
             
             // Filter and group
-            let filtered = [...ganttDeliverables];
+            let filtered = [...ganttDeliverables].filter(d => d && typeof d === 'object');
             let groups = {};
             
             if (currentGanttFilter === 'priority') {
