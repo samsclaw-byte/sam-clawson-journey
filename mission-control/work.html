@@ -2336,7 +2336,7 @@
         // Drag and drop state
         let draggedGanttIndex = null;
         
-        // Show deliverable detail
+        // Show deliverable detail - EDITABLE
         function showGanttDetail(index) {
             const deliverables = loadGanttDeliverables();
             const d = deliverables[index];
@@ -2347,45 +2347,84 @@
             let html = `
                 <div class="deliverable-detail-view" style="background: white; border: 1px solid #e5e7eb; border-radius: 12px; padding: 20px; margin-bottom: 20px;">
                     <div class="deliverable-detail-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-                        <h4 style="margin: 0; font-size: 18px;">📋 ${d.name}</h4>
+                        <h4 style="margin: 0; font-size: 18px;">✏️ Edit Deliverable</h4>
                         <button onclick="closeGanttDetail()" style="background: none; border: none; font-size: 24px; cursor: pointer; color: #666;">×</button>
                     </div>
                     
-                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 16px;">
-                        <div>
-                            <label style="font-size: 11px; color: #666; text-transform: uppercase;">Due Date</label>
-                            <div style="font-weight: 600;">${d.due_date || 'Not set'}</div>
+                    <form id="gantt-edit-form" onsubmit="saveGanttEdit(event, ${index})">
+                        <div class="form-group">
+                            <label>Deliverable Name</label>
+                            <input type="text" id="gantt-edit-name" value="${d.name}" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px;">
                         </div>
-                        <div>
-                            <label style="font-size: 11px; color: #666; text-transform: uppercase;">Priority</label>
-                            <div><span class="priority-badge priority-${priorityClass}">${d.priority || 'Medium'}</span></div>
+                        
+                        <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                            <div class="form-group">
+                                <label>Due Date</label>
+                                <input type="date" id="gantt-edit-due-date" value="${d.due_date || ''}" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px;">
+                            </div>
+                            <div class="form-group">
+                                <label>Priority</label>
+                                <select id="gantt-edit-priority" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px;">
+                                    <option value="Low" ${d.priority === 'Low' ? 'selected' : ''}>Low</option>
+                                    <option value="Medium" ${d.priority === 'Medium' ? 'selected' : ''}>Medium</option>
+                                    <option value="High" ${d.priority === 'High' ? 'selected' : ''}>High</option>
+                                    <option value="Critical" ${d.priority === 'Critical' ? 'selected' : ''}>Critical</option>
+                                </select>
+                            </div>
                         </div>
-                        <div>
-                            <label style="font-size: 11px; color: #666; text-transform: uppercase;">Category</label>
-                            <div>${d.category || '-'}</div>
+                        
+                        <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                            <div class="form-group">
+                                <label>Category</label>
+                                <input type="text" id="gantt-edit-category" value="${d.category || ''}" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px;">
+                            </div>
+                            <div class="form-group">
+                                <label>Project</label>
+                                <input type="text" id="gantt-edit-project" value="${d.project || ''}" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px;">
+                            </div>
                         </div>
-                        <div>
-                            <label style="font-size: 11px; color: #666; text-transform: uppercase;">Project</label>
-                            <div>${d.project || '-'}</div>
+                        
+                        <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                            <div class="form-group">
+                                <label>Stakeholder</label>
+                                <input type="text" id="gantt-edit-stakeholder" value="${d.stakeholder || ''}" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px;">
+                            </div>
+                            <div class="form-group">
+                                <label>Assigned To</label>
+                                <input type="text" id="gantt-edit-assigned" value="${d.assigned || ''}" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px;">
+                            </div>
                         </div>
-                        <div>
-                            <label style="font-size: 11px; color: #666; text-transform: uppercase;">Stakeholder</label>
-                            <div>${d.stakeholder || '-'}</div>
+                        
+                        <div style="display: flex; gap: 12px; margin-top: 20px; padding-top: 16px; border-top: 1px solid #eee;">
+                            <button type="submit" style="background: linear-gradient(135deg, #9945FF, #FF6B9D); color: white; border: none; padding: 12px 24px; border-radius: 20px; font-size: 14px; font-weight: 600; cursor: pointer; flex: 1;">💾 Save Changes</button>
+                            <button type="button" onclick="markGanttComplete(${index})" style="background: linear-gradient(135deg, #10b981, #059669); color: white; border: none; padding: 12px 24px; border-radius: 20px; font-size: 14px; font-weight: 600; cursor: pointer;">✅ Complete</button>
+                            <button type="button" onclick="deleteGanttDeliverable(${index})" style="background: #fee2e2; color: #991b1b; border: none; padding: 12px 24px; border-radius: 20px; font-size: 14px; font-weight: 600; cursor: pointer;">🗑️</button>
                         </div>
-                        <div>
-                            <label style="font-size: 11px; color: #666; text-transform: uppercase;">Assigned To</label>
-                            <div>${d.assigned || '-'}</div>
-                        </div>
-                    </div>
-                    
-                    <div style="display: flex; gap: 12px; margin-top: 20px; padding-top: 16px; border-top: 1px solid #eee;">
-                        <button onclick="markGanttComplete(${index})" style="background: linear-gradient(135deg, #10b981, #059669); color: white; border: none; padding: 12px 24px; border-radius: 20px; font-size: 14px; font-weight: 600; cursor: pointer; flex: 1;">✅ Mark Complete</button>
-                        <button onclick="deleteGanttDeliverable(${index})" style="background: #fee2e2; color: #991b1b; border: none; padding: 12px 24px; border-radius: 20px; font-size: 14px; font-weight: 600; cursor: pointer;">🗑️ Delete</button>
-                    </div>
+                    </form>
                 </div>
             `;
             
             container.insertAdjacentHTML('afterbegin', html);
+        }
+        
+        function saveGanttEdit(e, index) {
+            e.preventDefault();
+            
+            const deliverables = loadGanttDeliverables();
+            deliverables[index] = {
+                ...deliverables[index],
+                name: document.getElementById('gantt-edit-name').value,
+                due_date: document.getElementById('gantt-edit-due-date').value,
+                priority: document.getElementById('gantt-edit-priority').value,
+                category: document.getElementById('gantt-edit-category').value,
+                project: document.getElementById('gantt-edit-project').value,
+                stakeholder: document.getElementById('gantt-edit-stakeholder').value,
+                assigned: document.getElementById('gantt-edit-assigned').value
+            };
+            
+            saveGanttDeliverables(deliverables);
+            closeGanttDetail();
+            renderGanttChart();
         }
         
         function closeGanttDetail() {
@@ -2432,30 +2471,41 @@
             renderGanttChart();
         }
         
-        // Drag and drop handlers
+        // Drag and drop handlers - FIXED to persist order
         function dragGanttRow(e, index) {
             draggedGanttIndex = index;
             e.dataTransfer.effectAllowed = 'move';
-            e.target.style.opacity = '0.5';
+            e.dataTransfer.setData('text/plain', index);
+            const row = e.target.closest('.deliverables-gantt-row');
+            if (row) row.style.opacity = '0.5';
         }
         
         function dropGanttRow(e, targetIndex) {
             e.preventDefault();
-            e.target.style.opacity = '1';
             
-            if (draggedGanttIndex === null || draggedGanttIndex === targetIndex) return;
+            const row = e.target.closest('.deliverables-gantt-row');
+            if (row) row.style.opacity = '1';
             
+            if (draggedGanttIndex === null || draggedGanttIndex === targetIndex) {
+                draggedGanttIndex = null;
+                return;
+            }
+            
+            // Reorder in localStorage
             const deliverables = loadGanttDeliverables();
             const [removed] = deliverables.splice(draggedGanttIndex, 1);
             deliverables.splice(targetIndex, 0, removed);
             saveGanttDeliverables(deliverables);
             
             draggedGanttIndex = null;
+            
+            // Re-render
             renderGanttChart();
         }
         
         function dragGanttEnd(e) {
-            e.target.style.opacity = '1';
+            const row = e.target.closest('.deliverables-gantt-row');
+            if (row) row.style.opacity = '1';
             draggedGanttIndex = null;
         }
         
