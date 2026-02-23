@@ -2112,6 +2112,7 @@
         }
         
         // Render Gantt Chart
+        // Render Gantt Chart - COMPLETE REWRITE
         function renderGanttChart() {
             const container = document.getElementById('gantt-chart-container');
             
@@ -2123,7 +2124,6 @@
                 workData.projects.forEach(project => {
                     if (project.deliverables && project.deliverables.length > 0) {
                         project.deliverables.forEach(d => {
-                            // Only add if not already in ganttDeliverables
                             if (!ganttDeliverables.find(gd => gd.name === d.name && gd.source === 'project')) {
                                 ganttDeliverables.push({
                                     ...d,
@@ -2138,12 +2138,9 @@
             }
             
             if (ganttDeliverables.length === 0) {
-                container.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📈</div><p>No deliverables yet. Add deliverables to your projects to see them here.</p></div>';
+                container.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📈</div><p>No deliverables yet.</p></div>';
                 return;
             }
-            
-            // Filter and sort
-            let filtered = [...ganttDeliverables];
             
             // Check if showing completed
             if (currentGanttFilter === 'completed') {
@@ -2152,23 +2149,46 @@
                 return;
             }
             
-            // Apply filter
+            // Filter and group
+            let filtered = [...ganttDeliverables];
+            let groups = {};
+            
             if (currentGanttFilter === 'priority') {
-                const priorityOrder = { 'P0': 0, 'P1': 1, 'P2': 2, 'P3': 3 };
+                const priorityOrder = { 'Critical': 0, 'High': 1, 'Medium': 2, 'Low': 3 };
                 filtered.sort((a, b) => (priorityOrder[a.priority] || 2) - (priorityOrder[b.priority] || 2));
+                filtered.forEach(d => {
+                    const key = d.priority || 'Medium';
+                    if (!groups[key]) groups[key] = [];
+                    groups[key].push(d);
+                });
             } else if (currentGanttFilter === 'category') {
                 filtered.sort((a, b) => (a.category || '').localeCompare(b.category || ''));
+                filtered.forEach(d => {
+                    const key = d.category || 'Uncategorized';
+                    if (!groups[key]) groups[key] = [];
+                    groups[key].push(d);
+                });
             } else if (currentGanttFilter === 'stakeholder') {
                 filtered.sort((a, b) => (a.stakeholder || '').localeCompare(b.stakeholder || ''));
+                filtered.forEach(d => {
+                    const key = d.stakeholder || 'Unassigned';
+                    if (!groups[key]) groups[key] = [];
+                    groups[key].push(d);
+                });
             } else if (currentGanttFilter === 'project') {
-                filtered.sort((a, b) => (a.projectName || '').localeCompare(b.projectName || ''));
+                filtered.sort((a, b) => (a.project || a.projectName || '').localeCompare(b.project || b.projectName || ''));
+                filtered.forEach(d => {
+                    const key = d.project || d.projectName || 'No Project';
+                    if (!groups[key]) groups[key] = [];
+                    groups[key].push(d);
+                });
             } else {
-                // Default: sort by due date
                 filtered.sort((a, b) => {
                     if (!a.due_date) return 1;
                     if (!b.due_date) return -1;
                     return new Date(a.due_date) - new Date(b.due_date);
                 });
+                groups['All'] = filtered;
             }
             
             // Generate date columns (next 14 days)
@@ -2182,53 +2202,75 @@
             }
             
             // Build HTML
-            let html = '<div class="deliverables-gantt-container" style="border: 1px solid #e5e7eb; border-radius: 8px; overflow: hidden;">';
+            let html = '<div class="deliverables-gantt-container" style="border: 1px solid #e5e7eb; border-radius: 8px; overflow: auto;">';
             
             // Header
-            html += '<div class="deliverables-gantt-header" style="display: flex; background: linear-gradient(135deg, #9945FF, #FF6B9D); color: white;">';
-            html += '<div style="flex: 0 0 200px; padding: 12px; font-weight: 600; font-size: 12px; border-right: 1px solid rgba(255,255,255,0.2);">Deliverable</div>';
-            dates.forEach((d, i) => {
+            html += '<div style="display: flex; background: linear-gradient(135deg, #9945FF, #FF6B9D); color: white; position: sticky; top: 0; z-index: 10;">';
+            const yLabel = currentGanttFilter === 'all' ? 'Deliverable' : currentGanttFilter.charAt(0).toUpperCase() + currentGanttFilter.slice(1);
+            html += `<div style="flex: 0 0 180px; padding: 12px; font-weight: 600; font-size: 12px; border-right: 1px solid rgba(255,255,255,0.2);">${yLabel}</div>`;
+            dates.forEach(d => {
                 const date = new Date(d);
                 html += `<div style="flex: 1; padding: 12px; text-align: center; font-size: 11px; border-right: 1px solid rgba(255,255,255,0.2); min-width: 60px;">${date.getDate()}/${date.getMonth()+1}</div>`;
             });
             html += '</div>';
             
-            // Rows
-            filtered.forEach((d, idx) => {
-                const dueDate = d.due_date;
-                const statusClass = d.status ? d.status.toLowerCase().replace(' ', '-') : 'not-started';
-                const priorityClass = (d.priority || 'medium').toLowerCase();
+            // Group headers and rows
+            Object.keys(groups).forEach(groupKey => {
+                const groupItems = groups[groupKey];
+                if (groupItems.length === 0) return;
                 
-                html += `<div class="deliverables-gantt-row" draggable="true" ondragstart="dragGanttRow(event, ${idx})" ondragend="dragGanttEnd(event)" ondragover="allowGanttDrop(event)" ondrop="dropGanttRow(event, ${idx})" onclick="showGanttDetail(${idx})" style="cursor: grab; display: flex; border-bottom: 1px solid #e5e7eb; min-height: 50px;">`;
+                // Group header
+                if (currentGanttFilter !== 'all') {
+                    html += `<div style="background: #f0f0f5; padding: 8px 12px; font-weight: 600; font-size: 13px; border-bottom: 1px solid #e5e7eb;">${groupKey} (${groupItems.length})</div>`;
+                }
                 
-                // Name cell
-                html += `<div style="flex: 0 0 200px; padding: 12px; border-right: 1px solid #e5e7eb; background: #f9fafb;">`;
-                html += `<div style="font-weight: 600; font-size: 13px; margin-bottom: 4px;">${d.name}</div>`;
-                html += `<div style="font-size: 11px; color: #666;">${d.project || '-'}</div>`;
-                html += `<div style="font-size: 10px; margin-top: 4px;"><span class="priority-badge priority-${priorityClass}">${d.priority || 'Medium'}</span></div>`;
-                html += '</div>';
-                
-                // Date cells
-                dates.forEach(dateStr => {
-                    const isDue = dueDate === dateStr;
-                    const isPast = dueDate && dueDate < dateStr && dateStr < dates[0];
-                    let cellStyle = 'flex: 1; padding: 4px; border-right: 1px solid #f3f4f6; ';
-                    if (isDue) cellStyle += 'background: #fef3c7;';
-                    else if (isPast) cellStyle += 'background: #fee2e2;';
+                // Items
+                groupItems.forEach(d => {
+                    const actualIndex = ganttDeliverables.findIndex(gd => gd.id === d.id);
+                    const dueDate = d.due_date;
+                    const priorityClass = (d.priority || 'medium').toLowerCase();
                     
-                    html += `<div style="${cellStyle}">`;
-                    if (isDue) {
-                        html += `<div style="background: linear-gradient(135deg, #9945FF, #FF6B9D); color: white; padding: 4px 8px; border-radius: 4px; font-size: 10px; font-weight: 600; text-align: center;">DUE</div>`;
-                    }
+                    html += '<div style="display: flex; border-bottom: 1px solid #e5e7eb; min-height: 50px; background: white;">';
+                    
+                    // Name cell - draggable
+                    html += `<div draggable="true" ondragstart="dragGanttRow(event, ${actualIndex})" ondragend="dragGanttEnd(event)" style="flex: 0 0 180px; padding: 10px; border-right: 1px solid #e5e7eb; background: #f9fafb; cursor: grab;">`;
+                    html += `<div style="font-weight: 600; font-size: 13px;">${d.name}</div>`;
+                    html += `<div style="font-size: 11px; color: #666;">${d.project || '-'}</div>`;
+                    html += `<div style="font-size: 10px; margin-top: 4px;"><span class="priority-badge priority-${priorityClass}">${d.priority || 'Medium'}</span></div>`;
+                    html += '</div>';
+                    
+                    // Date cells - drop targets
+                    dates.forEach(dateStr => {
+                        const isDue = dueDate === dateStr;
+                        let cellStyle = 'flex: 1; padding: 4px; border-right: 1px solid #f3f4f4; ';
+                        if (isDue) cellStyle += 'background: #fef3c7;';
+                        
+                        html += `<div ondragover="allowGanttDrop(event)" ondrop="dropGanttOnDate(event, ${actualIndex}, '${dateStr}')" style="${cellStyle}" onclick="showGanttDetail(${actualIndex})">`;
+                        if (isDue) {
+                            html += '<div style="background: linear-gradient(135deg, #9945FF, #FF6B9D); color: white; padding: 4px 8px; border-radius: 4px; font-size: 10px; font-weight: 600; text-align: center;">DUE</div>';
+                        }
+                        html += '</div>';
+                    });
+                    
                     html += '</div>';
                 });
-                
-                html += '</div>';
             });
             
             html += '</div>';
             container.innerHTML = html;
         }
+        
+        // Drop on date to change due date
+        function dropGanttOnDate(e, index, newDate) {
+            e.preventDefault();
+            const deliverables = loadGanttDeliverables();
+            if (deliverables[index]) {
+                deliverables[index].due_date = newDate;
+                saveGanttDeliverables(deliverables);
+                renderGanttChart();
+            }
+        }
+
         
         // Render completed deliverables
         function renderCompletedGantt(completed) {
