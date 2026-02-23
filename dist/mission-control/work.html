@@ -1596,6 +1596,73 @@
             </div>
         </div>
         
+        <!-- Gantt Deliverable Modal (Standalone) -->
+        <div id="gantt-deliverable-modal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>📈 Add Gantt Deliverable</h3>
+                    <button class="modal-close" onclick="closeGanttDeliverableModal()">×</button>
+                </div>
+                <form id="gantt-del-form" onsubmit="submitGanttDeliverable(event)">
+                    <div class="form-group">
+                        <label>Deliverable Name *</label>
+                        <input type="text" id="gantt-del-name" required placeholder="Enter deliverable name">
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Due Date *</label>
+                            <input type="date" id="gantt-del-due-date" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Priority</label>
+                            <select id="gantt-del-priority">
+                                <option value="Low">Low</option>
+                                <option value="Medium" selected>Medium</option>
+                                <option value="High">High</option>
+                                <option value="Critical">Critical</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Category</label>
+                            <select id="gantt-del-category">
+                                <option value="">Select...</option>
+                                <option value="Development">Development</option>
+                                <option value="Marketing">Marketing</option>
+                                <option value="Finance">Finance</option>
+                                <option value="Operations">Operations</option>
+                                <option value="Legal">Legal</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Project</label>
+                            <input type="text" id="gantt-del-project" placeholder="Project name">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Stakeholder</label>
+                            <input type="text" id="gantt-del-stakeholder" placeholder="Who is this for?">
+                        </div>
+                        <div class="form-group">
+                            <label>Assigned To</label>
+                            <input type="text" id="gantt-del-assigned" placeholder="Who's working on it?">
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary" onclick="closeGanttDeliverableModal()">Cancel</button>
+                        <button type="submit" class="btn-primary">Add Deliverable</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
         <!-- RECURRING TAB -->
         <div id="recurring" class="tab-content">
             <div class="card">
@@ -2047,17 +2114,23 @@
         function renderGanttChart() {
             const container = document.getElementById('gantt-chart-container');
             
-            // Collect all deliverables from all projects
-            ganttDeliverables = [];
+            // Load standalone deliverables from localStorage
+            ganttDeliverables = loadGanttDeliverables();
+            
+            // Also collect deliverables from projects if workData is loaded
             if (workData && workData.projects) {
                 workData.projects.forEach(project => {
                     if (project.deliverables && project.deliverables.length > 0) {
                         project.deliverables.forEach(d => {
-                            ganttDeliverables.push({
-                                ...d,
-                                projectName: project.name,
-                                projectId: project.id
-                            });
+                            // Only add if not already in ganttDeliverables
+                            if (!ganttDeliverables.find(gd => gd.name === d.name && gd.source === 'project')) {
+                                ganttDeliverables.push({
+                                    ...d,
+                                    projectName: project.name,
+                                    projectId: project.id,
+                                    source: 'project'
+                                });
+                            }
                         });
                     }
                 });
@@ -2156,9 +2229,50 @@
             renderGanttChart();
         }
         
-        // Show Gantt Deliverable Modal
+        // Show Gantt Deliverable Modal - Add directly without linking to project
         function showGanttDeliverableModal() {
-            alert('To add deliverables, please go to the Projects tab and add them there. They will appear in the Gantt Chart.');
+            document.getElementById('gantt-deliverable-modal').style.display = 'flex';
+            document.getElementById('gantt-del-form').reset();
+            
+            // Set default due date to today + 7 days
+            const defaultDue = new Date();
+            defaultDue.setDate(defaultDue.getDate() + 7);
+            document.getElementById('gantt-del-due-date').value = defaultDue.toISOString().split('T')[0];
+        }
+        
+        function closeGanttDeliverableModal() {
+            document.getElementById('gantt-deliverable-modal').style.display = 'none';
+        }
+        
+        function submitGanttDeliverable(e) {
+            e.preventDefault();
+            
+            const newDel = {
+                id: 'local_' + Date.now(),
+                name: document.getElementById('gantt-del-name').value,
+                due_date: document.getElementById('gantt-del-due-date').value,
+                category: document.getElementById('gantt-del-category').value,
+                priority: document.getElementById('gantt-del-priority').value,
+                project: document.getElementById('gantt-del-project').value,
+                stakeholder: document.getElementById('gantt-del-stakeholder').value,
+                assigned: document.getElementById('gantt-del-assigned').value,
+                status: 'Not Started',
+                progress: 0,
+                source: 'gantt'
+            };
+            
+            // Save to localStorage
+            const saved = JSON.parse(localStorage.getItem('gantt_deliverables') || '[]');
+            saved.push(newDel);
+            localStorage.setItem('gantt_deliverables', JSON.stringify(saved));
+            
+            closeGanttDeliverableModal();
+            renderGanttChart();
+        }
+        
+        // Load gantt deliverables from localStorage
+        function loadGanttDeliverables() {
+            return JSON.parse(localStorage.getItem('gantt_deliverables') || '[]');
         }
         
         // Generate Deliverables Date GANTT
