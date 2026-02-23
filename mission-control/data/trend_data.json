@@ -1,162 +1,671 @@
 {
-  "generated_at": "2026-02-22T17:38:11.173412",
-  "nutrition": [
-    {
-      "date": "2026-02-16",
-      "calories": 2480,
-      "protein": 83
+  "generated_at": "2026-02-24T00:10:39.702386",
+  "nutrition": {
+    "meals": [
+      {
+        "date": "2026-02-23",
+        "meal_type": "dinner",
+        "description": "Chicken salad",
+        "calories": 450
+      },
+      {
+        "date": "2026-02-23",
+        "meal_type": "dinner",
+        "description": "3 quarters meat pizza, 2 garlic dough balls, triple chocolate cookie",
+        "calories": 0
+      },
+      {
+        "date": "2026-02-23",
+        "meal_type": "snack",
+        "description": "31g protein powder",
+        "calories": 0
+      },
+      {
+        "date": "2026-02-22",
+        "meal_type": "breakfast",
+        "description": "Test migration",
+        "calories": 500
+      },
+      {
+        "date": "2026-02-22",
+        "meal_type": "breakfast",
+        "description": "toast and ham",
+        "calories": 400
+      },
+      {
+        "date": "2026-02-22",
+        "meal_type": "snack",
+        "description": "Apple, 2 dates",
+        "calories": 150
+      },
+      {
+        "date": "2026-02-22",
+        "meal_type": "lunch",
+        "description": "Sandwich, Greek yoghurt, protein shake",
+        "calories": 600
+      },
+      {
+        "date": "2026-02-20",
+        "meal_type": "breakfast",
+        "description": "12 cubes Dairy Milk chocolate",
+        "calories": 240
+      },
+      {
+        "date": "2026-02-20",
+        "meal_type": "breakfast",
+        "description": "12 cubes Dairy Milk chocolate",
+        "calories": 240
+      },
+      {
+        "date": "2026-02-20",
+        "meal_type": "breakfast",
+        "description": "Half sourdough slice + 2 egg omelette",
+        "calories": 350
+      },
+      {
+        "date": "2026-02-20",
+        "meal_type": "lunch",
+        "description": "Small slice pizza",
+        "calories": 280
+      },
+      {
+        "date": "2026-02-20",
+        "meal_type": "lunch",
+        "description": "Truffle fettuccine (small portion)",
+        "calories": 420
+      },
+      {
+        "date": "2026-02-20",
+        "meal_type": "dinner",
+        "description": "Small butter chicken + pita",
+        "calories": 450
+      },
+      {
+        "date": "2026-02-20",
+        "meal_type": "snack",
+        "description": "Green Apple",
+        "calories": 52
+      },
+      {
+        "date": "2026-02-20",
+        "meal_type": "snack",
+        "description": "Green Apple",
+        "calories": 52
+      },
+      {
+        "date": "2026-02-20",
+        "meal_type": "snack",
+        "description": "Dairy Milk Chocolate (6 cubes)",
+        "calories": 120
+      },
+      {
+        "date": "2026-02-20",
+        "meal_type": "snack",
+        "description": "Latte + Cafe au lait",
+        "calories": 180
+      },
+      {
+        "date": "2026-02-20",
+        "meal_type": "snack",
+        "description": "Vanilla ice cream (2 scoops)",
+        "calories": 280
+      },
+      {
+        "date": "2026-02-19",
+        "meal_type": "breakfast",
+        "description": "Two pieces multigrain toast with Lurpak and ham, cafe au lai...",
+        "calories": 450
+      },
+      {
+        "date": "2026-02-19",
+        "meal_type": "lunch",
+        "description": "Medium portion rice with Thai green curry",
+        "calories": 550
+      },
+      {
+        "date": "2026-02-19",
+        "meal_type": "snack",
+        "description": "220g raspberry Greek yogurt",
+        "calories": 180
+      },
+      {
+        "date": "2026-02-19",
+        "meal_type": "snack",
+        "description": "3 dates",
+        "calories": 70
+      },
+      {
+        "date": "2026-02-19",
+        "meal_type": "snack",
+        "description": "10 cubes Dairy Milk chocolate",
+        "calories": 200
+      },
+      {
+        "date": "2026-02-19",
+        "meal_type": "snack",
+        "description": "8 cubes Dairy Milk chocolate",
+        "calories": 160
+      },
+      {
+        "date": "2026-02-19",
+        "meal_type": "snack",
+        "description": "7 cubes Dairy Milk chocolate",
+        "calories": 140
+      },
+      {
+        "date": "2026-02-18",
+        "meal_type": "breakfast",
+        "description": "Test migration",
+        "calories": 500
+      },
+      {
+        "date": "2026-02-18",
+        "meal_type": "breakfast",
+        "description": "Test remote write",
+        "calories": 400
+      },
+      {
+        "date": "2026-02-18",
+        "meal_type": "breakfast",
+        "description": "2-egg omelette with cheese",
+        "calories": 450
+      },
+      {
+        "date": "2026-02-18",
+        "meal_type": "lunch",
+        "description": "Cappuccino and chicken pesto avocado tortilla wrap",
+        "calories": 500
+      },
+      {
+        "date": "2026-02-18",
+        "meal_type": "dinner",
+        "description": "Buffet dinner: Arabic meat, hummus, Arabic bread, butter naa...",
+        "calories": 1200
+      },
+      {
+        "date": "2026-02-18",
+        "meal_type": "snack",
+        "description": "3 small dates, cafe au lait, protein shake (31g protein + cr...",
+        "calories": 250
+      },
+      {
+        "date": "2026-02-17",
+        "meal_type": "breakfast",
+        "description": "Two pieces multigrain toast with Lurpak and ham, cafe au lai...",
+        "calories": 450
+      },
+      {
+        "date": "2026-02-17",
+        "meal_type": "lunch",
+        "description": "Chicken, avocado and pesto tortilla with cappuccino",
+        "calories": 250
+      },
+      {
+        "date": "2026-02-17",
+        "meal_type": "snack",
+        "description": "Red apple",
+        "calories": 95
+      },
+      {
+        "date": "2026-02-16",
+        "meal_type": "breakfast",
+        "description": "One glass of water, three egg omelette with cheese, two piec...",
+        "calories": 650
+      },
+      {
+        "date": "2026-02-16",
+        "meal_type": "lunch",
+        "description": "Lamb biryani (estimated)",
+        "calories": 650
+      },
+      {
+        "date": "2026-02-16",
+        "meal_type": "dinner",
+        "description": "Chicken tikka masala with mixed veg rice (700 cal portion)",
+        "calories": 700
+      },
+      {
+        "date": "2026-02-16",
+        "meal_type": "snack",
+        "description": "Red apple + 3 dates",
+        "calories": 150
+      },
+      {
+        "date": "2026-02-16",
+        "meal_type": "snack",
+        "description": "Mixed nuts",
+        "calories": 180
+      },
+      {
+        "date": "2026-02-16",
+        "meal_type": "snack",
+        "description": "8 cubes Dairy Milk chocolate",
+        "calories": 150
+      },
+      {
+        "date": "2026-02-15",
+        "meal_type": "breakfast",
+        "description": "Flat white coffee, 2-egg omelette with cheese and onion, 1/2...",
+        "calories": 740
+      },
+      {
+        "date": "2026-02-15",
+        "meal_type": "lunch",
+        "description": "Latte, 3 small pizza slices (2 BBQ chicken, 1 margherita)",
+        "calories": 850
+      },
+      {
+        "date": "2026-02-15",
+        "meal_type": "dinner",
+        "description": "Beef flank steak with chimichurri sauce, sweet potato fries,...",
+        "calories": 950
+      },
+      {
+        "date": "2026-02-15",
+        "meal_type": "snack",
+        "description": "Green apple, half small tiramisu",
+        "calories": 280
+      },
+      {
+        "date": "2026-02-15",
+        "meal_type": "snack",
+        "description": "15 cubes Dairy Milk chocolate (birthday treat!), 1/2 portion...",
+        "calories": 450
+      },
+      {
+        "date": "2026-02-13",
+        "meal_type": "breakfast",
+        "description": "2 cafe au laits, half slice sourdough bread, 2 egg omelette ...",
+        "calories": 730
+      },
+      {
+        "date": "2026-02-13",
+        "meal_type": "lunch",
+        "description": "Turkey and cheese croissant, cookies and cream protein bar",
+        "calories": 620
+      },
+      {
+        "date": "2026-02-13",
+        "meal_type": "dinner",
+        "description": "Tawouk, shish, hummus, patatas, pita, small slice chocolate ...",
+        "calories": 950
+      },
+      {
+        "date": "2026-02-13",
+        "meal_type": "snack",
+        "description": "banana, 3 small dates, green apple",
+        "calories": 210
+      },
+      {
+        "date": "2026-02-13",
+        "meal_type": "snack",
+        "description": "1 bottle beer, 2 small glasses white wine",
+        "calories": 350
+      },
+      {
+        "date": "2026-02-12",
+        "meal_type": "breakfast",
+        "description": "2 multigrain bread with lurpak butter and ham, cafe au lait",
+        "calories": 340
+      },
+      {
+        "date": "2026-02-12",
+        "meal_type": "lunch",
+        "description": "Chicken avocado and pesto tortilla, cappuccino",
+        "calories": 520
+      },
+      {
+        "date": "2026-02-12",
+        "meal_type": "dinner",
+        "description": "Spaghetti bolognese",
+        "calories": 650
+      },
+      {
+        "date": "2026-02-12",
+        "meal_type": "snack",
+        "description": "2 dates",
+        "calories": 132.96
+      },
+      {
+        "date": "2026-02-12",
+        "meal_type": "snack",
+        "description": "banana, red apple, 1 glass water",
+        "calories": 200.25
+      },
+      {
+        "date": "2026-02-12",
+        "meal_type": "snack",
+        "description": "31g protein powder (with water)",
+        "calories": 120
+      },
+      {
+        "date": "2026-02-11",
+        "meal_type": "breakfast",
+        "description": "3 eggs, protein bread, Lurpak, coffee",
+        "calories": 480
+      },
+      {
+        "date": "2026-02-11",
+        "meal_type": "lunch",
+        "description": "Tawouk, shish, hummus, patatas, pita",
+        "calories": 750
+      },
+      {
+        "date": "2026-02-11",
+        "meal_type": "snack",
+        "description": "Smoothie: pineapple, 2 bananas, apple, coconut water, flaxse...",
+        "calories": 420
+      },
+      {
+        "date": "2026-02-11",
+        "meal_type": "snack",
+        "description": "Protein shake with creatine 5g",
+        "calories": 150
+      },
+      {
+        "date": "2026-02-10",
+        "meal_type": "breakfast",
+        "description": "3 eggs, protein bread, butter, coffee",
+        "calories": 450
+      },
+      {
+        "date": "2026-02-10",
+        "meal_type": "lunch",
+        "description": "Grilled chicken wrap, salad",
+        "calories": 480
+      },
+      {
+        "date": "2026-02-10",
+        "meal_type": "dinner",
+        "description": "Pasta with meatballs, parmesan",
+        "calories": 620
+      },
+      {
+        "date": "2026-02-09",
+        "meal_type": "breakfast",
+        "description": "3 eggs, protein bread, butter, coffee",
+        "calories": 450
+      },
+      {
+        "date": "2026-02-09",
+        "meal_type": "lunch",
+        "description": "Steak, mashed potatoes, green beans",
+        "calories": 650
+      },
+      {
+        "date": "2026-02-09",
+        "meal_type": "dinner",
+        "description": "Greek yogurt, nuts, honey",
+        "calories": 320
+      },
+      {
+        "date": "2026-02-08",
+        "meal_type": "breakfast",
+        "description": "3 eggs, protein bread, butter, coffee",
+        "calories": 450
+      },
+      {
+        "date": "2026-02-08",
+        "meal_type": "lunch",
+        "description": "Chicken breast, rice, vegetables",
+        "calories": 550
+      },
+      {
+        "date": "2026-02-08",
+        "meal_type": "dinner",
+        "description": "Salmon, sweet potato, broccoli",
+        "calories": 480
+      }
+    ],
+    "daily_totals": {
+      "2026-02-23": 450,
+      "2026-02-22": 1650,
+      "2026-02-20": 2664,
+      "2026-02-19": 1750,
+      "2026-02-18": 3300,
+      "2026-02-17": 795,
+      "2026-02-16": 2480,
+      "2026-02-15": 3270,
+      "2026-02-13": 2860,
+      "2026-02-12": 1963.21,
+      "2026-02-11": 1800,
+      "2026-02-10": 1550,
+      "2026-02-09": 1420,
+      "2026-02-08": 1480
     },
-    {
-      "date": "2026-02-17",
-      "calories": 795,
-      "protein": 30
-    },
-    {
-      "date": "2026-02-18",
-      "calories": 2400,
-      "protein": 59
-    },
-    {
-      "date": "2026-02-19",
-      "calories": 1750,
-      "protein": 0
-    },
-    {
-      "date": "2026-02-20",
-      "calories": 2664,
-      "protein": 83.1
-    },
-    {
-      "date": "2026-02-21",
-      "calories": 0,
-      "protein": 0
-    },
-    {
-      "date": "2026-02-22",
-      "calories": 0,
-      "protein": 0
+    "avg_daily_cals": 1959.4435714285714
+  },
+  "exercise": {
+    "workouts": [
+      {
+        "date": "2026-02-22",
+        "type": "Swimming",
+        "strain": 9.7,
+        "duration": 23
+      },
+      {
+        "date": "2026-02-22",
+        "type": "Swimming",
+        "strain": 9.7,
+        "duration": 23
+      },
+      {
+        "date": "2026-02-18",
+        "type": "Unknown",
+        "strain": 11.6,
+        "duration": 33
+      },
+      {
+        "date": "2026-02-16",
+        "type": "Hard",
+        "strain": 8.1,
+        "duration": 29
+      },
+      {
+        "date": "2026-02-15",
+        "type": "Active Recovery",
+        "strain": 9.5,
+        "duration": 23.1
+      },
+      {
+        "date": "2026-02-14",
+        "type": "Unknown",
+        "strain": 13.8,
+        "duration": 33.1
+      },
+      {
+        "date": "2026-02-12",
+        "type": "Active Recovery",
+        "strain": 10.6,
+        "duration": 19.55
+      },
+      {
+        "date": "2026-02-11",
+        "type": "Hard",
+        "strain": 12,
+        "duration": 33.01
+      },
+      {
+        "date": "2026-02-10",
+        "type": "Hard",
+        "strain": 7.9,
+        "duration": 26.32
+      },
+      {
+        "date": "2026-02-09",
+        "type": "Unknown",
+        "strain": 12.9,
+        "duration": 0
+      },
+      {
+        "date": "2026-02-09",
+        "type": "Active Recovery",
+        "strain": 10.9,
+        "duration": 30.5
+      },
+      {
+        "date": "2026-02-08",
+        "type": "Unknown",
+        "strain": 14.5,
+        "duration": 0
+      },
+      {
+        "date": "2026-02-07",
+        "type": "Unknown",
+        "strain": 11.8,
+        "duration": 0
+      },
+      {
+        "date": "2026-02-07",
+        "type": "Hard",
+        "strain": 9.5,
+        "duration": 30
+      },
+      {
+        "date": "2026-02-06",
+        "type": "Unknown",
+        "strain": 13.7,
+        "duration": 0
+      },
+      {
+        "date": "2026-02-06",
+        "type": "Hard",
+        "strain": 13.4,
+        "duration": 27.1
+      },
+      {
+        "date": "2026-02-06",
+        "type": "Active Recovery",
+        "strain": 10.1,
+        "duration": 23.4
+      },
+      {
+        "date": "2026-02-05",
+        "type": "Unknown",
+        "strain": 17.1,
+        "duration": 0
+      },
+      {
+        "date": "2026-02-04",
+        "type": "Unknown",
+        "strain": 12.2,
+        "duration": 0
+      },
+      {
+        "date": "2026-02-04",
+        "type": "Active Recovery",
+        "strain": 6.3,
+        "duration": 13.5
+      },
+      {
+        "date": "2026-02-04",
+        "type": "Hard",
+        "strain": 15.3,
+        "duration": 27.53
+      },
+      {
+        "date": "2026-02-03",
+        "type": "Unknown",
+        "strain": 17.8,
+        "duration": 0
+      }
+    ],
+    "total_workouts": 22,
+    "total_minutes": 395.11,
+    "total_strain": 258.4
+  },
+  "habits": {
+    "habit_stats": {
+      "2026-02-23": {
+        "completed": 2,
+        "total": 2,
+        "pct": 100
+      },
+      "2026-02-22": {
+        "completed": 4,
+        "total": 4,
+        "pct": 100
+      },
+      "2026-02-20": {
+        "completed": 3,
+        "total": 3,
+        "pct": 100
+      },
+      "2026-02-19": {
+        "completed": 3,
+        "total": 3,
+        "pct": 100
+      },
+      "2026-02-18": {
+        "completed": 5,
+        "total": 5,
+        "pct": 100
+      },
+      "2026-02-17": {
+        "completed": 4,
+        "total": 4,
+        "pct": 100
+      },
+      "2026-02-16": {
+        "completed": 5,
+        "total": 5,
+        "pct": 100
+      },
+      "2026-02-15": {
+        "completed": 5,
+        "total": 5,
+        "pct": 100
+      },
+      "2026-02-14": {
+        "completed": 3,
+        "total": 4,
+        "pct": 75
+      },
+      "2026-02-13": {
+        "completed": 3,
+        "total": 3,
+        "pct": 100
+      },
+      "2026-02-12": {
+        "completed": 4,
+        "total": 5,
+        "pct": 80
+      },
+      "2026-02-11": {
+        "completed": 3,
+        "total": 5,
+        "pct": 60
+      },
+      "2026-02-10": {
+        "completed": 5,
+        "total": 5,
+        "pct": 100
+      },
+      "2026-02-09": {
+        "completed": 5,
+        "total": 5,
+        "pct": 100
+      },
+      "2026-02-08": {
+        "completed": 2,
+        "total": 2,
+        "pct": 100
+      },
+      "2026-02-07": {
+        "completed": 5,
+        "total": 5,
+        "pct": 100
+      },
+      "2026-02-06": {
+        "completed": 5,
+        "total": 5,
+        "pct": 100
+      },
+      "2026-02-05": {
+        "completed": 4,
+        "total": 4,
+        "pct": 100
+      }
     }
-  ],
-  "productivity": [
-    {
-      "date": "2026-01-24",
-      "completed": 0
-    },
-    {
-      "date": "2026-01-25",
-      "completed": 0
-    },
-    {
-      "date": "2026-01-26",
-      "completed": 0
-    },
-    {
-      "date": "2026-01-27",
-      "completed": 0
-    },
-    {
-      "date": "2026-01-28",
-      "completed": 0
-    },
-    {
-      "date": "2026-01-29",
-      "completed": 0
-    },
-    {
-      "date": "2026-01-30",
-      "completed": 0
-    },
-    {
-      "date": "2026-01-31",
-      "completed": 0
-    },
-    {
-      "date": "2026-02-01",
-      "completed": 0
-    },
-    {
-      "date": "2026-02-02",
-      "completed": 0
-    },
-    {
-      "date": "2026-02-03",
-      "completed": 0
-    },
-    {
-      "date": "2026-02-04",
-      "completed": 0
-    },
-    {
-      "date": "2026-02-05",
-      "completed": 0
-    },
-    {
-      "date": "2026-02-06",
-      "completed": 0
-    },
-    {
-      "date": "2026-02-07",
-      "completed": 0
-    },
-    {
-      "date": "2026-02-08",
-      "completed": 0
-    },
-    {
-      "date": "2026-02-09",
-      "completed": 0
-    },
-    {
-      "date": "2026-02-10",
-      "completed": 11
-    },
-    {
-      "date": "2026-02-11",
-      "completed": 7
-    },
-    {
-      "date": "2026-02-12",
-      "completed": 2
-    },
-    {
-      "date": "2026-02-13",
-      "completed": 0
-    },
-    {
-      "date": "2026-02-14",
-      "completed": 0
-    },
-    {
-      "date": "2026-02-15",
-      "completed": 0
-    },
-    {
-      "date": "2026-02-16",
-      "completed": 1
-    },
-    {
-      "date": "2026-02-17",
-      "completed": 0
-    },
-    {
-      "date": "2026-02-18",
-      "completed": 0
-    },
-    {
-      "date": "2026-02-19",
-      "completed": 0
-    },
-    {
-      "date": "2026-02-20",
-      "completed": 0
-    },
-    {
-      "date": "2026-02-21",
-      "completed": 0
-    },
-    {
-      "date": "2026-02-22",
-      "completed": 0
-    }
-  ]
+  }
 }

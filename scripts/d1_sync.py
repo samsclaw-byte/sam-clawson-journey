@@ -25,7 +25,8 @@ def sync_d1_to_local():
     # Fetch nutrition
     try:
         from datetime import datetime, timedelta
-        dates = [(datetime.now() - timedelta(days=i)).strftime('%Y-%m-%d') for i in range(7)]
+        # Fetch last 30 days (not just 7)
+        dates = [(datetime.now() - timedelta(days=i)).strftime('%Y-%m-%d') for i in range(30)]
         all_meals = []
         for date in dates:
             meals = client.get_nutrition(date)

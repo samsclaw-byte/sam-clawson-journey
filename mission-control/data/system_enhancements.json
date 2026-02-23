@@ -1,49 +1,110 @@
 {
+  "generated_at": "2026-02-24T00:10:40.700819",
   "enhancements": [
     {
+      "id": "reccee470bdda",
+      "name": "Debug Tunneling Infrastructure Issues - Token Pattern Analysis",
+      "status": "Not Started",
+      "priority": "Medium",
+      "category": 1,
+      "due_date": "2026-02-25"
+    },
+    {
+      "id": "recfbe98ac643",
+      "name": "Set up SSH remote access for Termius - install OpenSSH server and configure for remote WiFi access",
+      "status": "Not Started",
+      "priority": "Medium",
+      "category": 1,
+      "due_date": "2026-02-25"
+    },
+    {
+      "id": "rec3ac5cbefe6",
+      "name": "Complete GitHub Pages setup for mobile dashboard",
+      "status": "Not Started",
+      "priority": "Medium",
+      "category": 3,
+      "due_date": "2026-02-27"
+    },
+    {
+      "id": "recf5a8878d91",
       "name": "Set up permanent systemd services for WHOOP webhook and tunnel",
-      "urgency": "\ud83d\udd34 Overdue",
       "status": "Not Started",
-      "days_remaining": -4,
-      "workflow": "\ud83d\udc93 WHOOP Recovery"
+      "priority": "Medium",
+      "category": 7,
+      "due_date": "2026-03-03"
     },
     {
-      "name": "Update TAT database schema - numeric categories + due date formula",
-      "urgency": "\ud83d\udd34 Overdue",
+      "id": "rec28bff3255c",
+      "name": "Fix voice transcription system - install ffmpeg",
       "status": "Not Started",
-      "days_remaining": -4,
-      "workflow": "\ud83d\udccb TAT System"
+      "priority": "Medium",
+      "category": 7,
+      "due_date": "2026-03-03"
     },
     {
-      "name": "Integrate with web search (Brave)",
-      "urgency": "\ud83d\udd34 Overdue",
+      "id": "rec7f42830134",
+      "name": "Complete TAT task Airtable setup with formula fields",
       "status": "Not Started",
-      "days_remaining": -5,
-      "workflow": "\ud83e\udd16 AI Development"
+      "priority": "Medium",
+      "category": 7,
+      "due_date": "2026-03-03"
     },
     {
-      "name": "Run security updates (35 packages pending)",
-      "urgency": "\ud83d\udd34 Overdue",
+      "id": "rec6f5e21824a",
+      "name": "Complete WHOOP workflow",
       "status": "Not Started",
-      "days_remaining": -5,
-      "workflow": "\ud83d\udee1\ufe0f Security Sentinel"
+      "priority": "Medium",
+      "category": 7,
+      "due_date": "2026-03-03"
     },
     {
+      "id": "recb30566827e",
+      "name": "Deploy Cloudflare Worker for TAT task completion from Mission Control",
+      "status": "Not Started",
+      "priority": "Medium",
+      "category": 7,
+      "due_date": "2026-03-03"
+    },
+    {
+      "id": "recd1b6be5d72",
+      "name": "9pm cron final review of day",
+      "status": "Not Started",
+      "priority": "Medium",
+      "category": 7,
+      "due_date": "2026-03-03"
+    },
+    {
+      "id": "rec2bc965b285",
       "name": "Create Cloudflare Worker for GANTT chart due date updates",
-      "urgency": "\ud83d\udfe2 Normal",
       "status": "Not Started",
-      "days_remaining": {
-        "specialValue": "NaN"
-      },
-      "workflow": "\ud83d\udee1\ufe0f Security Sentinel"
+      "priority": "Medium",
+      "category": 7,
+      "due_date": "2026-03-03"
     },
     {
-      "name": "Review cron jobs",
-      "urgency": "\ud83d\udd34 Overdue",
+      "id": "recddb4483153",
+      "name": "Configure MiniMax 2.5 API key in .env file",
       "status": "Not Started",
-      "days_remaining": -5,
-      "workflow": "\ud83c\udf05 Morning Brief"
+      "priority": "Medium",
+      "category": 7,
+      "due_date": "2026-03-03"
+    },
+    {
+      "id": "rec858d08c185",
+      "name": "Review workflows",
+      "status": "Not Started",
+      "priority": "Medium",
+      "category": 7,
+      "due_date": "2026-03-03"
+    },
+    {
+      "id": "rec90d7297f3c",
+      "name": "Review cron jobs",
+      "status": "Not Started",
+      "priority": "Medium",
+      "category": 7,
+      "due_date": "2026-03-03"
     }
   ],
-  "last_updated": "2026-02-22T17:55:52+04:00"
+  "total": 13
 }

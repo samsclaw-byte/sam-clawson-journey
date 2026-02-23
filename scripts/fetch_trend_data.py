@@ -1,103 +1,112 @@
 #!/usr/bin/env python3
-"""Fetch extended trend data for Mission Control Overview page"""
+"""Fetch extended trend data for Mission Control Overview page - D1 Version"""
 
-import requests
 import json
 from datetime import datetime, timedelta
-import urllib.parse
+from pathlib import Path
+import sys
 
-AIRTABLE_KEY = open('/home/samsclaw/.config/airtable/api_key').read().strip()
-HEALTH_BASE = "appnVeGSjwJgG2snS"
-PRODUCTIVITY_BASE = "appvUbV8IeGhxmcPn"
+sys.path.insert(0, str(Path(__file__).parent))
+from d1_client import D1Client
 
 def fetch_nutrition_trends():
-    """Fetch last 7 days of nutrition data"""
-    food_url = f"https://api.airtable.com/v0/{HEALTH_BASE}/Food%20Log"
-    headers = {"Authorization": f"Bearer {AIRTABLE_KEY}"}
+    """Fetch last 30 days of nutrition data from D1"""
+    client = D1Client()
     
-    # Get last 7 days of food
-    seven_days_ago = (datetime.now() - timedelta(days=7)).strftime('%Y-%m-%d')
-    formula = urllib.parse.quote(f"IS_AFTER(Date, '{seven_days_ago}')")
+    dates = [(datetime.now() - timedelta(days=i)).strftime('%Y-%m-%d') for i in range(30)]
     
-    resp = requests.get(f"{food_url}?filterByFormula={formula}&sort[0][field]=Date", 
-                        headers=headers, timeout=30)
+    all_meals = []
+    daily_totals = {}
     
-    nutrition_by_day = {}
-    if resp.status_code == 200:
-        for record in resp.json().get('records', []):
-            fields = record['fields']
-            date = fields.get('Date')
-            if date:
-                if date not in nutrition_by_day:
-                    nutrition_by_day[date] = {'calories': 0, 'protein': 0}
-                nutrition_by_day[date]['calories'] += fields.get('Calories', 0) or 0
-                nutrition_by_day[date]['protein'] += fields.get('Protein (g)', 0) or 0
+    for date in dates:
+        meals = client.get_nutrition(date)
+        day_cals = 0
+        for meal in meals:
+            cals = meal.get('calories') or 0
+            day_cals += cals
+            all_meals.append({
+                'date': date,
+                'meal_type': meal.get('meal_type'),
+                'description': meal.get('description'),
+                'calories': cals
+            })
+        if day_cals > 0:
+            daily_totals[date] = day_cals
     
-    # Fill in missing days with 0
-    result = []
-    for i in range(7):
-        date = (datetime.now() - timedelta(days=6-i)).strftime('%Y-%m-%d')
-        day_data = nutrition_by_day.get(date, {'calories': 0, 'protein': 0})
-        result.append({
-            'date': date,
-            'calories': day_data['calories'],
-            'protein': day_data['protein']
-        })
-    
-    return result
+    return {
+        'meals': all_meals,
+        'daily_totals': daily_totals,
+        'avg_daily_cals': sum(daily_totals.values()) / max(len(daily_totals), 1)
+    }
 
-def fetch_productivity_trends():
-    """Fetch last 30 days of task completion data"""
-    tasks_url = f"https://api.airtable.com/v0/{PRODUCTIVITY_BASE}/tblkbuvkZUSpm1IgJ"
-    headers = {"Authorization": f"Bearer {AIRTABLE_KEY}"}
+def fetch_exercise_trends():
+    """Fetch exercise data from D1"""
+    client = D1Client()
     
-    # Get all tasks
-    resp = requests.get(f"{tasks_url}?sort[0][field]=Date%20Created&sort[0][direction]=desc", 
-                        headers=headers, timeout=30)
+    dates = [(datetime.now() - timedelta(days=i)).strftime('%Y-%m-%d') for i in range(30)]
     
-    completions_by_day = {}
-    if resp.status_code == 200:
-        for record in resp.json().get('records', []):
-            fields = record['fields']
-            # Check if task is complete
-            if fields.get('Status') == 'Complete':
-                # Use Date Created or a completion date field
-                date = fields.get('Date Created', '')[:10] if fields.get('Date Created') else None
-                if date:
-                    completions_by_day[date] = completions_by_day.get(date, 0) + 1
+    workouts = []
+    total_strain = 0
+    total_minutes = 0
     
-    # Fill last 30 days
-    result = []
-    for i in range(30):
-        date = (datetime.now() - timedelta(days=29-i)).strftime('%Y-%m-%d')
-        result.append({
-            'date': date,
-            'completed': completions_by_day.get(date, 0)
-        })
+    for date in dates:
+        exercises = client.get_exercise(date)
+        for ex in exercises:
+            strain = ex.get('strain') or 0
+            duration = ex.get('duration_minutes') or 0
+            workouts.append({
+                'date': date,
+                'type': ex.get('workout_type'),
+                'strain': strain,
+                'duration': duration
+            })
+            total_strain += strain
+            total_minutes += duration
     
-    return result
+    return {
+        'workouts': workouts,
+        'total_workouts': len(workouts),
+        'total_minutes': total_minutes,
+        'total_strain': round(total_strain, 1)
+    }
 
-def main():
-    """Generate extended trend data"""
-    print("Fetching extended trend data...")
+def fetch_habit_trends():
+    """Fetch habit data from D1"""
+    client = D1Client()
+    
+    dates = [(datetime.now() - timedelta(days=i)).strftime('%Y-%m-%d') for i in range(30)]
+    
+    habit_stats = {}
+    for date in dates:
+        habits = client.get_habits(date)
+        completed = sum(1 for h in habits if h.get('completed') == 1)
+        total = len(habits)
+        if total > 0:
+            habit_stats[date] = {'completed': completed, 'total': total, 'pct': round(completed/total*100)}
+    
+    return {'habit_stats': habit_stats}
+
+def fetch_trend_data():
+    """Main function to fetch all trend data"""
+    print("Fetching trend data from D1...")
     
     nutrition = fetch_nutrition_trends()
-    productivity = fetch_productivity_trends()
+    exercise = fetch_exercise_trends()
+    habits = fetch_habit_trends()
     
-    trend_data = {
+    data = {
         'generated_at': datetime.now().isoformat(),
         'nutrition': nutrition,
-        'productivity': productivity
+        'exercise': exercise,
+        'habits': habits
     }
     
-    # Save to file
-    output_path = '/home/samsclaw/.openclaw/workspace/mission-control/data/trend_data.json'
-    with open(output_path, 'w') as f:
-        json.dump(trend_data, f, indent=2)
+    output_file = Path(__file__).parent.parent / "mission-control" / "data" / "trend_data.json"
+    output_file.parent.mkdir(exist_ok=True)
+    output_file.write_text(json.dumps(data, indent=2))
     
-    print(f"✅ Trend data saved to {output_path}")
-    print(f"   - Nutrition: {len(nutrition)} days")
-    print(f"   - Productivity: {len(productivity)} days")
+    print(f"✅ Trend data saved: {len(nutrition.get('meals', []))} meals, {exercise.get('total_workouts', 0)} workouts")
+    return data
 
 if __name__ == "__main__":
-    main()
+    fetch_trend_data()
