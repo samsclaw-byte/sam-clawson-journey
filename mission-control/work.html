@@ -3,2777 +3,501 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mission Control - Work</title>
+    <title>Work - Mission Control</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #f8f9ff 0%, #fff5f8 100%);
-            color: #1a1a2e;
-            min-height: 100vh;
-        }
-        
-        .header {
-            background: linear-gradient(135deg, #9945FF 0%, #FF6B9D 100%);
-            padding: 30px 20px;
-            text-align: center;
-            color: white;
-            box-shadow: 0 4px 20px rgba(153, 69, 255, 0.3);
-        }
-        
-        .header h1 {
-            font-size: 28px;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-        
-        .subtitle {
-            font-size: 14px;
-            opacity: 0.9;
-        }
-        
-        .nav {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            margin: 20px;
-            flex-wrap: wrap;
-        }
-        
-        .nav a {
-            padding: 12px 24px;
-            background: white;
-            border: 1px solid rgba(153, 69, 255, 0.2);
-            border-radius: 25px;
-            color: #9945FF;
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.2s;
-        }
-        
-        .nav a:hover, .nav a.active {
-            background: linear-gradient(135deg, #9945FF, #FF6B9D);
-            color: white;
-            border-color: transparent;
-        }
-        
-        .tabs {
-            display: flex;
-            justify-content: center;
-            gap: 8px;
-            margin: 20px;
-            padding: 4px;
-            background: white;
-            border-radius: 25px;
-            max-width: 500px;
-            margin-left: auto;
-            margin-right: auto;
-            box-shadow: 0 2px 10px rgba(153, 69, 255, 0.1);
-        }
-        
-        .tab {
-            flex: 1;
-            padding: 12px 20px;
-            border: none;
-            border-radius: 20px;
-            background: transparent;
-            color: #666;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .tab.active {
-            background: linear-gradient(135deg, #9945FF, #FF6B9D);
-            color: white;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        
-        .card {
-            background: white;
-            border-radius: 16px;
-            padding: 24px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 20px rgba(153, 69, 255, 0.08);
-            border: 1px solid rgba(153, 69, 255, 0.1);
-        }
-        
-        .card h2 {
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            background: linear-gradient(135deg, #9945FF, #FF6B9D);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 16px;
-            font-weight: 600;
-        }
-        
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 16px;
-            margin-bottom: 20px;
-        }
-        
-        .stat-box {
-            background: linear-gradient(135deg, #f8f5ff, #fff5f8);
-            padding: 20px;
-            border-radius: 12px;
-            text-align: center;
-            border: 1px solid rgba(153, 69, 255, 0.1);
-        }
-        
-        .stat-number {
-            font-size: 32px;
-            font-weight: 700;
-            background: linear-gradient(135deg, #9945FF, #FF6B9D);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .stat-label {
-            font-size: 12px;
-            color: #666;
-            margin-top: 4px;
-        }
-        
-        .alert-box {
-            background: #fee2e2;
-            border: 1px solid #fecaca;
-            border-radius: 12px;
-            padding: 16px;
-            margin-bottom: 20px;
-        }
-        
-        .alert-box.blocked {
-            background: #fef3c7;
-            border-color: #fde68a;
-        }
-        
-        .alert-title {
-            font-weight: 600;
-            color: #991b1b;
-            margin-bottom: 8px;
-        }
-        
-        .alert-box.blocked .alert-title {
-            color: #92400e;
-        }
-        
-        .task-list {
-            list-style: none;
-        }
-        
-        .task-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            padding: 16px;
-            background: #fafafa;
-            border-radius: 12px;
-            margin-bottom: 12px;
-            border-left: 4px solid #9945FF;
-            transition: all 0.2s;
-        }
-        
-        .task-item:hover {
-            background: #f5f5f5;
-            transform: translateX(4px);
-        }
-        
-        .task-item.priority-p0 { border-left-color: #ef4444; }
-        .task-item.priority-p1 { border-left-color: #f59e0b; }
-        .task-item.priority-p2 { border-left-color: #3b82f6; }
-        .task-item.priority-p3 { border-left-color: #6b7280; }
-        
-        .task-item.blocked { border-left-color: #92400e; background: #fef3c7; }
-        
-        .task-checkbox {
-            width: 20px;
-            height: 20px;
-            border: 2px solid #9945FF;
-            border-radius: 4px;
-            cursor: pointer;
-            flex-shrink: 0;
-            margin-top: 2px;
-        }
-        
-        .task-content {
-            flex: 1;
-        }
-        
-        .task-title {
-            font-weight: 600;
-            margin-bottom: 4px;
-        }
-        
-        .task-meta {
-            font-size: 12px;
-            color: #666;
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-        
-        .task-tag {
-            padding: 2px 8px;
-            border-radius: 10px;
-            font-size: 10px;
-            font-weight: 500;
-        }
-        
-        .tag-priority-p0 { background: #fee2e2; color: #991b1b; }
-        .tag-priority-p1 { background: #fef3c7; color: #92400e; }
-        .tag-priority-p2 { background: #dbeafe; color: #1e40af; }
-        .tag-priority-p3 { background: #e5e7eb; color: #374151; }
-        .tag-effort-small { background: #d1fae5; color: #065f46; }
-        .tag-effort-medium { background: #fef3c7; color: #92400e; }
-        .tag-effort-large { background: #fee2e2; color: #991b1b; }
-        .tag-blocked { background: #fef3c7; color: #92400e; }
-        
-        .project-card {
-            background: #fafafa;
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 16px;
-        }
-        
-        .project-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-        }
-        
-        .project-title {
-            font-size: 18px;
-            font-weight: 600;
-        }
-        
-        .project-progress {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        
-        .progress-bar {
-            width: 200px;
-            height: 8px;
-            background: #e5e7eb;
-            border-radius: 4px;
-            overflow: hidden;
-        }
-        
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(135deg, #9945FF, #FF6B9D);
-            border-radius: 4px;
-            transition: width 0.3s;
-        }
-        
-        .phases-list {
-            display: flex;
-            gap: 8px;
-            margin-top: 12px;
-            flex-wrap: wrap;
-        }
-        
-        .phase {
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 500;
-        }
-        
-        .phase.complete { background: #d1fae5; color: #065f46; }
-        .phase.in-progress { background: #dbeafe; color: #1e40af; }
-        .phase.blocked { background: #fef3c7; color: #92400e; }
-        .phase.not-started { background: #e5e7eb; color: #374151; }
-        
-        .recurring-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 16px;
-            background: #fafafa;
-            border-radius: 12px;
-            margin-bottom: 12px;
-        }
-        
-        .recurring-info h3 {
-            font-size: 16px;
-            margin-bottom: 4px;
-        }
-        
-        .recurring-meta {
-            font-size: 12px;
-            color: #666;
-        }
-        
-        .frequency-badge {
-            padding: 4px 12px;
-            border-radius: 12px;
-            font-size: 11px;
-            font-weight: 500;
-            background: #f3e8ff;
-            color: #7c3aed;
-        }
-        
-        .filters {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-        
-        .filter-btn {
-            padding: 8px 16px;
-            border: 1px solid rgba(153, 69, 255, 0.2);
-            border-radius: 20px;
-            background: white;
-            color: #666;
-            font-size: 12px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        
-        .filter-btn:hover, .filter-btn.active {
-            background: #9945FF;
-            color: white;
-            border-color: #9945FF;
-        }
-        
-        .tab-content {
-            display: none;
-        }
-        
-        .tab-content.active {
-            display: block;
-        }
-        
-        .empty-state {
-            text-align: center;
-            padding: 40px;
-            color: #666;
-        }
-        
-        .empty-state-icon {
-            font-size: 48px;
-            margin-bottom: 16px;
-        }
-        
-        /* GANTT Chart Styles - Sticky First Column */
-        .gantt-container {
-            margin-top: 20px;
-            border: 1px solid rgba(153, 69, 255, 0.2);
-            border-radius: 12px;
-            background: #fafafa;
-            overflow: auto;
-            max-height: 600px;
-        }
-        
-        .gantt-chart {
-            display: grid;
-            grid-template-columns: 150px repeat(8, 140px);
-            min-width: 1270px;
-        }
-        
-        .gantt-header {
-            background: linear-gradient(135deg, #9945FF 0%, #FF6B9D 100%);
-            color: white;
-            padding: 12px;
-            font-weight: 600;
-            font-size: 13px;
-            text-align: center;
-            border-right: 1px solid rgba(255,255,255,0.3);
-            position: sticky;
-            top: 0;
-            z-index: 10;
-        }
-        
-        .gantt-header:first-child {
-            text-align: left;
-            padding-left: 16px;
-            position: sticky;
-            left: 0;
-            z-index: 20;
-        }
-        
-        .gantt-row {
-            display: contents;
-        }
-        
-        .gantt-row:not(:last-child) .gantt-lane-label,
-        .gantt-row:not(:last-child) .gantt-cell {
-            border-bottom: 3px solid #c0c0c5;
-        }
-        
-        .gantt-lane-label {
-            background: #f0f0f5;
-            padding: 16px;
-            font-weight: 600;
-            font-size: 13px;
-            border-right: 2px solid #e0e0e5;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            position: sticky;
-            left: 0;
-            z-index: 5;
-        }
-        
-        .gantt-cell {
-            border-right: 1px solid #e0e0e5;
-            padding: 8px;
-            background: white;
-            min-height: 80px;
-        }
-        
-        .gantt-cell.overdue { background: #FFF5F5; }
-        .gantt-cell.today { background: #FFF9E6; }
-        .gantt-cell.tomorrow { background: #F0F9FF; }
-        
-        /* Lane label colors */
-        .gantt-lane-label.priority-p0 { border-left: 4px solid #ef4444; background: #fef2f2; }
-        .gantt-lane-label.priority-p1 { border-left: 4px solid #f59e0b; background: #fffbeb; }
-        .gantt-lane-label.priority-p2 { border-left: 4px solid #3b82f6; background: #eff6ff; }
-        .gantt-lane-label.priority-p3 { border-left: 4px solid #6b7280; background: #f9fafb; }
-        
-        .gantt-lane-label.category-analysis { border-left: 4px solid #8b5cf6; background: #faf5ff; }
-        .gantt-lane-label.category-financial { border-left: 4px solid #10b981; background: #f0fdf4; }
-        .gantt-lane-label.category-admin { border-left: 4px solid #64748b; background: #f8fafc; }
-        .gantt-lane-label.category-operations { border-left: 4px solid #f97316; background: #fff7ed; }
-        .gantt-lane-label.category-legal { border-left: 4px solid #ef4444; background: #fef2f2; }
-        
-        .gantt-task-card {
-            background: white;
-            border-radius: 8px;
-            padding: 10px;
-            margin-bottom: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            border-left: 3px solid #9945FF;
-            font-size: 12px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        
-        .gantt-task-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-        }
-        
-        .gantt-task-card.p0 { border-left-color: #ef4444; }
-        .gantt-task-card.p1 { border-left-color: #f59e0b; }
-        .gantt-task-card.p2 { border-left-color: #3b82f6; }
-        .gantt-task-card.p3 { border-left-color: #6b7280; }
-        
-        .gantt-task-name {
-            font-weight: 600;
-            margin-bottom: 4px;
-            line-height: 1.3;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-        
-        .gantt-task-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 10px;
-            color: #666;
-        }
-        
-        .gantt-task-effort {
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-size: 9px;
-            font-weight: 600;
-            background: #f0f0f5;
-        }
-        
-        .gantt-empty-cell {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #ccc;
-            font-size: 11px;
-            height: 100%;
-        }
-        
-        /* Project Card Styles */
-        .project-full-card {
-            background: white;
-            border-radius: 16px;
-            padding: 24px;
-            margin-bottom: 24px;
-            box-shadow: 0 2px 20px rgba(153, 69, 255, 0.08);
-            border: 1px solid rgba(153, 69, 255, 0.1);
-            margin-left: 0;
-            margin-right: 0;
-        }
-        
-        #project-list {
-            padding-left: 0;
-            margin-left: 0;
-        }
-        
-        /* Projects card - no padding to align content to left */
-        .card.projects-card {
-            padding: 24px 0 24px 0;
-        }
-        
-        .card.projects-card .project-actions-header {
-            padding: 0 24px;
-        }
-        
-        .card.projects-card .project-full-card {
-            margin-left: 0;
-            margin-right: 0;
-            border-radius: 0;
-            border-left: none;
-            border-right: none;
-        }
-        
-        .card.projects-card .project-full-card:last-child {
-            margin-bottom: 0;
-        }
-        
-        .project-full-card h2 {
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 8px;
-            color: #1a1a2e;
-        }
-        
-        .project-meta-bar {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            margin-bottom: 16px;
-            flex-wrap: wrap;
-        }
-        
-        .project-status-badge {
-            padding: 4px 12px;
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-        
-        .project-status-badge.planning { background: #e5e7eb; color: #374151; }
-        .project-status-badge.active { background: #d1fae5; color: #065f46; }
-        .project-status-badge.on-hold { background: #fef3c7; color: #92400e; }
-        .project-status-badge.complete { background: #dbeafe; color: #1e40af; }
-        
-        .project-lead {
-            font-size: 13px;
-            color: #666;
-        }
-        
-        .project-progress-section {
-            margin-bottom: 20px;
-        }
-        
-        .project-progress-bar {
-            height: 8px;
-            background: #e5e7eb;
-            border-radius: 4px;
-            overflow: hidden;
-            margin-bottom: 8px;
-        }
-        
-        .project-progress-fill {
-            height: 100%;
-            background: linear-gradient(135deg, #9945FF, #FF6B9D);
-            border-radius: 4px;
-            transition: width 0.3s;
-        }
-        
-        .project-progress-text {
-            font-size: 12px;
-            color: #666;
-            font-weight: 500;
-        }
-        
-        /* Deliverables Mini-GANTT */
-        .deliverables-section {
-            margin: 20px 0;
-            padding: 16px;
-            background: #fafafa;
-            border-radius: 12px;
-            margin-left: 0;
-            margin-right: 0;
-        }
-        
-        .deliverables-section h3 {
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 12px;
-            color: #1a1a2e;
-        }
-        
-        .deliverable-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px;
-            background: white;
-            border-radius: 8px;
-            margin-bottom: 8px;
-            border-left: 3px solid #9945FF;
-        }
-        
-        .deliverable-item.complete { border-left-color: #10b981; }
-        .deliverable-item.in-progress { border-left-color: #f59e0b; }
-        .deliverable-item.blocked { border-left-color: #ef4444; background: #fef2f2; }
-        
-        .deliverable-checkbox {
-            width: 18px;
-            height: 18px;
-            border: 2px solid #9945FF;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            flex-shrink: 0;
-        }
-        
-        .deliverable-checkbox.checked {
-            background: #10b981;
-            border-color: #10b981;
-            color: white;
-        }
-        
-        .deliverable-info {
-            flex: 1;
-        }
-        
-        .deliverable-name {
-            font-weight: 600;
-            font-size: 13px;
-            margin-bottom: 2px;
-        }
-        
-        .deliverable-meta {
-            font-size: 11px;
-            color: #666;
-        }
-        
-        .deliverable-progress {
-            width: 60px;
-        }
-        
-        .deliverable-progress-bar {
-            height: 4px;
-            background: #e5e7eb;
-            border-radius: 2px;
-            overflow: hidden;
-        }
-        
-        .deliverable-progress-fill {
-            height: 100%;
-            background: #9945FF;
-            border-radius: 2px;
-        }
-        
-        .deliverable-progress-text {
-            font-size: 10px;
-            color: #666;
-            text-align: right;
-            margin-top: 2px;
-        }
-        
-        /* CRAM Notes Section */
-        .cram-section {
-            margin-top: 20px;
-            padding: 16px;
-            background: linear-gradient(135deg, #fefce8, #fef9c3);
-            border-radius: 12px;
-            border: 1px solid #fde047;
-        }
-        
-        .cram-section h3 {
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 12px;
-            color: #854d0e;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .cram-notes-display {
-            font-size: 13px;
-            line-height: 1.6;
-            color: #713f12;
-            white-space: pre-wrap;
-        }
-        
-        .cram-note-line {
-            padding: 4px 0;
-            border-bottom: 1px dashed rgba(0,0,0,0.1);
-        }
-        
-        .cram-note-line:last-child {
-            border-bottom: none;
-        }
-        
-        /* Project Actions Header */
-        .project-actions-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        
-        .project-actions-header h2 {
-            margin: 0;
-        }
-        
-        /* Add Deliverable Button */
-        .add-deliverable-btn {
-            background: linear-gradient(135deg, #9945FF, #FF6B9D);
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        
-        .add-deliverable-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(153, 69, 255, 0.3);
-        }
-        
-        /* Modal Styles */
-        .modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-        }
-        
-        .modal-content {
-            background: white;
-            border-radius: 16px;
-            width: 90%;
-            max-width: 500px;
-            max-height: 90vh;
-            overflow-y: auto;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-        }
-        
-        .modal-header {
-            background: linear-gradient(135deg, #9945FF, #FF6B9D);
-            color: white;
-            padding: 16px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .modal-header h3 {
-            margin: 0;
-            font-size: 16px;
-        }
-        
-        .modal-close {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 24px;
-            cursor: pointer;
-            padding: 0;
-            width: 32px;
-            height: 32px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            transition: background 0.2s;
-        }
-        
-        .modal-close:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
-        
-        #deliverable-form {
-            padding: 20px;
-        }
-        
-        .form-group {
-            margin-bottom: 16px;
-        }
-        
-        .form-group label {
-            display: block;
-            font-size: 12px;
-            font-weight: 600;
-            color: #666;
-            margin-bottom: 6px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 10px 12px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 14px;
-            font-family: inherit;
-            transition: border-color 0.2s;
-        }
-        
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: #9945FF;
-        }
-        
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
-        
-        .form-actions {
-            display: flex;
-            gap: 12px;
-            justify-content: flex-end;
-            margin-top: 20px;
-            padding-top: 16px;
-            border-top: 1px solid #eee;
-        }
-        
-        .btn-primary {
-            background: linear-gradient(135deg, #9945FF, #FF6B9D);
-            color: white;
-            border: none;
-            padding: 10px 24px;
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(153, 69, 255, 0.3);
-        }
-        
-        .btn-secondary {
-            background: #f3f4f6;
-            color: #666;
-            border: none;
-            padding: 10px 24px;
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        
-        .btn-secondary:hover {
-            background: #e5e7eb;
-        }
-        
-        /* Deliverable status update buttons */
-        .deliverable-actions {
-            display: flex;
-            gap: 4px;
-            margin-left: 8px;
-        }
-        
-        .deliv-action-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 14px;
-            padding: 2px 4px;
-            border-radius: 4px;
-            transition: background 0.2s;
-        }
-        
-        .deliv-action-btn:hover {
-            background: rgba(153, 69, 255, 0.1);
-        }
-        
-        /* Deliverables GANTT */
-        .deliverables-gantt {
-            margin: 16px 0;
-            border: 1px solid #e5e7eb;
-            border-radius: 8px;
-            overflow: hidden;
-        }
-        
-        .deliverables-gantt-row {
-            display: flex;
-            border-bottom: 1px solid #e5e7eb;
-        }
-        
-        .deliverables-gantt-row:last-child {
-            border-bottom: none;
-        }
-        
-        .deliverables-gantt-label {
-            width: 120px;
-            padding: 12px;
-            background: #f9fafb;
-            font-size: 12px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            flex-shrink: 0;
-        }
-        
-        .deliverables-gantt-row.not-started .deliverables-gantt-label {
-            background: #f3f4f6;
-            color: #6b7280;
-        }
-        
-        .deliverables-gantt-row.in-progress .deliverables-gantt-label {
-            background: #fef3c7;
-            color: #92400e;
-        }
-        
-        .deliverables-gantt-row.review .deliverables-gantt-label {
-            background: #dbeafe;
-            color: #1e40af;
-        }
-        
-        .deliverables-gantt-row.complete .deliverables-gantt-label {
-            background: #d1fae5;
-            color: #065f46;
-        }
-        
-        .deliverables-gantt-row.blocked .deliverables-gantt-label {
-            background: #fee2e2;
-            color: #991b1b;
-        }
-        
-        .deliverables-gantt-lane {
-            flex: 1;
-            padding: 8px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            background: white;
-            min-height: 50px;
-        }
-        
-        .deliverable-gantt-card {
-            background: white;
-            border: 1px solid #e5e7eb;
-            border-radius: 6px;
-            padding: 8px 12px;
-            cursor: pointer;
-            transition: all 0.2s;
-            min-width: 150px;
-            max-width: 200px;
-        }
-        
-        .deliverable-gantt-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            border-color: #9945FF;
-        }
-        
-        .deliverable-gantt-card.not-started {
-            border-left: 3px solid #9ca3af;
-        }
-        
-        .deliverable-gantt-card.in-progress {
-            border-left: 3px solid #f59e0b;
-        }
-        
-        .deliverable-gantt-card.review {
-            border-left: 3px solid #3b82f6;
-        }
-        
-        .deliverable-gantt-card.complete {
-            border-left: 3px solid #10b981;
-            opacity: 0.8;
-        }
-        
-        .deliverable-gantt-card.blocked {
-            border-left: 3px solid #ef4444;
-            background: #fef2f2;
-        }
-        
-        .deliverable-gantt-name {
-            font-weight: 600;
-            font-size: 13px;
-            margin-bottom: 4px;
-        }
-        
-        .deliverable-gantt-meta {
-            font-size: 11px;
-            color: #6b7280;
-        }
-        
-        /* Deliverables Date GANTT */
-        .deliverables-gantt-container {
-            border: 1px solid #e5e7eb;
-            border-radius: 8px;
-            overflow: hidden;
-            margin-bottom: 16px;
-        }
-        
-        .deliverables-gantt-header {
-            display: flex;
-            background: linear-gradient(135deg, #9945FF, #FF6B9D);
-            color: white;
-            font-size: 11px;
-            font-weight: 600;
-        }
-        
-        .deliverables-gantt-header-cell {
-            flex: 1;
-            padding: 8px 4px;
-            text-align: center;
-            border-right: 1px solid rgba(255,255,255,0.2);
-            min-width: 50px;
-        }
-        
-        .deliverables-gantt-header-cell:first-child {
-            flex: 0 0 150px;
-            text-align: left;
-            padding-left: 12px;
-        }
-        
-        .deliverables-gantt-row {
-            display: flex;
-            border-bottom: 1px solid #e5e7eb;
-            min-height: 50px;
-        }
-        
-        .deliverables-gantt-row:last-child {
-            border-bottom: none;
-        }
-        
-        .deliverables-gantt-row:hover {
-            background: #f9fafb;
-        }
-        
-        .deliverables-gantt-name-cell {
-            flex: 0 0 150px;
-            padding: 10px 12px;
-            border-right: 1px solid #e5e7eb;
-            cursor: pointer;
-        }
-        
-        .deliverable-gantt-title {
-            font-weight: 600;
-            font-size: 13px;
-            margin-bottom: 2px;
-        }
-        
-        .deliverable-gantt-subtitle {
-            font-size: 11px;
-            color: #6b7280;
-        }
-        
-        .deliverables-gantt-cell {
-            flex: 1;
-            padding: 4px;
-            border-right: 1px solid #f3f4f6;
-            min-width: 50px;
-            position: relative;
-            cursor: pointer;
-        }
-        
-        .deliverables-gantt-cell.has-due-date {
-            background: #fef3c7;
-        }
-        
-        .deliverable-gantt-marker {
-            width: 100%;
-            height: 24px;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 10px;
-            color: white;
-            font-weight: 600;
-        }
-        
-        .deliverable-gantt-marker.not-started { background: #9ca3af; }
-        .deliverable-gantt-marker.in-progress { background: #f59e0b; }
-        .deliverable-gantt-marker.review { background: #3b82f6; }
-        .deliverable-gantt-marker.complete { background: #10b981; }
-        .deliverable-gantt-marker.blocked { background: #ef4444; }
-
-        /* Deliverable Row Actions */
-        .deliverable-row-actions {
-            display: flex;
-            gap: 4px;
-            margin-top: 4px;
-            opacity: 0;
-            transition: opacity 0.2s;
-        }
-
-        .deliverables-gantt-row:hover .deliverable-row-actions {
-            opacity: 1;
-        }
-
-        .deliverable-row-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 12px;
-            padding: 2px 4px;
-            border-radius: 4px;
-            transition: background 0.2s;
-        }
-
-        .deliverable-row-btn:hover {
-            background: rgba(153, 69, 255, 0.1);
-        }
-
-        .deliverable-row-btn.edit:hover {
-            background: #dbeafe;
-        }
-
-        .deliverable-row-btn.delete:hover {
-            background: #fee2e2;
-        }
-
-        /* Drag and Drop Styles */
-        .deliverables-gantt-row[draggable="true"] {
-            cursor: grab;
-        }
-
-        .deliverables-gantt-row[draggable="true"]:active {
-            cursor: grabbing;
-        }
-
-        .deliverables-gantt-row.dragging {
-            opacity: 0.5;
-            background: #fef3c7;
-        }
-
-        .deliverables-gantt-cell.drag-over {
-            background: #d1fae5 !important;
-            border: 2px dashed #10b981;
-        }
-
-        .deliverable-gantt-marker[draggable="true"] {
-            cursor: grab;
-            width: 100%;
-            height: 100%;
-        }
-
-        .deliverable-gantt-marker[draggable="true"]:active {
-            cursor: grabbing;
-        }
-
-        /* Deliverable Detail View */
-        .deliverable-detail-view {
-            background: #f9fafb;
-            border: 1px solid #e5e7eb;
-            border-radius: 8px;
-            padding: 16px;
-            margin-top: 16px;
-            animation: slideDown 0.2s ease;
-        }
-        
-        @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .deliverable-detail-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-        }
-        
-        .deliverable-detail-header h4 {
-            margin: 0;
-            font-size: 16px;
-        }
-        
-        .deliverable-detail-close {
-            background: none;
-            border: none;
-            font-size: 24px;
-            cursor: pointer;
-            color: #6b7280;
-            padding: 0;
-            width: 32px;
-            height: 32px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-        }
-        
-        .deliverable-detail-close:hover {
-            background: #e5e7eb;
-        }
-        
-        .deliverable-detail-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 16px;
-            margin-bottom: 16px;
-        }
-        
-        .deliverable-detail-field label {
-            display: block;
-            font-size: 11px;
-            color: #6b7280;
-            text-transform: uppercase;
-            margin-bottom: 4px;
-        }
-        
-        .deliverable-detail-field span {
-            font-size: 14px;
-            font-weight: 500;
-        }
-        
-        .status-badge {
-            display: inline-block;
-            padding: 2px 8px;
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-        
-        .status-badge.not-started { background: #f3f4f6; color: #6b7280; }
-        .status-badge.in-progress { background: #fef3c7; color: #92400e; }
-        .status-badge.review { background: #dbeafe; color: #1e40af; }
-        .status-badge.complete { background: #d1fae5; color: #065f46; }
-        .status-badge.blocked { background: #fee2e2; color: #991b1b; }
-        
-        .detail-progress-bar {
-            height: 6px;
-            background: #e5e7eb;
-            border-radius: 3px;
-            overflow: hidden;
-            margin-bottom: 4px;
-        }
-        
-        .detail-progress-fill {
-            height: 100%;
-            background: linear-gradient(135deg, #9945FF, #FF6B9D);
-            border-radius: 3px;
-        }
-        
-        .deliverable-detail-notes, .deliverable-detail-blocked {
-            margin-top: 12px;
-            padding: 12px;
-            background: white;
-            border-radius: 6px;
-        }
-        
-        .deliverable-detail-blocked {
-            background: #fef2f2;
-            border-left: 3px solid #ef4444;
-        }
-        
-        .deliverable-detail-notes label, .deliverable-detail-blocked label {
-            display: block;
-            font-size: 11px;
-            font-weight: 600;
-            color: #6b7280;
-            margin-bottom: 4px;
-        }
-        
-        .deliverable-detail-notes p, .deliverable-detail-blocked p {
-            margin: 0;
-            font-size: 13px;
-            line-height: 1.5;
-        }
-        
-        .deliverable-detail-actions {
-            display: flex;
-            gap: 12px;
-            margin-top: 16px;
-            padding-top: 16px;
-            border-top: 1px solid #e5e7eb;
-        }
-        
-        /* Task Complete Button */
-        .task-complete-btn {
-            background: linear-gradient(135deg, #10b981, #059669);
-            color: white;
-            border: none;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
-            flex-shrink: 0;
-        }
-        
-        .task-complete-btn:hover {
-            transform: scale(1.1);
-            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
-        }
-        
-        .task-item.completing {
-            opacity: 0.5;
-            transform: translateX(20px);
-            transition: all 0.3s;
-        }
-        
-        /* GANTT Grouping Buttons */
-        .gantt-grouping {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 20px;
-            padding: 12px;
-            background: #f8f8fa;
-            border-radius: 8px;
-        }
-        
-        .gantt-grouping-label {
-            font-size: 13px;
-            font-weight: 500;
-            color: #666;
-        }
-        
-        .gantt-group-btn {
-            padding: 8px 16px;
-            border: 1px solid #ddd;
-            border-radius: 20px;
-            background: white;
-            color: #666;
-            font-size: 13px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        
-        .gantt-group-btn:hover {
-            border-color: #9945FF;
-            color: #9945FF;
-        }
-        
-        .gantt-group-btn.active {
-            background: linear-gradient(135deg, #9945FF, #FF6B9D);
-            color: white;
-            border-color: transparent;
-        }
-        
-        /* Old grid-based GANTT styles removed - using flex layout instead */
-        
-        @media (max-width: 768px) {
-            .nav { gap: 8px; }
-            .nav a { padding: 10px 16px; font-size: 14px; }
-            .tabs { flex-wrap: wrap; }
-            .tab { padding: 10px 16px; }
-            .stats-grid { grid-template-columns: repeat(2, 1fr); }
-        }
+        body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: linear-gradient(135deg, #0a0a0f, #1a1a2e); color: #fff; min-height: 100vh; }
+        .header { background: linear-gradient(135deg, #667eea, #764ba2); padding: 20px; text-align: center; }
+        .container { max-width: 1400px; margin: 0 auto; padding: 20px; }
+        .nav { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+        .nav a { padding: 10px 20px; background: #1a1a2e; border: 1px solid #333; border-radius: 8px; color: #aaa; text-decoration: none; }
+        .nav a.active { background: #667eea; color: #fff; }
+        
+        /* Work sub-nav */
+        .work-nav { display: flex; justify-content: center; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; background: #0a0a0f; padding: 10px; border-radius: 10px; }
+        .work-nav a { padding: 10px 24px; background: transparent; border: none; border-radius: 6px; color: #aaa; text-decoration: none; font-size: 14px; }
+        .work-nav a:hover { background: #1a1a2e; }
+        .work-nav a.active { background: #667eea; color: #fff; }
+        
+        .section { background: #1a1a2e; border: 1px solid #333; border-radius: 12px; padding: 20px; margin-bottom: 20px; }
+        .section h2 { font-size: 16px; color: #667eea; margin-bottom: 15px; }
+        .task { background: #0a0a0f; padding: 15px; border-radius: 8px; margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+        .status { font-size: 11px; padding: 3px 8px; border-radius: 4px; }
+        .status-done { background: #22c55e20; color: #22c55e; }
+        .status-progress { background: #f59e0b20; color: #f59e0b; }
+        .status-todo { background: #666; color: #aaa; }
+        
+        /* Hide sections by default, show based on tab */
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        
+        /* Gantt Chart Styles */
+        .gantt-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
+        .gantt-header h2 { color: #667eea; margin: 0; }
+        .gantt-controls { display: flex; gap: 10px; flex-wrap: wrap; }
+        .gantt-btn { padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; font-size: 13px; }
+        .gantt-btn-primary { background: #667eea; color: white; }
+        .gantt-btn-secondary { background: #333; color: #aaa; }
+        .gantt-btn:hover { opacity: 0.8; }
+        
+        .gantt-axis-selector { display: flex; align-items: center; gap: 10px; }
+        .gantt-axis-selector label { color: #aaa; font-size: 13px; }
+        .gantt-axis-selector select { background: #0a0a0f; color: #fff; border: 1px solid #333; padding: 6px 12px; border-radius: 6px; }
+        
+        .gantt-chart { overflow-x: auto; }
+        .gantt-table { width: 100%; border-collapse: collapse; min-width: 900px; }
+        .gantt-table th { background: #0a0a0f; padding: 12px 8px; text-align: left; font-size: 12px; color: #aaa; border-bottom: 1px solid #333; }
+        .gantt-table td { padding: 10px 8px; border-bottom: 1px solid #2a2a3e; font-size: 13px; }
+        .gantt-table tr:hover { background: #0a0a0f50; }
+        
+        .gantt-date-col { white-space: nowrap; }
+        .gantt-name-col { font-weight: 500; }
+        .gantt-bar-col { width: 200px; }
+        .gantt-bar { height: 20px; border-radius: 4px; position: relative; }
+        .gantt-bar-low { background: #22c55e; }
+        .gantt-bar-medium { background: #f59e0b; }
+        .gantt-bar-high { background: #ef4444; }
+        .gantt-bar-critical { background: #dc2626; }
+        
+        .priority-badge { font-size: 10px; padding: 2px 6px; border-radius: 4px; }
+        .priority-low { background: #22c55e20; color: #22c55e; }
+        .priority-medium { background: #f59e0b20; color: #f59e0b; }
+        .priority-high { background: #ef444420; color: #ef4444; }
+        .priority-critical { background: #dc262620; color: #dc2626; }
+        
+        .category-badge { font-size: 10px; padding: 2px 6px; border-radius: 4px; background: #3b82f620; color: #3b82f6; }
+        
+        .gantt-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: none; align-items: center; justify-content: center; z-index: 1000; }
+        .gantt-modal.active { display: flex; }
+        .gantt-modal-content { background: #1a1a2e; border: 1px solid #333; border-radius: 12px; padding: 24px; width: 90%; max-width: 500px; max-height: 90vh; overflow-y: auto; }
+        .gantt-modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .gantt-modal-header h3 { color: #667eea; }
+        .gantt-modal-close { background: none; border: none; color: #aaa; font-size: 24px; cursor: pointer; }
+        .gantt-form-group { margin-bottom: 15px; }
+        .gantt-form-group label { display: block; color: #aaa; font-size: 12px; margin-bottom: 6px; }
+        .gantt-form-group input, .gantt-form-group select { width: 100%; background: #0a0a0f; color: #fff; border: 1px solid #333; padding: 10px; border-radius: 6px; }
+        .gantt-form-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
+        
+        .gantt-legend { display: flex; gap: 15px; margin-top: 15px; flex-wrap: wrap; }
+        .gantt-legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: #aaa; }
+        .gantt-legend-dot { width: 10px; height: 10px; border-radius: 2px; }
+        
+        .gantt-row-clickable { cursor: pointer; }
+        .gantt-row-clickable:hover { background: #0a0a0f80; }
+        
+        .empty-state { text-align: center; padding: 40px; color: #666; }
     </style>
 </head>
 <body>
     <div class="header">
-        <h1>💼 Work Control Center</h1>
-        <p class="subtitle">Tasks • Projects • Recurring Deliverables</p>
-    </div>
-    
-    <div class="nav">
-        <a href="index.html">Overview</a>
-        <a href="health-nutrition.html">Health & Nutrition</a>
-        <a href="productivity.html">Productivity</a>
-        <a href="work.html" class="active">Work</a>
-        <a href="blog.html">Blog</a>
-        <a href="calendar.html">Calendar</a>
-        <a href="architecture.html">Architecture</a>
-    </div>
-    
-    <div class="tabs">
-        <button class="tab active" onclick="switchTab('overview')">📊 Overview</button>
-        <button class="tab" onclick="switchTab('tasks')">📋 Tasks</button>
-        <button class="tab" onclick="switchTab('projects')">📁 Projects</button>
-        <button class="tab" onclick="switchTab('recurring')">🔄 Recurring</button>
+        <h1>💼 Work</h1>
     </div>
     
     <div class="container">
-        <!-- OVERVIEW TAB -->
-        <div id="overview" class="tab-content active">
-            <div class="stats-grid">
-                <div class="stat-box">
-                    <div class="stat-number" id="stat-total">--</div>
-                    <div class="stat-label">Active Items</div>
-                </div>
-                <div class="stat-box">
-                    <div class="stat-number" id="stat-urgent">--</div>
-                    <div class="stat-label">Urgent (P0)</div>
-                </div>
-                <div class="stat-box">
-                    <div class="stat-number" id="stat-blocked">--</div>
-                    <div class="stat-label">Blocked</div>
-                </div>
-                <div class="stat-box">
-                    <div class="stat-number" id="stat-due">--</div>
-                    <div class="stat-label">Due This Week</div>
-                </div>
-            </div>
-            
-            <div class="card">
-                <h2>🔥 Priority Actions</h2>
-                <div id="priority-list">
-                    <div class="empty-state">
-                        <div class="empty-state-icon">📋</div>
-                        <p>Loading work items...</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="card" id="blocked-card" style="display: none;">
-                <h2>⚠️ Blocked Items</h2>
-                <div id="blocked-list"></div>
-            </div>
+        <div class="nav">
+            <a href="index.html">📊 Overview</a>
+            <a href="work.html" class="active">💼 Work</a>
+            <a href="daily.html">📅 Daily</a>
+            <a href="projects.html">🚀 Projects</a>
         </div>
         
-        <!-- TASKS TAB -->
-        <div id="tasks" class="tab-content">
-            <div class="filters">
-                <button class="filter-btn active" onclick="filterTasks('all')">All</button>
-                <button class="filter-btn" onclick="filterTasks('today')">Today</button>
-                <button class="filter-btn" onclick="filterTasks('week')">This Week</button>
-                <button class="filter-btn" onclick="filterTasks('p0')">P0 Only</button>
-                <button class="filter-btn" onclick="filterTasks('blocked')">Blocked</button>
-            </div>
-            
-            <!-- GANTT Chart View -->
-            <div class="card">
-                <h2>📊 GANTT Chart View</h2>
-                <div class="gantt-grouping">
-                    <span class="gantt-grouping-label">Group by:</span>
-                    <button class="gantt-group-btn active" data-group="priority" onclick="setGanttGrouping('priority')">Priority</button>
-                    <button class="gantt-group-btn" data-group="category" onclick="setGanttGrouping('category')">Category</button>
-                    <button class="gantt-group-btn" data-group="stakeholder" onclick="setGanttGrouping('stakeholder')">Stakeholder</button>
-                </div>
-                <div class="gantt-container" id="work-gantt-container">
-                    <div class="loading" style="text-align: center; padding: 40px; color: #9945FF;">Loading GANTT chart...</div>
-                </div>
-            </div>
-            
-            <div class="card">
-                <h2>📋 Task List</h2>
-                <ul class="task-list" id="task-list">
-                    <li class="empty-state">
-                        <div class="empty-state-icon">📋</div>
-                        <p>Loading tasks...</p>
-                    </li>
-                </ul>
-            </div>
+        <!-- Work sub-nav -->
+        <div class="work-nav">
+            <a href="#" class="active" onclick="showTab('tasks', event)">📋 Tasks</a>
+            <a href="#" onclick="showTab('gantt', event)">📊 Gantt Chart</a>
         </div>
         
-        <!-- PROJECTS TAB -->
-        <div id="projects" class="tab-content">
-            <div class="card projects-card">
-                <div class="project-actions-header">
-                    <h2>📁 Active Projects</h2>
-                    <button class="btn-primary" onclick="showAddProjectModal()">+ New Project</button>
+        <!-- Tasks Tab -->
+        <div id="tasks" class="tab-content active">
+            <div class="section">
+                <h2>👔 Steve</h2>
+                <p style="color: #666; padding: 20px;">No active tasks from Steve</p>
+            </div>
+            
+            <div class="section">
+                <h2>👔 Rafi</h2>
+                <div class="task">
+                    <span class="status status-done">Done</span>
+                    <span>Raffy fully loaded marketing spend</span>
                 </div>
-                <div id="project-list">
-                    <!-- Projects will be rendered here -->
+            </div>
+            
+            <div class="section">
+                <h2>👤 Other / General</h2>
+                <div class="task">
+                    <span class="status status-progress">In Progress</span>
+                    <span>MGC fees for digital card</span>
+                </div>
+                <div class="task">
+                    <span class="status status-progress">In Progress</span>
+                    <span>Aylin share card campaign invoicing</span>
+                </div>
+                <div class="task">
+                    <span class="status status-todo">Not Started</span>
+                    <span>Complete my success tasks</span>
+                </div>
+                <div class="task">
+                    <span class="status status-todo">Not Started</span>
+                    <span>Colin no objection certificate</span>
+                </div>
+                <div class="task">
+                    <span class="status status-progress">In Progress</span>
+                    <span>Ahmed Osman - Umair contract renewal</span>
+                </div>
+                <div class="task">
+                    <span class="status status-progress">In Progress</span>
+                    <span>Omar studies</span>
                 </div>
             </div>
         </div>
         
-        <!-- Add Deliverable Modal -->
-        <div id="deliverable-modal" class="modal" style="display: none;">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3>📋 Add Deliverable</h3>
-                    <button class="modal-close" onclick="closeDeliverableModal()">×</button>
-                </div>
-                <form id="deliverable-form" onsubmit="submitDeliverable(event)">
-                    <input type="hidden" id="deliverable-project-id">
-                    <input type="hidden" id="deliverable-is-edit" value="false">
-                    <input type="hidden" id="deliverable-original-name">
-                    
-                    <div class="form-group">
-                        <label>Name</label>
-                        <input type="text" id="deliverable-name" required placeholder="e.g., Legal Approval">
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Status</label>
-                            <select id="deliverable-status">
-                                <option value="Not Started">Not Started</option>
-                                <option value="In Progress">In Progress</option>
-                                <option value="Review">Review</option>
-                                <option value="Complete">Complete</option>
-                                <option value="Blocked">Blocked</option>
+        <!-- Gantt Tab -->
+        <div id="gantt" class="tab-content">
+            <div class="section" style="margin-bottom: 0;">
+                <div class="gantt-header">
+                    <h2>📊 Deliverables Gantt Chart</h2>
+                    <div class="gantt-controls">
+                        <div class="gantt-axis-selector">
+                            <label>Group by:</label>
+                            <select id="gantt-axis" onchange="renderGantt()">
+                                <option value="priority">Priority</option>
+                                <option value="category">Category</option>
+                                <option value="project">Project</option>
+                                <option value="stakeholder">Stakeholder</option>
+                                <option value="assigned">Assigned To</option>
                             </select>
                         </div>
-                        
-                        <div class="form-group">
-                            <label>Owner</label>
-                            <input type="text" id="deliverable-owner" placeholder="e.g., Sam">
-                        </div>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Due Date</label>
-                            <input type="date" id="deliverable-due-date">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label>Progress (%)</label>
-                            <input type="number" id="deliverable-progress" min="0" max="100" value="0">
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>Notes</label>
-                        <textarea id="deliverable-notes" rows="3" placeholder="Any context or details..."></textarea>
-                    </div>
-                    
-                    <div class="form-actions">
-                        <button type="button" class="btn-secondary" onclick="closeDeliverableModal()">Cancel</button>
-                        <button type="submit" class="btn-primary" id="deliverable-submit-btn">Add Deliverable</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-        
-        <!-- RECURRING TAB -->
-        <div id="recurring" class="tab-content">
-            <div class="card">
-                <h2>🔄 Recurring Deliverables</h2>
-                <div id="recurring-list">
-                    <div class="empty-state">
-                        <div class="empty-state-icon">🔄</div>
-                        <p>Loading recurring items...</p>
+                        <button class="gantt-btn gantt-btn-primary" onclick="openGanttModal()">+ Add Deliverable</button>
                     </div>
                 </div>
-            </div>
-            
-            <div class="card">
-                <h2>📅 Upcoming Schedule</h2>
-                <div id="recurring-schedule">
-                    <p style="color: #666; text-align: center;">Calendar view coming soon...</p>
+                
+                <div class="gantt-chart" id="gantt-chart">
+                    <!-- Gantt table rendered by JS -->
+                </div>
+                
+                <div class="gantt-legend">
+                    <div class="gantt-legend-item">
+                        <span class="gantt-legend-dot gantt-bar-low"></span> Low Priority
+                    </div>
+                    <div class="gantt-legend-item">
+                        <span class="gantt-legend-dot gantt-bar-medium"></span> Medium Priority
+                    </div>
+                    <div class="gantt-legend-item">
+                        <span class="gantt-legend-dot gantt-bar-high"></span> High Priority
+                    </div>
+                    <div class="gantt-legend-item">
+                        <span class="gantt-legend-dot gantt-bar-critical"></span> Critical Priority
+                    </div>
                 </div>
             </div>
         </div>
     </div>
     
-    <script>
-        let workData = null;
-        let currentFilter = 'all';
-        let currentGanttGrouping = 'priority';
-        
-        // Load work data
-        async function loadWorkData() {
-            try {
-                const response = await fetch('data/work_data.json');
-                workData = await response.json();
-                console.log('Work data loaded:', workData);
-                renderOverview();
-                renderTasks();
-                renderProjects();
-                renderRecurring();
-                renderWorkGantt();
-            } catch (error) {
-                console.error('Error loading work data:', error);
-                document.querySelectorAll('.empty-state p').forEach(el => {
-                    el.textContent = 'Error: ' + error.message;
-                });
-                document.getElementById('project-list').innerHTML = '<div class="empty-state"><div class="empty-state-icon">⚠️</div><p>Error: ' + error.message + '</p></div>';
-            }
-        }
-        
-        // Switch tabs
-        function switchTab(tabName) {
-            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
-            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-            
-            event.target.classList.add('active');
-            document.getElementById(tabName).classList.add('active');
-        }
-        
-        // Render Overview
-        function renderOverview() {
-            const summary = workData.summary;
-            document.getElementById('stat-total').textContent = summary.total_active;
-            document.getElementById('stat-urgent').textContent = summary.urgent;
-            document.getElementById('stat-blocked').textContent = summary.blocked;
-            document.getElementById('stat-due').textContent = summary.due_this_week;
-            
-            // Priority actions
-            const allItems = [...workData.tasks, ...workData.projects];
-            const urgentItems = allItems.filter(item => item.priority === 'P0' || item.priority === 'P1');
-            
-            const priorityList = document.getElementById('priority-list');
-            if (urgentItems.length === 0) {
-                priorityList.innerHTML = '<div class="empty-state"><div class="empty-state-icon">🎉</div><p>No urgent items! You\'re all caught up.</p></div>';
-            } else {
-                priorityList.innerHTML = urgentItems.slice(0, 5).map(item => `
-                    <div class="task-item priority-${item.priority.toLowerCase()}">
-                        <div class="task-checkbox"></div>
-                        <div class="task-content">
-                            <div class="task-title">${item.name}</div>
-                            <div class="task-meta">
-                                <span class="task-tag tag-priority-${item.priority.toLowerCase()}">${item.priority}</span>
-                                <span>📁 ${item.project || 'No Project'}</span>
-                                <span>👤 ${item.stakeholder}</span>
-                                <span>📅 Due: ${item.due_date || 'N/A'}</span>
-                            </div>
-                        </div>
-                    </div>
-                `).join('');
-            }
-            
-            // Blocked items
-            const blockedItems = allItems.filter(item => item.status === 'Blocked');
-            const blockedCard = document.getElementById('blocked-card');
-            if (blockedItems.length > 0) {
-                blockedCard.style.display = 'block';
-                document.getElementById('blocked-list').innerHTML = blockedItems.map(item => `
-                    <div class="alert-box blocked">
-                        <div class="alert-title">⚠️ ${item.name}</div>
-                        <p><strong>Blocked:</strong> ${item.blocked_reason || 'No reason provided'}</p>
-                        <p style="font-size: 12px; color: #666; margin-top: 8px;">
-                            Project: ${item.project} | Stakeholder: ${item.stakeholder}
-                        </p>
-                    </div>
-                `).join('');
-            }
-        }
-        
-        // Render Tasks
-        function renderTasks() {
-            const taskList = document.getElementById('task-list');
-            let tasks = workData.tasks;
-            
-            // Apply filters
-            if (currentFilter === 'p0') {
-                tasks = tasks.filter(t => t.priority === 'P0');
-            } else if (currentFilter === 'blocked') {
-                tasks = tasks.filter(t => t.status === 'Blocked');
-            } else if (currentFilter === 'today') {
-                const today = new Date().toISOString().split('T')[0];
-                tasks = tasks.filter(t => t.due_date === today);
-            } else if (currentFilter === 'week') {
-                const today = new Date();
-                const weekLater = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
-                tasks = tasks.filter(t => {
-                    if (!t.due_date) return false;
-                    const due = new Date(t.due_date);
-                    return due >= today && due <= weekLater;
-                });
-            }
-            
-            if (tasks.length === 0) {
-                taskList.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📋</div><p>No tasks found.</p></div>';
-                return;
-            }
-            
-            taskList.innerHTML = tasks.map(task => `
-                <li class="task-item priority-${task.priority.toLowerCase()} ${task.status === 'Blocked' ? 'blocked' : ''}" data-task-id="${task.id}">
-                    <div class="task-checkbox" onclick="markTaskComplete('${task.id}')" title="Mark Complete"></div>
-                    <div class="task-content">
-                        <div class="task-title">${task.name}</div>
-                        <div style="font-size: 13px; color: #666; margin-bottom: 8px;">${task.detail}</div>
-                        <div class="task-meta">
-                            <span class="task-tag tag-priority-${task.priority.toLowerCase()}">${task.priority}</span>
-                            <span class="task-tag tag-effort-${task.effort.toLowerCase()}">${task.effort}</span>
-                            ${task.status === 'Blocked' ? '<span class="task-tag tag-blocked">⚠️ Blocked</span>' : ''}
-                            <span>📁 ${task.project || 'No Project'}</span>
-                            <span>👤 ${task.stakeholder}</span>
-                            <span>📅 ${task.due_date || 'No due date'}</span>
-                        </div>
-                        ${task.blocked_reason ? `<div style="font-size: 12px; color: #92400e; margin-top: 8px;">⚠️ ${task.blocked_reason}</div>` : ''}
-                    </div>
-                    <button class="task-complete-btn" onclick="markTaskComplete('${task.id}')" title="Mark Complete">✓</button>
-                </li>
-            `).join('');
-        }
-        
-        // Filter tasks
-        function filterTasks(filter) {
-            currentFilter = filter;
-            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-            renderTasks();
-        }
-        
-        // Set GANTT grouping
-        function setGanttGrouping(groupBy) {
-            currentGanttGrouping = groupBy;
-            document.querySelectorAll('.gantt-group-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelector(`.gantt-group-btn[data-group="${groupBy}"]`).classList.add('active');
-            renderWorkGantt();
-        }
-        
-        // Render Work GANTT Chart
-        function renderWorkGantt() {
-            const container = document.getElementById('work-gantt-container');
-            if (!workData || !workData.tasks || workData.tasks.length === 0) {
-                container.innerHTML = '<div style="text-align: center; padding: 40px; color: #666;">No tasks to display</div>';
-                return;
-            }
-            
-            // Define date columns
-            const dateColumns = [
-                { key: 'overdue', label: '🔴 Overdue', days: -1 },
-                { key: 'today', label: '📅 Today', days: 0 },
-                { key: 'plus1', label: '+1 Day', days: 1 },
-                { key: 'plus2', label: '+2 Days', days: 2 },
-                { key: 'plus3', label: '+3 Days', days: 3 },
-                { key: 'plus4', label: '+4 Days', days: 4 },
-                { key: 'plus5', label: '+5 Days', days: 5 },
-                { key: 'plus6', label: '+6 Days', days: 6 }
-            ];
-            
-            // Get grouping configuration
-            let groups = {};
-            const groupBy = currentGanttGrouping;
-            
-            if (groupBy === 'priority') {
-                groups = {
-                    'P0': { name: '🔴 P0 - Critical', tasks: [], labelClass: 'priority-p0' },
-                    'P1': { name: '🟠 P1 - High', tasks: [], labelClass: 'priority-p1' },
-                    'P2': { name: '🔵 P2 - Medium', tasks: [], labelClass: 'priority-p2' },
-                    'P3': { name: '⚪ P3 - Low', tasks: [], labelClass: 'priority-p3' }
-                };
-            } else if (groupBy === 'category') {
-                groups = {
-                    'Analysis': { name: '📊 Analysis', tasks: [], labelClass: 'category-analysis' },
-                    'Financial': { name: '💰 Financial', tasks: [], labelClass: 'category-financial' },
-                    'Admin': { name: '📝 Admin', tasks: [], labelClass: 'category-admin' },
-                    'Operations': { name: '⚙️ Operations', tasks: [], labelClass: 'category-operations' },
-                    'Legal': { name: '⚖️ Legal', tasks: [], labelClass: 'category-legal' }
-                };
-            } else if (groupBy === 'stakeholder') {
-                // Dynamic stakeholder grouping
-                const stakeholders = [...new Set(workData.tasks.map(t => t.stakeholder).filter(s => s))].sort();
-                stakeholders.forEach(s => {
-                    groups[s] = { name: `👤 ${s}`, tasks: [], labelClass: 'priority-p2' };
-                });
-                if (Object.keys(groups).length === 0) {
-                    groups['Unknown'] = { name: '👤 Unknown', tasks: [], labelClass: 'priority-p3' };
-                }
-            }
-            
-            // Filter active tasks and group
-            workData.tasks.filter(t => t.status !== 'Complete').forEach(task => {
-                let groupKey;
-                if (groupBy === 'priority') {
-                    groupKey = task.priority || 'P2';
-                } else if (groupBy === 'category') {
-                    groupKey = task.category || 'Admin';
-                } else {
-                    groupKey = task.stakeholder || 'Unknown';
-                }
+    <!-- Add/Edit Deliverable Modal -->
+    <div class="gantt-modal" id="gantt-modal">
+        <div class="gantt-modal-content">
+            <div class="gantt-modal-header">
+                <h3 id="gantt-modal-title">➕ Add Deliverable</h3>
+                <button class="gantt-modal-close" onclick="closeGanttModal()">×</button>
+            </div>
+            <form id="gantt-form" onsubmit="saveDeliverable(event)">
+                <input type="hidden" id="gantt-index">
                 
-                if (groups[groupKey]) {
-                    groups[groupKey].tasks.push(task);
-                } else {
-                    // For unknown categories/stakeholders, add to first group or create "Other"
-                    const firstKey = Object.keys(groups)[0];
-                    if (firstKey) groups[firstKey].tasks.push(task);
-                }
-            });
+                <div class="gantt-form-group">
+                    <label>Deliverable Name *</label>
+                    <input type="text" id="gantt-name" required placeholder="Enter deliverable name">
+                </div>
+                
+                <div class="gantt-form-group">
+                    <label>Due Date *</label>
+                    <input type="date" id="gantt-due-date" required>
+                </div>
+                
+                <div class="gantt-form-group">
+                    <label>Category</label>
+                    <select id="gantt-category">
+                        <option value="">Select category...</option>
+                        <option value="Development">Development</option>
+                        <option value="Marketing">Marketing</option>
+                        <option value="Finance">Finance</option>
+                        <option value="Operations">Operations</option>
+                        <option value="Legal">Legal</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                
+                <div class="gantt-form-group">
+                    <label>Priority</label>
+                    <select id="gantt-priority">
+                        <option value="Low">Low</option>
+                        <option value="Medium" selected>Medium</option>
+                        <option value="High">High</option>
+                        <option value="Critical">Critical</option>
+                    </select>
+                </div>
+                
+                <div class="gantt-form-group">
+                    <label>Project</label>
+                    <input type="text" id="gantt-project" placeholder="Project name (optional)">
+                </div>
+                
+                <div class="gantt-form-group">
+                    <label>Stakeholder</label>
+                    <input type="text" id="gantt-stakeholder" placeholder="Who is this for?">
+                </div>
+                
+                <div class="gantt-form-group">
+                    <label>Assigned To</label>
+                    <input type="text" id="gantt-assigned" placeholder="Who is working on this?">
+                </div>
+                
+                <div class="gantt-form-actions">
+                    <button type="button" class="gantt-btn gantt-btn-secondary" onclick="closeGanttModal()">Cancel</button>
+                    <button type="button" class="gantt-btn gantt-btn-secondary" onclick="deleteDeliverable()" id="gantt-delete-btn" style="display:none; background:#dc2626;">Delete</button>
+                    <button type="submit" class="gantt-btn gantt-btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        // Tab switching
+        function showTab(tabId, e) {
+            if (e) e.preventDefault();
             
-            // Sort by due date within each group
-            Object.values(groups).forEach(g => {
-                g.tasks.sort((a, b) => {
-                    const daysA = a.due_date ? Math.floor((new Date(a.due_date) - new Date()) / (1000 * 60 * 60 * 24)) : 999;
-                    const daysB = b.due_date ? Math.floor((new Date(b.due_date) - new Date()) / (1000 * 60 * 60 * 24)) : 999;
-                    return daysA - daysB;
-                });
-            });
+            // Update nav
+            document.querySelectorAll('.work-nav a').forEach(a => a.classList.remove('active'));
+            event.target.classList.add('active');
             
-            // Build HTML - CSS Grid with sticky first column
-            const headerLabel = groupBy === 'priority' ? 'Priority' : groupBy === 'category' ? 'Category' : 'Stakeholder';
-            const groupEntries = Object.entries(groups).filter(([_, g]) => g.tasks.length > 0);
+            // Update content
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
             
-            let html = '<div class="gantt-chart">';
+            // Render Gantt if switching to it
+            if (tabId === 'gantt') {
+                renderGantt();
+            }
+        }
+        
+        // Default deliverables
+        const defaultDeliverables = [
+            { id: 1, name: 'D1 API Setup', dueDate: '2026-02-25', category: 'Development', priority: 'High', project: 'Trak App', stakeholder: 'Sam', assigned: 'Sam' },
+            { id: 2, name: 'TAT Migration', dueDate: '2026-02-28', category: 'Development', priority: 'Medium', project: 'Trak App', stakeholder: 'Sam', assigned: 'Sam' },
+            { id: 3, name: 'WHOOP Integration', dueDate: '2026-03-01', category: 'Development', priority: 'Medium', project: 'Trak App', stakeholder: 'Sam', assigned: 'Sam' },
+            { id: 4, name: 'Marketing Campaign', dueDate: '2026-03-05', category: 'Marketing', priority: 'High', project: 'Card App', stakeholder: 'Rafi', assigned: 'Rafi' },
+            { id: 5, name: 'Contract Review', dueDate: '2026-03-10', category: 'Legal', priority: 'Critical', project: '', stakeholder: 'Ahmed Osman', assigned: 'Sam' },
+            { id: 6, name: 'Invoicing Setup', dueDate: '2026-03-15', category: 'Finance', priority: 'Medium', project: '', stakeholder: 'Aylin', assigned: 'Sam' }
+        ];
+        
+        // Load from localStorage or use defaults
+        function loadDeliverables() {
+            const saved = localStorage.getItem('work-gantt-deliverables');
+            if (saved) {
+                return JSON.parse(saved);
+            }
+            return [...defaultDeliverables];
+        }
+        
+        // Save to localStorage
+        function saveToStorage(deliverables) {
+            localStorage.setItem('work-gantt-deliverables', JSON.stringify(deliverables));
+        }
+        
+        // Get priority sort order
+        function getPriorityOrder(priority) {
+            const order = { 'Critical': 0, 'High': 1, 'Medium': 2, 'Low': 3 };
+            return order[priority] || 4;
+        }
+        
+        // Render Gantt chart
+        function renderGantt() {
+            const deliverables = loadDeliverables();
+            const axis = document.getElementById('gantt-axis').value;
+            const container = document.getElementById('gantt-chart');
+            
+            if (deliverables.length === 0) {
+                container.innerHTML = '<div class="empty-state">No deliverables yet. Click "+ Add Deliverable" to create one.</div>';
+                return;
+            }
+            
+            // Sort deliverables
+            let sorted = [...deliverables];
+            if (axis === 'priority') {
+                sorted.sort((a, b) => getPriorityOrder(a.priority) - getPriorityOrder(b.priority));
+            } else {
+                sorted.sort((a, b) => (a[axis] || '').localeCompare(b[axis] || ''));
+            }
+            
+            const today = new Date();
+            
+            let html = '<table class="gantt-table">';
             
             // Header row
-            html += `<div class="gantt-header">${headerLabel}</div>`;
-            dateColumns.forEach(col => {
-                html += `<div class="gantt-header">${col.label}</div>`;
+            html += '<thead><tr>';
+            html += '<th style="min-width:200px;">Deliverable</th>';
+            html += '<th>Due</th>';
+            html += '<th>Category</th>';
+            html += '<th>Priority</th>';
+            html += '<th>Project</th>';
+            html += '<th>Stakeholder</th>';
+            html += '<th>Assigned</th>';
+            html += '<th style="min-width:150px;">Timeline</th>';
+            html += '</tr></thead><tbody>';
+            
+            // Data rows
+            sorted.forEach((d, index) => {
+                const priorityClass = d.priority.toLowerCase();
+                html += `<tr class="gantt-row-clickable" onclick="editDeliverable(${index})">`;
+                html += `<td class="gantt-name-col">${d.name}</td>`;
+                html += `<td class="gantt-date-col">${d.dueDate}</td>`;
+                html += `<td><span class="category-badge">${d.category || '-'}</span></td>`;
+                html += `<td><span class="priority-badge priority-${priorityClass}">${d.priority}</span></td>`;
+                html += `<td>${d.project || '-'}</td>`;
+                html += `<td>${d.stakeholder || '-'}</td>`;
+                html += `<td>${d.assigned || '-'}</td>`;
+                
+                // Timeline bar
+                html += '<td class="gantt-bar-col">';
+                const dueDate = new Date(d.dueDate);
+                const daysUntilDue = Math.ceil((dueDate - today) / (1000 * 60 * 60 * 24));
+                
+                if (daysUntilDue >= 0 && daysUntilDue <= 14) {
+                    const progress = Math.max(5, 100 - (daysUntilDue * 7));
+                    const barColorClass = `gantt-bar-${priorityClass}`;
+                    html += `<div class="gantt-bar ${barColorClass}" style="width:${progress}%;min-width:30px;"></div>`;
+                    html += `<span style="font-size:11px;color:#aaa;margin-left:8px;">${daysUntilDue}d</span>`;
+                } else if (daysUntilDue < 0) {
+                    html += `<div class="gantt-bar gantt-bar-critical" style="width:100%;"></div>`;
+                    html += `<span style="font-size:11px;color:#dc2626;margin-left:8px;">Overdue</span>`;
+                } else {
+                    html += '<span style="font-size:11px;color:#666;">> 2 weeks</span>';
+                }
+                
+                html += '</td></tr>';
             });
             
-            // Data rows - each row is a grid row
-            groupEntries.forEach(([groupKey, group], index) => {
-                const isLast = index === groupEntries.length - 1;
-                const rowClass = isLast ? 'gantt-row last-row' : 'gantt-row';
-                
-                html += `<div class="${rowClass}">`;
-                
-                // Label cell (first column, sticky)
-                html += `<div class="gantt-lane-label ${group.labelClass}">${group.name} (${group.tasks.length})</div>`;
-                
-                // Date cells
-                dateColumns.forEach(col => {
-                    const cellClass = col.key;
-                    
-                    const cellTasks = group.tasks.filter(task => {
-                        if (!task.due_date) return false;
-                        const daysRemaining = Math.floor((new Date(task.due_date) - new Date()) / (1000 * 60 * 60 * 24));
-                        
-                        if (col.key === 'overdue') return daysRemaining < 0;
-                        if (col.key === 'today') return daysRemaining === 0;
-                        if (col.key === 'plus1') return daysRemaining === 1;
-                        if (col.key === 'plus2') return daysRemaining === 2;
-                        if (col.key === 'plus3') return daysRemaining === 3;
-                        if (col.key === 'plus4') return daysRemaining === 4;
-                        if (col.key === 'plus5') return daysRemaining === 5;
-                        if (col.key === 'plus6') return daysRemaining === 6;
-                        return false;
-                    });
-                    
-                    html += `<div class="gantt-cell ${cellClass}">`;
-                    
-                    if (cellTasks.length === 0) {
-                        html += '<div class="gantt-empty-cell">-</div>';
-                    } else {
-                        cellTasks.forEach(task => {
-                            const priorityClass = task.priority ? task.priority.toLowerCase() : 'p2';
-                            const daysRemaining = task.due_date ? Math.floor((new Date(task.due_date) - new Date()) / (1000 * 60 * 60 * 24)) : 999;
-                            
-                            html += `
-                                <div class="gantt-task-card ${priorityClass}">
-                                    <div class="gantt-task-name">${task.name}</div>
-                                    <div class="gantt-task-meta">
-                                        <span>${daysRemaining < 0 ? Math.abs(daysRemaining) + 'd overdue' : daysRemaining + 'd left'}</span>
-                                        <span class="gantt-task-effort">${task.effort || 'Medium'}</span>
-                                    </div>
-                                </div>
-                            `;
-                        });
-                    }
-                    
-                    html += '</div>';
-                });
-                
-                html += '</div>'; // Close gantt-row
-            });
-            
-            html += '</div>'; // Close gantt-chart
+            html += '</tbody></table>';
             container.innerHTML = html;
         }
         
-        // Render Projects with Deliverables and CRAM Notes
-        function renderProjects() {
-            const projectList = document.getElementById('project-list');
-
-            if (workData.projects.length === 0) {
-                projectList.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📁</div><p>No active projects.</p></div>';
-                return;
-            }
-
-            try {
-            // First, merge deliverables for all projects and update workData
-            workData.projects.forEach(project => {
-                project.deliverables = mergeDeliverables(project.id, project.deliverables || []);
-            });
-
-            projectList.innerHTML = workData.projects.map(project => {
-                const statusClass = project.status ? project.status.toLowerCase().replace(' ', '-') : 'planning';
-
-                // Use already-merged deliverables
-                const deliverables = project.deliverables;
-
-                // Sort a copy for display
-                const sortedDeliverables = [...deliverables].sort((a, b) => {
-                    if (!a.due_date) return 1;
-                    if (!b.due_date) return -1;
-                    return new Date(a.due_date) - new Date(b.due_date);
-                });
-                
-                // Format CRAM notes (split by newlines)
-                const cramLines = project.cram_notes ? project.cram_notes.split('\n').filter(line => line.trim()) : [];
-                
-                return `
-                <div class="project-full-card">
-                    <h2>📁 ${project.name}</h2>
-                    
-                    <div class="project-meta-bar">
-                        <span class="project-status-badge ${statusClass}">${project.status || 'Planning'}</span>
-                        <span class="project-lead">👤 Lead: ${project.project_lead || 'TBD'}</span>
-                        <span class="project-lead">🎯 Stakeholder: ${project.stakeholder || 'TBD'}</span>
-                        ${project.target_end_date ? `<span class="project-lead">📅 Due: ${project.target_end_date}</span>` : ''}
-                    </div>
-                    
-                    ${project.description ? `<p style="font-size: 13px; color: #666; margin-bottom: 16px;">${project.description}</p>` : ''}
-                    
-                    <div class="project-progress-section">
-                        <div class="project-progress-bar">
-                            <div class="project-progress-fill" style="width: ${project.progress || 0}%"></div>
-                        </div>
-                        <div class="project-progress-text">${project.progress || 0}% Complete</div>
-                    </div>
-                    
-                    ${sortedDeliverables.length >= 0 ? `
-                    <div class="deliverables-section">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                            <h3>📋 Deliverables (${deliverables.length})</h3>
-                            <button class="add-deliverable-btn" onclick="showAddDeliverableModal('${project.id}')">+ Add Deliverable</button>
-                        </div>
-
-                        <!-- Deliverables Date GANTT -->
-                        <div class="deliverables-date-gantt" id="deliverables-gantt-${project.id}">
-                            ${generateDeliverablesGantt(sortedDeliverables, project.target_end_date, project.id)}
-                        </div>
-                        
-                        <!-- Selected Deliverable Detail View -->
-                        <div id="deliverable-detail-${project.id}" class="deliverable-detail-view" style="display: none;">
-                            <div class="deliverable-detail-header">
-                                <h4>📄 Deliverable Details</h4>
-                                <button class="deliverable-detail-close" onclick="closeDeliverableDetail('${project.id}')">×</button>
-                            </div>
-                            <div id="deliverable-detail-content-${project.id}">
-                                <!-- Content populated by JS -->
-                            </div>
-                        </div>
-                        ` : ''}
-                    
-                    ${cramLines.length > 0 ? `
-                    <div class="cram-section">
-                        <h3>📝 CRAM Notes</h3>
-                        <div class="cram-notes-display">
-                            ${cramLines.map(line => `<div class="cram-note-line">• ${line}</div>`).join('')}
-                        </div>
-                    </div>
-                    ` : ''}
-                    
-                    ${project.notes_context ? `
-                    <div style="margin-top: 16px; padding: 12px; background: #f8f9ff; border-radius: 8px; font-size: 12px; color: #666;">
-                        <strong>Context:</strong> ${project.notes_context}
-                    </div>
-                    ` : ''}
-                </div>
-                `;
-            }).join('');
-            } catch (err) {
-                console.error('Error in renderProjects:', err);
-                projectList.innerHTML = '<div class="empty-state"><div class="empty-state-icon">⚠️</div><p>Error rendering projects: ' + err.message + '</p></div>';
-            }
+        // Open modal for new deliverable
+        function openGanttModal() {
+            document.getElementById('gantt-modal').classList.add('active');
+            document.getElementById('gantt-modal-title').textContent = '➕ Add Deliverable';
+            document.getElementById('gantt-form').reset();
+            document.getElementById('gantt-index').value = '';
+            document.getElementById('gantt-delete-btn').style.display = 'none';
+            
+            const defaultDue = new Date();
+            defaultDue.setDate(defaultDue.getDate() + 7);
+            document.getElementById('gantt-due-date').value = defaultDue.toISOString().split('T')[0];
         }
         
-        // Render Recurring
-        function renderRecurring() {
-            const recurringList = document.getElementById('recurring-list');
+        // Edit deliverable
+        function editDeliverable(index) {
+            const deliverables = loadDeliverables();
+            const sorted = [...deliverables];
+            const axis = document.getElementById('gantt-axis').value;
             
-            if (workData.recurring.length === 0) {
-                recurringList.innerHTML = '<div class="empty-state"><div class="empty-state-icon">🔄</div><p>No recurring items.</p></div>';
-                return;
+            if (axis === 'priority') {
+                sorted.sort((a, b) => getPriorityOrder(a.priority) - getPriorityOrder(b.priority));
+            } else {
+                sorted.sort((a, b) => (a[axis] || '').localeCompare(b[axis] || ''));
             }
             
-            recurringList.innerHTML = workData.recurring.map(item => `
-                <div class="recurring-item">
-                    <div class="recurring-info">
-                        <h3>${item.name}</h3>
-                        <div class="recurring-meta">
-                            ${item.detail} • Next: ${item.next_due} • 👤 ${item.stakeholder}
-                        </div>
-                        ${item.template ? `<div style="font-size: 11px; color: #9945FF; margin-top: 4px;">${item.template}</div>` : ''}
-                    </div>
-                    <div style="text-align: right;">
-                        <span class="frequency-badge">${item.frequency}</span>
-                        <div style="font-size: 12px; color: #666; margin-top: 8px;">${item.status}</div>
-                    </div>
-                </div>
-            `).join('');
+            const d = sorted[index];
+            
+            document.getElementById('gantt-modal').classList.add('active');
+            document.getElementById('gantt-modal-title').textContent = '✏️ Edit Deliverable';
+            document.getElementById('gantt-index').value = index;
+            document.getElementById('gantt-name').value = d.name;
+            document.getElementById('gantt-due-date').value = d.dueDate;
+            document.getElementById('gantt-category').value = d.category || '';
+            document.getElementById('gantt-priority').value = d.priority || 'Medium';
+            document.getElementById('gantt-project').value = d.project || '';
+            document.getElementById('gantt-stakeholder').value = d.stakeholder || '';
+            document.getElementById('gantt-assigned').value = d.assigned || '';
+            document.getElementById('gantt-delete-btn').style.display = 'block';
         }
         
-        // Generate Deliverables Date GANTT
-        function generateDeliverablesGantt(deliverables, projectDueDate, projectId) {
-            if (!deliverables || deliverables.length === 0) {
-                return '<div style="text-align: center; padding: 20px; color: #999;">No deliverables yet</div>';
-            }
-
-            // Find min/max dates from deliverables
-            const today = new Date();
-            today.setHours(0, 0, 0, 0);
-
-            const deliverableDates = deliverables
-                .filter(d => d.due_date)
-                .map(d => new Date(d.due_date));
-
-            const minDate = deliverableDates.length > 0
-                ? new Date(Math.min(...deliverableDates))
-                : today;
-
-            const maxDate = deliverableDates.length > 0
-                ? new Date(Math.max(...deliverableDates))
-                : new Date(today);
-
-            // Extend range to include project due date if set
-            if (projectDueDate) {
-                const projDate = new Date(projectDueDate);
-                if (projDate > maxDate) maxDate.setTime(projDate.getTime());
-            }
-
-            // Always include today and extend to cover all deliverables
-            if (minDate > today) minDate.setTime(today.getTime());
-            maxDate.setDate(maxDate.getDate() + 7); // Add buffer
-
-            // Generate weekly columns covering all deliverable dates
-            const columns = [];
-            let current = new Date(minDate);
-            let colIndex = 0;
-
-            while (current <= maxDate && colIndex < 20) {
-                const weekStart = new Date(current);
-                const weekEnd = new Date(current);
-                weekEnd.setDate(weekEnd.getDate() + 6);
-
-                columns.push({
-                    key: `week-${colIndex}`,
-                    label: `${weekStart.getDate()}/${weekStart.getMonth() + 1}`,
-                    start: weekStart,
-                    end: weekEnd
-                });
-
-                current.setDate(current.getDate() + 7);
-                colIndex++;
-            }
-            
-            // Build GANTT HTML
-            let html = '<div class="deliverables-gantt-container">';
-            
-            // Header row with dates
-            html += '<div class="deliverables-gantt-header">';
-            html += '<div class="deliverables-gantt-header-cell" style="width: 150px;">Deliverable</div>';
-            columns.forEach(col => {
-                html += `<div class="deliverables-gantt-header-cell">${col.label}</div>`;
-            });
-            html += '</div>';
-            
-            // Sort deliverables by due date
-            const sortedDelivs = [...deliverables].sort((a, b) => {
-                if (!a.due_date) return 1;
-                if (!b.due_date) return -1;
-                return new Date(a.due_date) - new Date(b.due_date);
-            });
-            
-            // Create a name-to-index map for the original array
-            const nameToIndex = new Map();
-            deliverables.forEach((d, i) => nameToIndex.set(d.name, i));
-
-            // Deliverable rows
-            sortedDelivs.forEach((d) => {
-                const statusClass = d.status ? d.status.toLowerCase().replace(' ', '-') : 'not-started';
-                const dueDate = d.due_date ? new Date(d.due_date) : null;
-                const originalIndex = nameToIndex.get(d.name);
-
-                html += `<div class="deliverables-gantt-row ${statusClass}" draggable="true" ondragstart="dragDeliverable(event, '${projectId}', '${d.name.replace(/'/g, "\\'")}')" data-project-id="${projectId}" data-deliv-name="${d.name.replace(/"/g, '&quot;')}">`;
-
-                // Name cell with edit/delete buttons
-                html += `<div class="deliverables-gantt-name-cell">`;
-                html += `<div class="deliverable-gantt-title">${d.name}</div>`;
-                html += `<div class="deliverable-gantt-subtitle">${d.status} • ${d.progress || 0}%</div>`;
-                html += `<div class="deliverable-row-actions">`;
-                html += `<button class="deliverable-row-btn edit" onclick="editDeliverableFromRow(event, '${projectId}', ${originalIndex})" title="Edit">✏️</button>`;
-                html += `<button class="deliverable-row-btn delete" onclick="deleteDeliverableFromRow(event, '${projectId}', ${originalIndex})" title="Delete">🗑️</button>`;
-                html += `</div>`;
-                html += '</div>';
-
-                // Date columns (droppable)
-                columns.forEach((col, colIndex) => {
-                    let cellContent = '';
-                    let cellClass = '';
-                    const dateStr = col.start.toISOString().split('T')[0];
-
-                    if (dueDate && dueDate >= col.start && dueDate <= col.end) {
-                        // Due date falls in this week
-                        cellContent = `<div class="deliverable-gantt-marker ${statusClass}" draggable="true" ondragstart="dragDeliverable(event, '${projectId}', '${d.name.replace(/'/g, "\\'")}')"></div>`;
-                        cellClass = 'has-due-date';
-                    }
-
-                    html += `<div class="deliverables-gantt-cell ${cellClass}" ondrop="dropDeliverable(event, '${projectId}', ${colIndex}, '${dateStr}')" ondragover="allowDropDeliverable(event)" ondragleave="dragLeaveDeliverable(event)">${cellContent}</div>`;
-                });
-
-                html += '</div>';
-            });
-            
-            html += '</div>';
-            return html;
+        // Close modal
+        function closeGanttModal() {
+            document.getElementById('gantt-modal').classList.remove('active');
         }
         
-        // Show deliverable detail view
-        function showDeliverableDetail(projectId, deliverableIndex) {
-            const project = workData.projects.find(p => p.id === projectId);
-            if (!project || !project.deliverables[deliverableIndex]) return;
+        // Save deliverable
+        function saveDeliverable(e) {
+            e.preventDefault();
             
-            const d = project.deliverables[deliverableIndex];
-            const detailDiv = document.getElementById(`deliverable-detail-${projectId}`);
-            const contentDiv = document.getElementById(`deliverable-detail-content-${projectId}`);
-            
-            contentDiv.innerHTML = `
-                <div class="deliverable-detail-grid">
-                    <div class="deliverable-detail-field">
-                        <label>Status</label>
-                        <span class="status-badge ${d.status ? d.status.toLowerCase().replace(' ', '-') : 'not-started'}">${d.status || 'Not Started'}</span>
-                    </div>
-                    <div class="deliverable-detail-field">
-                        <label>Owner</label>
-                        <span>${d.owner || 'TBD'}</span>
-                    </div>
-                    <div class="deliverable-detail-field">
-                        <label>Due Date</label>
-                        <span>${d.due_date || 'Not set'}</span>
-                    </div>
-                    <div class="deliverable-detail-field">
-                        <label>Progress</label>
-                        <div class="detail-progress-bar">
-                            <div class="detail-progress-fill" style="width: ${d.progress || 0}%"></div>
-                        </div>
-                        <span>${d.progress || 0}%</span>
-                    </div>
-                </div>
-                ${d.notes ? `<div class="deliverable-detail-notes"><label>Notes</label><p>${d.notes}</p></div>` : ''}
-                ${d.blocked_reason ? `<div class="deliverable-detail-blocked"><label>⚠️ Blocked</label><p>${d.blocked_reason}</p></div>` : ''}
-                <div class="deliverable-detail-actions">
-                    <button class="btn-primary" onclick="showEditDeliverableModal('${projectId}', '${d.name.replace(/'/g, "\\'")}', '${d.status}', '${(d.owner || '').replace(/'/g, "\\'")}', '${d.due_date || ''}', ${d.progress || 0}, '${(d.notes || '').replace(/'/g, "\\'")}')">✏️ Edit</button>
-                    <button class="btn-secondary" onclick="closeDeliverableDetail('${projectId}')">Close</button>
-                </div>
-            `;
-            
-            detailDiv.style.display = 'block';
-            detailDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }
-        
-        function closeDeliverableDetail(projectId) {
-            const detailDiv = document.getElementById(`deliverable-detail-${projectId}`);
-            if (detailDiv) detailDiv.style.display = 'none';
-        }
-
-        // Edit deliverable from row
-        function editDeliverableFromRow(event, projectId, deliverableIndex) {
-            event.stopPropagation();
-            const project = workData.projects.find(p => p.id === projectId);
-            if (!project || !project.deliverables[deliverableIndex]) return;
-
-            const d = project.deliverables[deliverableIndex];
-            showEditDeliverableModal(projectId, d.name, d.status, d.owner, d.due_date, d.progress, d.notes);
-        }
-
-        // Delete deliverable from row
-        async function deleteDeliverableFromRow(event, projectId, deliverableIndex) {
-            event.stopPropagation();
-            const project = workData.projects.find(p => p.id === projectId);
-            if (!project || !project.deliverables[deliverableIndex]) return;
-
-            const d = project.deliverables[deliverableIndex];
-            if (!confirm(`Delete deliverable "${d.name}"?`)) return;
-
-            // Remove from local array
-            project.deliverables.splice(deliverableIndex, 1);
-
-            // Remove from localStorage
-            const localDeliverables = getLocalDeliverables(projectId);
-            const updatedLocals = localDeliverables.filter(ld => ld.name !== d.name);
-            saveLocalDeliverables(projectId, updatedLocals);
-
-            // Try to delete from Airtable if it has a real ID
-            if (d.id && !d.id.startsWith('local_')) {
-                try {
-                    // Note: Would need a deleteDeliverable Worker function
-                    console.log('Would delete from Airtable:', d.id);
-                } catch (e) {
-                    console.log('Airtable delete failed:', e.message);
-                }
-            }
-
-            renderProjects();
-            console.log(`🗑️ Deleted deliverable "${d.name}"`);
-        }
-
-        // Drag and Drop functions for deliverables
-        let draggedDeliverable = null;
-
-        function dragDeliverable(event, projectId, deliverableName) {
-            draggedDeliverable = { projectId, deliverableName };
-            event.dataTransfer.effectAllowed = 'move';
-            event.target.closest('.deliverables-gantt-row').classList.add('dragging');
-            console.log('Dragging deliverable:', deliverableName);
-        }
-
-        function allowDropDeliverable(event) {
-            event.preventDefault();
-            const cell = event.target.closest('.deliverables-gantt-cell');
-            if (cell) {
-                document.querySelectorAll('.deliverables-gantt-cell.drag-over').forEach(el => {
-                    if (el !== cell) el.classList.remove('drag-over');
-                });
-                cell.classList.add('drag-over');
-            }
-        }
-
-        function dragLeaveDeliverable(event) {
-            const cell = event.target.closest('.deliverables-gantt-cell');
-            if (cell) {
-                cell.classList.remove('drag-over');
-            }
-        }
-
-        async function dropDeliverable(event, projectId, columnIndex, targetDate) {
-            event.preventDefault();
-            event.stopPropagation();
-
-            const cell = event.target.closest('.deliverables-gantt-cell');
-            if (cell) cell.classList.remove('drag-over');
-
-            console.log('Drop event fired:', { projectId, columnIndex, targetDate, draggedDeliverable });
-
-            if (!draggedDeliverable) {
-                console.log('No dragged deliverable found');
-                return;
-            }
-
-            const project = workData.projects.find(p => p.id === draggedDeliverable.projectId);
-            if (!project) {
-                console.log('Project not found:', draggedDeliverable.projectId);
-                return;
-            }
-
-            // Find deliverable by name instead of index
-            const deliv = project.deliverables.find(d => d.name === draggedDeliverable.deliverableName);
-            if (!deliv) {
-                console.log('Deliverable not found with name:', draggedDeliverable.deliverableName);
-                console.log('Available deliverables:', project.deliverables.map(d => d.name));
-                return;
-            }
-
-            const oldDate = deliv.due_date;
-            deliv.due_date = targetDate;
-
-            // Update localStorage
-            updateLocalDeliverable(draggedDeliverable.projectId, deliv.name, { due_date: targetDate });
-
-            console.log(`📅 Moved "${deliv.name}" from ${oldDate || 'no date'} to ${targetDate}`);
-
-            // Re-render to show changes
-            renderProjects();
-
-            // Try to sync to Airtable
-            try {
-                if (deliv.id && !deliv.id.startsWith('local_')) {
-                    const response = await fetch(WORKER_URL, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            action: 'updateDeliverable',
-                            data: {
-                                id: deliv.id,
-                                updates: { dueDate: targetDate }
-                            }
-                        })
-                    });
-                    if (response.ok) console.log('Date synced to Airtable');
-                }
-            } catch (e) {
-                console.log('Airtable sync failed (saved locally):', e.message);
-            }
-
-            draggedDeliverable = null;
-            document.querySelectorAll('.deliverables-gantt-row.dragging').forEach(el => el.classList.remove('dragging'));
-        }
-
-        // Deliverable Modal Functions
-        function showAddDeliverableModal(projectId) {
-            document.getElementById('deliverable-project-id').value = projectId;
-            document.getElementById('deliverable-is-edit').value = 'false';
-            document.getElementById('deliverable-original-name').value = '';
-            document.getElementById('deliverable-form').reset();
-            document.querySelector('#deliverable-modal h3').textContent = '📋 Add Deliverable';
-            document.getElementById('deliverable-submit-btn').textContent = 'Add Deliverable';
-            document.getElementById('deliverable-modal').style.display = 'flex';
-        }
-        
-        function showEditDeliverableModal(projectId, name, status, owner, dueDate, progress, notes) {
-            document.getElementById('deliverable-project-id').value = projectId;
-            document.getElementById('deliverable-is-edit').value = 'true';
-            document.getElementById('deliverable-original-name').value = name;
-            document.getElementById('deliverable-name').value = name;
-            document.getElementById('deliverable-status').value = status;
-            document.getElementById('deliverable-owner').value = owner || '';
-            document.getElementById('deliverable-due-date').value = dueDate || '';
-            document.getElementById('deliverable-progress').value = progress || 0;
-            document.getElementById('deliverable-notes').value = notes || '';
-            document.querySelector('#deliverable-modal h3').textContent = '✏️ Edit Deliverable';
-            document.getElementById('deliverable-submit-btn').textContent = 'Update Deliverable';
-            document.getElementById('deliverable-modal').style.display = 'flex';
-        }
-        
-        function closeDeliverableModal() {
-            document.getElementById('deliverable-modal').style.display = 'none';
-        }
-        
-        // Worker API configuration
-        const WORKER_URL = 'https://work-data-updater.samsclaw-498.workers.dev';
-
-        // LocalStorage helpers for deliverables (fallback when Worker fails)
-        function getLocalDeliverables(projectId) {
-            const key = `deliverables_${projectId}`;
-            const saved = localStorage.getItem(key);
-            return saved ? JSON.parse(saved) : [];
-        }
-
-        function saveLocalDeliverables(projectId, deliverables) {
-            const key = `deliverables_${projectId}`;
-            localStorage.setItem(key, JSON.stringify(deliverables));
-        }
-
-        function addLocalDeliverable(projectId, deliverable) {
-            const existing = getLocalDeliverables(projectId);
-            existing.push({
-                ...deliverable,
-                id: 'local_' + Date.now(),
-                source: 'local'
-            });
-            saveLocalDeliverables(projectId, existing);
-            return existing;
-        }
-
-        function updateLocalDeliverable(projectId, originalName, updates) {
-            const existing = getLocalDeliverables(projectId);
-            const index = existing.findIndex(d => d.name === originalName);
-            if (index !== -1) {
-                existing[index] = { ...existing[index], ...updates };
-                saveLocalDeliverables(projectId, existing);
-            }
-            return existing;
-        }
-
-        // Merge Airtable and local deliverables
-        function mergeDeliverables(projectId, airtableDeliverables) {
-            const localDeliverables = getLocalDeliverables(projectId);
-
-            // Create a map of existing deliverables by name
-            const merged = new Map();
-
-            // Add Airtable deliverables first
-            (airtableDeliverables || []).forEach(d => {
-                merged.set(d.name, { ...d, source: 'airtable' });
-            });
-
-            // Add local deliverables (override if same name, or add if new)
-            localDeliverables.forEach(d => {
-                if (!merged.has(d.name)) {
-                    merged.set(d.name, d);
-                }
-            });
-
-            return Array.from(merged.values());
-        }
-
-        // Mark TAT Task as Complete
-        async function markTaskComplete(taskId) {
-            if (!confirm('Mark this task as Complete?')) return;
-            
-            // Find task element and add completing animation
-            const taskItem = document.querySelector(`li[data-task-id="${taskId}"]`);
-            if (taskItem) taskItem.classList.add('completing');
-            
-            try {
-                const response = await fetch(WORKER_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        action: 'markTaskComplete',
-                        data: { taskId: taskId }
-                    })
-                });
-                
-                if (!response.ok) throw new Error('Failed to update');
-                
-                // Remove from local data
-                workData.tasks = workData.tasks.filter(t => t.id !== taskId);
-                
-                // Re-render
-                renderTasks();
-                renderOverview();
-                renderWorkGantt();
-                
-                console.log('✅ Task marked complete');
-                
-            } catch (error) {
-                console.error('Error marking task complete:', error);
-                alert('Error saving to Airtable. Please try again.');
-                if (taskItem) taskItem.classList.remove('completing');
-            }
-        }
-        
-        async function submitDeliverable(event) {
-            event.preventDefault();
-            
-            const projectId = document.getElementById('deliverable-project-id').value;
-            const isEdit = document.getElementById('deliverable-is-edit').value === 'true';
-            const originalName = document.getElementById('deliverable-original-name').value;
-            
-            const data = {
-                name: document.getElementById('deliverable-name').value,
-                status: document.getElementById('deliverable-status').value,
-                owner: document.getElementById('deliverable-owner').value,
-                dueDate: document.getElementById('deliverable-due-date').value,
-                progress: parseInt(document.getElementById('deliverable-progress').value),
-                notes: document.getElementById('deliverable-notes').value
+            const index = document.getElementById('gantt-index').value;
+            const deliverable = {
+                id: index ? Date.now() : Date.now(),
+                name: document.getElementById('gantt-name').value,
+                dueDate: document.getElementById('gantt-due-date').value,
+                category: document.getElementById('gantt-category').value,
+                priority: document.getElementById('gantt-priority').value,
+                project: document.getElementById('gantt-project').value,
+                stakeholder: document.getElementById('gantt-stakeholder').value,
+                assigned: document.getElementById('gantt-assigned').value
             };
             
-            closeDeliverableModal();
-
-            const project = workData.projects.find(p => p.id === projectId);
-
-            // ALWAYS save to localStorage first (persists across refreshes)
-            if (isEdit) {
-                updateLocalDeliverable(projectId, originalName, {
-                    name: data.name,
-                    status: data.status,
-                    owner: data.owner,
-                    due_date: data.dueDate,
-                    progress: data.progress,
-                    notes: data.notes
-                });
-            } else {
-                addLocalDeliverable(projectId, {
-                    name: data.name,
-                    status: data.status,
-                    owner: data.owner,
-                    due_date: data.dueDate,
-                    progress: data.progress,
-                    weight: 10,
-                    notes: data.notes
-                });
-            }
-
-            // Update local project data immediately
-            if (!project.deliverables) project.deliverables = [];
-
-            if (isEdit) {
-                const deliv = project.deliverables.find(d => d.name === originalName);
-                if (deliv) {
-                    deliv.name = data.name;
-                    deliv.status = data.status;
-                    deliv.owner = data.owner;
-                    deliv.due_date = data.dueDate;
-                    deliv.progress = data.progress;
-                    deliv.notes = data.notes;
-                }
-            } else {
-                project.deliverables.push({
-                    name: data.name,
-                    status: data.status,
-                    owner: data.owner,
-                    due_date: data.dueDate,
-                    progress: data.progress,
-                    weight: 10,
-                    notes: data.notes,
-                    source: 'local'
-                });
-            }
-
-            renderProjects();
-            console.log(`✅ Deliverable "${data.name}" ${isEdit ? 'updated' : 'added'} locally (saved to browser)`);
-
-            // Try to sync to Airtable (non-blocking)
-            try {
-                if (isEdit) {
-                    const deliv = project.deliverables.find(d => d.name === data.name);
-                    if (deliv && deliv.id && !deliv.id.startsWith('local_')) {
-                        // Only update Airtable if it has a real ID
-                        const response = await fetch(WORKER_URL, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({
-                                action: 'updateDeliverable',
-                                data: {
-                                    id: deliv.id,
-                                    updates: {
-                                        name: data.name,
-                                        status: data.status,
-                                        owner: data.owner,
-                                        dueDate: data.dueDate,
-                                        progress: data.progress,
-                                        notes: data.notes
-                                    }
-                                }
-                            })
-                        });
-                        if (response.ok) console.log('Synced to Airtable');
-                    }
+            const deliverables = loadDeliverables();
+            
+            if (index !== '') {
+                const sorted = [...deliverables];
+                const axis = document.getElementById('gantt-axis').value;
+                
+                if (axis === 'priority') {
+                    sorted.sort((a, b) => getPriorityOrder(a.priority) - getPriorityOrder(b.priority));
                 } else {
-                    const response = await fetch(WORKER_URL, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            action: 'addDeliverable',
-                            data: {
-                                projectId: projectId,
-                                name: data.name,
-                                status: data.status,
-                                owner: data.owner,
-                                dueDate: data.dueDate,
-                                weight: 10,
-                                notes: data.notes
-                            }
-                        })
-                    });
-                    if (response.ok) {
-                        const result = await response.json();
-                        console.log('Synced to Airtable:', result);
-                        // Update local ID with Airtable ID
-                        const newDeliv = project.deliverables.find(d => d.name === data.name && d.source === 'local');
-                        if (newDeliv && result.deliverable) {
-                            newDeliv.id = result.deliverable.id;
-                            newDeliv.source = 'airtable';
-                        }
-                    }
+                    sorted.sort((a, b) => (a[axis] || '').localeCompare(b[axis] || ''));
                 }
-            } catch (syncError) {
-                console.log('Airtable sync failed (saved locally):', syncError.message);
-            }
-
-            // Recalculate project progress
-            if (project.deliverables.length > 0) {
-                const avgProgress = project.deliverables.reduce((sum, d) => sum + (d.progress || 0), 0) / project.deliverables.length;
-                project.progress = Math.round(avgProgress);
-
-                // Update project progress in Airtable (fire and forget)
-                fetch(WORKER_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        action: 'updateProjectProgress',
-                        data: {
-                            projectId: projectId,
-                            progress: project.progress
-                        }
-                    })
-                }).catch(e => console.log('Progress sync failed:', e.message));
-            }
-        }
-        
-        // Load data on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            loadWorkData();
-            
-            // Close modal when clicking outside
-            const modal = document.getElementById('deliverable-modal');
-            if (modal) {
-                modal.addEventListener('click', function(e) {
-                    if (e.target === this) closeDeliverableModal();
-                });
-            }
-
-        });
-    </script>
-    
-    <!-- Clawson Chat Widget -->
-    <div id="clawson-chat-widget" class="clawson-chat-collapsed">
-        <div class="clawson-chat-header" onclick="toggleClawsonChat()">
-            <span class="clawson-chat-title">🦞 Ask Clawson</span>
-            <span class="clawson-chat-toggle">+</span>
-        </div>
-        <div class="clawson-chat-body" id="clawson-chat-body">
-            <div class="clawson-chat-messages" id="clawson-chat-messages">
-                <div class="clawson-message clawson-bot">
-                    <div class="clawson-message-content">
-                        Hey! I'm Clawson. Ask me about your tasks, projects, or anything else!
-                    </div>
-                    <div class="clawson-message-time">Now</div>
-                </div>
-            </div>
-            <div class="clawson-chat-input-area">
-                <input type="text" 
-                       id="clawson-chat-input" 
-                       class="clawson-chat-input" 
-                       placeholder="Type a message..."
-                       onkeypress="handleClawsonKeyPress(event)">
-                <button class="clawson-chat-send" onclick="sendClawsonMessage()">Send</button>
-            </div>
-        </div>
-    </div>
-    
-    <style>
-        #clawson-chat-widget {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 350px;
-            background: white;
-            border-radius: 16px;
-            box-shadow: 0 4px 20px rgba(153, 69, 255, 0.2);
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            z-index: 1000;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(153, 69, 255, 0.2);
-        }
-        .clawson-chat-collapsed { height: 56px; overflow: hidden; }
-        .clawson-chat-expanded { height: 500px; }
-        .clawson-chat-header {
-            background: linear-gradient(135deg, #9945FF, #FF6B9D);
-            color: white;
-            padding: 16px 20px;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-radius: 16px 16px 0 0;
-        }
-        .clawson-chat-title { font-weight: 600; font-size: 14px; }
-        .clawson-chat-toggle { font-size: 20px; font-weight: 300; }
-        .clawson-chat-body { display: flex; flex-direction: column; height: calc(100% - 56px); }
-        .clawson-chat-messages {
-            flex: 1; overflow-y: auto; padding: 16px; background: #fafafa;
-        }
-        .clawson-message { margin-bottom: 12px; max-width: 85%; }
-        .clawson-message.clawson-user { margin-left: auto; text-align: right; }
-        .clawson-message.clawson-bot { margin-right: auto; }
-        .clawson-message-content {
-            padding: 10px 14px; border-radius: 16px; font-size: 13px; line-height: 1.4;
-            display: inline-block; text-align: left;
-        }
-        .clawson-message.clawson-user .clawson-message-content {
-            background: linear-gradient(135deg, #9945FF, #FF6B9D);
-            color: white; border-bottom-right-radius: 4px;
-        }
-        .clawson-message.clawson-bot .clawson-message-content {
-            background: white; color: #1a1a2e; border-bottom-left-radius: 4px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        }
-        .clawson-message-time { font-size: 10px; color: #999; margin-top: 4px; }
-        .clawson-chat-input-area {
-            padding: 12px 16px; background: white; border-top: 1px solid #eee;
-            display: flex; gap: 8px;
-        }
-        .clawson-chat-input {
-            flex: 1; padding: 10px 14px; border: 1px solid #ddd;
-            border-radius: 20px; font-size: 13px; outline: none;
-        }
-        .clawson-chat-input:focus { border-color: #9945FF; }
-        .clawson-chat-send {
-            background: linear-gradient(135deg, #9945FF, #FF6B9D);
-            color: white; border: none; padding: 10px 18px;
-            border-radius: 20px; font-size: 13px; font-weight: 600; cursor: pointer;
-        }
-        .clawson-chat-send:hover { transform: scale(1.05); }
-        .clawson-chat-typing { font-size: 12px; color: #999; font-style: italic; padding: 8px 16px; }
-    </style>
-    
-    <script>
-        let clawsonChatExpanded = false;
-        function toggleClawsonChat() {
-            const widget = document.getElementById('clawson-chat-widget');
-            const toggle = document.querySelector('.clawson-chat-toggle');
-            clawsonChatExpanded = !clawsonChatExpanded;
-            if (clawsonChatExpanded) {
-                widget.classList.remove('clawson-chat-collapsed');
-                widget.classList.add('clawson-chat-expanded');
-                toggle.textContent = '−';
-                document.getElementById('clawson-chat-input').focus();
+                
+                const actualIndex = deliverables.findIndex(d => d.id === sorted[parseInt(index)].id);
+                if (actualIndex !== -1) {
+                    deliverable.id = deliverables[actualIndex].id;
+                    deliverables[actualIndex] = deliverable;
+                }
             } else {
-                widget.classList.remove('clawson-chat-expanded');
-                widget.classList.add('clawson-chat-collapsed');
-                toggle.textContent = '+';
+                deliverables.push(deliverable);
             }
-        }
-        function handleClawsonKeyPress(event) {
-            if (event.key === 'Enter') sendClawsonMessage();
-        }
-        // OpenClaw Gateway - Info Panel Mode
-        const OPENCLAW_LOCAL = 'http://localhost:18789';
-        const OPENCLAW_TUNNEL = 'https://openclaw.samsclaw.org';
-        
-        function openClawsonChat() {
-            window.open(OPENCLAW_LOCAL, '_blank');
+            
+            saveToStorage(deliverables);
+            closeGanttModal();
+            renderGantt();
         }
         
-        async function sendClawsonMessage() {
-            const input = document.getElementById('clawson-chat-input');
-            const message = input.value.trim();
-            if (!message) return;
+        // Delete deliverable
+        function deleteDeliverable() {
+            const index = document.getElementById('gantt-index').value;
+            if (index === '') return;
             
-            // Show info about OpenClaw access
-            const messagesDiv = document.getElementById('clawson-chat-messages');
+            if (!confirm('Are you sure you want to delete this deliverable?')) return;
             
-            // Add user message
-            addClawsonMessage(message, 'user');
-            input.value = '';
+            const deliverables = loadDeliverables();
+            const sorted = [...deliverables];
+            const axis = document.getElementById('gantt-axis').value;
             
-            // Show OpenClaw info
-            setTimeout(() => {
-                const infoDiv = document.createElement('div');
-                infoDiv.className = 'clawson-message clawson-bot';
-                infoDiv.innerHTML = `
-                    <div class="clawson-message-content" style="background: #fef3c7;">
-                        <div style="font-weight: 600; margin-bottom: 8px;">🦞 To chat with Clawson:</div>
-                        <div style="margin-bottom: 8px; font-size: 12px;">
-                            OpenClaw Gateway requires authentication.<br>
-                            Open the dashboard and check your gateway token.
-                        </div>
-                        <button onclick="openClawsonChat()" style="background: linear-gradient(135deg, #9945FF, #FF6B9D); color: white; border: none; padding: 8px 16px; border-radius: 16px; cursor: pointer; font-size: 12px; margin-right: 8px;">
-                            Open OpenClaw Dashboard
-                        </button>
-                    </div>
-                    <div class="clawson-message-time">${new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}</div>
-                `;
-                messagesDiv.appendChild(infoDiv);
-                messagesDiv.scrollTop = messagesDiv.scrollHeight;
-            }, 500);
+            if (axis === 'priority') {
+                sorted.sort((a, b) => getPriorityOrder(a.priority) - getPriorityOrder(b.priority));
+            } else {
+                sorted.sort((a, b) => (a[axis] || '').localeCompare(b[axis] || ''));
+            }
+            
+            const actualIndex = deliverables.findIndex(d => d.id === sorted[parseInt(index)].id);
+            if (actualIndex !== -1) {
+                deliverables.splice(actualIndex, 1);
+                saveToStorage(deliverables);
+            }
+            
+            closeGanttModal();
+            renderGantt();
         }
-        function addClawsonMessage(text, sender) {
-            const messagesDiv = document.getElementById('clawson-chat-messages');
-            const time = new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `clawson-message clawson-${sender}`;
-            messageDiv.innerHTML = `<div class="clawson-message-content">${text.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</div><div class="clawson-message-time">${time}</div>`;
-            messagesDiv.appendChild(messageDiv);
-            messagesDiv.scrollTop = messagesDiv.scrollHeight;
-        }
-        function showClawsonTyping() {
-            const messagesDiv = document.getElementById('clawson-chat-messages');
-            const existing = document.querySelector('.clawson-chat-typing');
-            if (existing) existing.remove();
-            const typingDiv = document.createElement('div');
-            typingDiv.className = 'clawson-chat-typing';
-            typingDiv.textContent = 'Clawson is thinking...';
-            typingDiv.id = 'clawson-typing-indicator';
-            messagesDiv.appendChild(typingDiv);
-            messagesDiv.scrollTop = messagesDiv.scrollHeight;
-        }
-        function hideClawsonTyping() {
-            const typing = document.getElementById('clawson-typing-indicator');
-            if (typing) typing.remove();
-        }
+        
+        // Close modal on outside click
+        document.getElementById('gantt-modal').addEventListener('click', function(e) {
+            if (e.target === this) closeGanttModal();
+        });
     </script>
 </body>
 </html>

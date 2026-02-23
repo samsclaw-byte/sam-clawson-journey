@@ -8,10 +8,17 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: linear-gradient(135deg, #0a0a0f, #1a1a2e); color: #fff; min-height: 100vh; }
         .header { background: linear-gradient(135deg, #667eea, #764ba2); padding: 20px; text-align: center; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .container { max-width: 1400px; margin: 0 auto; padding: 20px; }
         .nav { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
         .nav a { padding: 10px 20px; background: #1a1a2e; border: 1px solid #333; border-radius: 8px; color: #aaa; text-decoration: none; }
         .nav a.active { background: #667eea; color: #fff; }
+        
+        /* Work sub-nav */
+        .work-nav { display: flex; justify-content: center; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; background: #0a0a0f; padding: 10px; border-radius: 10px; }
+        .work-nav a { padding: 10px 24px; background: transparent; border: none; border-radius: 6px; color: #aaa; text-decoration: none; font-size: 14px; }
+        .work-nav a:hover { background: #1a1a2e; }
+        .work-nav a.active { background: #667eea; color: #fff; }
+        
         .section { background: #1a1a2e; border: 1px solid #333; border-radius: 12px; padding: 20px; margin-bottom: 20px; }
         .section h2 { font-size: 16px; color: #667eea; margin-bottom: 15px; }
         .task { background: #0a0a0f; padding: 15px; border-radius: 8px; margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
@@ -19,11 +26,71 @@
         .status-done { background: #22c55e20; color: #22c55e; }
         .status-progress { background: #f59e0b20; color: #f59e0b; }
         .status-todo { background: #666; color: #aaa; }
+        
+        /* Hide sections by default, show based on tab */
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        
+        /* Gantt Chart Styles */
+        .gantt-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
+        .gantt-header h2 { color: #667eea; margin: 0; }
+        .gantt-controls { display: flex; gap: 10px; flex-wrap: wrap; }
+        .gantt-btn { padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; font-size: 13px; }
+        .gantt-btn-primary { background: #667eea; color: white; }
+        .gantt-btn-secondary { background: #333; color: #aaa; }
+        .gantt-btn:hover { opacity: 0.8; }
+        
+        .gantt-axis-selector { display: flex; align-items: center; gap: 10px; }
+        .gantt-axis-selector label { color: #aaa; font-size: 13px; }
+        .gantt-axis-selector select { background: #0a0a0f; color: #fff; border: 1px solid #333; padding: 6px 12px; border-radius: 6px; }
+        
+        .gantt-chart { overflow-x: auto; }
+        .gantt-table { width: 100%; border-collapse: collapse; min-width: 900px; }
+        .gantt-table th { background: #0a0a0f; padding: 12px 8px; text-align: left; font-size: 12px; color: #aaa; border-bottom: 1px solid #333; }
+        .gantt-table td { padding: 10px 8px; border-bottom: 1px solid #2a2a3e; font-size: 13px; }
+        .gantt-table tr:hover { background: #0a0a0f50; }
+        
+        .gantt-date-col { white-space: nowrap; }
+        .gantt-name-col { font-weight: 500; }
+        .gantt-bar-col { width: 200px; }
+        .gantt-bar { height: 20px; border-radius: 4px; position: relative; }
+        .gantt-bar-low { background: #22c55e; }
+        .gantt-bar-medium { background: #f59e0b; }
+        .gantt-bar-high { background: #ef4444; }
+        .gantt-bar-critical { background: #dc2626; }
+        
+        .priority-badge { font-size: 10px; padding: 2px 6px; border-radius: 4px; }
+        .priority-low { background: #22c55e20; color: #22c55e; }
+        .priority-medium { background: #f59e0b20; color: #f59e0b; }
+        .priority-high { background: #ef444420; color: #ef4444; }
+        .priority-critical { background: #dc262620; color: #dc2626; }
+        
+        .category-badge { font-size: 10px; padding: 2px 6px; border-radius: 4px; background: #3b82f620; color: #3b82f6; }
+        
+        .gantt-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: none; align-items: center; justify-content: center; z-index: 1000; }
+        .gantt-modal.active { display: flex; }
+        .gantt-modal-content { background: #1a1a2e; border: 1px solid #333; border-radius: 12px; padding: 24px; width: 90%; max-width: 500px; max-height: 90vh; overflow-y: auto; }
+        .gantt-modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .gantt-modal-header h3 { color: #667eea; }
+        .gantt-modal-close { background: none; border: none; color: #aaa; font-size: 24px; cursor: pointer; }
+        .gantt-form-group { margin-bottom: 15px; }
+        .gantt-form-group label { display: block; color: #aaa; font-size: 12px; margin-bottom: 6px; }
+        .gantt-form-group input, .gantt-form-group select { width: 100%; background: #0a0a0f; color: #fff; border: 1px solid #333; padding: 10px; border-radius: 6px; }
+        .gantt-form-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
+        
+        .gantt-legend { display: flex; gap: 15px; margin-top: 15px; flex-wrap: wrap; }
+        .gantt-legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: #aaa; }
+        .gantt-legend-dot { width: 10px; height: 10px; border-radius: 2px; }
+        
+        .gantt-row-clickable { cursor: pointer; }
+        .gantt-row-clickable:hover { background: #0a0a0f80; }
+        
+        .empty-state { text-align: center; padding: 40px; color: #666; }
     </style>
 </head>
 <body>
     <div class="header">
-        <h1>💼 Work Tasks</h1>
+        <h1>💼 Work</h1>
     </div>
     
     <div class="container">
@@ -34,46 +101,403 @@
             <a href="projects.html">🚀 Projects</a>
         </div>
         
-        <div class="section">
-            <h2>👔 Steve</h2>
-            <p style="color: #666; padding: 20px;">No active tasks from Steve</p>
+        <!-- Work sub-nav -->
+        <div class="work-nav">
+            <a href="#" class="active" onclick="showTab('tasks', event)">📋 Tasks</a>
+            <a href="#" onclick="showTab('gantt', event)">📊 Gantt Chart</a>
         </div>
         
-        <div class="section">
-            <h2>👔 Rafi</h2>
-            <div class="task">
-                <span class="status status-done">Done</span>
-                <span>Raffy fully loaded marketing spend</span>
+        <!-- Tasks Tab -->
+        <div id="tasks" class="tab-content active">
+            <div class="section">
+                <h2>👔 Steve</h2>
+                <p style="color: #666; padding: 20px;">No active tasks from Steve</p>
+            </div>
+            
+            <div class="section">
+                <h2>👔 Rafi</h2>
+                <div class="task">
+                    <span class="status status-done">Done</span>
+                    <span>Raffy fully loaded marketing spend</span>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>👤 Other / General</h2>
+                <div class="task">
+                    <span class="status status-progress">In Progress</span>
+                    <span>MGC fees for digital card</span>
+                </div>
+                <div class="task">
+                    <span class="status status-progress">In Progress</span>
+                    <span>Aylin share card campaign invoicing</span>
+                </div>
+                <div class="task">
+                    <span class="status status-todo">Not Started</span>
+                    <span>Complete my success tasks</span>
+                </div>
+                <div class="task">
+                    <span class="status status-todo">Not Started</span>
+                    <span>Colin no objection certificate</span>
+                </div>
+                <div class="task">
+                    <span class="status status-progress">In Progress</span>
+                    <span>Ahmed Osman - Umair contract renewal</span>
+                </div>
+                <div class="task">
+                    <span class="status status-progress">In Progress</span>
+                    <span>Omar studies</span>
+                </div>
             </div>
         </div>
         
-        <div class="section">
-            <h2>👤 Other / General</h2>
-            <div class="task">
-                <span class="status status-progress">In Progress</span>
-                <span>MGC fees for digital card</span>
-            </div>
-            <div class="task">
-                <span class="status status-progress">In Progress</span>
-                <span>Aylin share card campaign invoicing</span>
-            </div>
-            <div class="task">
-                <span class="status status-todo">Not Started</span>
-                <span>Complete my success tasks</span>
-            </div>
-            <div class="task">
-                <span class="status status-todo">Not Started</span>
-                <span>Colin no objection certificate</span>
-            </div>
-            <div class="task">
-                <span class="status status-progress">In Progress</span>
-                <span>Ahmed Osman - Umair contract renewal</span>
-            </div>
-            <div class="task">
-                <span class="status status-progress">In Progress</span>
-                <span>Omar studies</span>
+        <!-- Gantt Tab -->
+        <div id="gantt" class="tab-content">
+            <div class="section" style="margin-bottom: 0;">
+                <div class="gantt-header">
+                    <h2>📊 Deliverables Gantt Chart</h2>
+                    <div class="gantt-controls">
+                        <div class="gantt-axis-selector">
+                            <label>Group by:</label>
+                            <select id="gantt-axis" onchange="renderGantt()">
+                                <option value="priority">Priority</option>
+                                <option value="category">Category</option>
+                                <option value="project">Project</option>
+                                <option value="stakeholder">Stakeholder</option>
+                                <option value="assigned">Assigned To</option>
+                            </select>
+                        </div>
+                        <button class="gantt-btn gantt-btn-primary" onclick="openGanttModal()">+ Add Deliverable</button>
+                    </div>
+                </div>
+                
+                <div class="gantt-chart" id="gantt-chart">
+                    <!-- Gantt table rendered by JS -->
+                </div>
+                
+                <div class="gantt-legend">
+                    <div class="gantt-legend-item">
+                        <span class="gantt-legend-dot gantt-bar-low"></span> Low Priority
+                    </div>
+                    <div class="gantt-legend-item">
+                        <span class="gantt-legend-dot gantt-bar-medium"></span> Medium Priority
+                    </div>
+                    <div class="gantt-legend-item">
+                        <span class="gantt-legend-dot gantt-bar-high"></span> High Priority
+                    </div>
+                    <div class="gantt-legend-item">
+                        <span class="gantt-legend-dot gantt-bar-critical"></span> Critical Priority
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+    
+    <!-- Add/Edit Deliverable Modal -->
+    <div class="gantt-modal" id="gantt-modal">
+        <div class="gantt-modal-content">
+            <div class="gantt-modal-header">
+                <h3 id="gantt-modal-title">➕ Add Deliverable</h3>
+                <button class="gantt-modal-close" onclick="closeGanttModal()">×</button>
+            </div>
+            <form id="gantt-form" onsubmit="saveDeliverable(event)">
+                <input type="hidden" id="gantt-index">
+                
+                <div class="gantt-form-group">
+                    <label>Deliverable Name *</label>
+                    <input type="text" id="gantt-name" required placeholder="Enter deliverable name">
+                </div>
+                
+                <div class="gantt-form-group">
+                    <label>Due Date *</label>
+                    <input type="date" id="gantt-due-date" required>
+                </div>
+                
+                <div class="gantt-form-group">
+                    <label>Category</label>
+                    <select id="gantt-category">
+                        <option value="">Select category...</option>
+                        <option value="Development">Development</option>
+                        <option value="Marketing">Marketing</option>
+                        <option value="Finance">Finance</option>
+                        <option value="Operations">Operations</option>
+                        <option value="Legal">Legal</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                
+                <div class="gantt-form-group">
+                    <label>Priority</label>
+                    <select id="gantt-priority">
+                        <option value="Low">Low</option>
+                        <option value="Medium" selected>Medium</option>
+                        <option value="High">High</option>
+                        <option value="Critical">Critical</option>
+                    </select>
+                </div>
+                
+                <div class="gantt-form-group">
+                    <label>Project</label>
+                    <input type="text" id="gantt-project" placeholder="Project name (optional)">
+                </div>
+                
+                <div class="gantt-form-group">
+                    <label>Stakeholder</label>
+                    <input type="text" id="gantt-stakeholder" placeholder="Who is this for?">
+                </div>
+                
+                <div class="gantt-form-group">
+                    <label>Assigned To</label>
+                    <input type="text" id="gantt-assigned" placeholder="Who is working on this?">
+                </div>
+                
+                <div class="gantt-form-actions">
+                    <button type="button" class="gantt-btn gantt-btn-secondary" onclick="closeGanttModal()">Cancel</button>
+                    <button type="button" class="gantt-btn gantt-btn-secondary" onclick="deleteDeliverable()" id="gantt-delete-btn" style="display:none; background:#dc2626;">Delete</button>
+                    <button type="submit" class="gantt-btn gantt-btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        // Tab switching
+        function showTab(tabId, e) {
+            if (e) e.preventDefault();
+            
+            // Update nav
+            document.querySelectorAll('.work-nav a').forEach(a => a.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Update content
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            
+            // Render Gantt if switching to it
+            if (tabId === 'gantt') {
+                renderGantt();
+            }
+        }
+        
+        // Default deliverables
+        const defaultDeliverables = [
+            { id: 1, name: 'D1 API Setup', dueDate: '2026-02-25', category: 'Development', priority: 'High', project: 'Trak App', stakeholder: 'Sam', assigned: 'Sam' },
+            { id: 2, name: 'TAT Migration', dueDate: '2026-02-28', category: 'Development', priority: 'Medium', project: 'Trak App', stakeholder: 'Sam', assigned: 'Sam' },
+            { id: 3, name: 'WHOOP Integration', dueDate: '2026-03-01', category: 'Development', priority: 'Medium', project: 'Trak App', stakeholder: 'Sam', assigned: 'Sam' },
+            { id: 4, name: 'Marketing Campaign', dueDate: '2026-03-05', category: 'Marketing', priority: 'High', project: 'Card App', stakeholder: 'Rafi', assigned: 'Rafi' },
+            { id: 5, name: 'Contract Review', dueDate: '2026-03-10', category: 'Legal', priority: 'Critical', project: '', stakeholder: 'Ahmed Osman', assigned: 'Sam' },
+            { id: 6, name: 'Invoicing Setup', dueDate: '2026-03-15', category: 'Finance', priority: 'Medium', project: '', stakeholder: 'Aylin', assigned: 'Sam' }
+        ];
+        
+        // Load from localStorage or use defaults
+        function loadDeliverables() {
+            const saved = localStorage.getItem('work-gantt-deliverables');
+            if (saved) {
+                return JSON.parse(saved);
+            }
+            return [...defaultDeliverables];
+        }
+        
+        // Save to localStorage
+        function saveToStorage(deliverables) {
+            localStorage.setItem('work-gantt-deliverables', JSON.stringify(deliverables));
+        }
+        
+        // Get priority sort order
+        function getPriorityOrder(priority) {
+            const order = { 'Critical': 0, 'High': 1, 'Medium': 2, 'Low': 3 };
+            return order[priority] || 4;
+        }
+        
+        // Render Gantt chart
+        function renderGantt() {
+            const deliverables = loadDeliverables();
+            const axis = document.getElementById('gantt-axis').value;
+            const container = document.getElementById('gantt-chart');
+            
+            if (deliverables.length === 0) {
+                container.innerHTML = '<div class="empty-state">No deliverables yet. Click "+ Add Deliverable" to create one.</div>';
+                return;
+            }
+            
+            // Sort deliverables
+            let sorted = [...deliverables];
+            if (axis === 'priority') {
+                sorted.sort((a, b) => getPriorityOrder(a.priority) - getPriorityOrder(b.priority));
+            } else {
+                sorted.sort((a, b) => (a[axis] || '').localeCompare(b[axis] || ''));
+            }
+            
+            const today = new Date();
+            
+            let html = '<table class="gantt-table">';
+            
+            // Header row
+            html += '<thead><tr>';
+            html += '<th style="min-width:200px;">Deliverable</th>';
+            html += '<th>Due</th>';
+            html += '<th>Category</th>';
+            html += '<th>Priority</th>';
+            html += '<th>Project</th>';
+            html += '<th>Stakeholder</th>';
+            html += '<th>Assigned</th>';
+            html += '<th style="min-width:150px;">Timeline</th>';
+            html += '</tr></thead><tbody>';
+            
+            // Data rows
+            sorted.forEach((d, index) => {
+                const priorityClass = d.priority.toLowerCase();
+                html += `<tr class="gantt-row-clickable" onclick="editDeliverable(${index})">`;
+                html += `<td class="gantt-name-col">${d.name}</td>`;
+                html += `<td class="gantt-date-col">${d.dueDate}</td>`;
+                html += `<td><span class="category-badge">${d.category || '-'}</span></td>`;
+                html += `<td><span class="priority-badge priority-${priorityClass}">${d.priority}</span></td>`;
+                html += `<td>${d.project || '-'}</td>`;
+                html += `<td>${d.stakeholder || '-'}</td>`;
+                html += `<td>${d.assigned || '-'}</td>`;
+                
+                // Timeline bar
+                html += '<td class="gantt-bar-col">';
+                const dueDate = new Date(d.dueDate);
+                const daysUntilDue = Math.ceil((dueDate - today) / (1000 * 60 * 60 * 24));
+                
+                if (daysUntilDue >= 0 && daysUntilDue <= 14) {
+                    const progress = Math.max(5, 100 - (daysUntilDue * 7));
+                    const barColorClass = `gantt-bar-${priorityClass}`;
+                    html += `<div class="gantt-bar ${barColorClass}" style="width:${progress}%;min-width:30px;"></div>`;
+                    html += `<span style="font-size:11px;color:#aaa;margin-left:8px;">${daysUntilDue}d</span>`;
+                } else if (daysUntilDue < 0) {
+                    html += `<div class="gantt-bar gantt-bar-critical" style="width:100%;"></div>`;
+                    html += `<span style="font-size:11px;color:#dc2626;margin-left:8px;">Overdue</span>`;
+                } else {
+                    html += '<span style="font-size:11px;color:#666;">> 2 weeks</span>';
+                }
+                
+                html += '</td></tr>';
+            });
+            
+            html += '</tbody></table>';
+            container.innerHTML = html;
+        }
+        
+        // Open modal for new deliverable
+        function openGanttModal() {
+            document.getElementById('gantt-modal').classList.add('active');
+            document.getElementById('gantt-modal-title').textContent = '➕ Add Deliverable';
+            document.getElementById('gantt-form').reset();
+            document.getElementById('gantt-index').value = '';
+            document.getElementById('gantt-delete-btn').style.display = 'none';
+            
+            const defaultDue = new Date();
+            defaultDue.setDate(defaultDue.getDate() + 7);
+            document.getElementById('gantt-due-date').value = defaultDue.toISOString().split('T')[0];
+        }
+        
+        // Edit deliverable
+        function editDeliverable(index) {
+            const deliverables = loadDeliverables();
+            const sorted = [...deliverables];
+            const axis = document.getElementById('gantt-axis').value;
+            
+            if (axis === 'priority') {
+                sorted.sort((a, b) => getPriorityOrder(a.priority) - getPriorityOrder(b.priority));
+            } else {
+                sorted.sort((a, b) => (a[axis] || '').localeCompare(b[axis] || ''));
+            }
+            
+            const d = sorted[index];
+            
+            document.getElementById('gantt-modal').classList.add('active');
+            document.getElementById('gantt-modal-title').textContent = '✏️ Edit Deliverable';
+            document.getElementById('gantt-index').value = index;
+            document.getElementById('gantt-name').value = d.name;
+            document.getElementById('gantt-due-date').value = d.dueDate;
+            document.getElementById('gantt-category').value = d.category || '';
+            document.getElementById('gantt-priority').value = d.priority || 'Medium';
+            document.getElementById('gantt-project').value = d.project || '';
+            document.getElementById('gantt-stakeholder').value = d.stakeholder || '';
+            document.getElementById('gantt-assigned').value = d.assigned || '';
+            document.getElementById('gantt-delete-btn').style.display = 'block';
+        }
+        
+        // Close modal
+        function closeGanttModal() {
+            document.getElementById('gantt-modal').classList.remove('active');
+        }
+        
+        // Save deliverable
+        function saveDeliverable(e) {
+            e.preventDefault();
+            
+            const index = document.getElementById('gantt-index').value;
+            const deliverable = {
+                id: index ? Date.now() : Date.now(),
+                name: document.getElementById('gantt-name').value,
+                dueDate: document.getElementById('gantt-due-date').value,
+                category: document.getElementById('gantt-category').value,
+                priority: document.getElementById('gantt-priority').value,
+                project: document.getElementById('gantt-project').value,
+                stakeholder: document.getElementById('gantt-stakeholder').value,
+                assigned: document.getElementById('gantt-assigned').value
+            };
+            
+            const deliverables = loadDeliverables();
+            
+            if (index !== '') {
+                const sorted = [...deliverables];
+                const axis = document.getElementById('gantt-axis').value;
+                
+                if (axis === 'priority') {
+                    sorted.sort((a, b) => getPriorityOrder(a.priority) - getPriorityOrder(b.priority));
+                } else {
+                    sorted.sort((a, b) => (a[axis] || '').localeCompare(b[axis] || ''));
+                }
+                
+                const actualIndex = deliverables.findIndex(d => d.id === sorted[parseInt(index)].id);
+                if (actualIndex !== -1) {
+                    deliverable.id = deliverables[actualIndex].id;
+                    deliverables[actualIndex] = deliverable;
+                }
+            } else {
+                deliverables.push(deliverable);
+            }
+            
+            saveToStorage(deliverables);
+            closeGanttModal();
+            renderGantt();
+        }
+        
+        // Delete deliverable
+        function deleteDeliverable() {
+            const index = document.getElementById('gantt-index').value;
+            if (index === '') return;
+            
+            if (!confirm('Are you sure you want to delete this deliverable?')) return;
+            
+            const deliverables = loadDeliverables();
+            const sorted = [...deliverables];
+            const axis = document.getElementById('gantt-axis').value;
+            
+            if (axis === 'priority') {
+                sorted.sort((a, b) => getPriorityOrder(a.priority) - getPriorityOrder(b.priority));
+            } else {
+                sorted.sort((a, b) => (a[axis] || '').localeCompare(b[axis] || ''));
+            }
+            
+            const actualIndex = deliverables.findIndex(d => d.id === sorted[parseInt(index)].id);
+            if (actualIndex !== -1) {
+                deliverables.splice(actualIndex, 1);
+                saveToStorage(deliverables);
+            }
+            
+            closeGanttModal();
+            renderGantt();
+        }
+        
+        // Close modal on outside click
+        document.getElementById('gantt-modal').addEventListener('click', function(e) {
+            if (e.target === this) closeGanttModal();
+        });
+    </script>
 </body>
 </html>
