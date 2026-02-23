@@ -10,14 +10,9 @@ sys.path.insert(0, str(Path(__file__).parent))
 from d1_client import D1Client
 
 def fetch_daily_nutrition():
-    """Fetch nutrition data from D1 for last 7 days"""
     client = D1Client()
     
-    # Get last 7 days
-    dates = []
-    for i in range(7):
-        date = (datetime.now() - timedelta(days=i)).strftime('%Y-%m-%d')
-        dates.append(date)
+    dates = [(datetime.now() - timedelta(days=i)).strftime('%Y-%m-%d') for i in range(7)]
     
     all_meals = []
     daily_totals = {}
@@ -46,7 +41,6 @@ def fetch_daily_nutrition():
         'daily_totals': daily_totals
     }
     
-    # Save to file
     output_file = Path(__file__).parent.parent / "data" / "nutrition_data.json"
     output_file.parent.mkdir(exist_ok=True)
     output_file.write_text(json.dumps(data, indent=2))

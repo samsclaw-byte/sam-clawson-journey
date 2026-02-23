@@ -1,10 +1,30 @@
 {
-  "generated_at": "2026-02-23T14:50:40.701224",
-  "exercise": [],
+  "generated_at": "2026-02-23T22:30:51.535261",
+  "exercise": [
+    {
+      "date": "2026-02-22",
+      "workout_type": "Swimming",
+      "duration": 23,
+      "strain": 9.7,
+      "notes": "285 calories, zones 1-4"
+    },
+    {
+      "date": "2026-02-22",
+      "workout_type": "Swimming",
+      "duration": 23,
+      "strain": 9.7,
+      "notes": "285 calories, zones 1-4"
+    }
+  ],
   "summary": {
-    "total_workouts": 0,
-    "total_minutes": 0,
-    "total_strain": 0,
-    "by_type": {}
+    "total_workouts": 2,
+    "total_minutes": 46,
+    "total_strain": 19.4,
+    "by_type": {
+      "Swimming": {
+        "minutes": 46,
+        "count": 2
+      }
+    }
   }
 }

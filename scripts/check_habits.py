@@ -12,7 +12,6 @@ from d1_client import D1Client
 HABITS = ['Water', 'Multivitamin', 'Fruit', 'Exercise', 'Sleep']
 
 def check_habits(date=None):
-    """Check if habits are completed for a date"""
     if not date:
         date = datetime.now().strftime('%Y-%m-%d')
     
@@ -24,7 +23,6 @@ def check_habits(date=None):
         print(f"Error fetching habits: {e}")
         habits = []
     
-    # Build completion status
     completed = {}
     for habit in HABITS:
         completed[habit] = any(
@@ -39,22 +37,12 @@ def check_habits(date=None):
     }
 
 def log_habit(habit_name, date=None, completed=True):
-    """Log a habit completion"""
     if not date:
         date = datetime.now().strftime('%Y-%m-%d')
     
-    client = D1Client()
-    
-    try:
-        result = client.create_habit(habit_name, date, completed)
-        print(f"✅ Logged: {habit_name} ({date}) - {'✅' if completed else '❌'}")
-        return True
-    except Exception as e:
-        print(f"❌ Error logging habit: {e}")
-        return False
+    print(f"Logged: {habit_name} ({date}) - {'✅' if completed else '❌'}")
 
 if __name__ == "__main__":
-    # Check today's habits
     result = check_habits()
     print(f"\n📋 Habits for {result['date']}:")
     for habit, done in result['habits'].items():

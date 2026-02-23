@@ -1,147 +1,140 @@
 #!/usr/bin/env python3
 """
-D1 API Client for Trak
-Replaces airtable_client.py
+D1 Client using wrangler CLI
+Directly queries D1 database - no API calls needed
 """
 
 import os
-import requests
+import subprocess
 import json
+import re
+from datetime import datetime, timedelta
 
-# Worker URL
-D1_API_URL = os.environ.get("D1_API_URL", "https://trak-api.samsclaw-498.workers.dev")
+D1_DB = "trak-db"
+
+def run_wrangler(command):
+    """Run wrangler command and return results"""
+    result = subprocess.run(
+        f"wrangler d1 execute {D1_DB} --command=\"{command}\" --remote",
+        shell=True,
+        capture_output=True,
+        text=True,
+        timeout=30
+    )
+    return result.stdout
+
+def get_results(output):
+    """Extract results from wrangler JSON output"""
+    try:
+        # Find JSON array in output (skip wrangler banner)
+        match = re.search(r'\[\s*\{.*\}\s*\]', output, re.DOTALL)
+        if match:
+            data = json.loads(match.group(0))
+            if isinstance(data, list) and len(data) > 0:
+                if 'results' in data[0]:
+                    return data[0]['results']
+        return []
+    except Exception as e:
+        print(f"Parse error: {e}")
+        return []
 
 class D1Client:
-    def __init__(self, api_url=D1_API_URL):
-        self.api_url = api_url
-        self.session = requests.Session()
-        self.session.headers.update({"Content-Type": "application/json"})
+    def __init__(self):
+        pass
     
     # ============== TASKS ==============
     def get_tasks(self):
         """Get all tasks"""
-        resp = self.session.get(f"{self.api_url}/api/tasks")
-        resp.raise_for_status()
-        return resp.json()
-    
-    def get_task(self, task_id):
-        """Get single task"""
-        resp = self.session.get(f"{self.api_url}/api/tasks/{task_id}")
-        resp.raise_for_status()
-        return resp.json()
+        try:
+            output = run_wrangler("SELECT * FROM tat_tasks ORDER BY due_date ASC")
+            return get_results(output)
+        except Exception as e:
+            print(f"Error: {e}")
+            return []
     
     def create_task(self, task_name, category, priority="Medium", notes=None):
         """Create new task"""
-        data = {
-            "task_name": task_name,
-            "category": category,
-            "priority": priority,
-            "notes": notes
-        }
-        resp = self.session.post(f"{self.api_url}/api/tasks", json=data)
-        resp.raise_for_status()
-        return resp.json()
-    
-    def update_task(self, task_id, status=None, notes=None):
-        """Update task status/notes"""
-        data = {}
-        if status:
-            data["status"] = status
-        if notes:
-            data["notes"] = notes
-        resp = self.session.put(f"{self.api_url}/api/tasks/{task_id}", json=data)
-        resp.raise_for_status()
-        return resp.json()
-    
-    def delete_task(self, task_id):
-        """Delete task"""
-        resp = self.session.delete(f"{self.api_url}/api/tasks/{task_id}")
-        resp.raise_for_status()
-        return resp.json()
-    
+        import uuid
+        task_id = "rec" + str(uuid.uuid4().hex[:10])
+        date_created = datetime.now().strftime('%Y-%m-%d')
+        due_date = (datetime.now() + timedelta(days=category)).strftime('%Y-%m-%d')
+        
+        task_name = task_name.replace("'", "''")
+        notes = (notes or "").replace("'", "''")
+        
+        sql = f"""INSERT INTO tat_tasks (id, task_name, category, status, priority, date_created, due_date, notes)
+                  VALUES ('{task_id}', '{task_name}', {category}, 'Not Started', '{priority}', '{date_created}', '{due_date}', '{notes}')"""
+        
+        try:
+            run_wrangler(sql)
+            return {"success": True, "id": task_id}
+        except Exception as e:
+            return {"success": False, "error": str(e)}
+
     # ============== HABITS ==============
     def get_habits(self, date=None):
-        """Get habits for date"""
-        if date:
-            resp = self.session.get(f"{self.api_url}/api/habits?date={date}")
-        else:
-            resp = self.session.get(f"{self.api_url}/api/habits")
-        resp.raise_for_status()
-        return resp.json()
-    
-    def create_habit(self, habit_name, date=None, completed=False, notes=None):
-        """Create/update habit"""
-        data = {
-            "habit_name": habit_name,
-            "date": date,
-            "completed": completed,
-            "notes": notes
-        }
-        resp = self.session.post(f"{self.api_url}/api/habits", json=data)
-        resp.raise_for_status()
-        return resp.json()
-    
+        if not date:
+            date = datetime.now().strftime('%Y-%m-%d')
+        try:
+            output = run_wrangler(f"SELECT * FROM habits WHERE date = '{date}'")
+            return get_results(output)
+        except:
+            return []
+
     # ============== NUTRITION ==============
     def get_nutrition(self, date=None):
-        """Get nutrition for date"""
-        if date:
-            resp = self.session.get(f"{self.api_url}/api/nutrition?date={date}")
-        else:
-            resp = self.session.get(f"{self.api_url}/api/nutrition")
-        resp.raise_for_status()
-        return resp.json()
-    
-    def create_nutrition(self, date, meal_type, description, calories=None, 
-                         protein=None, carbs=None, fat=None, source="manual"):
-        """Create nutrition entry"""
-        data = {
-            "date": date,
-            "meal_type": meal_type,
-            "description": description,
-            "calories": calories,
-            "protein": protein,
-            "carbs": carbs,
-            "fat": fat,
-            "source": source
-        }
-        resp = self.session.post(f"{self.api_url}/api/nutrition", json=data)
-        resp.raise_for_status()
-        return resp.json()
-    
+        if not date:
+            date = datetime.now().strftime('%Y-%m-%d')
+        try:
+            output = run_wrangler(f"SELECT * FROM nutrition WHERE date = '{date}'")
+            return get_results(output)
+        except:
+            return []
+
+    def create_nutrition(self, date, meal_type, description, calories=None, protein=None, carbs=None, fat=None, source="manual"):
+        import uuid
+        nut_id = "nut" + str(uuid.uuid4().hex[:8])
+        desc = (description or "").replace("'", "''")
+        
+        sql = f"""INSERT INTO nutrition (id, date, meal_type, description, calories, protein, carbs, fat, source)
+                  VALUES ('{nut_id}', '{date}', '{meal_type}', '{desc}', {calories or 'NULL'}, {protein or 'NULL'}, {carbs or 'NULL'}, {fat or 'NULL'}, '{source}')"""
+        try:
+            run_wrangler(sql)
+            return {"success": True, "id": nut_id}
+        except Exception as e:
+            return {"success": False, "error": str(e)}
+
     # ============== EXERCISE ==============
     def get_exercise(self, date=None):
-        """Get exercise for date"""
-        if date:
-            resp = self.session.get(f"{self.api_url}/api/exercise?date={date}")
-        else:
-            resp = self.session.get(f"{self.api_url}/api/exercise")
-        resp.raise_for_status()
-        return resp.json()
-    
-    def create_exercise(self, date, workout_type, duration_minutes=None, 
-                       strain=None, notes=None, source="manual"):
-        """Create exercise entry"""
-        data = {
-            "date": date,
-            "workout_type": workout_type,
-            "duration_minutes": duration_minutes,
-            "strain": strain,
-            "notes": notes,
-            "source": source
-        }
-        resp = self.session.post(f"{self.api_url}/api/exercise", json=data)
-        resp.raise_for_status()
-        return resp.json()
+        if not date:
+            date = datetime.now().strftime('%Y-%m-%d')
+        try:
+            output = run_wrangler(f"SELECT * FROM exercise WHERE date = '{date}'")
+            return get_results(output)
+        except:
+            return []
+
+    def create_exercise(self, date, workout_type, duration_minutes=None, strain=None, notes=None, source="manual"):
+        import uuid
+        exe_id = "exe" + str(uuid.uuid4().hex[:8])
+        
+        workout_type = (workout_type or "").replace("'", "''")
+        notes = (notes or "").replace("'", "''")
+        
+        sql = f"""INSERT INTO exercise (id, date, workout_type, duration_minutes, strain, notes, source)
+                  VALUES ('{exe_id}', '{date}', '{workout_type}', {duration_minutes or 'NULL'}, {strain or 'NULL'}, '{notes}', '{source}')"""
+        try:
+            run_wrangler(sql)
+            return {"success": True, "id": exe_id}
+        except Exception as e:
+            return {"success": False, "error": str(e)}
 
 
 if __name__ == "__main__":
-    # Quick test
     client = D1Client()
-    print("Testing D1 API...")
+    print("Testing D1 Client...")
     
-    # Health check
-    try:
-        resp = requests.get(f"{D1_API_URL}/api/health")
-        print(f"Health: {resp.json()}")
-    except Exception as e:
-        print(f"Health check failed: {e}")
+    tasks = client.get_tasks()
+    print(f"Tasks: {len(tasks)}")
+    for t in tasks:
+        print(f"  - {t.get('task_name')} (Cat: {t.get('category')})")

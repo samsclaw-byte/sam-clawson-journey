@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fetch exercise data from D1 for Mission Control dashboard"""
+"""Fetch exercise data from D1"""
 
 import json
 from datetime import datetime, timedelta
@@ -10,14 +10,9 @@ sys.path.insert(0, str(Path(__file__).parent))
 from d1_client import D1Client
 
 def fetch_exercise_data():
-    """Fetch exercise data from D1"""
     client = D1Client()
     
-    # Get last 7 days
-    dates = []
-    for i in range(7):
-        date = (datetime.now() - timedelta(days=i)).strftime('%Y-%m-%d')
-        dates.append(date)
+    dates = [(datetime.now() - timedelta(days=i)).strftime('%Y-%m-%d') for i in range(7)]
     
     all_exercise = []
     exercise_types = {}
@@ -63,7 +58,6 @@ def fetch_exercise_data():
         }
     }
     
-    # Save to file
     output_file = Path(__file__).parent.parent / "data" / "exercise_data.json"
     output_file.parent.mkdir(exist_ok=True)
     output_file.write_text(json.dumps(data, indent=2))
