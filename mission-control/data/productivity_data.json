@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-02-24T00:00:38.597723",
+  "generated_at": "2026-02-24T00:15:32.952036",
   "daily": [
     {
       "date": "2026-02-24",
@@ -13,7 +13,7 @@
       "tasks_completed": 0,
       "exercise": false,
       "exercise_minutes": 0,
-      "habits_done": 0
+      "habits_done": 2
     },
     {
       "date": "2026-02-22",
@@ -48,7 +48,7 @@
       "tasks_completed": 0,
       "exercise": true,
       "exercise_minutes": 33,
-      "habits_done": 3
+      "habits_done": 5
     }
   ]
 }
