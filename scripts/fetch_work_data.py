@@ -66,6 +66,7 @@ def fetch_work_data():
                 "due_this_week": due_this_week,
                 "total_tasks": len(work_tasks)
             },
+            "recurring": [],
             "total_tasks": len(work_tasks)
         }
         

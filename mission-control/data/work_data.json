@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-02-24T10:32:57.362831",
+  "generated_at": "2026-02-24T10:36:47.832399",
   "tasks": [
     {
       "id": "recb246736988",
@@ -875,5 +875,6 @@
     "due_this_week": 48,
     "total_tasks": 48
   },
+  "recurring": [],
   "total_tasks": 48
 }
