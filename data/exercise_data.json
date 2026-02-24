@@ -1,403 +1,230 @@
 {
-  "generated_at": "2026-02-24T10:30:44.154278",
+  "generated_at": "2026-02-24T15:17:30.632234",
   "exercise": [
     {
+      "id": "exe580463b8",
       "date": "2026-02-22",
-      "type": "Swimming",
-      "duration": 23,
+      "workout_type": "Swimming",
+      "duration_minutes": 23,
       "strain": 9.7,
-      "exercises": "Swimming",
-      "notes": "285 calories, zones 1-4"
+      "notes": "285 calories, zones 1-4",
+      "source": "manual",
+      "created_at": "2026-02-23 18:22:56"
     },
     {
+      "id": "exe_feb22",
       "date": "2026-02-22",
-      "type": "Swimming",
-      "duration": 23,
+      "workout_type": "Swimming",
+      "duration_minutes": 23,
       "strain": 9.7,
-      "exercises": "Swimming",
-      "notes": "285 calories, zones 1-4"
+      "notes": "285 calories, zones 1-4",
+      "source": "manual",
+      "created_at": "2026-02-23 18:26:24"
     },
     {
+      "id": "exe4de29bb3",
       "date": "2026-02-18",
-      "type": "Unknown",
-      "duration": 33,
+      "workout_type": "Unknown",
+      "duration_minutes": 33,
       "strain": 11.6,
-      "exercises": "Unknown",
-      "notes": "Source: Manual Log"
+      "notes": "Source: Manual Log",
+      "source": "airtable",
+      "created_at": "2026-02-23 19:54:34"
     },
     {
+      "id": "exe0e76572d",
       "date": "2026-02-16",
-      "type": "Hard",
-      "duration": 29,
+      "workout_type": "Hard",
+      "duration_minutes": 29,
       "strain": 8.1,
-      "exercises": "Hard",
-      "notes": "HIIT workout with kettlebell upper body. Total tim"
+      "notes": "HIIT workout with kettlebell upper body. Total tim",
+      "source": "airtable",
+      "created_at": "2026-02-23 19:54:33"
     },
     {
+      "id": "exefd399302",
       "date": "2026-02-15",
-      "type": "Active Recovery",
-      "duration": 23.1,
+      "workout_type": "Active Recovery",
+      "duration_minutes": 23.1,
       "strain": 9.5,
-      "exercises": "Active Recovery",
-      "notes": "Swim 30 front crawl, 6 breaststroke"
+      "notes": "Swim 30 front crawl, 6 breaststroke",
+      "source": "airtable",
+      "created_at": "2026-02-23 19:54:38"
     },
     {
+      "id": "exe3365d966",
       "date": "2026-02-14",
-      "type": "Unknown",
-      "duration": 33.1,
+      "workout_type": "Unknown",
+      "duration_minutes": 33.1,
       "strain": 13.8,
-      "exercises": "Unknown",
-      "notes": "Total: 33min 6sec | Z5:52s Z4:19:57 Z3:9:30 Z2:1:5"
+      "notes": "Total: 33min 6sec | Z5:52s Z4:19:57 Z3:9:30 Z2:1:5",
+      "source": "airtable",
+      "created_at": "2026-02-23 19:54:28"
     },
     {
+      "id": "exe9623ee4f",
       "date": "2026-02-12",
-      "type": "Active Recovery",
-      "duration": 19.55,
+      "workout_type": "Active Recovery",
+      "duration_minutes": 19.55,
       "strain": 10.6,
-      "exercises": "Active Recovery",
-      "notes": "Swim 30 front crawl, 4 breaststroke"
+      "notes": "Swim 30 front crawl, 4 breaststroke",
+      "source": "airtable",
+      "created_at": "2026-02-23 19:54:32"
     },
     {
+      "id": "exee64c7679",
       "date": "2026-02-11",
-      "type": "Hard",
-      "duration": 33.01,
+      "workout_type": "Hard",
+      "duration_minutes": 33.01,
       "strain": 12,
-      "exercises": "Hard",
-      "notes": "Evening workout with post-workout walk"
+      "notes": "Evening workout with post-workout walk",
+      "source": "airtable",
+      "created_at": "2026-02-23 19:54:26"
     },
     {
+      "id": "exeb4ef2340",
       "date": "2026-02-10",
-      "type": "Hard",
-      "duration": 26.32,
+      "workout_type": "Hard",
+      "duration_minutes": 26.32,
       "strain": 7.9,
-      "exercises": "Hard",
-      "notes": "12kg, 4 rounds, felt easy - ready to progress to 1"
+      "notes": "12kg, 4 rounds, felt easy - ready to progress to 1",
+      "source": "airtable",
+      "created_at": "2026-02-23 19:54:31"
     },
     {
+      "id": "exe099b8f09",
       "date": "2026-02-09",
-      "type": "Unknown",
-      "duration": 0,
+      "workout_type": "Unknown",
+      "duration_minutes": null,
       "strain": 12.9,
-      "exercises": "Unknown",
-      "notes": null
+      "notes": null,
+      "source": "whoop",
+      "created_at": "2026-02-23 19:50:27"
     },
     {
+      "id": "exeadc8452d",
       "date": "2026-02-09",
-      "type": "Active Recovery",
-      "duration": 30.5,
+      "workout_type": "Active Recovery",
+      "duration_minutes": 30.5,
       "strain": 10.9,
-      "exercises": "Active Recovery",
-      "notes": "38 lengths, 30 front crawl\n"
+      "notes": "38 lengths, 30 front crawl\n",
+      "source": "airtable",
+      "created_at": "2026-02-23 19:54:41"
     },
     {
+      "id": "exe576bc5bd",
       "date": "2026-02-08",
-      "type": "Unknown",
-      "duration": 0,
+      "workout_type": "Unknown",
+      "duration_minutes": null,
       "strain": 14.5,
-      "exercises": "Unknown",
-      "notes": null
+      "notes": null,
+      "source": "whoop",
+      "created_at": "2026-02-23 19:50:29"
     },
     {
+      "id": "exe7a668599",
       "date": "2026-02-07",
-      "type": "Unknown",
-      "duration": 0,
+      "workout_type": "Unknown",
+      "duration_minutes": null,
       "strain": 11.8,
-      "exercises": "Unknown",
-      "notes": null
+      "notes": null,
+      "source": "whoop",
+      "created_at": "2026-02-23 19:50:31"
     },
     {
+      "id": "exe149a6404",
       "date": "2026-02-07",
-      "type": "Hard",
-      "duration": 30,
+      "workout_type": "Hard",
+      "duration_minutes": 30,
       "strain": 9.5,
-      "exercises": "Hard",
-      "notes": "Kettlebell: Goblet Squats, Swings, Rows"
+      "notes": "Kettlebell: Goblet Squats, Swings, Rows",
+      "source": "airtable",
+      "created_at": "2026-02-23 19:54:29"
     },
     {
+      "id": "exe4193865d",
       "date": "2026-02-06",
-      "type": "Unknown",
-      "duration": 0,
+      "workout_type": "Unknown",
+      "duration_minutes": null,
       "strain": 13.7,
-      "exercises": "Unknown",
-      "notes": null
+      "notes": null,
+      "source": "whoop",
+      "created_at": "2026-02-23 19:50:33"
     },
     {
+      "id": "exed85a75c1",
       "date": "2026-02-06",
-      "type": "Hard",
-      "duration": 27.1,
+      "workout_type": "Hard",
+      "duration_minutes": 27.1,
       "strain": 13.4,
-      "exercises": "Hard",
-      "notes": "WHOOP: Strain 13.4 | Zones: Z1=11.3, Z2=8.5, Z3=0,"
+      "notes": "WHOOP: Strain 13.4 | Zones: Z1=11.3, Z2=8.5, Z3=0,",
+      "source": "airtable",
+      "created_at": "2026-02-23 19:54:40"
     },
     {
+      "id": "exe96771d6e",
       "date": "2026-02-06",
-      "type": "Active Recovery",
-      "duration": 23.4,
+      "workout_type": "Active Recovery",
+      "duration_minutes": 23.4,
       "strain": 10.1,
-      "exercises": "Active Recovery",
-      "notes": "WHOOP: Strain 10.1 | Zones: Z1=10.2, Z2=9.1, Z3=0,"
+      "notes": "WHOOP: Strain 10.1 | Zones: Z1=10.2, Z2=9.1, Z3=0,",
+      "source": "airtable",
+      "created_at": "2026-02-23 19:54:42"
     },
     {
+      "id": "exee150c037",
       "date": "2026-02-05",
-      "type": "Unknown",
-      "duration": 0,
+      "workout_type": "Unknown",
+      "duration_minutes": null,
       "strain": 17.1,
-      "exercises": "Unknown",
-      "notes": null
+      "notes": null,
+      "source": "whoop",
+      "created_at": "2026-02-23 19:50:35"
     },
     {
+      "id": "exe8e956191",
       "date": "2026-02-04",
-      "type": "Unknown",
-      "duration": 0,
+      "workout_type": "Unknown",
+      "duration_minutes": null,
       "strain": 12.2,
-      "exercises": "Unknown",
-      "notes": null
+      "notes": null,
+      "source": "whoop",
+      "created_at": "2026-02-23 19:50:36"
     },
     {
+      "id": "exe93dc3aed",
       "date": "2026-02-04",
-      "type": "Active Recovery",
-      "duration": 13.5,
+      "workout_type": "Active Recovery",
+      "duration_minutes": 13.5,
       "strain": 6.3,
-      "exercises": "Active Recovery",
-      "notes": "WHOOP: Strain 6.3 | Zones: Z1=3.3, Z2=0.8, Z3=0, Z"
+      "notes": "WHOOP: Strain 6.3 | Zones: Z1=3.3, Z2=0.8, Z3=0, Z",
+      "source": "airtable",
+      "created_at": "2026-02-23 19:54:36"
     },
     {
+      "id": "exef316ca1a",
       "date": "2026-02-04",
-      "type": "Hard",
-      "duration": 27.53,
+      "workout_type": "Hard",
+      "duration_minutes": 27.53,
       "strain": 15.3,
-      "exercises": "Hard",
-      "notes": "WHOOP: Strain 27.9 | Zones: Z1=0.3, Z2=0.4, Z3=5.2"
+      "notes": "WHOOP: Strain 27.9 | Zones: Z1=0.3, Z2=0.4, Z3=5.2",
+      "source": "airtable",
+      "created_at": "2026-02-23 19:54:37"
     },
     {
+      "id": "exea6700df2",
       "date": "2026-02-03",
-      "type": "Unknown",
-      "duration": 0,
+      "workout_type": "Unknown",
+      "duration_minutes": null,
       "strain": 17.8,
-      "exercises": "Unknown",
-      "notes": null
+      "notes": null,
+      "source": "whoop",
+      "created_at": "2026-02-23 19:50:38"
     }
   ],
-  "workouts": [
-    {
-      "date": "2026-02-22",
-      "type": "Swimming",
-      "duration": 23,
-      "strain": 9.7,
-      "exercises": "Swimming",
-      "notes": "285 calories, zones 1-4"
-    },
-    {
-      "date": "2026-02-22",
-      "type": "Swimming",
-      "duration": 23,
-      "strain": 9.7,
-      "exercises": "Swimming",
-      "notes": "285 calories, zones 1-4"
-    },
-    {
-      "date": "2026-02-18",
-      "type": "Unknown",
-      "duration": 33,
-      "strain": 11.6,
-      "exercises": "Unknown",
-      "notes": "Source: Manual Log"
-    },
-    {
-      "date": "2026-02-16",
-      "type": "Hard",
-      "duration": 29,
-      "strain": 8.1,
-      "exercises": "Hard",
-      "notes": "HIIT workout with kettlebell upper body. Total tim"
-    },
-    {
-      "date": "2026-02-15",
-      "type": "Active Recovery",
-      "duration": 23.1,
-      "strain": 9.5,
-      "exercises": "Active Recovery",
-      "notes": "Swim 30 front crawl, 6 breaststroke"
-    },
-    {
-      "date": "2026-02-14",
-      "type": "Unknown",
-      "duration": 33.1,
-      "strain": 13.8,
-      "exercises": "Unknown",
-      "notes": "Total: 33min 6sec | Z5:52s Z4:19:57 Z3:9:30 Z2:1:5"
-    },
-    {
-      "date": "2026-02-12",
-      "type": "Active Recovery",
-      "duration": 19.55,
-      "strain": 10.6,
-      "exercises": "Active Recovery",
-      "notes": "Swim 30 front crawl, 4 breaststroke"
-    },
-    {
-      "date": "2026-02-11",
-      "type": "Hard",
-      "duration": 33.01,
-      "strain": 12,
-      "exercises": "Hard",
-      "notes": "Evening workout with post-workout walk"
-    },
-    {
-      "date": "2026-02-10",
-      "type": "Hard",
-      "duration": 26.32,
-      "strain": 7.9,
-      "exercises": "Hard",
-      "notes": "12kg, 4 rounds, felt easy - ready to progress to 1"
-    },
-    {
-      "date": "2026-02-09",
-      "type": "Unknown",
-      "duration": 0,
-      "strain": 12.9,
-      "exercises": "Unknown",
-      "notes": null
-    },
-    {
-      "date": "2026-02-09",
-      "type": "Active Recovery",
-      "duration": 30.5,
-      "strain": 10.9,
-      "exercises": "Active Recovery",
-      "notes": "38 lengths, 30 front crawl\n"
-    },
-    {
-      "date": "2026-02-08",
-      "type": "Unknown",
-      "duration": 0,
-      "strain": 14.5,
-      "exercises": "Unknown",
-      "notes": null
-    },
-    {
-      "date": "2026-02-07",
-      "type": "Unknown",
-      "duration": 0,
-      "strain": 11.8,
-      "exercises": "Unknown",
-      "notes": null
-    },
-    {
-      "date": "2026-02-07",
-      "type": "Hard",
-      "duration": 30,
-      "strain": 9.5,
-      "exercises": "Hard",
-      "notes": "Kettlebell: Goblet Squats, Swings, Rows"
-    },
-    {
-      "date": "2026-02-06",
-      "type": "Unknown",
-      "duration": 0,
-      "strain": 13.7,
-      "exercises": "Unknown",
-      "notes": null
-    },
-    {
-      "date": "2026-02-06",
-      "type": "Hard",
-      "duration": 27.1,
-      "strain": 13.4,
-      "exercises": "Hard",
-      "notes": "WHOOP: Strain 13.4 | Zones: Z1=11.3, Z2=8.5, Z3=0,"
-    },
-    {
-      "date": "2026-02-06",
-      "type": "Active Recovery",
-      "duration": 23.4,
-      "strain": 10.1,
-      "exercises": "Active Recovery",
-      "notes": "WHOOP: Strain 10.1 | Zones: Z1=10.2, Z2=9.1, Z3=0,"
-    },
-    {
-      "date": "2026-02-05",
-      "type": "Unknown",
-      "duration": 0,
-      "strain": 17.1,
-      "exercises": "Unknown",
-      "notes": null
-    },
-    {
-      "date": "2026-02-04",
-      "type": "Unknown",
-      "duration": 0,
-      "strain": 12.2,
-      "exercises": "Unknown",
-      "notes": null
-    },
-    {
-      "date": "2026-02-04",
-      "type": "Active Recovery",
-      "duration": 13.5,
-      "strain": 6.3,
-      "exercises": "Active Recovery",
-      "notes": "WHOOP: Strain 6.3 | Zones: Z1=3.3, Z2=0.8, Z3=0, Z"
-    },
-    {
-      "date": "2026-02-04",
-      "type": "Hard",
-      "duration": 27.53,
-      "strain": 15.3,
-      "exercises": "Hard",
-      "notes": "WHOOP: Strain 27.9 | Zones: Z1=0.3, Z2=0.4, Z3=5.2"
-    },
-    {
-      "date": "2026-02-03",
-      "type": "Unknown",
-      "duration": 0,
-      "strain": 17.8,
-      "exercises": "Unknown",
-      "notes": null
-    }
-  ],
-  "total_minutes": 395.11,
-  "avg_strain": 11.7,
-  "workout_count": 22,
-  "exercise_types": {
-    "Swimming": {
-      "minutes": 46,
-      "count": 2
-    },
-    "Unknown": {
-      "minutes": 66.1,
-      "count": 9
-    },
-    "Hard": {
-      "minutes": 172.96,
-      "count": 6
-    },
-    "Active Recovery": {
-      "minutes": 110.05000000000001,
-      "count": 5
-    }
-  },
   "summary": {
     "total_workouts": 22,
     "total_minutes": 395.11,
-    "total_strain": 258.4,
-    "by_type": {
-      "Swimming": {
-        "minutes": 46,
-        "count": 2
-      },
-      "Unknown": {
-        "minutes": 66.1,
-        "count": 9
-      },
-      "Hard": {
-        "minutes": 172.96,
-        "count": 6
-      },
-      "Active Recovery": {
-        "minutes": 110.05000000000001,
-        "count": 5
-      }
-    }
+    "total_strain": 258.4
   }
 }
