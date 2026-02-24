@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-02-24T18:00:48.325406",
+  "generated_at": "2026-02-24T18:15:51.781581",
   "exercise": [
     {
       "date": "2026-02-22",
@@ -16,14 +16,6 @@
       "strain": 9.7,
       "exercises": "Swimming",
       "notes": "285 calories, zones 1-4"
-    },
-    {
-      "date": "2026-02-18",
-      "type": "Unknown",
-      "duration": 33,
-      "strain": 11.6,
-      "exercises": "Unknown",
-      "notes": "Source: Manual Log"
     },
     {
       "date": "2026-02-16",
@@ -196,14 +188,6 @@
       "notes": "285 calories, zones 1-4"
     },
     {
-      "date": "2026-02-18",
-      "type": "Unknown",
-      "duration": 33,
-      "strain": 11.6,
-      "exercises": "Unknown",
-      "notes": "Source: Manual Log"
-    },
-    {
       "date": "2026-02-16",
       "type": "Hard",
       "duration": 29,
@@ -356,17 +340,13 @@
       "notes": null
     }
   ],
-  "total_minutes": 395.11,
-  "avg_strain": 11.7,
-  "workout_count": 22,
+  "total_minutes": 362.11,
+  "avg_strain": 11.8,
+  "workout_count": 21,
   "exercise_types": {
     "Swimming": {
       "minutes": 46,
       "count": 2
-    },
-    "Unknown": {
-      "minutes": 66.1,
-      "count": 9
     },
     "Hard": {
       "minutes": 172.96,
@@ -375,20 +355,20 @@
     "Active Recovery": {
       "minutes": 110.05000000000001,
       "count": 5
+    },
+    "Unknown": {
+      "minutes": 33.1,
+      "count": 8
     }
   },
   "summary": {
-    "total_workouts": 22,
-    "total_minutes": 395.11,
-    "total_strain": 258.4,
+    "total_workouts": 21,
+    "total_minutes": 362.11,
+    "total_strain": 246.8,
     "by_type": {
       "Swimming": {
         "minutes": 46,
         "count": 2
-      },
-      "Unknown": {
-        "minutes": 66.1,
-        "count": 9
       },
       "Hard": {
         "minutes": 172.96,
@@ -397,6 +377,10 @@
       "Active Recovery": {
         "minutes": 110.05000000000001,
         "count": 5
+      },
+      "Unknown": {
+        "minutes": 33.1,
+        "count": 8
       }
     }
   }
