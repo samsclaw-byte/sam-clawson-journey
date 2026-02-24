@@ -2,26 +2,47 @@
   "date": "2026-02-10",
   "meals": [
     {
-      "type": "Breakfast",
-      "items": "3 eggs, protein bread, butter, coffee",
-      "calories": 450
+      "id": "nut6305bd36",
+      "date": "2026-02-10",
+      "meal_type": "breakfast",
+      "description": "3 eggs, protein bread, butter, coffee",
+      "calories": 450,
+      "protein": null,
+      "carbs": null,
+      "fat": null,
+      "source": "manual",
+      "created_at": "2026-02-23 19:04:01"
     },
     {
-      "type": "Lunch",
-      "items": "Grilled chicken wrap, salad",
-      "calories": 480
+      "id": "nut92434bd7",
+      "date": "2026-02-10",
+      "meal_type": "lunch",
+      "description": "Grilled chicken wrap, salad",
+      "calories": 480,
+      "protein": null,
+      "carbs": null,
+      "fat": null,
+      "source": "manual",
+      "created_at": "2026-02-23 19:04:03"
     },
     {
-      "type": "Dinner",
-      "items": "Pasta with meatballs, parmesan",
-      "calories": 620
+      "id": "nut7f447857",
+      "date": "2026-02-10",
+      "meal_type": "dinner",
+      "description": "Pasta with meatballs, parmesan",
+      "calories": 620,
+      "protein": null,
+      "carbs": null,
+      "fat": null,
+      "source": "manual",
+      "created_at": "2026-02-23 19:04:04"
     }
   ],
   "total_calories": 1550,
   "macros": {
-    "protein": 95,
-    "carbs": 160,
-    "fat": 56,
-    "fiber": 16.0
+    "protein": 0,
+    "carbs": 0,
+    "fat": 0,
+    "fiber": 0
   }
 }

@@ -2,36 +2,71 @@
   "date": "2026-02-13",
   "meals": [
     {
-      "type": "Breakfast",
-      "items": "2 cafe au laits, half slice sourdough bread, 2 egg omelette ...",
-      "calories": 730
+      "id": "nutb779a9fe",
+      "date": "2026-02-13",
+      "meal_type": "breakfast",
+      "description": "2 cafe au laits, half slice sourdough bread, 2 egg omelette ...",
+      "calories": 730,
+      "protein": null,
+      "carbs": null,
+      "fat": null,
+      "source": "manual",
+      "created_at": "2026-02-23 19:04:20"
     },
     {
-      "type": "Lunch",
-      "items": "Turkey and cheese croissant, cookies and cream protein bar",
-      "calories": 620
+      "id": "nut5fc56ffb",
+      "date": "2026-02-13",
+      "meal_type": "lunch",
+      "description": "Turkey and cheese croissant, cookies and cream protein bar",
+      "calories": 620,
+      "protein": null,
+      "carbs": null,
+      "fat": null,
+      "source": "manual",
+      "created_at": "2026-02-23 19:04:21"
     },
     {
-      "type": "Dinner",
-      "items": "Tawouk, shish, hummus, patatas, pita, small slice chocolate ...",
-      "calories": 950
+      "id": "nutcc7d5b36",
+      "date": "2026-02-13",
+      "meal_type": "dinner",
+      "description": "Tawouk, shish, hummus, patatas, pita, small slice chocolate ...",
+      "calories": 950,
+      "protein": null,
+      "carbs": null,
+      "fat": null,
+      "source": "manual",
+      "created_at": "2026-02-23 19:04:22"
     },
     {
-      "type": "Snack",
-      "items": "banana, 3 small dates, green apple",
-      "calories": 210
+      "id": "nut723d5520",
+      "date": "2026-02-13",
+      "meal_type": "snack",
+      "description": "banana, 3 small dates, green apple",
+      "calories": 210,
+      "protein": null,
+      "carbs": null,
+      "fat": null,
+      "source": "manual",
+      "created_at": "2026-02-23 19:04:23"
     },
     {
-      "type": "Snack",
-      "items": "1 bottle beer, 2 small glasses white wine",
-      "calories": 350
+      "id": "nut31e2d472",
+      "date": "2026-02-13",
+      "meal_type": "snack",
+      "description": "1 bottle beer, 2 small glasses white wine",
+      "calories": 350,
+      "protein": null,
+      "carbs": null,
+      "fat": null,
+      "source": "manual",
+      "created_at": "2026-02-23 19:04:24"
     }
   ],
   "total_calories": 2860,
   "macros": {
-    "protein": 111,
-    "carbs": 264,
-    "fat": 107,
-    "fiber": 20
+    "protein": 0,
+    "carbs": 0,
+    "fat": 0,
+    "fiber": 0
   }
 }

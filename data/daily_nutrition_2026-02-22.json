@@ -1,7 +1,56 @@
 {
   "date": "2026-02-22",
-  "meals": [],
-  "total_calories": 0,
+  "meals": [
+    {
+      "id": "nut123",
+      "date": "2026-02-22",
+      "meal_type": "breakfast",
+      "description": "Test migration",
+      "calories": 500,
+      "protein": null,
+      "carbs": null,
+      "fat": null,
+      "source": "manual",
+      "created_at": "2026-02-23 18:24:37"
+    },
+    {
+      "id": "nut_feb22_bfast",
+      "date": "2026-02-22",
+      "meal_type": "breakfast",
+      "description": "toast and ham",
+      "calories": 400,
+      "protein": null,
+      "carbs": null,
+      "fat": null,
+      "source": "manual",
+      "created_at": "2026-02-23 18:25:49"
+    },
+    {
+      "id": "nut_feb22_snack",
+      "date": "2026-02-22",
+      "meal_type": "snack",
+      "description": "Apple, 2 dates",
+      "calories": 150,
+      "protein": null,
+      "carbs": null,
+      "fat": null,
+      "source": "manual",
+      "created_at": "2026-02-23 18:26:08"
+    },
+    {
+      "id": "nut_feb22_lunch",
+      "date": "2026-02-22",
+      "meal_type": "lunch",
+      "description": "Sandwich, Greek yoghurt, protein shake",
+      "calories": 600,
+      "protein": null,
+      "carbs": null,
+      "fat": null,
+      "source": "manual",
+      "created_at": "2026-02-23 18:26:08"
+    }
+  ],
+  "total_calories": 1650,
   "macros": {
     "protein": 0,
     "carbs": 0,

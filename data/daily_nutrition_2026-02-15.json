@@ -2,36 +2,71 @@
   "date": "2026-02-15",
   "meals": [
     {
-      "type": "Breakfast",
-      "items": "Flat white coffee, 2-egg omelette with cheese and onion, 1/2...",
-      "calories": 740
+      "id": "nute137b3b8",
+      "date": "2026-02-15",
+      "meal_type": "breakfast",
+      "description": "Flat white coffee, 2-egg omelette with cheese and onion, 1/2...",
+      "calories": 740,
+      "protein": null,
+      "carbs": null,
+      "fat": null,
+      "source": "manual",
+      "created_at": "2026-02-23 19:04:26"
     },
     {
-      "type": "Lunch",
-      "items": "Latte, 3 small pizza slices (2 BBQ chicken, 1 margherita)",
-      "calories": 850
+      "id": "nutd014edb4",
+      "date": "2026-02-15",
+      "meal_type": "lunch",
+      "description": "Latte, 3 small pizza slices (2 BBQ chicken, 1 margherita)",
+      "calories": 850,
+      "protein": null,
+      "carbs": null,
+      "fat": null,
+      "source": "manual",
+      "created_at": "2026-02-23 19:04:28"
     },
     {
-      "type": "Dinner",
-      "items": "Beef flank steak with chimichurri sauce, sweet potato fries,...",
-      "calories": 950
+      "id": "nut004c236c",
+      "date": "2026-02-15",
+      "meal_type": "dinner",
+      "description": "Beef flank steak with chimichurri sauce, sweet potato fries,...",
+      "calories": 950,
+      "protein": null,
+      "carbs": null,
+      "fat": null,
+      "source": "manual",
+      "created_at": "2026-02-23 19:04:29"
     },
     {
-      "type": "Snack",
-      "items": "Green apple, half small tiramisu",
-      "calories": 280
+      "id": "nut4d7fccc2",
+      "date": "2026-02-15",
+      "meal_type": "snack",
+      "description": "Green apple, half small tiramisu",
+      "calories": 280,
+      "protein": null,
+      "carbs": null,
+      "fat": null,
+      "source": "manual",
+      "created_at": "2026-02-23 19:04:31"
     },
     {
-      "type": "Snack",
-      "items": "15 cubes Dairy Milk chocolate (birthday treat!), 1/2 portion...",
-      "calories": 450
+      "id": "nuta8ea9398",
+      "date": "2026-02-15",
+      "meal_type": "snack",
+      "description": "15 cubes Dairy Milk chocolate (birthday treat!), 1/2 portion...",
+      "calories": 450,
+      "protein": null,
+      "carbs": null,
+      "fat": null,
+      "source": "manual",
+      "created_at": "2026-02-23 19:04:32"
     }
   ],
   "total_calories": 3270,
   "macros": {
-    "protein": 111,
-    "carbs": 149.8,
-    "fat": 142.5,
-    "fiber": 6.9
+    "protein": 0,
+    "carbs": 0,
+    "fat": 0,
+    "fiber": 0
   }
 }

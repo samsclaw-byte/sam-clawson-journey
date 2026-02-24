@@ -2,39 +2,88 @@
   "date": "2026-02-19",
   "meals": [
     {
-      "type": "Breakfast",
-      "items": "Two pieces multigrain toast with Lurpak and ham, cafe au lai...",
-      "calories": 450
+      "id": "nut086431ea",
+      "date": "2026-02-19",
+      "meal_type": "breakfast",
+      "description": "Two pieces multigrain toast with Lurpak and ham, cafe au lai...",
+      "calories": 450,
+      "protein": null,
+      "carbs": null,
+      "fat": null,
+      "source": "manual",
+      "created_at": "2026-02-23 19:04:54"
     },
     {
-      "type": "Lunch",
-      "items": "Medium portion rice with Thai green curry",
-      "calories": 550
+      "id": "nutb28e82c6",
+      "date": "2026-02-19",
+      "meal_type": "lunch",
+      "description": "Medium portion rice with Thai green curry",
+      "calories": 550,
+      "protein": null,
+      "carbs": null,
+      "fat": null,
+      "source": "manual",
+      "created_at": "2026-02-23 19:04:56"
     },
     {
-      "type": "Snack",
-      "items": "220g raspberry Greek yogurt",
-      "calories": 180
+      "id": "nut93e2ed4a",
+      "date": "2026-02-19",
+      "meal_type": "snack",
+      "description": "220g raspberry Greek yogurt",
+      "calories": 180,
+      "protein": null,
+      "carbs": null,
+      "fat": null,
+      "source": "manual",
+      "created_at": "2026-02-23 19:04:57"
     },
     {
-      "type": "Snack",
-      "items": "3 dates",
-      "calories": 70
+      "id": "nutb0383b7a",
+      "date": "2026-02-19",
+      "meal_type": "snack",
+      "description": "3 dates",
+      "calories": 70,
+      "protein": null,
+      "carbs": null,
+      "fat": null,
+      "source": "manual",
+      "created_at": "2026-02-23 19:04:58"
     },
     {
-      "type": "Snack",
-      "items": "10 cubes Dairy Milk chocolate",
-      "calories": 200
+      "id": "nut2fea2d87",
+      "date": "2026-02-19",
+      "meal_type": "snack",
+      "description": "10 cubes Dairy Milk chocolate",
+      "calories": 200,
+      "protein": null,
+      "carbs": null,
+      "fat": null,
+      "source": "manual",
+      "created_at": "2026-02-23 19:04:59"
     },
     {
-      "type": "Snack",
-      "items": "8 cubes Dairy Milk chocolate",
-      "calories": 160
+      "id": "nut29962da5",
+      "date": "2026-02-19",
+      "meal_type": "snack",
+      "description": "8 cubes Dairy Milk chocolate",
+      "calories": 160,
+      "protein": null,
+      "carbs": null,
+      "fat": null,
+      "source": "manual",
+      "created_at": "2026-02-23 19:05:00"
     },
     {
-      "type": "Snack",
-      "items": "7 cubes Dairy Milk chocolate",
-      "calories": 140
+      "id": "nut8c80cc57",
+      "date": "2026-02-19",
+      "meal_type": "snack",
+      "description": "7 cubes Dairy Milk chocolate",
+      "calories": 140,
+      "protein": null,
+      "carbs": null,
+      "fat": null,
+      "source": "manual",
+      "created_at": "2026-02-23 19:05:01"
     }
   ],
   "total_calories": 1750,

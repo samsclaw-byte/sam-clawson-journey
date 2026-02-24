@@ -2,41 +2,83 @@
   "date": "2026-02-12",
   "meals": [
     {
-      "type": "Breakfast",
-      "items": "2 multigrain bread with lurpak butter and ham, cafe au lait",
-      "calories": 340
+      "id": "nut259da7a3",
+      "date": "2026-02-12",
+      "meal_type": "breakfast",
+      "description": "2 multigrain bread with lurpak butter and ham, cafe au lait",
+      "calories": 340,
+      "protein": null,
+      "carbs": null,
+      "fat": null,
+      "source": "manual",
+      "created_at": "2026-02-23 19:04:11"
     },
     {
-      "type": "Lunch",
-      "items": "Chicken avocado and pesto tortilla, cappuccino",
-      "calories": 520
+      "id": "nut721ad13e",
+      "date": "2026-02-12",
+      "meal_type": "lunch",
+      "description": "Chicken avocado and pesto tortilla, cappuccino",
+      "calories": 520,
+      "protein": null,
+      "carbs": null,
+      "fat": null,
+      "source": "manual",
+      "created_at": "2026-02-23 19:04:13"
     },
     {
-      "type": "Dinner",
-      "items": "Spaghetti bolognese",
-      "calories": 650
+      "id": "nutfd66a1e3",
+      "date": "2026-02-12",
+      "meal_type": "dinner",
+      "description": "Spaghetti bolognese",
+      "calories": 650,
+      "protein": null,
+      "carbs": null,
+      "fat": null,
+      "source": "manual",
+      "created_at": "2026-02-23 19:04:14"
     },
     {
-      "type": "Snack",
-      "items": "2 dates",
-      "calories": 132.96
+      "id": "nut698bb4dc",
+      "date": "2026-02-12",
+      "meal_type": "snack",
+      "description": "2 dates",
+      "calories": 132.96,
+      "protein": null,
+      "carbs": null,
+      "fat": null,
+      "source": "manual",
+      "created_at": "2026-02-23 19:04:15"
     },
     {
-      "type": "Snack",
-      "items": "banana, red apple, 1 glass water",
-      "calories": 200.25
+      "id": "nuta02ee572",
+      "date": "2026-02-12",
+      "meal_type": "snack",
+      "description": "banana, red apple, 1 glass water",
+      "calories": 200.25,
+      "protein": null,
+      "carbs": null,
+      "fat": null,
+      "source": "manual",
+      "created_at": "2026-02-23 19:04:16"
     },
     {
-      "type": "Snack",
-      "items": "31g protein powder (with water)",
-      "calories": 120
+      "id": "nut61f12595",
+      "date": "2026-02-12",
+      "meal_type": "snack",
+      "description": "31g protein powder (with water)",
+      "calories": 120,
+      "protein": null,
+      "carbs": null,
+      "fat": null,
+      "source": "manual",
+      "created_at": "2026-02-23 19:04:18"
     }
   ],
   "total_calories": 1963.21,
   "macros": {
-    "protein": 108.4,
-    "carbs": 261.3,
-    "fat": 61.8,
-    "fiber": 27.1
+    "protein": 0,
+    "carbs": 0,
+    "fat": 0,
+    "fiber": 0
   }
 }

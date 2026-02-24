@@ -1,0 +1,48 @@
+{
+  "date": "2026-02-23",
+  "meals": [
+    {
+      "id": "nut5853995e",
+      "date": "2026-02-23",
+      "meal_type": "dinner",
+      "description": "Chicken salad",
+      "calories": 450,
+      "protein": null,
+      "carbs": null,
+      "fat": null,
+      "source": "manual",
+      "created_at": "2026-02-23 18:32:05"
+    },
+    {
+      "id": "nut3e3f919d",
+      "date": "2026-02-23",
+      "meal_type": "dinner",
+      "description": "3 quarters meat pizza, 2 garlic dough balls, triple chocolate cookie",
+      "calories": null,
+      "protein": null,
+      "carbs": null,
+      "fat": null,
+      "source": "manual",
+      "created_at": "2026-02-23 20:06:13"
+    },
+    {
+      "id": "nut93f1f1ff",
+      "date": "2026-02-23",
+      "meal_type": "snack",
+      "description": "31g protein powder",
+      "calories": null,
+      "protein": null,
+      "carbs": null,
+      "fat": null,
+      "source": "manual",
+      "created_at": "2026-02-23 20:06:21"
+    }
+  ],
+  "total_calories": 450,
+  "macros": {
+    "protein": 0,
+    "carbs": 0,
+    "fat": 0,
+    "fiber": 0
+  }
+}

@@ -2,26 +2,47 @@
   "date": "2026-02-17",
   "meals": [
     {
-      "type": "Breakfast",
-      "items": "Two pieces multigrain toast with Lurpak and ham, cafe au lai...",
-      "calories": 450
+      "id": "nutd1163fa5",
+      "date": "2026-02-17",
+      "meal_type": "breakfast",
+      "description": "Two pieces multigrain toast with Lurpak and ham, cafe au lai...",
+      "calories": 450,
+      "protein": null,
+      "carbs": null,
+      "fat": null,
+      "source": "manual",
+      "created_at": "2026-02-23 19:04:43"
     },
     {
-      "type": "Lunch",
-      "items": "Chicken, avocado and pesto tortilla with cappuccino",
-      "calories": 250
+      "id": "nuta02464a5",
+      "date": "2026-02-17",
+      "meal_type": "lunch",
+      "description": "Chicken, avocado and pesto tortilla with cappuccino",
+      "calories": 250,
+      "protein": null,
+      "carbs": null,
+      "fat": null,
+      "source": "manual",
+      "created_at": "2026-02-23 19:04:44"
     },
     {
-      "type": "Snack",
-      "items": "Red apple",
-      "calories": 95
+      "id": "nut3feebd6a",
+      "date": "2026-02-17",
+      "meal_type": "snack",
+      "description": "Red apple",
+      "calories": 95,
+      "protein": null,
+      "carbs": null,
+      "fat": null,
+      "source": "manual",
+      "created_at": "2026-02-23 19:04:46"
     }
   ],
   "total_calories": 795,
   "macros": {
-    "protein": 30,
-    "carbs": 37,
-    "fat": 32,
-    "fiber": 4.0
+    "protein": 0,
+    "carbs": 0,
+    "fat": 0,
+    "fiber": 0
   }
 }

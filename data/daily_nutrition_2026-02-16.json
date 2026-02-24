@@ -2,41 +2,83 @@
   "date": "2026-02-16",
   "meals": [
     {
-      "type": "Breakfast",
-      "items": "One glass of water, three egg omelette with cheese, two piec...",
-      "calories": 650
+      "id": "nuta84062fd",
+      "date": "2026-02-16",
+      "meal_type": "breakfast",
+      "description": "One glass of water, three egg omelette with cheese, two piec...",
+      "calories": 650,
+      "protein": null,
+      "carbs": null,
+      "fat": null,
+      "source": "manual",
+      "created_at": "2026-02-23 19:04:33"
     },
     {
-      "type": "Lunch",
-      "items": "Lamb biryani (estimated)",
-      "calories": 650
+      "id": "nutdae290c1",
+      "date": "2026-02-16",
+      "meal_type": "lunch",
+      "description": "Lamb biryani (estimated)",
+      "calories": 650,
+      "protein": null,
+      "carbs": null,
+      "fat": null,
+      "source": "manual",
+      "created_at": "2026-02-23 19:04:34"
     },
     {
-      "type": "Dinner",
-      "items": "Chicken tikka masala with mixed veg rice (700 cal portion)",
-      "calories": 700
+      "id": "nutc57b7651",
+      "date": "2026-02-16",
+      "meal_type": "dinner",
+      "description": "Chicken tikka masala with mixed veg rice (700 cal portion)",
+      "calories": 700,
+      "protein": null,
+      "carbs": null,
+      "fat": null,
+      "source": "manual",
+      "created_at": "2026-02-23 19:04:36"
     },
     {
-      "type": "Snack",
-      "items": "Red apple + 3 dates",
-      "calories": 150
+      "id": "nuteb63d4a5",
+      "date": "2026-02-16",
+      "meal_type": "snack",
+      "description": "Red apple + 3 dates",
+      "calories": 150,
+      "protein": null,
+      "carbs": null,
+      "fat": null,
+      "source": "manual",
+      "created_at": "2026-02-23 19:04:38"
     },
     {
-      "type": "Snack",
-      "items": "Mixed nuts",
-      "calories": 180
+      "id": "nut4e3cfe21",
+      "date": "2026-02-16",
+      "meal_type": "snack",
+      "description": "Mixed nuts",
+      "calories": 180,
+      "protein": null,
+      "carbs": null,
+      "fat": null,
+      "source": "manual",
+      "created_at": "2026-02-23 19:04:39"
     },
     {
-      "type": "Snack",
-      "items": "8 cubes Dairy Milk chocolate",
-      "calories": 150
+      "id": "nut331420b8",
+      "date": "2026-02-16",
+      "meal_type": "snack",
+      "description": "8 cubes Dairy Milk chocolate",
+      "calories": 150,
+      "protein": null,
+      "carbs": null,
+      "fat": null,
+      "source": "manual",
+      "created_at": "2026-02-23 19:04:42"
     }
   ],
   "total_calories": 2480,
   "macros": {
-    "protein": 83,
-    "carbs": 349.2,
-    "fat": 115.5,
-    "fiber": 15.1
+    "protein": 0,
+    "carbs": 0,
+    "fat": 0,
+    "fiber": 0
   }
 }
