@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-02-24T08:48:55.721233",
+  "generated_at": "2026-02-24T10:32:57.362831",
   "tasks": [
     {
       "id": "recb246736988",
@@ -868,5 +868,12 @@
   ],
   "projects": [],
   "deliverables": [],
+  "summary": {
+    "total_active": 48,
+    "urgent": 0,
+    "blocked": 0,
+    "due_this_week": 48,
+    "total_tasks": 48
+  },
   "total_tasks": 48
 }

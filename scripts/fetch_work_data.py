@@ -42,12 +42,30 @@ def fetch_work_data():
                 "created": task.get("date_created", "")
             })
         
+        # Calculate summary stats
+        total_active = len([t for t in work_tasks if t.get("status") != "Completed"])
+        urgent = len([t for t in work_tasks if t.get("priority") in ["P0", "High"]])
+        blocked = len([t for t in work_tasks if t.get("blocked_reason")])
+        
+        # Due this week
+        from datetime import timedelta
+        today = datetime.now()
+        week_end = today + timedelta(days=7)
+        due_this_week = len([t for t in work_tasks if t.get("due_date") and t.get("due_date") <= week_end.strftime('%Y-%m-%d')])
+        
         # Structure matches work_data.json
         data = {
             "generated_at": datetime.now().isoformat(),
             "tasks": work_tasks,
             "projects": [],
             "deliverables": [],
+            "summary": {
+                "total_active": total_active,
+                "urgent": urgent,
+                "blocked": blocked,
+                "due_this_week": due_this_week,
+                "total_tasks": len(work_tasks)
+            },
             "total_tasks": len(work_tasks)
         }
         
