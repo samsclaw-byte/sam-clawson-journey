@@ -1,18 +1,17 @@
 #!/usr/bin/env python3
-"""Fetch 7-day timeline data from Airtable for Mission Control dashboard"""
+"""Fetch 7-day timeline data from D1 for Mission Control dashboard"""
 
-import requests
 import json
 from datetime import datetime, timedelta
-import urllib.parse
+from pathlib import Path
+import sys
 
-AIRTABLE_KEY = open('/home/samsclaw/.config/airtable/api_key').read().strip()
-HEALTH_BASE = "appnVeGSjwJgG2snS"
+sys.path.insert(0, str(Path(__file__).parent))
+from d1_client import D1Client
 
 def fetch_timeline_data():
-    headers = {"Authorization": f"Bearer {AIRTABLE_KEY}"}
+    client = D1Client()
     
-    # Calculate date range
     today = datetime.now()
     dates = [(today - timedelta(days=i)).strftime('%Y-%m-%d') for i in range(7)]
     dates.reverse()  # Oldest first
@@ -29,73 +28,55 @@ def fetch_timeline_data():
             'sleep': 0
         }
         
-        # 1. Get calories consumed from Food Log using IS_SAME
+        # Get calories consumed from nutrition
         try:
-            food_url = f"https://api.airtable.com/v0/{HEALTH_BASE}/tblsoErCMSBtzBZKB"
-            formula = urllib.parse.quote(f"IS_SAME(Date, '{date}', 'day')")
-            food_resp = requests.get(
-                f"{food_url}?filterByFormula={formula}",
-                headers=headers,
-                timeout=10
-            )
-            if food_resp.status_code == 200:
-                meals = food_resp.json().get('records', [])
-                day_data['calories_consumed'] = sum(
-                    m['fields'].get('Calories', 0) or 0 for m in meals
-                )
-        except Exception as e:
-            print(f"  Food log error for {date}: {e}")
+            meals = client.get_nutrition(date)
+            total_cals = sum(meal.get('calories', 0) or 0 for meal in meals)
+            day_data['calories_consumed'] = total_cals
+        except:
+            pass
         
-        # 2. Get calories burned, strain, sleep from WHOOP using IS_SAME
+        # Get exercise/strain from exercise
         try:
-            whoop_url = f"https://api.airtable.com/v0/{HEALTH_BASE}/tblUpFFMXvJSHCKXk"
-            formula = urllib.parse.quote(f"IS_SAME(Date, '{date}', 'day')")
-            whoop_resp = requests.get(
-                f"{whoop_url}?filterByFormula={formula}",
-                headers=headers,
-                timeout=10
-            )
-            if whoop_resp.status_code == 200:
-                whoop_records = whoop_resp.json().get('records', [])
-                if whoop_records:
-                    # Take the first record (or could average if multiple)
-                    f = whoop_records[0]['fields']
-                    day_data['calories_burned'] = f.get('Calories Burned', 0) or 0
-                    day_data['strain'] = f.get('Strain', 0) or 0
-                    day_data['sleep'] = f.get('Sleep Performance', 0) or 0
-        except Exception as e:
-            print(f"  WHOOP error for {date}: {e}")
+            exercises = client.get_exercise(date)
+            total_strain = sum(ex.get('strain', 0) or 0 for ex in exercises)
+            day_data['strain'] = total_strain
+        except:
+            pass
         
-        # 3. Get weight from Weight Tracker using IS_SAME
+        # Get weight
         try:
-            weight_url = f"https://api.airtable.com/v0/{HEALTH_BASE}/tblBXv1DfQWDZSbRc"
-            formula = urllib.parse.quote(f"IS_SAME(Date, '{date}', 'day')")
-            weight_resp = requests.get(
-                f"{weight_url}?filterByFormula={formula}",
-                headers=headers,
-                timeout=10
+            import subprocess
+            result = subprocess.run(
+                f'wrangler d1 execute trak-db --command="SELECT weight_kg FROM weight WHERE date=\'{date}\'" --remote',
+                shell=True, capture_output=True, text=True, timeout=10
             )
-            if weight_resp.status_code == 200:
-                weight_records = weight_resp.json().get('records', [])
-                if weight_records:
-                    day_data['weight'] = weight_records[0]['fields'].get('Weight (kg)')
-        except Exception as e:
-            print(f"  Weight error for {date}: {e}")
+            if '"weight_kg":' in result.stdout:
+                import re
+                match = re.search(r'"weight_kg":\s*(\d+\.?\d*)', result.stdout)
+                if match:
+                    day_data['weight'] = float(match.group(1))
+        except:
+            pass
         
         days_data.append(day_data)
-        print(f"  {date}: {day_data['calories_consumed']} cal consumed, {day_data['calories_burned']} burned")
+        print(f"{date}: {day_data['calories_consumed']} cal consumed, {day_data['strain']} strain")
     
-    # Save data
     data = {
         'generated_at': datetime.now().isoformat(),
         'days': days_data
     }
     
-    with open('/home/samsclaw/.openclaw/workspace/data/timeline_data.json', 'w') as f:
-        json.dump(data, f, indent=2)
+    output_file = Path(__file__).parent.parent / "data" / "timeline_data.json"
+    output_file.parent.mkdir(exist_ok=True)
+    output_file.write_text(json.dumps(data, indent=2))
     
-    print(f"\n✅ Timeline data updated: {len(days_data)} days")
-    return True
+    # Also copy to mission-control
+    mc_file = Path(__file__).parent.parent / "mission-control" / "data" / "timeline_data.json"
+    mc_file.write_text(json.dumps(data, indent=2))
+    
+    print(f"✅ Timeline data updated: {len(days_data)} days")
+    return data
 
 if __name__ == "__main__":
     fetch_timeline_data()
