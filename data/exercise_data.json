@@ -1,40 +1,402 @@
 {
-  "generated_at": "2026-02-24T08:49:45.295488",
+  "generated_at": "2026-02-24T09:28:30.585097",
   "exercise": [
     {
       "date": "2026-02-22",
-      "workout_type": "Swimming",
+      "type": "Swimming",
       "duration": 23,
       "strain": 9.7,
+      "exercises": "Swimming",
       "notes": "285 calories, zones 1-4"
     },
     {
       "date": "2026-02-22",
-      "workout_type": "Swimming",
+      "type": "Swimming",
       "duration": 23,
       "strain": 9.7,
+      "exercises": "Swimming",
       "notes": "285 calories, zones 1-4"
     },
     {
       "date": "2026-02-18",
-      "workout_type": "Unknown",
+      "type": "Unknown",
       "duration": 33,
       "strain": 11.6,
+      "exercises": "Unknown",
       "notes": "Source: Manual Log"
+    },
+    {
+      "date": "2026-02-16",
+      "type": "Hard",
+      "duration": 29,
+      "strain": 8.1,
+      "exercises": "Hard",
+      "notes": "HIIT workout with kettlebell upper body. Total tim"
+    },
+    {
+      "date": "2026-02-15",
+      "type": "Active Recovery",
+      "duration": 23.1,
+      "strain": 9.5,
+      "exercises": "Active Recovery",
+      "notes": "Swim 30 front crawl, 6 breaststroke"
+    },
+    {
+      "date": "2026-02-14",
+      "type": "Unknown",
+      "duration": 33.1,
+      "strain": 13.8,
+      "exercises": "Unknown",
+      "notes": "Total: 33min 6sec | Z5:52s Z4:19:57 Z3:9:30 Z2:1:5"
+    },
+    {
+      "date": "2026-02-12",
+      "type": "Active Recovery",
+      "duration": 19.55,
+      "strain": 10.6,
+      "exercises": "Active Recovery",
+      "notes": "Swim 30 front crawl, 4 breaststroke"
+    },
+    {
+      "date": "2026-02-11",
+      "type": "Hard",
+      "duration": 33.01,
+      "strain": 12,
+      "exercises": "Hard",
+      "notes": "Evening workout with post-workout walk"
+    },
+    {
+      "date": "2026-02-10",
+      "type": "Hard",
+      "duration": 26.32,
+      "strain": 7.9,
+      "exercises": "Hard",
+      "notes": "12kg, 4 rounds, felt easy - ready to progress to 1"
+    },
+    {
+      "date": "2026-02-09",
+      "type": "Unknown",
+      "duration": 0,
+      "strain": 12.9,
+      "exercises": "Unknown",
+      "notes": null
+    },
+    {
+      "date": "2026-02-09",
+      "type": "Active Recovery",
+      "duration": 30.5,
+      "strain": 10.9,
+      "exercises": "Active Recovery",
+      "notes": "38 lengths, 30 front crawl\n"
+    },
+    {
+      "date": "2026-02-08",
+      "type": "Unknown",
+      "duration": 0,
+      "strain": 14.5,
+      "exercises": "Unknown",
+      "notes": null
+    },
+    {
+      "date": "2026-02-07",
+      "type": "Unknown",
+      "duration": 0,
+      "strain": 11.8,
+      "exercises": "Unknown",
+      "notes": null
+    },
+    {
+      "date": "2026-02-07",
+      "type": "Hard",
+      "duration": 30,
+      "strain": 9.5,
+      "exercises": "Hard",
+      "notes": "Kettlebell: Goblet Squats, Swings, Rows"
+    },
+    {
+      "date": "2026-02-06",
+      "type": "Unknown",
+      "duration": 0,
+      "strain": 13.7,
+      "exercises": "Unknown",
+      "notes": null
+    },
+    {
+      "date": "2026-02-06",
+      "type": "Hard",
+      "duration": 27.1,
+      "strain": 13.4,
+      "exercises": "Hard",
+      "notes": "WHOOP: Strain 13.4 | Zones: Z1=11.3, Z2=8.5, Z3=0,"
+    },
+    {
+      "date": "2026-02-06",
+      "type": "Active Recovery",
+      "duration": 23.4,
+      "strain": 10.1,
+      "exercises": "Active Recovery",
+      "notes": "WHOOP: Strain 10.1 | Zones: Z1=10.2, Z2=9.1, Z3=0,"
+    },
+    {
+      "date": "2026-02-05",
+      "type": "Unknown",
+      "duration": 0,
+      "strain": 17.1,
+      "exercises": "Unknown",
+      "notes": null
+    },
+    {
+      "date": "2026-02-04",
+      "type": "Unknown",
+      "duration": 0,
+      "strain": 12.2,
+      "exercises": "Unknown",
+      "notes": null
+    },
+    {
+      "date": "2026-02-04",
+      "type": "Active Recovery",
+      "duration": 13.5,
+      "strain": 6.3,
+      "exercises": "Active Recovery",
+      "notes": "WHOOP: Strain 6.3 | Zones: Z1=3.3, Z2=0.8, Z3=0, Z"
+    },
+    {
+      "date": "2026-02-04",
+      "type": "Hard",
+      "duration": 27.53,
+      "strain": 15.3,
+      "exercises": "Hard",
+      "notes": "WHOOP: Strain 27.9 | Zones: Z1=0.3, Z2=0.4, Z3=5.2"
+    },
+    {
+      "date": "2026-02-03",
+      "type": "Unknown",
+      "duration": 0,
+      "strain": 17.8,
+      "exercises": "Unknown",
+      "notes": null
     }
   ],
+  "workouts": [
+    {
+      "date": "2026-02-22",
+      "type": "Swimming",
+      "duration": 23,
+      "strain": 9.7,
+      "exercises": "Swimming",
+      "notes": "285 calories, zones 1-4"
+    },
+    {
+      "date": "2026-02-22",
+      "type": "Swimming",
+      "duration": 23,
+      "strain": 9.7,
+      "exercises": "Swimming",
+      "notes": "285 calories, zones 1-4"
+    },
+    {
+      "date": "2026-02-18",
+      "type": "Unknown",
+      "duration": 33,
+      "strain": 11.6,
+      "exercises": "Unknown",
+      "notes": "Source: Manual Log"
+    },
+    {
+      "date": "2026-02-16",
+      "type": "Hard",
+      "duration": 29,
+      "strain": 8.1,
+      "exercises": "Hard",
+      "notes": "HIIT workout with kettlebell upper body. Total tim"
+    },
+    {
+      "date": "2026-02-15",
+      "type": "Active Recovery",
+      "duration": 23.1,
+      "strain": 9.5,
+      "exercises": "Active Recovery",
+      "notes": "Swim 30 front crawl, 6 breaststroke"
+    },
+    {
+      "date": "2026-02-14",
+      "type": "Unknown",
+      "duration": 33.1,
+      "strain": 13.8,
+      "exercises": "Unknown",
+      "notes": "Total: 33min 6sec | Z5:52s Z4:19:57 Z3:9:30 Z2:1:5"
+    },
+    {
+      "date": "2026-02-12",
+      "type": "Active Recovery",
+      "duration": 19.55,
+      "strain": 10.6,
+      "exercises": "Active Recovery",
+      "notes": "Swim 30 front crawl, 4 breaststroke"
+    },
+    {
+      "date": "2026-02-11",
+      "type": "Hard",
+      "duration": 33.01,
+      "strain": 12,
+      "exercises": "Hard",
+      "notes": "Evening workout with post-workout walk"
+    },
+    {
+      "date": "2026-02-10",
+      "type": "Hard",
+      "duration": 26.32,
+      "strain": 7.9,
+      "exercises": "Hard",
+      "notes": "12kg, 4 rounds, felt easy - ready to progress to 1"
+    },
+    {
+      "date": "2026-02-09",
+      "type": "Unknown",
+      "duration": 0,
+      "strain": 12.9,
+      "exercises": "Unknown",
+      "notes": null
+    },
+    {
+      "date": "2026-02-09",
+      "type": "Active Recovery",
+      "duration": 30.5,
+      "strain": 10.9,
+      "exercises": "Active Recovery",
+      "notes": "38 lengths, 30 front crawl\n"
+    },
+    {
+      "date": "2026-02-08",
+      "type": "Unknown",
+      "duration": 0,
+      "strain": 14.5,
+      "exercises": "Unknown",
+      "notes": null
+    },
+    {
+      "date": "2026-02-07",
+      "type": "Unknown",
+      "duration": 0,
+      "strain": 11.8,
+      "exercises": "Unknown",
+      "notes": null
+    },
+    {
+      "date": "2026-02-07",
+      "type": "Hard",
+      "duration": 30,
+      "strain": 9.5,
+      "exercises": "Hard",
+      "notes": "Kettlebell: Goblet Squats, Swings, Rows"
+    },
+    {
+      "date": "2026-02-06",
+      "type": "Unknown",
+      "duration": 0,
+      "strain": 13.7,
+      "exercises": "Unknown",
+      "notes": null
+    },
+    {
+      "date": "2026-02-06",
+      "type": "Hard",
+      "duration": 27.1,
+      "strain": 13.4,
+      "exercises": "Hard",
+      "notes": "WHOOP: Strain 13.4 | Zones: Z1=11.3, Z2=8.5, Z3=0,"
+    },
+    {
+      "date": "2026-02-06",
+      "type": "Active Recovery",
+      "duration": 23.4,
+      "strain": 10.1,
+      "exercises": "Active Recovery",
+      "notes": "WHOOP: Strain 10.1 | Zones: Z1=10.2, Z2=9.1, Z3=0,"
+    },
+    {
+      "date": "2026-02-05",
+      "type": "Unknown",
+      "duration": 0,
+      "strain": 17.1,
+      "exercises": "Unknown",
+      "notes": null
+    },
+    {
+      "date": "2026-02-04",
+      "type": "Unknown",
+      "duration": 0,
+      "strain": 12.2,
+      "exercises": "Unknown",
+      "notes": null
+    },
+    {
+      "date": "2026-02-04",
+      "type": "Active Recovery",
+      "duration": 13.5,
+      "strain": 6.3,
+      "exercises": "Active Recovery",
+      "notes": "WHOOP: Strain 6.3 | Zones: Z1=3.3, Z2=0.8, Z3=0, Z"
+    },
+    {
+      "date": "2026-02-04",
+      "type": "Hard",
+      "duration": 27.53,
+      "strain": 15.3,
+      "exercises": "Hard",
+      "notes": "WHOOP: Strain 27.9 | Zones: Z1=0.3, Z2=0.4, Z3=5.2"
+    },
+    {
+      "date": "2026-02-03",
+      "type": "Unknown",
+      "duration": 0,
+      "strain": 17.8,
+      "exercises": "Unknown",
+      "notes": null
+    }
+  ],
+  "total_minutes": 395.11,
+  "avg_strain": 11.7,
+  "workout_count": 22,
+  "exercise_types": {
+    "Swimming": {
+      "minutes": 46,
+      "count": 2
+    },
+    "Unknown": {
+      "minutes": 66.1,
+      "count": 9
+    },
+    "Hard": {
+      "minutes": 172.96,
+      "count": 6
+    },
+    "Active Recovery": {
+      "minutes": 110.05000000000001,
+      "count": 5
+    }
+  },
   "summary": {
-    "total_workouts": 3,
-    "total_minutes": 79,
-    "total_strain": 31.0,
+    "total_workouts": 22,
+    "total_minutes": 395.11,
+    "total_strain": 258.4,
     "by_type": {
       "Swimming": {
         "minutes": 46,
         "count": 2
       },
       "Unknown": {
-        "minutes": 33,
-        "count": 1
+        "minutes": 66.1,
+        "count": 9
+      },
+      "Hard": {
+        "minutes": 172.96,
+        "count": 6
+      },
+      "Active Recovery": {
+        "minutes": 110.05000000000001,
+        "count": 5
       }
     }
   }
