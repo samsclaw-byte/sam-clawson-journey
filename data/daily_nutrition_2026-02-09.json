@@ -2,40 +2,28 @@
   "date": "2026-02-09",
   "meals": [
     {
-      "id": "nut167e719e",
-      "date": "2026-02-09",
-      "meal_type": "breakfast",
-      "description": "3 eggs, protein bread, butter, coffee",
+      "type": "breakfast",
+      "items": "3 eggs, protein bread, butter, coffee",
       "calories": 450,
-      "protein": null,
-      "carbs": null,
-      "fat": null,
-      "source": "manual",
-      "created_at": "2026-02-23 19:03:57"
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0
     },
     {
-      "id": "nut60fcc872",
-      "date": "2026-02-09",
-      "meal_type": "lunch",
-      "description": "Steak, mashed potatoes, green beans",
+      "type": "lunch",
+      "items": "Steak, mashed potatoes, green beans",
       "calories": 650,
-      "protein": null,
-      "carbs": null,
-      "fat": null,
-      "source": "manual",
-      "created_at": "2026-02-23 19:03:59"
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0
     },
     {
-      "id": "nutb773d8d0",
-      "date": "2026-02-09",
-      "meal_type": "dinner",
-      "description": "Greek yogurt, nuts, honey",
+      "type": "dinner",
+      "items": "Greek yogurt, nuts, honey",
       "calories": 320,
-      "protein": null,
-      "carbs": null,
-      "fat": null,
-      "source": "manual",
-      "created_at": "2026-02-23 19:04:00"
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0
     }
   ],
   "total_calories": 1420,

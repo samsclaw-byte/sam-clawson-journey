@@ -2,40 +2,28 @@
   "date": "2026-02-08",
   "meals": [
     {
-      "id": "nut9e5a0afe",
-      "date": "2026-02-08",
-      "meal_type": "breakfast",
-      "description": "3 eggs, protein bread, butter, coffee",
+      "type": "breakfast",
+      "items": "3 eggs, protein bread, butter, coffee",
       "calories": 450,
-      "protein": null,
-      "carbs": null,
-      "fat": null,
-      "source": "manual",
-      "created_at": "2026-02-23 19:03:51"
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0
     },
     {
-      "id": "nut77b33d70",
-      "date": "2026-02-08",
-      "meal_type": "lunch",
-      "description": "Chicken breast, rice, vegetables",
+      "type": "lunch",
+      "items": "Chicken breast, rice, vegetables",
       "calories": 550,
-      "protein": null,
-      "carbs": null,
-      "fat": null,
-      "source": "manual",
-      "created_at": "2026-02-23 19:03:53"
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0
     },
     {
-      "id": "nut2ae23211",
-      "date": "2026-02-08",
-      "meal_type": "dinner",
-      "description": "Salmon, sweet potato, broccoli",
+      "type": "dinner",
+      "items": "Salmon, sweet potato, broccoli",
       "calories": 480,
-      "protein": null,
-      "carbs": null,
-      "fat": null,
-      "source": "manual",
-      "created_at": "2026-02-23 19:03:55"
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0
     }
   ],
   "total_calories": 1480,

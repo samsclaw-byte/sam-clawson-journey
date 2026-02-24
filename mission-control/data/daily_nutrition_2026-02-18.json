@@ -2,76 +2,52 @@
   "date": "2026-02-18",
   "meals": [
     {
-      "id": "nute47f3a22",
-      "date": "2026-02-18",
-      "meal_type": "breakfast",
-      "description": "Test migration",
+      "type": "breakfast",
+      "items": "Test migration",
       "calories": 500,
-      "protein": null,
-      "carbs": null,
-      "fat": null,
-      "source": "manual",
-      "created_at": "2026-02-23 18:52:37"
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0
     },
     {
-      "id": "nut2d8a5e99",
-      "date": "2026-02-18",
-      "meal_type": "breakfast",
-      "description": "Test remote write",
+      "type": "breakfast",
+      "items": "Test remote write",
       "calories": 400,
-      "protein": null,
-      "carbs": null,
-      "fat": null,
-      "source": "manual",
-      "created_at": "2026-02-23 18:54:30"
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0
     },
     {
-      "id": "nut97bca9f1",
-      "date": "2026-02-18",
-      "meal_type": "breakfast",
-      "description": "2-egg omelette with cheese",
+      "type": "breakfast",
+      "items": "2-egg omelette with cheese",
       "calories": 450,
-      "protein": null,
-      "carbs": null,
-      "fat": null,
-      "source": "manual",
-      "created_at": "2026-02-23 19:04:47"
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0
     },
     {
-      "id": "nut21b38506",
-      "date": "2026-02-18",
-      "meal_type": "lunch",
-      "description": "Cappuccino and chicken pesto avocado tortilla wrap",
+      "type": "lunch",
+      "items": "Cappuccino and chicken pesto avocado tortilla wrap",
       "calories": 500,
-      "protein": null,
-      "carbs": null,
-      "fat": null,
-      "source": "manual",
-      "created_at": "2026-02-23 19:04:48"
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0
     },
     {
-      "id": "nutac8855b2",
-      "date": "2026-02-18",
-      "meal_type": "dinner",
-      "description": "Buffet dinner: Arabic meat, hummus, Arabic bread, butter naa...",
+      "type": "dinner",
+      "items": "Buffet dinner: Arabic meat, hummus, Arabic bread, butter naa...",
       "calories": 1200,
-      "protein": null,
-      "carbs": null,
-      "fat": null,
-      "source": "manual",
-      "created_at": "2026-02-23 19:04:50"
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0
     },
     {
-      "id": "nut1ffda306",
-      "date": "2026-02-18",
-      "meal_type": "snack",
-      "description": "3 small dates, cafe au lait, protein shake (31g protein + cr...",
+      "type": "snack",
+      "items": "3 small dates, cafe au lait, protein shake (31g protein + cr...",
       "calories": 250,
-      "protein": null,
-      "carbs": null,
-      "fat": null,
-      "source": "manual",
-      "created_at": "2026-02-23 19:04:52"
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0
     }
   ],
   "total_calories": 3300,
