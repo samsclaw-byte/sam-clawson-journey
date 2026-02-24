@@ -2566,10 +2566,6 @@
             });
         }
         
-        // Initialize drag drop when page loads
-        document.addEventListener('DOMContentLoaded', initGanttDragDrop);
-            e.preventDefault();
-        }
         
         // Generate Deliverables Date GANTT
         
@@ -2846,8 +2842,7 @@
 
             // Try to sync to Airtable
             try {
-                if (WORKER_URL && deliv.id && !deliv.id.startsWith('local_')) {
-                    if (WORKER_URL) {
+                if (deliv.id && !deliv.id.startsWith('local_')) {
                     const response = await fetch(WORKER_URL, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
@@ -2900,7 +2895,7 @@
         }
         
         // Worker API configuration
-        const WORKER_URL = null; // Disabled - workers.dev blocked
+        const WORKER_URL = null // Disabled - workers.dev blocked;
 
         // LocalStorage helpers for deliverables (fallback when Worker fails)
         function getLocalDeliverables(projectId) {
@@ -2966,8 +2961,7 @@
             if (taskItem) taskItem.classList.add('completing');
             
             try {
-                if (WORKER_URL) {
-                    const response = await fetch(WORKER_URL, {
+                const response = await fetch(WORKER_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -3072,8 +3066,7 @@
                     const deliv = project.deliverables.find(d => d.name === data.name);
                     if (deliv && deliv.id && !deliv.id.startsWith('local_')) {
                         // Only update Airtable if it has a real ID
-                        if (WORKER_URL) {
-                    const response = await fetch(WORKER_URL, {
+                        const response = await fetch(WORKER_URL, {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({
@@ -3094,7 +3087,6 @@
                         if (response.ok) console.log('Synced to Airtable');
                     }
                 } else {
-                    if (WORKER_URL) {
                     const response = await fetch(WORKER_URL, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
