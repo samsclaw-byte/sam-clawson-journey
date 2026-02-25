@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-02-25T14:15:42.530484",
+  "generated_at": "2026-02-25T21:46:26.513995",
   "exercise": [
     {
       "date": "2026-02-22",
@@ -72,22 +72,6 @@
       "strain": 7.9,
       "exercises": "Hard",
       "notes": "12kg, 4 rounds, felt easy - ready to progress to 1"
-    },
-    {
-      "date": "2026-02-09",
-      "type": "Unknown",
-      "duration": 0,
-      "strain": 12.9,
-      "exercises": "Unknown",
-      "notes": null
-    },
-    {
-      "date": "2026-02-09",
-      "type": "Active Recovery",
-      "duration": 30.5,
-      "strain": 10.9,
-      "exercises": "Active Recovery",
-      "notes": "38 lengths, 30 front crawl\n"
     },
     {
       "date": "2026-02-08",
@@ -252,22 +236,6 @@
       "notes": "12kg, 4 rounds, felt easy - ready to progress to 1"
     },
     {
-      "date": "2026-02-09",
-      "type": "Unknown",
-      "duration": 0,
-      "strain": 12.9,
-      "exercises": "Unknown",
-      "notes": null
-    },
-    {
-      "date": "2026-02-09",
-      "type": "Active Recovery",
-      "duration": 30.5,
-      "strain": 10.9,
-      "exercises": "Active Recovery",
-      "notes": "38 lengths, 30 front crawl\n"
-    },
-    {
       "date": "2026-02-08",
       "type": "Unknown",
       "duration": 0,
@@ -356,9 +324,9 @@
       "notes": null
     }
   ],
-  "total_minutes": 395.11,
+  "total_minutes": 364.61,
   "avg_strain": 11.7,
-  "workout_count": 22,
+  "workout_count": 20,
   "exercise_types": {
     "Swimming": {
       "minutes": 46,
@@ -366,21 +334,21 @@
     },
     "Unknown": {
       "minutes": 66.1,
-      "count": 9
+      "count": 8
     },
     "Hard": {
       "minutes": 172.96,
       "count": 6
     },
     "Active Recovery": {
-      "minutes": 110.05000000000001,
-      "count": 5
+      "minutes": 79.55000000000001,
+      "count": 4
     }
   },
   "summary": {
-    "total_workouts": 22,
-    "total_minutes": 395.11,
-    "total_strain": 258.4,
+    "total_workouts": 20,
+    "total_minutes": 364.61,
+    "total_strain": 234.6,
     "by_type": {
       "Swimming": {
         "minutes": 46,
@@ -388,15 +356,15 @@
       },
       "Unknown": {
         "minutes": 66.1,
-        "count": 9
+        "count": 8
       },
       "Hard": {
         "minutes": 172.96,
         "count": 6
       },
       "Active Recovery": {
-        "minutes": 110.05000000000001,
-        "count": 5
+        "minutes": 79.55000000000001,
+        "count": 4
       }
     }
   }
