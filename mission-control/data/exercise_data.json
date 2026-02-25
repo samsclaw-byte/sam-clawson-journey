@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-02-25T07:00:40.959225",
+  "generated_at": "2026-02-25T07:16:16.856333",
   "exercise": [
     {
       "date": "2026-02-22",
@@ -64,14 +64,6 @@
       "strain": 12,
       "exercises": "Hard",
       "notes": "Evening workout with post-workout walk"
-    },
-    {
-      "date": "2026-02-10",
-      "type": "Hard",
-      "duration": 26.32,
-      "strain": 7.9,
-      "exercises": "Hard",
-      "notes": "12kg, 4 rounds, felt easy - ready to progress to 1"
     },
     {
       "date": "2026-02-09",
@@ -244,14 +236,6 @@
       "notes": "Evening workout with post-workout walk"
     },
     {
-      "date": "2026-02-10",
-      "type": "Hard",
-      "duration": 26.32,
-      "strain": 7.9,
-      "exercises": "Hard",
-      "notes": "12kg, 4 rounds, felt easy - ready to progress to 1"
-    },
-    {
       "date": "2026-02-09",
       "type": "Unknown",
       "duration": 0,
@@ -356,9 +340,9 @@
       "notes": null
     }
   ],
-  "total_minutes": 395.11,
-  "avg_strain": 11.7,
-  "workout_count": 22,
+  "total_minutes": 368.78999999999996,
+  "avg_strain": 11.9,
+  "workout_count": 21,
   "exercise_types": {
     "Swimming": {
       "minutes": 46,
@@ -369,8 +353,8 @@
       "count": 9
     },
     "Hard": {
-      "minutes": 172.96,
-      "count": 6
+      "minutes": 146.64,
+      "count": 5
     },
     "Active Recovery": {
       "minutes": 110.05000000000001,
@@ -378,9 +362,9 @@
     }
   },
   "summary": {
-    "total_workouts": 22,
-    "total_minutes": 395.11,
-    "total_strain": 258.4,
+    "total_workouts": 21,
+    "total_minutes": 368.78999999999996,
+    "total_strain": 250.5,
     "by_type": {
       "Swimming": {
         "minutes": 46,
@@ -391,8 +375,8 @@
         "count": 9
       },
       "Hard": {
-        "minutes": 172.96,
-        "count": 6
+        "minutes": 146.64,
+        "count": 5
       },
       "Active Recovery": {
         "minutes": 110.05000000000001,
