@@ -1,6 +1,13 @@
 {
-  "generated_at": "2026-02-26T23:46:31.175024",
+  "generated_at": "2026-02-27T00:01:33.193473",
   "daily": [
+    {
+      "date": "2026-02-27",
+      "tasks_completed": 0,
+      "exercise": false,
+      "exercise_minutes": 0,
+      "habits_done": 0
+    },
     {
       "date": "2026-02-26",
       "tasks_completed": 0,
@@ -42,13 +49,6 @@
       "exercise": false,
       "exercise_minutes": 0,
       "habits_done": 0
-    },
-    {
-      "date": "2026-02-20",
-      "tasks_completed": 0,
-      "exercise": false,
-      "exercise_minutes": 0,
-      "habits_done": 3
     }
   ]
 }
