@@ -1,6 +1,22 @@
 {
-  "generated_at": "2026-02-27T03:31:10.106954",
+  "generated_at": "2026-02-27T03:45:35.127604",
   "exercise": [
+    {
+      "date": "2026-02-22",
+      "type": "Swimming",
+      "duration": 23,
+      "strain": 9.7,
+      "exercises": "Swimming",
+      "notes": "285 calories, zones 1-4"
+    },
+    {
+      "date": "2026-02-22",
+      "type": "Swimming",
+      "duration": 23,
+      "strain": 9.7,
+      "exercises": "Swimming",
+      "notes": "285 calories, zones 1-4"
+    },
     {
       "date": "2026-02-18",
       "type": "Unknown",
@@ -164,6 +180,22 @@
   ],
   "workouts": [
     {
+      "date": "2026-02-22",
+      "type": "Swimming",
+      "duration": 23,
+      "strain": 9.7,
+      "exercises": "Swimming",
+      "notes": "285 calories, zones 1-4"
+    },
+    {
+      "date": "2026-02-22",
+      "type": "Swimming",
+      "duration": 23,
+      "strain": 9.7,
+      "exercises": "Swimming",
+      "notes": "285 calories, zones 1-4"
+    },
+    {
       "date": "2026-02-18",
       "type": "Unknown",
       "duration": 33,
@@ -324,10 +356,14 @@
       "notes": null
     }
   ],
-  "total_minutes": 349.11,
-  "avg_strain": 12.0,
-  "workout_count": 20,
+  "total_minutes": 395.11,
+  "avg_strain": 11.7,
+  "workout_count": 22,
   "exercise_types": {
+    "Swimming": {
+      "minutes": 46,
+      "count": 2
+    },
     "Unknown": {
       "minutes": 66.1,
       "count": 9
@@ -342,10 +378,14 @@
     }
   },
   "summary": {
-    "total_workouts": 20,
-    "total_minutes": 349.11,
-    "total_strain": 239.0,
+    "total_workouts": 22,
+    "total_minutes": 395.11,
+    "total_strain": 258.4,
     "by_type": {
+      "Swimming": {
+        "minutes": 46,
+        "count": 2
+      },
       "Unknown": {
         "minutes": 66.1,
         "count": 9
