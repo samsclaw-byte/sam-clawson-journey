@@ -1,14 +1,6 @@
 {
-  "generated_at": "2026-02-27T23:46:49.778300",
+  "generated_at": "2026-02-28T00:01:30.597914",
   "days": [
-    {
-      "date": "2026-02-21",
-      "calories_burned": 0,
-      "calories_consumed": 0,
-      "strain": 0,
-      "weight": null,
-      "sleep": 0
-    },
     {
       "date": "2026-02-22",
       "calories_burned": 0,
@@ -51,6 +43,14 @@
     },
     {
       "date": "2026-02-27",
+      "calories_burned": 0,
+      "calories_consumed": 0,
+      "strain": 0,
+      "weight": null,
+      "sleep": 0
+    },
+    {
+      "date": "2026-02-28",
       "calories_burned": 0,
       "calories_consumed": 0,
       "strain": 0,
