@@ -1,6 +1,14 @@
 {
-  "generated_at": "2026-02-28T08:30:43.991573",
+  "generated_at": "2026-02-28T15:38:21.896841",
   "exercise": [
+    {
+      "date": "2026-02-25",
+      "type": "Running",
+      "duration": 30,
+      "strain": 12.9,
+      "exercises": "Running",
+      "notes": "Zones: Z0:0, Z1:1:20, Z2:1:41, Z3:11:23, Z4:15:03, Z5:0:07"
+    },
     {
       "date": "2026-02-22",
       "type": "Swimming",
@@ -180,6 +188,14 @@
   ],
   "workouts": [
     {
+      "date": "2026-02-25",
+      "type": "Running",
+      "duration": 30,
+      "strain": 12.9,
+      "exercises": "Running",
+      "notes": "Zones: Z0:0, Z1:1:20, Z2:1:41, Z3:11:23, Z4:15:03, Z5:0:07"
+    },
+    {
       "date": "2026-02-22",
       "type": "Swimming",
       "duration": 23,
@@ -356,10 +372,14 @@
       "notes": null
     }
   ],
-  "total_minutes": 395.11,
-  "avg_strain": 11.7,
-  "workout_count": 22,
+  "total_minutes": 425.11,
+  "avg_strain": 11.8,
+  "workout_count": 23,
   "exercise_types": {
+    "Running": {
+      "minutes": 30,
+      "count": 1
+    },
     "Swimming": {
       "minutes": 46,
       "count": 2
@@ -378,10 +398,14 @@
     }
   },
   "summary": {
-    "total_workouts": 22,
-    "total_minutes": 395.11,
-    "total_strain": 258.4,
+    "total_workouts": 23,
+    "total_minutes": 425.11,
+    "total_strain": 271.3,
     "by_type": {
+      "Running": {
+        "minutes": 30,
+        "count": 1
+      },
       "Swimming": {
         "minutes": 46,
         "count": 2
